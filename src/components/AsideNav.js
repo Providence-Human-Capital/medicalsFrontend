@@ -6,6 +6,15 @@ const AsideNav = ({}) => {
     pageHeight: {
       height: "100%",
     },
+
+    color: {
+      backgroundColor: "#58AD46",
+      color: "#FFF",
+    },
+
+    textColor: {
+      color: "#58AD46",
+    },
   };
 
   return (
@@ -14,7 +23,10 @@ const AsideNav = ({}) => {
         <section className="sidebar position-relative">
           <div className="help-bt">
             <Link href="tel:108" className="d-flex align-items-center">
-              <div className="bg-danger rounded10 h-50 w-50 l-h-50 text-center me-15">
+              <div
+                className="rounded10 h-50 w-50 l-h-50 text-center me-15"
+                style={styles.color}
+              >
                 <i data-feather="mic"></i>
               </div>
               <h4 className="mb-0">
@@ -80,10 +92,16 @@ const AsideNav = ({}) => {
                       className="sideimg p-5"
                       alt=""
                     />
-                    <h4 className="title-bx text-primary">
+                    <h4
+                      className="title-bx text-primary"
+                      style={styles.textColor}
+                    >
                       Make an Appointments
                     </h4>
-                    <a href="#" className="py-10 fs-14 mb-0 text-primary">
+                    <a
+                      className="py-10 fs-14 mb-0 text-primary"
+                      style={styles.textColor}
+                    >
                       Best Helth Care here{" "}
                       <i className="mdi mdi-arrow-right"></i>
                     </a>
