@@ -5969,8 +5969,8 @@ Theme Success Color
 
 /*---Success Button---*/
 .theme-success .btn-success {
-  background-color: #3246D3;
-  border-color: #3246D3;
+  background-color:#58AD46;
+  border-color: #58AD46;
   color: #ffffff; }
   .theme-success .btn-success:hover, .theme-success .btn-success:active, .theme-success .btn-success:focus, .theme-success .btn-success.active {
     background-color: #2536ad !important;
@@ -6447,9 +6447,9 @@ Theme Success Color
 .theme-success .text-primary-light {
   color: #dbdfff !important; }
 .theme-success a.text-primary:hover, .theme-success a.text-primary:focus {
-  color: #1dbfc1 !important; }
+  color: #58AD46 !important; }
 .theme-success .hover-primary:hover, .theme-success .hover-primary:focus {
-  color: #1dbfc1 !important; }
+  color: #58AD46 !important; }
 .theme-success .text-info {
   color: #00D0FF !important; }
 .theme-success .text-info-light {

@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const AsideNav = ({}) => {
   const styles = {
@@ -40,47 +40,44 @@ const AsideNav = ({}) => {
             <div className="multinav-scroll" style={styles.pageHeight}>
               {/* <!-- sidebar menu--> */}
               <ul className="sidebar-menu" data-widget="tree">
-                <li className="treeview">
-                  <Link to={"/"}>
+                <li>
+                  <NavLink to={"/"} activeclassname="active">
                     <i data-feather="monitor"></i>
                     <span>Dashboard</span>
-                    <span className="pull-right-container">
-                      <i className="fa fa-angle-right pull-right"></i>
-                    </span>
-                  </Link>
+                  </NavLink>
                 </li>
 
                 <li>
-                  <Link to={"/attendees"}>
+                  <NavLink to={"/attendees"} activeclassname="active">
                     <i data-feather="users"></i>
                     <span>Attendees</span>
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link to={"/patients"}>
+                  <NavLink to={"/patients"} activeclassname="active">
                     <i data-feather="users"></i>
                     <span>Patients</span>
-                  </Link>
+                  </NavLink>
                 </li>
 
                 <li>
-                  <Link to={"/companies"}>
+                  <NavLink to={"/companies"} activeclassname="active">
                     <i data-feather="users"></i>
                     <span>Companies</span>
-                  </Link>
+                  </NavLink>
                 </li>
 
                 <li>
-                  <Link to={"/"}>
+                  <NavLink to={"/"} activeclassname="active">
                     <i data-feather="package"></i>
                     <span>Certificates</span>
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link to={"/"}>
+                  <NavLink to={"/"} activeclassname="active">
                     <i data-feather="calendar"></i>
                     <span>Appointments</span>
-                  </Link>
+                  </NavLink>
                 </li>
               </ul>
 

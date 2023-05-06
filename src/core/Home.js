@@ -5,38 +5,43 @@ import CertificateAnalysisCard from "../views/dashboard/components/CertificateAn
 import PatientStatisticsCard from "../views/dashboard/components/PatientStatisticsCard";
 import IllnessAnalysisCard from "../views/dashboard/components/IllnessAnalysisCard";
 import SmokingAnalysisCard from "../views/dashboard/components/SmokingAnalysisCard";
+import BmiAnalysis from "../views/dashboard/components/BmiAnalysis";
 
 const Home = ({}) => {
   return (
     <Fragment>
-      <Layout>
-        <section class="content">
-          <div class="row">
-            <div class="col-xl-8 col-12">
-              <div class="row">
-                <SmallCard />
-                <SmallCard />
-                <SmallCard />
-                <SmallCard />
-              </div>
+      <section class="content">
+        <div class="row">
+          <div class="col-xl-8 col-12">
+            <div class="row">
+              <SmallCard />
+              <SmallCard />
+              <SmallCard />
+              <SmallCard />
+            </div>
 
-              <div class="row">
-                <div class="col-xl-6 col-12">
-                  <CertificateAnalysisCard />
-                </div>
-                <div class="col-xl-6 col-12">
-                  <PatientStatisticsCard />
-                </div>
+            <div class="row">
+              <div class="col-xl-6 col-12">
+                <CertificateAnalysisCard />
+              </div>
+              <div class="col-xl-6 col-12">
+                <PatientStatisticsCard />
               </div>
             </div>
 
-            <div class="col-xl-4 col-12">
-              <IllnessAnalysisCard />
-              <SmokingAnalysisCard />
+            <div class="row">
+              <div class="col-xl-6 col-12">
+                <BmiAnalysis />
+              </div>
             </div>
           </div>
-        </section>
-      </Layout>
+
+          <div class="col-xl-4 col-12">
+            <IllnessAnalysisCard />
+            <SmokingAnalysisCard />
+          </div>
+        </div>
+      </section>
     </Fragment>
   );
 };

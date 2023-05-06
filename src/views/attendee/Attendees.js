@@ -7,32 +7,29 @@ const Attendees = ({}) => {
   const styles = {
     containerStyles: {
       minHeight: "60vh",
-      overflow: "hidden"
-    }
-  }
+      overflow: "hidden",
+    },
+  };
   return (
     <Fragment>
-      <Layout>
-        <BreadCrumb title={"Attendees"} activeTab={"Attendees"} />
+      <BreadCrumb title={"Attendees"} activeTab={"Attendees"} />
 
-        <section class="content">
-          <div class="row">
-            <div class="col-12">
-              <div class="box" 
-             
-              >
-                <div class="box-body">
-                  <div class="table-responsive rounded card-table"
-                   style={styles.containerStyles}
-                  >
-                    <AttendeeTable />
-                  </div>
+      <section class="content">
+        <div class="row">
+          <div class="col-12">
+            <div class="box">
+              <div class="box-body">
+                <div
+                  class="table-responsive rounded card-table"
+                  style={styles.containerStyles}
+                >
+                  <AttendeeTable />
                 </div>
               </div>
             </div>
           </div>
-        </section>
-      </Layout>
+        </div>
+      </section>
     </Fragment>
   );
 };

@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter,
   Route,
@@ -20,31 +20,79 @@ import Patients from "./views/patients/Patients";
 import AddPatient from "./views/patients/AddPatient";
 import EditPatient from "./views/patients/EditPatient";
 import PatientDetails from "./views/patients/PatientDetails";
+import Companies from "./views/company/Companies";
+import Header from "./components/Header";
+import AsideNav from "./components/AsideNav";
 
 const App = () => {
+  const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
+
   return (
     <BrowserRouter>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" exact element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-
-        <Route path="/attendees" exact element={<Attendees />} />
-        <Route path="/attendees/add" exact element={<AddAttendee />} />
-        <Route
-          path="/attendees/:attendeeId"
-          exact
-          element={<PatientDetails />}
+      <body
+        className={`${
+          isSidebarCollapsed
+            ? "light-skin sidebar-mini theme-success fixed sidebar-collapse"
+            : "light-skin sidebar-mini theme-success fixed "
+        }`}
+      >
+        <Header
+          isSidebarCollapsed={isSidebarCollapsed}
+          setSidebarCollapsed={setSidebarCollapsed}
         />
-        <Route path="/attendees/edit" exact element={<EditAttendee />} />
+        <AsideNav />
+        <div class="content-wrapper">
+          <div class="container-full">
+            <Routes>
+              <Route path="/" exact element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
 
-        <Route path="/patients" exact element={<Patients />} />
-        <Route path="/patients/add" exact element={<AddPatient />} />
-        <Route path="/patients/:patientId" exact element={<PatientDetails />} />
-        <Route path="/patients/edit" exact element={<EditPatient />} />
-      </Routes>
+              <Route path="/attendees" exact element={<Attendees />} />
+              <Route path="/attendees/add" exact element={<AddAttendee />} />
+              <Route
+                path="/attendees/:attendeeId"
+                exact
+                element={<PatientDetails />}
+              />
+              <Route path="/attendees/edit" exact element={<EditAttendee />} />
+
+              <Route path="/patients" element={<Patients />} />
+              <Route path="/patients/add" element={<AddPatient />} />
+              <Route path="/patients/:patientId" element={<PatientDetails />} />
+              <Route path="/patients/edit" element={<EditPatient />} />
+
+              <Route path="/companies" exact element={<Companies />} />
+            </Routes>
+          </div>
+        </div>
+      </body>
     </BrowserRouter>
   );
 };
 export default App;
+
+{
+  /* <ScrollToTop />
+<Routes>
+  <Route path="/" exact element={<Home />} />
+  <Route path="/login" element={<Login />} />
+  <Route path="/register" element={<Register />} />
+
+  <Route path="/attendees" exact element={<Attendees />} />
+  <Route path="/attendees/add" exact element={<AddAttendee />} />
+  <Route
+    path="/attendees/:attendeeId"
+    exact
+    element={<PatientDetails />}
+  />
+  <Route path="/attendees/edit" exact element={<EditAttendee />} />
+
+  <Route path="/patients"  element={<Patients />} />
+  <Route path="/patients/add"  element={<AddPatient />} />
+  <Route path="/patients/:patientId"  element={<PatientDetails />} />
+  <Route path="/patients/edit"  element={<EditPatient />} />
+
+  <Route path="/companies" exact element={<Companies />} />
+</Routes> */
+}

@@ -1,4 +1,32 @@
 import React, { Fragment } from "react";
+import { Line } from "react-chartjs-2";
+
+const data = {
+  labels: [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ],
+
+  datasets: [
+    {
+      label: "Nssa Certificates",
+      data: [65, 59, 80, 81, 56, 55, 40],
+      fill: false,
+      borderColor: "rgb(75, 192, 19)",
+      tension: 0.1,
+    },
+  ],
+};
 
 const CertificateAnalysisCard = () => {
   return (
@@ -8,37 +36,10 @@ const CertificateAnalysisCard = () => {
           <h4 className="box-title">Certificate Analysis</h4>
         </div>
         <div className="box-body pt-0">
-          <div id="chart124"></div>
-          <div className="row mt-25">
-            <div className="col-6">
-              <p className="mb-5">
-                <span className="badge badge-dot badge-success"></span>
-                Cardiology
-              </p>
-              <p className="mb-5">
-                <span className="badge badge-dot badge-info"></span>
-                Endocrinology
-              </p>
-              <p className="mb-0">
-                <span className="badge badge-dot badge-danger"></span>
-                Physicians
-              </p>
-            </div>
-            <div className="col-6">
-              <p className="mb-5">
-                <span className="badge badge-dot badge-warning"></span>
-                Dermatology
-              </p>
-              <p className="mb-5">
-                <span className="badge badge-dot badge-primary"></span>
-                Orthopedics
-              </p>
-              <p className="mb-0">
-                <span className="badge badge-dot badge-secondary"></span>
-                Immunology
-              </p>
-            </div>
+          <div >
+            {/* <Line data={data} /> */}
           </div>
+          <div className="row mt-25"></div>
         </div>
       </div>
     </Fragment>
