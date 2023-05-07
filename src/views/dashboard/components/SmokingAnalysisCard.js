@@ -1,76 +1,31 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
+import { Line, Bar, Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS } from "chart.js/auto";
+import { TobaccoUseData } from "../DummyData";
 
 const SmokingAnalysisCard = () => {
-  const styles = {
-    width80: {
-      width: "80%",
-    },
-    width24: {
-      width: "24%",
-    },
-    width31: {
-      width: "31%",
-    },
-    width57: {
-      width: "45%",
-    },
-  };
+  const [tobaccoUseData, setTtobaccoUseData] = useState({
+    labels: TobaccoUseData.map((data) => data.tobaccoType),
+    datasets: [
+      {
+        label: "Smoking Health Analysis",
+        data: TobaccoUseData.map((data) => data.do_smoke),
+      },
+      {
+        label: "None Smokers",
+        data: TobaccoUseData.map((data) => data.non_smokers)
+      }
+    ],
+  });
+
   return (
     <Fragment>
       <div className="box">
-        <div className="box-header">
+        <div className="box-header no-border">
           <h4 className="box-title">Tobacco Use Analysis</h4>
         </div>
         <div className="box-body">
-          <div className="mb-30">
-            <div className="d-flex align-items-center justify-content-between mb-5">
-              <h5>80 %</h5>
-              <h5>Cigarretes</h5>
-            </div>
-            <div className="progress progress-xs">
-              <div
-                className="progress-bar progress-bar-primary"
-                role="progressbar"
-                aria-valuenow="80"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                style={styles.width80}
-              ></div>
-            </div>
-          </div>
-
-          <div>
-            <div className="d-flex align-items-center justify-content-between mb-5">
-              <h5>24 %</h5>
-              <h5>Snuff</h5>
-            </div>
-            <div className="progress progress-xs">
-              <div
-                className="progress-bar progress-bar-danger"
-                role="progressbar"
-                aria-valuenow="50"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                style={styles.width24}
-              ></div>
-            </div>
-          </div>
-          <div>
-            <div className="d-flex align-items-center justify-content-between mb-5">
-              <h5>57 %</h5>
-              <h5>0ther</h5>
-            </div>
-            <div className="progress progress-xs">
-              <div
-                className="progress-bar progress-bar-warning"
-                role="progressbar"
-                aria-valuenow="72"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                style={styles.width57}
-              ></div>
-            </div>
-          </div>
+          <Doughnut data={tobaccoUseData} />
         </div>
       </div>
     </Fragment>

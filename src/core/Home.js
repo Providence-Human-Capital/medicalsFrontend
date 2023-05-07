@@ -14,10 +14,34 @@ const Home = ({}) => {
         <div class="row">
           <div class="col-xl-8 col-12">
             <div class="row">
-              <SmallCard />
-              <SmallCard />
-              <SmallCard />
-              <SmallCard />
+              <SmallCard
+                svgLink={
+                  "https://rhythm-admin-template.multipurposethemes.com/images/svg-icon/medical/icon-2.svg"
+                }
+                Label={"Total Patients"}
+                Number={767}
+              />
+              <SmallCard
+                Label={"To 81 Baines"}
+                svgLink={
+                  "https://rhythm-admin-template.multipurposethemes.com/images/svg-icon/medical/icon-1.svg"
+                }
+                Number={78}
+              />
+              <SmallCard
+                svgLink={
+                  "https://rhythm-admin-template.multipurposethemes.com/images/svg-icon/medical/icon-4.svg"
+                }
+                Label={"Certificates Passed"}
+                Number={342}
+              />
+              <SmallCard
+                svgLink={
+                  "https://rhythm-admin-template.multipurposethemes.com/images/svg-icon/medical/icon-3.svg"
+                }
+                Label={"Certificates Failed"}
+                Number={200}
+              />
             </div>
 
             <div class="row">
