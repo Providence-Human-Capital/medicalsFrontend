@@ -10,10 +10,10 @@ import BmiAnalysis from "../views/dashboard/components/BmiAnalysis";
 const Home = ({}) => {
   return (
     <Fragment>
-      <section class="content">
-        <div class="row">
-          <div class="col-xl-8 col-12">
-            <div class="row">
+      <section className="content">
+        <div className="row">
+          <div className="col-xl-8 col-12">
+            <div className="row">
               <SmallCard
                 svgLink={
                   "https://rhythm-admin-template.multipurposethemes.com/images/svg-icon/medical/icon-2.svg"
@@ -44,23 +44,23 @@ const Home = ({}) => {
               />
             </div>
 
-            <div class="row">
-              <div class="col-xl-6 col-12">
+            <div className="row">
+              <div className="col-xl-6 col-12">
                 <CertificateAnalysisCard />
               </div>
-              <div class="col-xl-6 col-12">
+              <div className="col-xl-6 col-12">
                 <PatientStatisticsCard />
               </div>
             </div>
 
-            <div class="row">
-              <div class="col-xl-6 col-12">
+            <div className="row">
+              <div className="col-xl-6 col-12">
                 <BmiAnalysis />
               </div>
             </div>
           </div>
 
-          <div class="col-xl-4 col-12">
+          <div className="col-xl-4 col-12">
             <IllnessAnalysisCard />
             <SmokingAnalysisCard />
           </div>

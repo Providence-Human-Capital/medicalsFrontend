@@ -32028,3 +32028,16 @@ img.away, img.busy, img.offline, img.online {
   z-index: -1; }
 
 /*# sourceMappingURL=style.css.map */
+.overlay-background{
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+}
+
+.adjust-position{
+
+  margin-left: -19rem;
+  /* border: 1px solid red; */
+  z-index: 100;
+
+}

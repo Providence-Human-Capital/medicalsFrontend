@@ -4,6 +4,7 @@ import { Chart as ChartJS } from "chart.js/auto";
 import { CertificatesData } from "../DummyData";
 
 const CertificateAnalysisCard = () => {
+  
   const [certificatesData, setCertificatesData] = useState({
     labels: CertificatesData.map((data) => data.year),
     datasets: [

@@ -1,19 +1,85 @@
-import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import React, { Fragment, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { API } from "../../config";
+import Loading from "../../components/loader/Loading";
 
 const Login = () => {
+  const [signinValues, setSigninValues] = useState({
+    email: "",
+    password: "",
+    error: "",
+    success: false,
+  });
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [redirectToHome, setRedirectToHome] = useState(false);
+
+  const { email, password, error, success } = signinValues;
+
+  const handleChange = (name) => (event) => {
+    setSigninValues({
+      ...signinValues,
+      error: false,
+      [name]: event.target.value,
+    });
+  };
+
+  const signin = (user) => {
+    setIsLoading(true);
+    return fetch(`${API}/user/login`, {
+      method: "POST",
+      // credentials: "include", 
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((response) => {
+        setIsLoading(false);
+
+        return response.json();
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log(err);
+      });
+  };
+
+  const onSubmitSignin = (event) => {
+    event.preventDefault();
+    setSigninValues({ ...setSigninValues, error: false });
+    signin({ email, password }).then((data) => {
+      console.log("Data", data);
+      if (data.error) {
+        setSigninValues({
+          ...signinValues,
+          error: data.error,
+        });
+      } else {
+        console.log(data);
+      }
+    });
+  };
+
   return (
     <Fragment>
-      <div className="hold-transition theme-primary bg-img">
+      <div className="hold-transition theme-primary bg-img ">
         <div className="container h-p100">
           <div className="row align-items-center justify-content-md-center h-p100">
             <div className="col-12">
-              <div className="row justify-content-center g-0">
+              <div className="row justify-content-center g-0  adjust-position">
                 <div className="col-lg-5 col-md-5 col-12">
                   <div className="bg-white rounded10 shadow-lg">
                     <div className="content-top-agile p-20 pb-0">
                       <h2 className="text-primary">Let's Get Started</h2>
-                      <p className="mb-0">Sign in to continue to Rhythm.</p>
+                      <p className="mb-0">
+                        Sign in to continue to Phc Medicals
+                      </p>
                     </div>
                     <div className="p-40">
                       <form>
@@ -23,9 +89,12 @@ const Login = () => {
                               <i className="ti-user"></i>
                             </span>
                             <input
-                              type="text"
+                              type="email"
+                              name="email"
                               className="form-control ps-15 bg-transparent"
-                              placeholder="Username"
+                              placeholder="User Email"
+                              onChange={handleChange("email")}
+                              value={email}
                             />
                           </div>
                         </div>
@@ -38,6 +107,9 @@ const Login = () => {
                               type="password"
                               className="form-control ps-15 bg-transparent"
                               placeholder="Password"
+                              name="password"
+                              onChange={handleChange("password")}
+                              value={password}
                             />
                           </div>
                         </div>
@@ -59,12 +131,17 @@ const Login = () => {
                           </div>
                           {/* <!-- /.col --> */}
                           <div className="col-12 text-center">
-                            <button
-                              type="submit"
-                              className="btn btn-danger mt-10"
-                            >
-                              SIGN IN
-                            </button>
+                            {isLoading ? (
+                              <Loading />
+                            ) : (
+                              <button
+                                type="submit"
+                                className="btn btn-danger mt-10"
+                                onClick={onSubmitSignin}
+                              >
+                                SIGN IN
+                              </button>
+                            )}
                           </div>
                           {/* <!-- /.col --> */}
                         </div>

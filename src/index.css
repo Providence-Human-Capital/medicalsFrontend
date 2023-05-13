@@ -1,0 +1,20 @@
+.form-control {
+    color: #888;
+    background: #fff;
+    font-weight: 400;
+    letter-spacing: 1px;
+    height: 40px;
+    padding: 6px 12px;
+    border-radius: 10px;
+    border: 2.5px solid #e7e7e7;
+    box-shadow: none;
+  }
+
+  .input-group .input-group-text {
+    border-color: #e7e7e7;
+    border-radius: 5px;
+}
+
+.navi-button{
+    margin-right: 10px;
+}

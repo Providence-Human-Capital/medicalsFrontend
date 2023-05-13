@@ -10,6 +10,13 @@ const IllnessAnalysisCard = () => {
       {
         label: "Diagonized with Disease",
         data: IllnessData.map((data) => data.patientsNumber),
+         backgroundColor: [
+          "#58AD46",
+          "#ecf0f1",
+          "#50AF85",
+          "#f3ba2f",
+          "#2a71d0"
+        ]
       },
     ],
   });
@@ -21,7 +28,7 @@ const IllnessAnalysisCard = () => {
           <h4 className="box-title">Illness Analysis</h4>
         </div>
         <div className="box-body">
-          <Doughnut data={illnessesData} />
+          <Bar data={illnessesData} />
         </div>
       </div>
     </Fragment>

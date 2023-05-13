@@ -1,7 +1,10 @@
 import React, { Fragment } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 const AsideNav = ({}) => {
+  const location = useLocation();
+  const hideSidebar =
+    location.pathname === "/login" || location.pathname === "/register";
   const styles = {
     pageHeight: {
       height: "100%",
@@ -16,6 +19,10 @@ const AsideNav = ({}) => {
       color: "#58AD46",
     },
   };
+
+  if (hideSidebar) {
+    return null; // Don't render the sidebar
+  }
 
   return (
     <Fragment>

@@ -5,15 +5,20 @@ import PButtons from "./components/PButtons";
 import BoxProfile from "./components/BoxProfile";
 import DiseaseHistory from "./components/DiseaseHistory";
 import Vitals from "./components/Vitals";
+import { useParams } from "react-router-dom";
 
 const PatientDetails = () => {
+  const { patientId } = useParams();
+
+  
+
   return (
     <Fragment>
       <BreadCrumb title={"Patient Details"} activeTab={"Patient Details"} />
       <section className="content">
         <div className="row">
           <div className="col-xl-8 col-12">
-            <PButtons />
+            <PButtons routeId={patientId} />
             <div className="row">
               <div className="col-xl-6 col-12">
                 <BoxProfile />

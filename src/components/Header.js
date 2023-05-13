@@ -1,8 +1,13 @@
 import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = ({}) => {
   const [isSideBarCollapsed, setSidebarCollapsed] = useState(false);
+
+  const location = useLocation();
+
+  const hideHeader =
+    location.pathname === "/login" || location.pathname === "/register";
 
   function handleToggleSidebar() {
     setSidebarCollapsed(!isSideBarCollapsed);
@@ -13,6 +18,10 @@ const Header = ({}) => {
       height: "80px",
     },
   };
+
+  if (hideHeader) {
+    return null;
+  }
 
   return (
     <Fragment>
