@@ -3,12 +3,21 @@ import BreadCrumb from "../../components/BreadCrumb";
 import "./components-style/Attendee.module.css"
 
 const AddAttendee = ({}) => {
+
+  const styles = {
+    formContainer: {
+      width: "70%",
+      margin: "3rem auto"
+    }
+  }
+
   return (
     <Fragment>
       <BreadCrumb title={"Add Attendee"} activeTab={"Add Attendee"} />
       <div className="row">
         <div className="col-xl-12 col-12">
           <div class="box">
+            <div className="custom-form">
             <div class="box-body">
               <div class="container">
                 <h2>Enter your Attendes details</h2>
@@ -151,6 +160,8 @@ const AddAttendee = ({}) => {
                 
               </div>
             </div>
+            </div>
+            
           </div>
         </div>
       </div>

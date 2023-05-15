@@ -48,7 +48,7 @@ const AsideNav = ({}) => {
               {/* <!-- sidebar menu--> */}
               <ul className="sidebar-menu" data-widget="tree">
                 <li>
-                  <NavLink to={"/"} activeclassname="active">
+                  <NavLink to={"/dashboard"} activeclassname="active">
                     <i data-feather="monitor"></i>
                     <span>Dashboard</span>
                   </NavLink>
@@ -74,6 +74,13 @@ const AsideNav = ({}) => {
                   </NavLink>
                 </li>
 
+                <li>
+                  <NavLink to={"/illnesses"} activeclassname="active">
+                    <i data-feather="package"></i>
+                    <span>Illnesses</span>
+                  </NavLink>
+                </li>
+                
                 <li>
                   <NavLink to={"/"} activeclassname="active">
                     <i data-feather="package"></i>

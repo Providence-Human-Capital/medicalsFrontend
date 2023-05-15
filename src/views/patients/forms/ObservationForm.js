@@ -30,7 +30,8 @@ const ObeservationForm = () => {
       <div className="row">
         <div className="col-xl-12 col-12">
           <div class="box">
-            <div class="box-body">
+            <div className="custom-form">
+ <div class="box-body">
               <div class="container">
                 <h2>General Physical Obeservation and Remarks</h2>
 
@@ -143,6 +144,8 @@ const ObeservationForm = () => {
                 </form>
               </div>
             </div>
+            </div>
+           
           </div>
         </div>
       </div>

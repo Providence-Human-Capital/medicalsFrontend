@@ -30,15 +30,13 @@ const Register = () => {
     console.log("DATA", JSON.stringify(data));
 
     setIsLoading(true);
-
     return fetch(`${API}/user/register`, {
-      method: "POST",
-      // credentials: "include",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: data,
+      method: "POST",
+      body: JSON.stringify(data),
     })
       .then((response) => {
         setIsLoading(false);
@@ -191,10 +189,7 @@ const Register = () => {
                       {!isLoading ? (
                         <p className="mt-15 mb-0">
                           Already have an account?
-                          <Link
-                            href="auth_login.html"
-                            className="text-danger ms-5"
-                          >
+                          <Link to={"/login"} className="text-danger ms-5">
                             Sign In
                           </Link>
                         </p>

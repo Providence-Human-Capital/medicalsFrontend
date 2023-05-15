@@ -1,16 +1,18 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../config";
 import Loading from "../../components/loader/Loading";
+import axios from "axios";
+import { authActions } from "../../redux_store/auth-store";
 
 const Login = () => {
   const [signinValues, setSigninValues] = useState({
     email: "",
     password: "",
-    error: "",
-    success: false,
   });
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -18,30 +20,52 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [redirectToHome, setRedirectToHome] = useState(false);
 
-  const { email, password, error, success } = signinValues;
+  const handleFormChange = (e) => {
+    setSigninValues({ ...signinValues, [e.target.name]: e.target.value });
+  };
 
-  const handleChange = (name) => (event) => {
-    setSigninValues({
-      ...signinValues,
-      error: false,
-      [name]: event.target.value,
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = { ...signinValues };
+    console.log("SIGIN DATA", JSON.stringify(data));
+
+    userSignin(data).then((data) => {
+      if (data.message === "Invalid Credentials") {
+        setSigninValues({
+          ...setSigninValues,
+        });
+        setError(data.message);
+      } else {
+        dispatch(
+          authActions.setLogin({
+            user: data.user,
+            token: data.access_token,
+            isAuth: true,
+            role: data.user.role,
+          })
+        );
+        setRedirectToHome(true);
+        setSigninValues({
+          ...signinValues,
+          email: "",
+          password: "",
+        });
+      }
     });
   };
 
-  const signin = (user) => {
+  const userSignin = async (user) => {
     setIsLoading(true);
     return fetch(`${API}/user/login`, {
-      method: "POST",
-      // credentials: "include", 
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
+      method: "POST",
       body: JSON.stringify(user),
     })
       .then((response) => {
         setIsLoading(false);
-
         return response.json();
       })
       .catch((err) => {
@@ -50,21 +74,13 @@ const Login = () => {
       });
   };
 
-  const onSubmitSignin = (event) => {
-    event.preventDefault();
-    setSigninValues({ ...setSigninValues, error: false });
-    signin({ email, password }).then((data) => {
-      console.log("Data", data);
-      if (data.error) {
-        setSigninValues({
-          ...signinValues,
-          error: data.error,
-        });
-      } else {
-        console.log(data);
-      }
-    });
-  };
+  useEffect(() => {
+    if (redirectToHome) {
+      navigate("/dashboard");
+    } else {
+      return;
+    }
+  }, [redirectToHome]);
 
   return (
     <Fragment>
@@ -82,7 +98,7 @@ const Login = () => {
                       </p>
                     </div>
                     <div className="p-40">
-                      <form>
+                      <form onSubmit={handleSubmit}>
                         <div className="form-group">
                           <div className="input-group mb-3">
                             <span className="input-group-text bg-transparent">
@@ -93,8 +109,8 @@ const Login = () => {
                               name="email"
                               className="form-control ps-15 bg-transparent"
                               placeholder="User Email"
-                              onChange={handleChange("email")}
-                              value={email}
+                              onChange={handleFormChange}
+                              value={signinValues.email}
                             />
                           </div>
                         </div>
@@ -108,8 +124,8 @@ const Login = () => {
                               className="form-control ps-15 bg-transparent"
                               placeholder="Password"
                               name="password"
-                              onChange={handleChange("password")}
-                              value={password}
+                              onChange={handleFormChange}
+                              value={signinValues.password}
                             />
                           </div>
                         </div>
@@ -117,7 +133,9 @@ const Login = () => {
                           <div className="col-6">
                             <div className="checkbox">
                               <input type="checkbox" id="basic_checkbox_1" />
-                              <label for="basic_checkbox_1">Remember Me</label>
+                              <label htmlFor="basic_checkbox_1">
+                                Remember Me
+                              </label>
                             </div>
                           </div>
                           {/* <!-- /.col --> */}
@@ -137,7 +155,6 @@ const Login = () => {
                               <button
                                 type="submit"
                                 className="btn btn-danger mt-10"
-                                onClick={onSubmitSignin}
                               >
                                 SIGN IN
                               </button>
@@ -149,10 +166,7 @@ const Login = () => {
                       <div className="text-center">
                         <p className="mt-15 mb-0">
                           Don't have an account?
-                          <Link
-                            href="auth_register.html"
-                            className="text-warning ms-5"
-                          >
+                          <Link className="text-warning ms-5" to={"/register"}>
                             Sign Up
                           </Link>
                         </p>

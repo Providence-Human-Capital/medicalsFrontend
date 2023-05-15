@@ -1,8 +1,23 @@
-import React, { Fragment, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { authActions } from "../redux_store/auth-store";
 
 const Header = ({}) => {
   const [isSideBarCollapsed, setSidebarCollapsed] = useState(false);
+
+  const user = useSelector((state) => state.auth.user);
+  const isAuthenticated = useSelector((state) => state.auth.isAuth);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const signOut = () => {
+    dispatch(authActions.setLogout());
+    navigate("/logout");
+  };
+
+  useEffect(() => {});
 
   const location = useLocation();
 
@@ -159,10 +174,10 @@ const Header = ({}) => {
                   <div className="d-flex pt-5">
                     <div className="text-end me-10">
                       <p className="pt-5 fs-14 mb-0 fw-700 text-primary">
-                        Johen Doe
+                        {user && user.name}
                       </p>
                       <small className="fs-10 mb-0 text-uppercase text-mute">
-                        Admin
+                        {user && user.role}
                       </small>
                     </div>
                     <img
@@ -177,16 +192,10 @@ const Header = ({}) => {
                     <Link className="dropdown-item" href="#">
                       <i className="ti-user text-muted me-2"></i> Profile
                     </Link>
-                    <Link className="dropdown-item" href="#">
-                      <i className="ti-wallet text-muted me-2"></i> My Wallet
-                    </Link>
-                    <Link className="dropdown-item" href="#">
-                      <i className="ti-settings text-muted me-2"></i> Settings
-                    </Link>
                     <div className="dropdown-divider"></div>
-                    <Link className="dropdown-item" href="#">
+                    <a className="dropdown-item" onClick={signOut}>
                       <i className="ti-lock text-muted me-2"></i> Logout
-                    </Link>
+                    </a>
                   </li>
                 </ul>
               </li>

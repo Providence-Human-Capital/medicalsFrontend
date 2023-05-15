@@ -6,6 +6,8 @@ import {
   Navigate,
   Routes,
   redirect,
+  useNavigate,
+  useLocation,
 } from "react-router-dom";
 import ScrollToTop from "./hooks/ScrollToTop";
 import Home from "./core/Home";
@@ -25,58 +27,81 @@ import Header from "./components/Header";
 import AsideNav from "./components/AsideNav";
 import ObeservationForm from "./views/patients/forms/ObservationForm";
 import PhysicalExamForm from "./views/patients/forms/PhysicalExamForm";
+import { useSelector } from "react-redux";
 
 const App = () => {
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const isAuthenticated = useSelector((state) => state.auth.isAuth);
+  useEffect(() => {
+    const body = document.body;
+    if (isSidebarCollapsed) {
+      body.classList.add(
+        "light-skin",
+        "sidebar-mini",
+        "theme-success",
+        "fixed",
+        "sidebar-collapse"
+      );
+    } else {
+      body.classList.add(
+        "light-skin",
+        "sidebar-mini",
+        "theme-success",
+        "fixed"
+      );
+    }
+  }, [isSidebarCollapsed]);
 
   return (
     <BrowserRouter>
-      <body
-        className={`${
-          isSidebarCollapsed
-            ? "light-skin sidebar-mini theme-success fixed sidebar-collapse"
-            : "light-skin sidebar-mini theme-success fixed "
-        }`}
-      >
-        <Header
-          isSidebarCollapsed={isSidebarCollapsed}
-          setSidebarCollapsed={setSidebarCollapsed}
-        />
-        <AsideNav />
-        <div className="content-wrapper">
-          <div className="container-full">
-            <Routes>
-              <Route path="/" exact element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
+      <Header
+        isSidebarCollapsed={isSidebarCollapsed}
+        setSidebarCollapsed={setSidebarCollapsed}
+      />
+      <AsideNav />
+      <div className="content-wrapper">
+        <div className="container-full">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                isAuthenticated ? (
+                  <Navigate to="/dashboard" />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route path="/dashboard" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-              <Route path="/attendees" exact element={<Attendees />} />
-              <Route path="/attendees/add" exact element={<AddAttendee />} />
-              <Route
-                path="/attendees/:attendeeId"
-                exact
-                element={<PatientDetails />}
-              />
-              <Route path="/attendees/edit" exact element={<EditAttendee />} />
+            <Route path="/attendees" exact element={<Attendees />} />
+            <Route path="/attendees/add" exact element={<AddAttendee />} />
+            <Route
+              path="/attendees/:attendeeId"
+              exact
+              element={<PatientDetails />}
+            />
+            <Route path="/attendees/edit" exact element={<EditAttendee />} />
 
-              <Route path="/patients" element={<Patients />} />
-              <Route path="/patients/add" element={<AddPatient />} />
-              <Route path="/patients/:patientId" element={<PatientDetails />} />
-              <Route
-                path="/patients/:patientId/observation"
-                element={<ObeservationForm />}
-              />
-              <Route
-                path="/patients/:patientId/physical"
-                element={<PhysicalExamForm />}
-              />
-              <Route path="/patients/edit" element={<EditPatient />} />
+            <Route path="/patients" element={<Patients />} />
+            <Route path="/patients/add" element={<AddPatient />} />
+            <Route path="/patients/:patientId" element={<PatientDetails />} />
+            <Route
+              path="/patients/:patientId/observation"
+              element={<ObeservationForm />}
+            />
+            <Route
+              path="/patients/:patientId/physical"
+              element={<PhysicalExamForm />}
+            />
+            <Route path="/patients/edit" element={<EditPatient />} />
 
-              <Route path="/companies" exact element={<Companies />} />
-            </Routes>
-          </div>
+            <Route path="/companies" exact element={<Companies />} />
+          </Routes>
         </div>
-      </body>
+      </div>
     </BrowserRouter>
   );
 };
