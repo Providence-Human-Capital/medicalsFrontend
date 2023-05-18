@@ -4,7 +4,7 @@ import "./Loading.css";
 const Loading = () => {
   return (
     <Fragment>
-      <div className="lds-ellipsis ">
+      <div class="lds-ring">
         <div></div>
         <div></div>
         <div></div>

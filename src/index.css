@@ -23,3 +23,15 @@
   width: 70%;
   margin: 3rem auto;
 }
+
+.active-link {
+  border-right: 3px solid #58AD46;
+  background-color: #fff;
+}
+
+.sidebar-menu > li > a {
+  padding: 10px 15px;
+  display: block;
+  border-radius: 0px !important;
+}
+

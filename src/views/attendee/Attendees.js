@@ -15,9 +15,9 @@ const Attendees = ({}) => {
     <Fragment>
       <BreadCrumb title={"Attendees"} activeTab={"Attendees"} />
 
-      <section class="content">
-        <div class="row">
-          <div class="col-12">
+      <section className="content">
+        <div className="row">
+          <div className="col-12">
           <div className="d-md-flex align-items-center justify-content-between mb-20">
               <div className="d-flex">
                 <Link to={"/attendees/add"} className="btn btn-success">
@@ -25,10 +25,10 @@ const Attendees = ({}) => {
                 </Link>
               </div>
             </div>
-            <div class="box">
-              <div class="box-body">
+            <div className="box">
+              <div className="box-body">
                 <div
-                  class="table-responsive rounded card-table"
+                  className="table-responsive rounded card-table"
                   style={styles.containerStyles}
                 >
                   <AttendeeTable />

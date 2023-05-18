@@ -24,7 +24,7 @@ const PatientTable = () => {
 
   return (
     <Fragment>
-      <table class="table border-no" id="example1">
+      <table className="table border-no" id="example1">
         <thead>
           <tr>
             <th>Patient ID</th>

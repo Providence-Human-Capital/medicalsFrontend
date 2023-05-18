@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const BreadCrumb = ({ title, activeTab }) => {
   return (
     <Fragment>
-      <div className="content-header">
+      <div className="content-header mb-4">
         <div className="d-flex align-items-center">
           <div className="me-auto">
             <h4 className="page-title">{ title }</h4>

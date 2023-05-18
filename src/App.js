@@ -28,6 +28,8 @@ import AsideNav from "./components/AsideNav";
 import ObeservationForm from "./views/patients/forms/ObservationForm";
 import PhysicalExamForm from "./views/patients/forms/PhysicalExamForm";
 import { useSelector } from "react-redux";
+import AddCompany from "./views/company/AddCompany";
+import EditCompany from "./views/company/EditCompany";
 
 const App = () => {
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -99,6 +101,12 @@ const App = () => {
             <Route path="/patients/edit" element={<EditPatient />} />
 
             <Route path="/companies" exact element={<Companies />} />
+            <Route path="/companies/add" exact element={<AddCompany />} />
+            <Route
+              path="/companies/:companyId/edit"
+              exact
+              element={<EditCompany />}
+            />
           </Routes>
         </div>
       </div>

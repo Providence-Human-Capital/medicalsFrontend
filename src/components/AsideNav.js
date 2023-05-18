@@ -1,8 +1,14 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 
 const AsideNav = ({}) => {
   const location = useLocation();
+
+  const [activeLink, setActiveLink] = useState("dashboard");
+  const handleLinkClick = (link) => {
+    setActiveLink(link);
+  };
+
   const hideSidebar =
     location.pathname === "/login" || location.pathname === "/register";
   const styles = {
@@ -48,39 +54,74 @@ const AsideNav = ({}) => {
               {/* <!-- sidebar menu--> */}
               <ul className="sidebar-menu" data-widget="tree">
                 <li>
-                  <NavLink to={"/dashboard"} activeclassname="active">
+                  <NavLink
+                    to={"/dashboard"}
+                    isActive={() => activeLink === "dashboard"}
+                    onClick={() => handleLinkClick("dashboard")}
+                    className={`${
+                      activeLink === "dashboard" ? "active-link" : ""
+                    }`}
+                  >
                     <i data-feather="monitor"></i>
                     <span>Dashboard</span>
                   </NavLink>
                 </li>
 
                 <li>
-                  <NavLink to={"/attendees"} activeclassname="active">
+                  <NavLink
+                    to={"/attendees"}
+                    isActive={() => activeLink === "attendees"}
+                    onClick={() => handleLinkClick("attendees")}
+                    className={`${
+                      activeLink === "attendees" ? "active-link" : ""
+                    }`}
+                  >
                     <i data-feather="users"></i>
                     <span>Attendees</span>
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to={"/patients"} activeclassname="active">
+                  <NavLink
+                    to={"/patients"}
+                    isActive={() => activeLink === "patients"}
+                    onClick={() => handleLinkClick("patients")}
+                    className={`${
+                      activeLink === "patients" ? "active-link" : ""
+                    }`}
+                  >
                     <i data-feather="users"></i>
                     <span>Patients</span>
                   </NavLink>
                 </li>
 
                 <li>
-                  <NavLink to={"/companies"} activeclassname="active">
+                  <NavLink
+                    to={"/companies"}
+                    isActive={() => activeLink === "companies"}
+                    onClick={() => handleLinkClick("companies")}
+                    className={`${
+                      activeLink === "companies" ? "active-link" : ""
+                    }`}
+                  >
                     <i data-feather="users"></i>
                     <span>Companies</span>
                   </NavLink>
                 </li>
 
                 <li>
-                  <NavLink to={"/illnesses"} activeclassname="active">
+                  <NavLink
+                    to={"/illnesses"}
+                    isActive={() => activeLink === "illnesses"}
+                    onClick={() => handleLinkClick("illnesses")}
+                    className={`${
+                      activeLink === "illnesses" ? "active-link" : ""
+                    }`}
+                  >
                     <i data-feather="package"></i>
                     <span>Illnesses</span>
                   </NavLink>
                 </li>
-                
+
                 <li>
                   <NavLink to={"/"} activeclassname="active">
                     <i data-feather="package"></i>
