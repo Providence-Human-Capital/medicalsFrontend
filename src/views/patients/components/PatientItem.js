@@ -2,55 +2,46 @@ import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 
 const PatientItem = ({ patient }) => {
-  const {
-    id,
-    first_name,
-    last_name,
-    company,
-    company_email,
-    date_of_birth,
-    phone_number,
-    employee_number,
-    last_x_ray,
-    certificate_status,
-    swab_status,
-  } = patient;
   return (
     <Fragment>
-      <tr class="hover-primary">
-        <td>{id}</td>
-        <td>{first_name}</td>
-        <td>{last_name}</td>
-        <td>{company}</td>
-        <td>{company_email}</td>
-        <td>{date_of_birth}</td>
-        <td>{phone_number}</td>
-        <td>{employee_number}</td>
+      <tr className="hover-primary">
+        <td>{patient.id}</td>
+        <td>{patient.first_name}</td>
+        <td>{patient.last_name}</td>
+        <td>{patient.company}</td>
+        <td>{patient.company_email}</td>
+        <td>{patient.date_of_birth}</td>
+        <td>{patient.phone_number}</td>
+        <td>{patient.employee_number}</td>
         <td>
           {" "}
-          <span class="badge badge-danger-light">{swab_status}</span>{" "}
+          {!patient.swab_result ? (
+            <span className="badge badge-danger-light">PENDING</span>
+          ) : (
+            <span className="badge badge-danger-light">DONE</span>
+          )}{" "}
         </td>
-        <td>{last_x_ray}</td>
+        {!patient.last_x_ray ? <td>N/A</td> : <td>{patient.last_x_ray}</td>}
         <td>
-          <span class="badge badge-danger-light">{certificate_status}</span>
+          <span className="badge badge-danger-light">PENDING</span>
         </td>
 
         <td>
-          <div class="btn-group">
+          <div className="btn-group">
             <Link
-              class="hover-primary dropdown-toggle no-caret"
+              className="hover-primary dropdown-toggle no-caret"
               data-bs-toggle="dropdown"
             >
-              <i class="fa fa-ellipsis-h"></i>
+              <i className="fa fa-ellipsis-h"></i>
             </Link>
-            <div class="dropdown-menu">
-              <Link class="dropdown-item" to={`${id}`}>
+            <div className="dropdown-menu">
+              <Link className="dropdown-item" to={`${patient.id}`}>
                 View Details
               </Link>
-              <Link class="dropdown-item" to={"edit"}>
+              <Link className="dropdown-item" to={"edit"}>
                 Edit
               </Link>
-              <Link class="dropdown-item">Delete</Link>
+              <Link className="dropdown-item">Delete</Link>
             </div>
           </div>
         </td>

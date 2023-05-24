@@ -25,7 +25,7 @@
 }
 
 .active-link {
-  border-right: 3px solid #58AD46;
+  border-right: 3px solid #58ad46;
   background-color: #fff;
 }
 
@@ -34,4 +34,34 @@
   display: block;
   border-radius: 0px !important;
 }
+.paginate-position {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  padding: 10px;
+}
 
+.pagination > li > a {
+  background-color: #ffffff;
+  color: #58ad46 !important;
+  border-color: #ffffff;
+}
+
+.pagination > li > a:hover {
+  background-color: #58ad46;
+}
+
+.active-paginate {
+  border-bottom: 3px solid #58ad46 !important;
+  /* border-radius: 10px; */
+}
+
+
+.container-height{
+  overflow: hidden;
+  min-height: 60vh;
+
+}

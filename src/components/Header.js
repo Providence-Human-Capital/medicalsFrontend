@@ -14,7 +14,7 @@ const Header = ({}) => {
 
   const signOut = () => {
     dispatch(authActions.setLogout());
-    navigate("/logout");
+    navigate("/register");
   };
 
   useEffect(() => {});

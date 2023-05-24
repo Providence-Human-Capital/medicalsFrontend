@@ -27,7 +27,6 @@ const Companies = () => {
   };
   return (
     <Fragment>
-      <Fragment>
         <BreadCrumb title={"Companies"} activeTab={"Companies"} />
 
         <section className="content">
@@ -57,7 +56,6 @@ const Companies = () => {
           </div>
         </section>
       </Fragment>
-    </Fragment>
   );
 };
 

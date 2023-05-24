@@ -52,10 +52,7 @@ const AddCompany = () => {
         body: JSON.stringify(formData),
       });
       const data = await response.json();
-      console.log(data.data); // You can handle the response data here
-      // dispatch( companyActions.setCompanies({
-      //   companies: data.companies
-      // }))
+      
       resetForm();
       setRedirectBack(true)
     } catch (error) {
@@ -214,16 +211,17 @@ const AddCompany = () => {
                               <option value="Choose province">
                                 Choose province
                               </option>
-                              <option value="Gauteng">Gauteng</option>
+                              <option value="Gauteng">Harare</option>
                               <option value="KwaZulu-Natal">
-                                KwaZulu-Natal
+                                Bulawayo
                               </option>
-                              <option value="Western Cape">Western Cape</option>
-                              <option value="Eastern Cape">Eastern Cape</option>
-                              <option value="North West">North West</option>
-                              <option value="Limpopo">Limpopo</option>
-                              <option value="Free State">Free State</option>
-                              <option value="Mpumalanga">Mpumalanga</option>
+                              <option value="Western Cape">Manicaland</option>
+                              <option value="Eastern Cape">Mashonaland Central</option>
+                              <option value="North West">Mashonaland East</option>
+                              <option value="Limpopo">Mashonaland West</option>
+                              <option value="Free State">Masvingo</option>
+                              <option value="Mpumalanga">Matebeleland North</option>
+                              <option value="Mpumalanga">Matebeleland South</option>
                             </Field>
                             <ErrorMessage
                               name="province"

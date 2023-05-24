@@ -1,9 +1,16 @@
 import React, { Fragment, useEffect, useState } from "react";
 import PatientItem from "./PatientItem";
 import { API } from "../../../config";
+import ReactPaginate from "react-paginate";
+import { useDispatch, useSelector } from "react-redux";
+import { patientActions } from "../../../redux_store/patients-store";
 
 const PatientTable = () => {
-  const [patients, setPatients] = useState([]);
+  const dispatch = useDispatch();
+  const [pageNumber, setPageNumber] = useState(0);
+  const itemsPerPage = 8;
+
+  const allPatients = useSelector((state) => state.patient.patients) || []
 
   const getAllPatients = async () => {
     const patiencesResponse = await fetch(`${API}/patient`, {
@@ -15,19 +22,34 @@ const PatientTable = () => {
     });
 
     const responseData = await patiencesResponse.json();
-    setPatients(responseData.data);
+    console.log("All Patients", responseData.data);
+
+    const patients = responseData.data
+
+    dispatch(
+      patientActions.setPatients({
+        patients: [...patients]
+      })
+    )
   };
 
   useEffect(() => {
     getAllPatients();
+    console.log("All Patients......")
   }, []);
+
+  function getCurrentPageData() {
+    const startIndex = pageNumber * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return allPatients.slice(startIndex, endIndex);
+  }
 
   return (
     <Fragment>
       <table className="table border-no" id="example1">
         <thead>
           <tr>
-            <th>Patient ID</th>
+            <th>ID</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Company</th>
@@ -42,12 +64,28 @@ const PatientTable = () => {
           </tr>
         </thead>
         <tbody>
-          {patients &&
-            patients.map((patient) => (
+          { allPatients &&
+            getCurrentPageData().map((patient) => (
               <PatientItem key={patient.id} patient={patient} />
             ))}
         </tbody>
       </table>
+      <div className="paginate-position">
+        <ReactPaginate
+          previousLabel={"Previous"}
+          nextLabel={"Next"}
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={Math.ceil(allPatients.length / itemsPerPage)}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={(allPatients) => {
+            setPageNumber(allPatients.selected);
+          }}
+          containerClassName={"pagination"}
+          activeClassName={"active-paginate"}
+        />
+      </div>
     </Fragment>
   );
 };

@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 const PButtons = ({ routeId  }) => {
   return (
     <Fragment>
-      <div class="d-md-flex align-items-center justify-content-between mb-20">
-        <Link to={"/patients/edit"} class="btn btn-primary me-5 mb-md-0 mb-5">
-          <i class="fa fa-edit"></i> Edit Profile
+      <div className="d-md-flex align-items-center justify-content-between mb-20">
+        <Link to={"/patients/edit"} className="btn btn-primary me-5 mb-md-0 mb-5">
+          <i className="fa fa-edit"></i> Edit Profile
         </Link>
-        <div class="d-flex">
+        <div className="d-flex">
           
           <div className="navi-button">
             <Link to={`/patients/${routeId}/physical`} className="btn btn-success">

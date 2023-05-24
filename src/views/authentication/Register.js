@@ -1,11 +1,13 @@
 import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../config";
 import { useDispatch } from "react-redux";
 import Loading from "../../components/loader/Loading";
 
 const Register = () => {
   const dispatch = useDispatch();
+
+  const navigate = useNavigate()
 
   const [selectedValue, setSelectedValue] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,6 +43,7 @@ const Register = () => {
       .then((response) => {
         setIsLoading(false);
         console.log(response);
+        navigate("/login")
         return response.json();
       })
       .catch((err) => {

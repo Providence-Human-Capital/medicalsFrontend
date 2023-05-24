@@ -80,6 +80,7 @@ const AsideNav = ({}) => {
                     <span>Attendees</span>
                   </NavLink>
                 </li>
+
                 <li>
                   <NavLink
                     to={"/patients"}
@@ -89,7 +90,7 @@ const AsideNav = ({}) => {
                       activeLink === "patients" ? "active-link" : ""
                     }`}
                   >
-                    <i data-feather="users"></i>
+                    <i data-feather="user-check"></i>
                     <span>Patients</span>
                   </NavLink>
                 </li>
@@ -103,8 +104,22 @@ const AsideNav = ({}) => {
                       activeLink === "companies" ? "active-link" : ""
                     }`}
                   >
-                    <i data-feather="users"></i>
+                    <i data-feather="plus-square"></i>
                     <span>Companies</span>
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink
+                    to={"/outreach"}
+                    isActive={() => activeLink === "outreach"}
+                    onClick={() => handleLinkClick("outreach")}
+                    className={`${
+                      activeLink === "outreach" ? "active-link" : ""
+                    }`}
+                  >
+                    <i data-feather="circle"></i>
+                    <span>OutReach</span>
                   </NavLink>
                 </li>
 
@@ -117,14 +132,28 @@ const AsideNav = ({}) => {
                       activeLink === "illnesses" ? "active-link" : ""
                     }`}
                   >
-                    <i data-feather="package"></i>
+                    <i data-feather="thermometer"></i>
                     <span>Illnesses</span>
                   </NavLink>
                 </li>
 
                 <li>
+                  <NavLink
+                    to={"/tobacco"}
+                    isActive={() => activeLink === "tobacco"}
+                    onClick={() => handleLinkClick("tobacco")}
+                    className={`${
+                      activeLink === "tobacco" ? "active-link" : ""
+                    }`}
+                  >
+                    <i data-feather="slash"></i>
+                    <span>Tobacco Use</span>
+                  </NavLink>
+                </li>
+
+                <li>
                   <NavLink to={"/"} activeclassname="active">
-                    <i data-feather="package"></i>
+                    <i data-feather="file-text"></i>
                     <span>Certificates</span>
                   </NavLink>
                 </li>

@@ -9,7 +9,7 @@ const AttendeeItem = ({ attendee }) => {
   };
   return (
     <Fragment>
-      <tr class="hover-primary">
+      <tr className="hover-primary">
         <td>{attendee.id}</td>
         <td>{attendee.swab_number}</td>
         <td>{attendee.company.company_name}</td>

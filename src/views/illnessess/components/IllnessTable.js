@@ -1,45 +1,42 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { API } from "../../../config";
+import IllnessItem from "./IllnessItem";
 import { useDispatch, useSelector } from "react-redux";
-import { companyActions } from "../../../redux_store/company-store";
-import CompanyItem from "./CompanyItem";
+import { API } from "../../../config";
+import { illnessActions } from "../../../redux_store/illness-store";
 import ReactPaginate from "react-paginate";
 
-const CompanyTable = () => {
+const IllnessTable = () => {
   const dispatch = useDispatch();
-  const allcompanies = useSelector((state) => state.company.companies) || [];
-
+  const allillnesses = useSelector((state) => state.illness.illnesses) || [];
   const [pageNumber, setPageNumber] = useState(0);
   const itemsPerPage = 8;
 
-  const getCompanies = async () => {
-    const companiesResponse = await fetch(`${API}/company`, {
+  const getIllnesses = async () => {
+    const illnessesResponseData = await fetch(`${API}/illness`, {
       method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
     });
-
-    const responseData = await companiesResponse.json();
-
-    const companies = responseData.data;
+    const responseData = await illnessesResponseData.json();
+    const illnesses = responseData.data;
 
     dispatch(
-      companyActions.setCompanies({
-        companies: [...companies],
+      illnessActions.setIllnesses({
+        illnesses: [...illnesses],
       })
     );
   };
 
-  useEffect(() => {
-    getCompanies();
+  useState(() => {
+    getIllnesses();
   }, []);
 
   function getCurrentPageData() {
     const startIndex = pageNumber * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return allcompanies.slice(startIndex, endIndex);
+    return allillnesses.slice(startIndex, endIndex);
   }
 
   return (
@@ -48,21 +45,14 @@ const CompanyTable = () => {
         <thead>
           <tr>
             <th>ID</th>
-            <th>Company Name</th>
-            <th>Address</th>
-            <th>Site Telephone</th>
-            <th>Company Email</th>
-            <th>Contact Person</th>
-            <th>Province</th>
-            <th>Designation</th>
-            <th>Contact Number</th>
+            <th>Illness Name</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          {allcompanies &&
-            getCurrentPageData().map((company) => (
-              <CompanyItem key={company.id} company={company} />
+          {allillnesses &&
+            getCurrentPageData().map((illness) => (
+              <IllnessItem key={illness.id} illness={illness} />
             ))}
         </tbody>
       </table>
@@ -72,11 +62,11 @@ const CompanyTable = () => {
           nextLabel={"Next"}
           breakLabel={"..."}
           breakClassName={"break-me"}
-          pageCount={Math.ceil(allcompanies.length / itemsPerPage)}
+          pageCount={Math.ceil(allillnesses.length / itemsPerPage)}
           marginPagesDisplayed={2}
           pageRangeDisplayed={5}
-          onPageChange={(allcompanies) => {
-            setPageNumber(allcompanies.selected);
+          onPageChange={(allillnesses) => {
+            setPageNumber(allillnesses.selected);
           }}
           containerClassName={"pagination"}
           activeClassName={"active-paginate"}
@@ -86,4 +76,4 @@ const CompanyTable = () => {
   );
 };
 
-export default CompanyTable;
+export default IllnessTable;

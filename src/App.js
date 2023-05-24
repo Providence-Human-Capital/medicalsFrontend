@@ -30,6 +30,15 @@ import PhysicalExamForm from "./views/patients/forms/PhysicalExamForm";
 import { useSelector } from "react-redux";
 import AddCompany from "./views/company/AddCompany";
 import EditCompany from "./views/company/EditCompany";
+import Illnesses from "./views/illnessess/Illnesses";
+import AddIllness from "./views/illnessess/AddIllnesses";
+import EditIllness from "./views/illnessess/EditIllness";
+import Tobacco from "./views/tobaccouse/Tobacco";
+import AddTobacco from "./views/tobaccouse/AddTobacco";
+import EditTobacco from "./views/tobaccouse/EditTobacco";
+import Outreach from "./views/outreach/Outreach";
+import AddOutreach from "./views/outreach/AddOutreach";
+import EditOutreach from "./views/outreach/EditOutreach";
 
 const App = () => {
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -107,6 +116,28 @@ const App = () => {
               exact
               element={<EditCompany />}
             />
+
+            <Route path="/illnesses" exact element={<Illnesses />} />
+            <Route path="/illnesses/add" exact element={<AddIllness />} />
+            <Route
+              path="/illnesses/:illnessId/edit"
+              exact
+              element={<EditIllness />}
+            />
+
+            <Route path="/tobacco" exact element={<Tobacco />} />
+            <Route path="/tobacco/add" exact element={<AddTobacco />} />
+            <Route
+              path="/tobacco/:tobaccoId/edit"
+              exact
+              element={<EditTobacco />}
+            />
+
+            <Route path="/outreach" exact element={<Outreach />} />
+            <Route path="/outreach/add" exact element={<AddOutreach />} />
+            <Route path="/outreach/:id/edit" exact element={<EditOutreach />} />
+
+            
           </Routes>
         </div>
       </div>

@@ -29,123 +29,123 @@ const ObeservationForm = () => {
       <div style={styles.seperation}></div>
       <div className="row">
         <div className="col-xl-12 col-12">
-          <div class="box">
+          <div className="box">
             <div className="custom-form">
- <div class="box-body">
-              <div class="container">
-                <h2>General Physical Obeservation and Remarks</h2>
+              <div className="box-body">
+                <div className="container">
+                  <h2>General Physical Obeservation and Remarks</h2>
 
-                <form>
-                  <div class="row">
-                    <div class="col-md-8">
-                      <div class="form-group">
-                        <label for="previous_health_issues">
-                          Previous Health Issues
+                  <form>
+                    <div className="row">
+                      <div className="col-md-8">
+                        <div className="form-group">
+                          <label for="previous_health_issues">
+                            Previous Health Issues
+                          </label>
+                          <input
+                            type="text"
+                            id="previous_health_issues"
+                            name="previous_health_issues"
+                            className="form-control"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-4">
+                        <div className="form-group">
+                          <label for="year_of_diagnosis">
+                            Year of Diagnosis
+                          </label>
+                          <input
+                            type="text"
+                            id="year_of_diagnosis"
+                            name="year_of_diagnosis"
+                            className="form-control"
+                            pattern="\d{4}"
+                            title="Please enter a valid year (yyyy)"
+                            required
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <label for="comment">Comment</label>
+                      <textarea
+                        id="comment"
+                        name="comment"
+                        rows="3"
+                        className="form-control"
+                        style={styles.textarea}
+                      ></textarea>
+                    </div>
+                    <div className="form-group">
+                      <label for="chest_x_ray">Chest X Ray Normal</label>
+                      <div className="form-check" style={styles.formc}>
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value="yes"
+                          id="chestXRayYes"
+                        />
+                        <label className="form-check-label" for="chestXRayYes">
+                          Yes
                         </label>
+                      </div>
+                      <div className="form-check" style={styles.formc}>
                         <input
-                          type="text"
-                          id="previous_health_issues"
-                          name="previous_health_issues"
-                          class="form-control"
+                          className="form-check-input"
+                          type="checkbox"
+                          value="no"
+                          id="chestXRayNo"
                         />
+                        <label className="form-check-label" for="chestXRayNo">
+                          No
+                        </label>
                       </div>
                     </div>
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label for="year_of_diagnosis">Year of Diagnosis</label>
-                        <input
-                          type="text"
-                          id="year_of_diagnosis"
-                          name="year_of_diagnosis"
-                          class="form-control"
-                          pattern="\d{4}"
-                          title="Please enter a valid year (yyyy)"
-                          required
-                        />
+                    <div className="form-group">
+                      <label for="remarks">Remarks</label>
+                      <textarea
+                        id="remarks"
+                        name="remarks"
+                        rows="3"
+                        className="form-control"
+                        style={styles.textarea}
+                      ></textarea>
+                    </div>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label for="swab_result">Swab Result</label>
+                          <input
+                            type="text"
+                            id="swab_result"
+                            name="swab_result"
+                            className="form-control"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label for="fit_to_work">Fit to Work</label>
+                          <select
+                            id="fit_to_work"
+                            name="fit_to_work"
+                            className="form-control"
+                          >
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="comment">Comment</label>
-                    <textarea
-                      id="comment"
-                      name="comment"
-                      rows="3"
-                      class="form-control"
-                      style={styles.textarea}
-                    ></textarea>
-                  </div>
-                  <div class="form-group">
-                    <label for="chest_x_ray">Chest X Ray Normal</label>
-                    <div class="form-check" style={styles.formc}>
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="yes"
-                        id="chestXRayYes"
-                        
-                      />
-                      <label class="form-check-label" for="chestXRayYes">
-                        Yes
-                      </label>
-                    </div>
-                    <div class="form-check" style={styles.formc}>
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="no"
-                        id="chestXRayNo"
-                      />
-                      <label class="form-check-label" for="chestXRayNo">
-                        No
-                      </label>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="remarks">Remarks</label>
-                    <textarea
-                      id="remarks"
-                      name="remarks"
-                      rows="3"
-                      class="form-control"
-                      style={styles.textarea}
-                    ></textarea>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="swab_result">Swab Result</label>
-                        <input
-                          type="text"
-                          id="swab_result"
-                          name="swab_result"
-                          class="form-control"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="fit_to_work">Fit to Work</label>
-                        <select
-                          id="fit_to_work"
-                          name="fit_to_work"
-                          class="form-control"
-                        >
-                          <option value="yes">Yes</option>
-                          <option value="no">No</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
 
-                  <button type="submit" class="btn btn-primary">
-                    Save Observation
-                  </button>
-                </form>
+                    <button type="submit" className="btn btn-primary">
+                      Save Observation
+                    </button>
+                  </form>
+                </div>
               </div>
             </div>
-            </div>
-           
           </div>
         </div>
       </div>

@@ -66,25 +66,7 @@ const EditCompany = () => {
       setSubmitting(false);
     }
 
-    // validationSchema.validate(values).then((validValues) => {
-    //   try {
-    //     setLoading(true);
-    //     const response = fetch(`${API}/company/update/${companyId}`, {
-    //       method: "PATCH",
-    //       body: JSON.stringify(validValues),
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //     });
-    //     const data = response.json();
-    //     console.log("Response from Update",data);
-    //   } catch (error) {
-    //     console.error(error);
-    //   } finally {
-    //     setLoading(false);
-
-    //   }
-    // });
+    
   };
 
   return (
