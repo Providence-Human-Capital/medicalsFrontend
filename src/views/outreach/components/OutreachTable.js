@@ -2,11 +2,10 @@ import React, { Fragment, useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import OutreachItem from "./OutreachItem";
 
-
 const OutReachTable = () => {
-    return (
-        <Fragment>
-            <table className="table border-no" id="example1">
+  return (
+    <Fragment>
+      <table className="table border-no" id="example1">
         <thead>
           <tr>
             <th>ID</th>
@@ -24,15 +23,14 @@ const OutReachTable = () => {
             getCurrentPageData().map((company) => (
               <CompanyItem key={company.id} company={company} />
             ))} */}
-            <OutreachItem />
-            <OutreachItem />
-            <OutreachItem />
-            <OutreachItem />
+          <OutreachItem />
+          <OutreachItem />
+          <OutreachItem />
+          <OutreachItem />
         </tbody>
       </table>
-        </Fragment>
-    )
-}
+    </Fragment>
+  );
+};
 
-export default OutReachTable
-
+export default OutReachTable;

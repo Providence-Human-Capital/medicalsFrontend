@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { API } from "../../config";
+import Loading from "../../components/loader/Loading";
+import EntryTable from "./components/EntryTable";
 
 const AddOutreach = () => {
   const [loading, setLoading] = useState(false);
@@ -62,7 +64,7 @@ const AddOutreach = () => {
     <Fragment>
       <BreadCrumb title={"Outreach"} activeTab={"Add Outreach Entries"} />
       <div className="row">
-        <div className="col-xl-12 col-12">
+        <div className="col-xl-8 col-12">
           <div className="box">
             <div className="custom-form">
               <div className="box-body">
@@ -73,7 +75,7 @@ const AddOutreach = () => {
                     onSubmit={onSubmit}
                     validationSchema={validationSchema}
                   >
-                    {({ values, isSubmitting, handleSubmit }) => (
+                    {({ values, isSubmitting, handleSubmit, errors, touched }) => (
                       <Form>
                         <div className="row">
                           <div className="col-md-6">
@@ -81,7 +83,7 @@ const AddOutreach = () => {
                               <label htmlFor="first_name">First Name:</label>
                               <Field
                                 type="text"
-                                className="form-control"
+                                className={`form-control ${touched.first_name && errors.first_name ? 'error-input' : ''}`}
                                 id="first_name"
                                 placeholder="Enter first name"
                                 name="first_name"
@@ -99,9 +101,9 @@ const AddOutreach = () => {
                               <label htmlFor="last_name">Last Name:</label>
                               <Field
                                 type="text"
-                                className="form-control"
+                                className={`form-control ${touched.last_name && errors.last_name ? 'error-input' : ''}`}
                                 id="last_name"
-                                placeholder="Enter last name"
+                                placeholder="Enter Last Name"
                                 name="last_name"
                               />
                               <ErrorMessage
@@ -113,14 +115,14 @@ const AddOutreach = () => {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col-md-6">
+                          <div className="col-md-4">
                             <div className="form-group">
                               <label htmlFor="swab_number">Swab Number:</label>
                               <Field
                                 type="number"
-                                className="form-control"
+                                className={`form-control ${touched.swab_number && errors.swab_number ? 'error-input' : ''}`}
                                 id="swab_number"
-                                placeholder="Enter first name"
+                                placeholder="Enter Swab Number"
                                 name="swab_number"
                               />
                               <ErrorMessage
@@ -130,12 +132,12 @@ const AddOutreach = () => {
                               />
                             </div>
                           </div>
-                          <div className="col-md-6">
+                          <div className="col-md-4">
                             <div className="form-group">
                               <label htmlFor="gender">Gender:</label>
                               <Field
                                 as="select"
-                                className="form-control"
+                                className={`form-control ${touched.gender && errors.gender ? 'error-input' : ''}`}
                                 id="gender"
                                 name="gender"
                               >
@@ -150,12 +152,72 @@ const AddOutreach = () => {
                               />
                             </div>
                           </div>
+                          <div className="col-md-4">
+                            <div className="form-group">
+                              <label htmlFor="date_of_birth">
+                                Date of Birth:
+                              </label>
+                              <Field
+                                type="date"
+                                className={`form-control ${touched.date_of_birth && errors.date_of_birth ? 'error-input' : ''}`}
+                                id="date_of_birth"
+                                placeholder="Enter date of birth"
+                                name="date_of_birth"
+                              />
+                              <ErrorMessage
+                                name="date_of_birth"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
+                          </div>
                         </div>
+                        <div className="row">
+                          <div className="col-md-4">
+                            <div className="form-group">
+                              <label htmlFor="company">Company Name:</label>
+                              <Field
+                                type="text"
+                                className={`form-control ${touched.company && errors.company ? 'error-input' : ''}`}
+                                id="company"
+                                placeholder="Enter Company Name"
+                                name="company"
+                              />
+                              <ErrorMessage
+                                name="company"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        {loading ? (
+                          <Loading />
+                        ) : (
+                          <button
+                            type="submit"
+                            className="btn btn-primary"
+                            disabled={isSubmitting}
+                            onClick={handleSubmit}
+                          >
+                            Save User
+                          </button>
+                        )}
                       </Form>
                     )}
                   </Formik>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-xl-4 col-12">
+          <div className="box">
+            <div className="box-header no-border">
+              <h4 className="box-title">Latest Users</h4>
+            </div>
+            <div className="box-body">
+              <EntryTable />
             </div>
           </div>
         </div>

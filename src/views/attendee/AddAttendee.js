@@ -62,7 +62,7 @@ const AddAttendee = () => {
         body: JSON.stringify(formData),
       });
       const data = await response.json();
-      console.log("Responsee", data); // You can handle the response data here
+      console.log("Responsee", data);
 
       resetForm();
       setRedirectBack(true);
@@ -98,7 +98,7 @@ const AddAttendee = () => {
                     onSubmit={onSubmit}
                     validationSchema={validationSchema}
                   >
-                    {({ values, isSubmitting, handleSubmit }) => (
+                    {({ values, isSubmitting, handleSubmit, touched, errors }) => (
                       <Form>
                         <div className="row">
                           <div className="col-md-6">
@@ -106,7 +106,7 @@ const AddAttendee = () => {
                               <label htmlFor="first_name">First Name:</label>
                               <Field
                                 type="text"
-                                className="form-control"
+                                className={`form-control ${touched.first_name && errors.first_name ? 'error-input' : ''}`}
                                 id="first_name"
                                 placeholder="Enter first name"
                                 name="first_name"
@@ -337,7 +337,7 @@ const AddAttendee = () => {
                             disabled={isSubmitting}
                             onClick={handleSubmit}
                           >
-                            Save Company
+                            Save Attendee
                           </button>
                         )}
                       </Form>

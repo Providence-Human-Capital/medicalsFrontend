@@ -65,3 +65,7 @@
   min-height: 60vh;
 
 }
+
+.error-input {
+  border-color: red;
+}

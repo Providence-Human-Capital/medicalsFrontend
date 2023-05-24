@@ -13,7 +13,7 @@ const Outreach = () => {
             <div className="d-md-flex align-items-center justify-content-between mb-20">
               <div className="d-flex">
                 <Link to={"/outreach/add"} className="btn btn-success">
-                  <i className="fa fa-check-circle-o"></i> Add Data
+                  <i className="fa fa-check-circle-o"></i> Add Outreach Data
                 </Link>
               </div>
             </div>
