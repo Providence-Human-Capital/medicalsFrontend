@@ -17,6 +17,7 @@ import illnessSlice from "./illness-store";
 import tobaccoSlice from "./tobacco-store";
 import patientSlice from "./patients-store";
 import attendeeSlice from "./attendee-store";
+import outReachSlice from "./outreach-store";
 
 const persistConfig = {
   key: "root",
@@ -29,7 +30,8 @@ const rootReducer = combineReducers({
   illness: illnessSlice.reducer,
   tobacco: tobaccoSlice.reducer,
   patient: patientSlice.reducer,
-  attendee: attendeeSlice.reducer
+  attendee: attendeeSlice.reducer,
+  outreach: outReachSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,13 +1,13 @@
 import React, { Fragment, useState } from "react";
 
-const EntryItem = () => {
+const EntryItem = ({ user }) => {
   return (
     <Fragment>
       <tr className="hover-primary">
-        <td>21</td>
-        <td>Takunda</td>
-        <td>Semedo</td>
-        <td>Male</td>
+        <td>{ user.swab_number}</td>
+        <td>{ user.first_name }</td>
+        <td>{ user.last_name }</td>
+        <td>{ user.gender }</td>
       </tr>
     </Fragment>
   );

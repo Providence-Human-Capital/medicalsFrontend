@@ -11,6 +11,7 @@ import EntryTable from "./components/EntryTable";
 const AddOutreach = () => {
   const [loading, setLoading] = useState(false);
   const [redirectBack, setRedirectBack] = useState(false);
+  const [newEntry, setNewEntry ] = useState(false);
 
   const dispatch = useDispatch();
   const initialValues = {
@@ -44,10 +45,14 @@ const AddOutreach = () => {
       });
       const data = await response.json();
 
+      console.log("Outreach Data", data.data)
+
       resetForm();
+      setNewEntry(true)
       setRedirectBack(true);
     } catch (error) {
       console.error(error);
+      setNewEntry(false)
     } finally {
       setLoading(false);
       setSubmitting(false);
@@ -217,7 +222,7 @@ const AddOutreach = () => {
               <h4 className="box-title">Latest Users</h4>
             </div>
             <div className="box-body">
-              <EntryTable />
+              <EntryTable newEntry={newEntry} />
             </div>
           </div>
         </div>
