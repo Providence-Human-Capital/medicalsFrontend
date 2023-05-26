@@ -5,6 +5,7 @@ const initialState = {
   latestOPatients: [],
   isLoading: false,
   error: "",
+  newEntry: false
 };
 
 const outReachSlice = createSlice({
@@ -22,6 +23,10 @@ const outReachSlice = createSlice({
       state.isLoading = false;
       state.error = "";
     },
+
+    setNewEntry: (state, action) => {
+      state.newEntry = action.payload.newEntry;
+    }
   },
 });
 

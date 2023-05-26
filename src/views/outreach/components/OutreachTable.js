@@ -9,7 +9,7 @@ const OutReachTable = () => {
   const dispatch = useDispatch();
 
   const [pageNumber, setPageNumber] = useState(0);
-  const itemsPerPage = 8;
+  const itemsPerPage = 9;
 
   const getAllOutreachPatients = async () => {
     const orResponse = await fetch(`${API}/outreach`, {
@@ -45,7 +45,7 @@ const OutReachTable = () => {
 
   return (
     <Fragment>
-      <table className="table border-no" id="example1">
+      <table className="table border-no table-spacing" id="example1">
         <thead>
           <tr>
             <th>ID</th>
@@ -60,7 +60,7 @@ const OutReachTable = () => {
         </thead>
         <tbody>
           {orPatients &&
-            orPatients.map((patient) => (
+            getCurrentPageData().map((patient) => (
               <OutreachItem key={patient.id} patient={patient} />
             ))}
         </tbody>
