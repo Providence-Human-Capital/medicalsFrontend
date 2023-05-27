@@ -10,6 +10,10 @@
   box-shadow: none;
 }
 
+.custom-size{
+  width: 50%;
+}
+
 .input-group .input-group-text {
   border-color: #e7e7e7;
   border-radius: 5px;
@@ -46,7 +50,7 @@
 }
 
 .table-spacing {
-  margin-bottom: 2rem;
+  padding-bottom: 5rem;
 }
 
 .pagination > li > a {
@@ -77,4 +81,41 @@
 
 .pointer-style{
   cursor: pointer;
+}
+input[type=checkbox] {
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+input[type=checkbox]:checked {
+  border-color: #888;
+}
+
+.alert {
+  padding: 20px;
+  background-color: #4CAF50;
+  color: white;
+  margin-bottom: 15px;
+}
+ .success {
+  background-color: #4CAF50;
+}
+ .closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+ .closebtn:hover {
+  color: black;
+}
+
+.checkbox-row{
+  display: flex;
+  padding-bottom: 2rem;
 }

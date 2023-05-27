@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 
 const AttendeeItem = ({ attendee }) => {
@@ -7,6 +7,15 @@ const AttendeeItem = ({ attendee }) => {
       cursor: "pointer",
     },
   };
+
+  const [showPopup, setShowPopup] = useState(false);
+  const [xRayStatus, setXRayStatus] = useState("DONE");
+
+  const handlePopupClick = (status) => {
+    setXRayStatus(status);
+    setShowPopup(false);
+  };
+
   return (
     <Fragment>
       <tr className="hover-primary">
@@ -16,9 +25,7 @@ const AttendeeItem = ({ attendee }) => {
         <td>{attendee.first_name}</td>
         <td>{attendee.last_name}</td>
         <td>
-          <span class="badge badge-danger-light" style={styles.attendeeStyles}>
-            {attendee.x_ray_status}
-          </span>
+          <span class="badge badge-success-light">{attendee.x_ray_status}</span>
         </td>
         <td>{attendee.time_of_entry}</td>
 

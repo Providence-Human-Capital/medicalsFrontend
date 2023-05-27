@@ -79,7 +79,7 @@ const Header = ({}) => {
                   <i data-feather="align-left"></i>
                 </Link>
               </li>
-              <li className="btn-group d-lg-inline-flex d-none">
+              {/* <li className="btn-group d-lg-inline-flex d-none">
                 <div className="app-menu">
                   <div className="search-bx mx-5">
                     <form>
@@ -104,7 +104,7 @@ const Header = ({}) => {
                     </form>
                   </div>
                 </div>
-              </li>
+              </li> */}
             </ul>
           </div>
 

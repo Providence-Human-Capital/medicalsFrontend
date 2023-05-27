@@ -4,13 +4,15 @@ import { API } from "../../../config";
 import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
 import { patientActions } from "../../../redux_store/patients-store";
+import Alert from "../../../components/notifications/Alert";
 
 const PatientTable = () => {
   const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(0);
-  const itemsPerPage = 8;
+  const itemsPerPage = 9;
 
-  const allPatients = useSelector((state) => state.patient.patients) || []
+  const allPatients = useSelector((state) => state.patient.patients) || [];
+  const addedNew = useSelector((state) => state.ui.showAlert);
 
   const getAllPatients = async () => {
     const patiencesResponse = await fetch(`${API}/patient`, {
@@ -24,18 +26,18 @@ const PatientTable = () => {
     const responseData = await patiencesResponse.json();
     console.log("All Patients", responseData.data);
 
-    const patients = responseData.data
+    const patients = responseData.data;
 
     dispatch(
       patientActions.setPatients({
-        patients: [...patients]
+        patients: [...patients],
       })
-    )
+    );
   };
 
   useEffect(() => {
     getAllPatients();
-    console.log("All Patients......")
+    console.log("All Patients......");
   }, []);
 
   function getCurrentPageData() {
@@ -46,6 +48,9 @@ const PatientTable = () => {
 
   return (
     <Fragment>
+      {addedNew && (
+        <Alert message={"New Patient Has Been  Successfully Added!"} />
+      )}
       <table className="table border-no" id="example1">
         <thead>
           <tr>
@@ -64,12 +69,13 @@ const PatientTable = () => {
           </tr>
         </thead>
         <tbody>
-          { allPatients &&
+          {allPatients &&
             getCurrentPageData().map((patient) => (
               <PatientItem key={patient.id} patient={patient} />
             ))}
         </tbody>
       </table>
+      <div className="table-spacing"></div>
       <div className="paginate-position">
         <ReactPaginate
           previousLabel={"Previous"}

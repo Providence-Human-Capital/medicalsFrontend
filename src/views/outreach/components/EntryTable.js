@@ -10,6 +10,8 @@ const EntryTable = () => {
   const [sortColumn, setSortColumn] = useState("swab_number");
   const [isSortAscending, setIsSortAscending] = useState(true);
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   const entry = useSelector((state) => state.outreach.newEntry);
 
   const getLatestEntries = async () => {
@@ -72,8 +74,12 @@ const EntryTable = () => {
       }
     });
 
+
+
+
   return (
     <Fragment>
+      
       <table className="table border-no mb-4" id="example1">
         <thead>
           <tr>

@@ -7,10 +7,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { API } from "../../config";
 import Loading from "../../components/loader/Loading";
+import Alert from "../../components/notifications/Alert";
+import { uiActions } from "../../redux_store/ui-store";
 
 const AddAttendee = () => {
   const [loading, setLoading] = useState(false);
   const [redirectBack, setRedirectBack] = useState(false);
+  const [redirectToPatients, setRedirectToPatients] = useState(false);
+  const [continueAddingAttendees, setContinueAddingAttendees] = useState(false);
+  const addedNew = useSelector((state) => state.ui.showAlert);
 
   const styles = {
     formContainer: {
@@ -63,28 +68,54 @@ const AddAttendee = () => {
       });
       const data = await response.json();
       console.log("Responsee", data);
+      dispatch(
+        uiActions.setAlert({
+          setAlert: true,
+        })
+      );
 
-      resetForm();
       setRedirectBack(true);
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
       setSubmitting(false);
+      setTimeout(() => {
+        dispatch(
+          uiActions.setAlert({
+            setAlert: false,
+          })
+        );
+      }, 4000);
+
+      if (redirectToPatients) {
+        navigate("/patients");
+      } else if (continueAddingAttendees) {
+        resetForm();
+      }
     }
   };
 
   useEffect(() => {
     if (redirectBack) {
-      navigate("/patients");
     } else {
       return;
     }
-  }, [redirectBack]);
+  }, [redirectBack, addedNew]);
+
+  const onInputChange = () => {
+    dispatch(
+      uiActions.setAlert({
+        setAlert: false,
+      })
+    );
+  };
 
   return (
     <Fragment>
       <BreadCrumb title={"Add Attendee"} activeTab={"Add Attendee"} />
+      {addedNew && <Alert message={"Attendee Successfully Added!"} />}
+
       <div className="row">
         <div className="col-xl-12 col-12">
           <div className="box">
@@ -293,7 +324,7 @@ const AddAttendee = () => {
                                     id="country_code"
                                     name="country_code"
                                   >
-                                    <option value="+263">+263</option>
+                                    <option value="+263" defaultValue={"+263"}>+263</option>
                                     <option value="+263">+263</option>
                                   </Field>
                                 </div>
@@ -377,6 +408,42 @@ const AddAttendee = () => {
                                 className="text-danger"
                               />
                             </div>
+                          </div>
+                        </div>
+                        <div className="row checkbox-row">
+                          <div className="form-check">
+                            <input
+                              type="checkbox"
+                              className="form-check-input"
+                              id="redirectAfterAdd"
+                              checked={redirectToPatients}
+                              onChange={(e) =>
+                                setRedirectToPatients(e.target.checked)
+                              }
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="redirectAfterAdd"
+                            >
+                             Redirect after adding a new attendee
+                            </label>
+                          </div>
+                          <div className="form-check">
+                            <input
+                              type="checkbox"
+                              className="form-check-input"
+                              id="continueAddingAttendees"
+                              checked={continueAddingAttendees}
+                              onChange={(e) =>
+                                setContinueAddingAttendees(e.target.checked)
+                              }
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="continueAddingAttendees"
+                            >
+                              Continue adding attendees
+                            </label>
                           </div>
                         </div>
 
