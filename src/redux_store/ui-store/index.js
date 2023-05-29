@@ -13,6 +13,10 @@ const uiSlice = createSlice({
     setAlert: (state, action) => {
       state.showAlert = action.payload.setAlert;
     },
+
+    setLoadingSpinner: (state, action) => {
+      state.isLoading = action.payload.isLoading;
+    }
   },
 });
 

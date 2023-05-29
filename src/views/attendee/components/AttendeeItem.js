@@ -33,27 +33,35 @@ const AttendeeItem = ({ attendee }) => {
         <td>{attendee.gender}</td>
         <td>{attendee.national_id}</td>
         <td>{attendee.phone_number}</td>
-        <td>
-          <div class="btn-group">
+        <td class="text-end">
             <Link
-              class="hover-primary dropdown-toggle no-caret"
-              data-bs-toggle="dropdown"
+              to={"/"}
+              class="waves-effect waves-light btn btn-primary-light btn-circle"
             >
-              <i class="fa fa-ellipsis-h"></i>
+              <span class="icon-Settings-1 fs-18">
+                <span class="path1"></span>
+                <span class="path2"></span>
+              </span>
             </Link>
-            <div class="dropdown-menu">
-              <Link class="dropdown-item" href="#">
-                View Details
-              </Link>
-              <Link class="dropdown-item" href="#">
-                Edit
-              </Link>
-              <Link class="dropdown-item" href="#">
-                Delete
-              </Link>
-            </div>
-          </div>
-        </td>
+            <Link
+             to={`/`}
+              class="waves-effect waves-light btn btn-primary-light btn-circle mx-5"
+            >
+              <span class="icon-Write">
+                <span class="path1"></span>
+                <span class="path2"></span>
+              </span>
+            </Link>
+            <Link
+              href="#"
+              class="waves-effect waves-light btn btn-primary-light btn-circle"
+            >
+              <span class="icon-Trash1 fs-18">
+                <span class="path1"></span>
+                <span class="path2"></span>
+              </span>
+            </Link>
+          </td>
       </tr>
     </Fragment>
   );

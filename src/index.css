@@ -24,8 +24,8 @@
 }
 
 .custom-form {
-  width: 70%;
-  margin: 3rem auto;
+  width: 90%;
+  margin: 1rem auto;
 }
 
 .active-link {
@@ -118,4 +118,31 @@ input[type=checkbox]:checked {
 .checkbox-row{
   display: flex;
   padding-bottom: 2rem;
+}
+
+
+.error-alert {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f44336;
+  color: white;
+  padding: 15px;
+  box-sizing: border-box;
+  display: none;
+}
+ .error-message {
+  display: inline-block;
+  margin-right: 10px;
+}
+ .close-btn {
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  color: white;
+  font-weight: bold;
+  border: none;
+  background: transparent;
+  cursor: pointer;
 }

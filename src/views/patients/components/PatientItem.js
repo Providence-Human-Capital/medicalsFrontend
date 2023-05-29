@@ -27,7 +27,7 @@ const PatientItem = ({ patient }) => {
         </td>
 
         <td>
-          <div className="btn-group">
+          {/* <div className="btn-group">
             <Link
               className="hover-primary dropdown-toggle no-caret"
               data-bs-toggle="dropdown"
@@ -43,7 +43,36 @@ const PatientItem = ({ patient }) => {
               </Link>
               <Link className="dropdown-item">Delete</Link>
             </div>
-          </div>
+          </div> */}
+          <td class="text-end">
+            <Link
+              to={`${patient.id}`}
+              class="waves-effect waves-light btn btn-primary-light btn-circle"
+            >
+              <span class="icon-Settings-1 fs-18">
+                <span class="path1"></span>
+                <span class="path2"></span>
+              </span>
+            </Link>
+            <Link
+              to={"edit"}
+              class="waves-effect waves-light btn btn-primary-light btn-circle mx-5"
+            >
+              <span class="icon-Write">
+                <span class="path1"></span>
+                <span class="path2"></span>
+              </span>
+            </Link>
+            <Link
+              href="#"
+              class="waves-effect waves-light btn btn-primary-light btn-circle"
+            >
+              <span class="icon-Trash1 fs-18">
+                <span class="path1"></span>
+                <span class="path2"></span>
+              </span>
+            </Link>
+          </td>
         </td>
       </tr>
     </Fragment>

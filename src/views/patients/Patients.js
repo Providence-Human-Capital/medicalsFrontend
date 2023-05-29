@@ -10,7 +10,7 @@ const Patients = () => {
   const styles = {
     containerStyles: {
       minHeight: "60vh",
-      // overflow: "hidden",
+      overflow: "hidden",
       minWidth: "100%",
     },
   };
@@ -24,16 +24,7 @@ const Patients = () => {
       <section className="content">
         <div className="row">
           <div className="col-12">
-            <div className="d-md-flex align-items-center justify-content-between mb-20">
-              {/* <div className="d-flex">
-                <div className="navi-button">
-                  <Link to={"/patients/add"} className="btn btn-success">
-                    <i className="fa fa-check-circle-o"></i> Add Patient
-                  </Link>
-                </div>
-                
-              </div> */}
-            </div>
+            <div className="d-md-flex align-items-center justify-content-between mb-20"></div>
             <div className="box">
               <div className="box-body">
                 <div

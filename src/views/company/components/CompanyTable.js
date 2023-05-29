@@ -66,6 +66,7 @@ const CompanyTable = () => {
             ))}
         </tbody>
       </table>
+      <div className="table-spacing"></div>
       <div className="paginate-position">
         <ReactPaginate
           previousLabel={"Previous"}

@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
+import DiseaseItem from "./DiseaseItem";
 
-const DiseaseHistory = () => {
+const DiseaseHistory = ({ illnesses, health_issue, year_of_diagnosis }) => {
   return (
     <Fragment>
       <div className="box">
@@ -8,36 +9,25 @@ const DiseaseHistory = () => {
           <h4 className="box-title">Disease History</h4>
         </div>
         <div className="box-body">
+          <div className="box-body">
+            <h5 className="fw-500">
+              Previous Health Issue's:{" "}
+              {!health_issue ? (
+                <span className="fw-200 badge badge-danger">N/A</span>
+              ) : (
+                <Fragment>
+                  <span className="fw-200 badge badge-danger m-2">
+                    {health_issue}
+                  </span>{" "}
+                  <span className="m-2">{year_of_diagnosis}</span>
+                </Fragment>
+              )}
+            </h5>
+          </div>
           <div className="widget-timeline-icon">
             <ul>
-              <li>
-                <div className="icon bg-primary fa fa-heart-o"></div>
-                <a className="timeline-panel text-muted" href="#">
-                  <h4 className="mb-2 mt-1">Diabetes</h4>
-                  <p className="fs-15 mb-0">mon, 18 Mar 2021, 11:15 AM</p>
-                </a>
-              </li>
-              <li>
-                <div className="icon bg-primary fa fa-heart-o"></div>
-                <a className="timeline-panel text-muted" href="#">
-                  <h4 className="mb-2 mt-1">Sleep Problem</h4>
-                  <p className="fs-15 mb-0">Tue, 21 Jun 2020, 03:22 PM</p>
-                </a>
-              </li>
-              <li>
-                <div className="icon bg-primary fa fa-heart-o"></div>
-                <a className="timeline-panel text-muted" href="#">
-                  <h4 className="mb-2 mt-1">Dental Care</h4>
-                  <p className="fs-15 mb-0">Wed, 15 Mar 2020, 02:11 PM</p>
-                </a>
-              </li>
-              <li>
-                <div className="icon bg-primary fa fa-heart-o"></div>
-                <a className="timeline-panel text-muted" href="#">
-                  <h4 className="mb-2 mt-1">Diabetes</h4>
-                  <p className="fs-15 mb-0">Sun, 11 Jan 2020, 12:24 PM</p>
-                </a>
-              </li>
+              {illnesses &&
+                illnesses.map((illness) => <DiseaseItem illness={illness} />)}
             </ul>
           </div>
         </div>

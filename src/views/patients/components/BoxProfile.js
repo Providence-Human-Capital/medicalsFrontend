@@ -1,25 +1,54 @@
 import React, { Fragment } from "react";
 
-const BoxProfile = () => {
+const BoxProfile = ({ patient }) => {
   return (
     <Fragment>
       <div className="box">
+        <div className="box-header border-0 pb-0">
+          <h4 className="box-title fw-500">Patient Companie's Details</h4>
+        </div>
         <div className="box-body box-profile">
           <div className="row">
             <div className="col-12">
               <div>
-                <p>
-                  Email :
-                  <span className="text-gray ps-10">David@yahoo.com</span>
+                <p className="fw-500">
+                  Company Name:
+                  <span className="text-gray ps-10 fw-200">
+                    {patient.attendee.company.company_name}
+                  </span>
                 </p>
-                <p>
-                  Phone :
-                  <span className="text-gray ps-10">+11 123 456 7890</span>
+                <p className="fw-500">
+                  Company Email :
+                  <span className="text-gray ps-10 fw-200">
+                    {patient.attendee.company.company_email}
+                  </span>
                 </p>
-                <p>
+                <p className="fw-500">
                   Address :
-                  <span className="text-gray ps-10">
-                    123, Lorem Ipsum, Florida, USA
+                  <span className="text-gray ps-10 fw-200">
+                    {" "}
+                    {patient.attendee.company.address}
+                  </span>
+                </p>
+                <p className="fw-500">
+                  Telephone Number:
+                  <span className="text-gray ps-10 fw-200">
+                    {" "}
+                    {patient.attendee.company.site_telephone}
+                  </span>
+                </p>
+                <p className="fw-500">
+                  Contact Person:
+                  <span className="text-gray ps-10 fw-200">
+                    {" "}
+                    {patient.attendee.company.contact_person}
+                  </span>
+                </p>
+                <p className="fw-500">
+                  Contact Number:
+                  <span className="text-gray ps-10 fw-200">
+                    {" "}
+                    {patient.attendee.company.contact_number}
                   </span>
                 </p>
               </div>
