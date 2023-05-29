@@ -3,6 +3,8 @@ import Layout from "../../core/Layout";
 import BreadCrumb from "../../components/BreadCrumb";
 import AttendeeTable from "./components/AttendeeTable";
 import { Link } from "react-router-dom";
+import { fadeInAnimation } from "../../animations/animation";
+
 
 const Attendees = ({}) => {
   const styles = {

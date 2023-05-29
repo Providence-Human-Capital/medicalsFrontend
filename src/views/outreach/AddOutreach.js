@@ -56,6 +56,7 @@ const AddOutreach = () => {
     } finally {
       setLoading(false);
       setSubmitting(false);
+      setNewEntry(false)
     }
   };
 

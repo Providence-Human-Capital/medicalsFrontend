@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import {
   BrowserRouter,
   Route,
@@ -39,10 +39,22 @@ import EditTobacco from "./views/tobaccouse/EditTobacco";
 import Outreach from "./views/outreach/Outreach";
 import AddOutreach from "./views/outreach/AddOutreach";
 import EditOutreach from "./views/outreach/EditOutreach";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 const App = () => {
+  
+  return (
+    <BrowserRouter>
+      <WrapperComponent />
+    </BrowserRouter>
+  );
+};
+
+const WrapperComponent = () => {
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
   const isAuthenticated = useSelector((state) => state.auth.isAuth);
+
+  // const location = useLocation()
   useEffect(() => {
     const body = document.body;
     if (isSidebarCollapsed) {
@@ -63,8 +75,10 @@ const App = () => {
     }
   }, [isSidebarCollapsed]);
 
+  const location = useLocation();
+
   return (
-    <BrowserRouter>
+    <Fragment>
       <Header
         isSidebarCollapsed={isSidebarCollapsed}
         setSidebarCollapsed={setSidebarCollapsed}
@@ -72,76 +86,91 @@ const App = () => {
       <AsideNav />
       <div className="content-wrapper">
         <div className="container-full">
-          <Routes>
-            <Route
-              path="/"
-              element={
-                isAuthenticated ? (
-                  <Navigate to="/dashboard" />
-                ) : (
-                  <Navigate to="/login" />
-                )
-              }
-            />
-            <Route path="/dashboard" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+          <TransitionGroup>
+            <CSSTransition key={location.key} timeout={500} classNames="fade">
+              <Routes location={location}>
+                <Route
+                  path="/"
+                  element={
+                    isAuthenticated ? (
+                      <Navigate to="/dashboard" />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
+                  }
+                />
+                <Route path="/dashboard" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
 
-            <Route path="/attendees" exact element={<Attendees />} />
-            <Route path="/attendees/add" exact element={<AddAttendee />} />
-            <Route
-              path="/attendees/:attendeeId"
-              exact
-              element={<PatientDetails />}
-            />
-            <Route path="/attendees/edit" exact element={<EditAttendee />} />
+                <Route path="/attendees" exact element={<Attendees />} />
+                <Route path="/attendees/add" exact element={<AddAttendee />} />
+                <Route
+                  path="/attendees/:attendeeId"
+                  exact
+                  element={<PatientDetails />}
+                />
+                <Route
+                  path="/attendees/edit"
+                  exact
+                  element={<EditAttendee />}
+                />
 
-            <Route path="/patients" element={<Patients />} />
-            <Route path="/patients/add" element={<AddPatient />} />
-            <Route path="/patients/:patientId" element={<PatientDetails />} />
-            <Route
-              path="/patients/:patientId/observation"
-              element={<ObeservationForm />}
-            />
-            <Route
-              path="/patients/:patientId/physical"
-              element={<PhysicalExamForm />}
-            />
-            <Route path="/patients/edit" element={<EditPatient />} />
+                <Route path="/patients" element={<Patients />} />
+                <Route path="/patients/add" element={<AddPatient />} />
+                <Route
+                  path="/patients/:patientId"
+                  element={<PatientDetails />}
+                />
+                <Route
+                  path="/patients/:patientId/observation"
+                  element={<ObeservationForm />}
+                />
+                <Route
+                  path="/patients/:patientId/physical"
+                  element={<PhysicalExamForm />}
+                />
+                <Route path="/patients/edit" element={<EditPatient />} />
 
-            <Route path="/companies" exact element={<Companies />} />
-            <Route path="/companies/add" exact element={<AddCompany />} />
-            <Route
-              path="/companies/:companyId/edit"
-              exact
-              element={<EditCompany />}
-            />
+                <Route path="/companies" exact element={<Companies />} />
+                <Route path="/companies/add" exact element={<AddCompany />} />
+                <Route
+                  path="/companies/:companyId/edit"
+                  exact
+                  element={<EditCompany />}
+                />
 
-            <Route path="/illnesses" exact element={<Illnesses />} />
-            <Route path="/illnesses/add" exact element={<AddIllness />} />
-            <Route
-              path="/illnesses/:illnessId/edit"
-              exact
-              element={<EditIllness />}
-            />
+                <Route path="/illnesses" exact element={<Illnesses />} />
+                <Route path="/illnesses/add" exact element={<AddIllness />} />
+                <Route
+                  path="/illnesses/:illnessId/edit"
+                  exact
+                  element={<EditIllness />}
+                />
 
-            <Route path="/tobacco" exact element={<Tobacco />} />
-            <Route path="/tobacco/add" exact element={<AddTobacco />} />
-            <Route
-              path="/tobacco/:tobaccoId/edit"
-              exact
-              element={<EditTobacco />}
-            />
+                <Route path="/tobacco" exact element={<Tobacco />} />
+                <Route path="/tobacco/add" exact element={<AddTobacco />} />
+                <Route
+                  path="/tobacco/:tobaccoId/edit"
+                  exact
+                  element={<EditTobacco />}
+                />
 
-            <Route path="/outreach" exact element={<Outreach />} />
-            <Route path="/outreach/add" exact element={<AddOutreach />} />
-            <Route path="/outreach/:id/edit" exact element={<EditOutreach />} />
-
-            
-          </Routes>
+                <Route path="/outreach" exact element={<Outreach />} />
+                <Route path="/outreach/add" exact element={<AddOutreach />} />
+                <Route
+                  path="/outreach/:id/edit"
+                  exact
+                  element={<EditOutreach />}
+                />
+              </Routes>
+            </CSSTransition>
+          </TransitionGroup>
         </div>
       </div>
-    </BrowserRouter>
+    </Fragment>
   );
 };
 export default App;
+
+export { WrapperComponent };
