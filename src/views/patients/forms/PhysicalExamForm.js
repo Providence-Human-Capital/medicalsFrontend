@@ -11,6 +11,7 @@ import Loading from "../../../components/loader/Loading";
 import Vitals from "../components/Vitals";
 import { patientActions } from "../../../redux_store/patients-store";
 import Alert from "../../../components/notifications/Alert";
+import PButtons from "../components/PButtons";
 
 const PhysicalExamForm = () => {
   const { patientId } = useParams();
@@ -180,6 +181,7 @@ const PhysicalExamForm = () => {
       <div style={styles.seperation}></div>
       <div className="row">
         <div className="col-xl-9 col-12">
+        <PButtons routeId={patientId} />
           <div className="box">
             <div className="custom-form">
               <div className="box-body">

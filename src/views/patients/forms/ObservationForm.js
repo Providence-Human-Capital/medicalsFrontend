@@ -1,10 +1,19 @@
 import React, { Fragment } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 import BreadCrumb from "../../../components/BreadCrumb";
+import PButtons from "../components/PButtons";
+import PatientSideView from "../components/PatientSideView";
+import Vitals from "../components/Vitals";
 
 const ObeservationForm = () => {
   const dispatch = useDispatch();
+  const { patientId } = useParams();
+  const singlePatient = useSelector((state) => state.patient.singlePatient);
+  const patientPhysicalExamRecord = useSelector(
+    (state) => state.patient.latestPhysicalExam
+  );
+
 
   const styles = {
     textarea: {
@@ -28,7 +37,8 @@ const ObeservationForm = () => {
       />
       <div style={styles.seperation}></div>
       <div className="row">
-        <div className="col-xl-12 col-12">
+        <div className="col-xl-9 col-12">
+          <PButtons routeId={patientId} />
           <div className="box">
             <div className="custom-form">
               <div className="box-body">
@@ -147,6 +157,15 @@ const ObeservationForm = () => {
               </div>
             </div>
           </div>
+        </div>
+        <div className="col-xl-3 col-12">
+        <PatientSideView />
+          {singlePatient.vitals[0] && (
+            <Vitals
+              vitals={patientPhysicalExamRecord}
+              patient={singlePatient}
+            />
+          )}
         </div>
       </div>
     </Fragment>

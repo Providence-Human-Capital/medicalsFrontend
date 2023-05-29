@@ -1,0 +1,92 @@
+import React, { useState } from "react";
+import axios from "axios";
+ const diseases = [
+  "Cancer",
+  "Heart Disease",
+  "Diabetes",
+  // ... list of diseases from the database
+];
+ function StepForm() {
+  const [currentDisease, setCurrentDisease] = useState(0);
+  const [treatedForDisease, setTreatedForDisease] = useState(false);
+  const [yearOfTreatment, setYearOfTreatment] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+   const handleNextDisease = async () => {
+    setIsLoading(true);
+    setError("");
+    try {
+      // Send API request to the database
+      const response = await axios.get(`/api/diseases/${currentDisease}`);
+       // Check if response was successful
+      if (response.status === 200) {
+        setCurrentDisease(currentDisease + 1);
+        setTreatedForDisease(false);
+        setYearOfTreatment("");
+      } else {
+        setError("Failed to fetch the data from the server.");
+      }
+     } catch (error) {
+      setError("Failed to connect to the server. Please try again later.");
+    }
+    setIsLoading(false);
+  };
+   const handlePrevDisease = () => {
+    setCurrentDisease(currentDisease - 1);
+    setTreatedForDisease(false);
+    setYearOfTreatment("");
+    setIsLoading(false);
+    setError("");
+  };
+   const handleTreatedForDisease = (e) => {
+    setTreatedForDisease(e.target.value === "yes");
+  };
+   const handleYearOfTreatment = (e) => {
+    setYearOfTreatment(e.target.value);
+  };
+   return (
+    <div>
+      <h1>Step Form</h1>
+      <div>
+        <h2>{diseases[currentDisease]}</h2>
+        <div>
+          <label>Treated for this disease?</label>
+          <select 
+            value={treatedForDisease ? "yes" : "no"} 
+            onChange={handleTreatedForDisease}
+          >
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+        </div>
+        {treatedForDisease && (
+          <div>
+            <label>Year of treatment:</label>
+            <input 
+              type="text" 
+              value={yearOfTreatment} 
+              onChange={handleYearOfTreatment} 
+            />
+          </div>
+        )}
+        {isLoading && <div>Loading...</div>}
+        {error && <div>{error}</div>}
+        <div>
+          <button 
+            onClick={handlePrevDisease} 
+            disabled={currentDisease === 0 || isLoading}
+          >
+            Prev
+          </button>
+          <button 
+            onClick={handleNextDisease} 
+            disabled={isLoading}
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+ export default StepForm;

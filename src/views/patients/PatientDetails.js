@@ -103,6 +103,7 @@ const PatientDetails = () => {
   useEffect(() => {
     getPatient();
     getPatientPhysicalExamResults();
+    console.log('Use Effect from Detail')
   }, []);
 
   return (

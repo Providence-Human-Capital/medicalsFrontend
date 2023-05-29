@@ -40,9 +40,10 @@ import Outreach from "./views/outreach/Outreach";
 import AddOutreach from "./views/outreach/AddOutreach";
 import EditOutreach from "./views/outreach/EditOutreach";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+import IllnessesForm from "./views/patients/forms/IllnessesForm";
+import TobaccoForm from "./views/patients/forms/TobaccoForm";
 
 const App = () => {
-  
   return (
     <BrowserRouter>
       <WrapperComponent />
@@ -130,6 +131,17 @@ const WrapperComponent = () => {
                   path="/patients/:patientId/physical"
                   element={<PhysicalExamForm />}
                 />
+
+                <Route
+                  path="/patients/:patientId/illnesses"
+                  element={<IllnessesForm />}
+                />
+
+                <Route
+                  path="/patients/:patientId/tobacco"
+                  element={<TobaccoForm />}
+                />
+
                 <Route path="/patients/edit" element={<EditPatient />} />
 
                 <Route path="/companies" exact element={<Companies />} />
