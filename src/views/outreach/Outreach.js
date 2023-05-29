@@ -2,8 +2,23 @@ import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import BreadCrumb from "../../components/BreadCrumb";
 import OutReachTable from "./components/OutreachTable";
+import * as XLSX from "xlsx";
+import { useSelector } from "react-redux";
+
+function exportToExcel(data) {
+  const worksheet = XLSX.utils.json_to_sheet(data);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Outreach");
+  XLSX.writeFile(workbook, "Outreach.xlsx");
+}
 
 const Outreach = () => {
+  const outreach = useSelector((state) => state.outreach.outreachPatients);
+
+  const handleExportClick = () => {
+    exportToExcel(outreach);
+  };
+
   return (
     <Fragment>
       <BreadCrumb title={"Outreach Data"} activeTab={"Outreach Data"} />
@@ -16,6 +31,11 @@ const Outreach = () => {
                   <i className="fa fa-check-circle-o"></i> Add Outreach Data
                 </Link>
               </div>
+              <button className="btn btn-success" onClick={handleExportClick}>
+                
+              <i class="fa-light fa-file-spreadsheet"></i>
+                Export to Excel
+              </button>
             </div>
             <div className="box">
               <div className="box-body">

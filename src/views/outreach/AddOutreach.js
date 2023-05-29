@@ -7,11 +7,11 @@ import * as yup from "yup";
 import { API } from "../../config";
 import Loading from "../../components/loader/Loading";
 import EntryTable from "./components/EntryTable";
+import { outReachActions } from "../../redux_store/outreach-store";
 
 const AddOutreach = () => {
   const [loading, setLoading] = useState(false);
   const [redirectBack, setRedirectBack] = useState(false);
-  const [newEntry, setNewEntry ] = useState(false);
 
   const dispatch = useDispatch();
   const initialValues = {
@@ -45,14 +45,18 @@ const AddOutreach = () => {
       });
       const data = await response.json();
 
-      console.log("Outreach Data", data.data)
+      console.log("Outreach Data", data.data);
 
       resetForm();
-      setNewEntry(true)
       setRedirectBack(true);
+
+      dispatch(
+        outReachActions.setNewEntry({
+          newEntry: true,
+        })
+      );
     } catch (error) {
       console.error(error);
-      setNewEntry(false)
     } finally {
       setLoading(false);
       setSubmitting(false);
@@ -81,7 +85,13 @@ const AddOutreach = () => {
                     onSubmit={onSubmit}
                     validationSchema={validationSchema}
                   >
-                    {({ values, isSubmitting, handleSubmit, errors, touched }) => (
+                    {({
+                      values,
+                      isSubmitting,
+                      handleSubmit,
+                      errors,
+                      touched,
+                    }) => (
                       <Form>
                         <div className="row">
                           <div className="col-md-6">
@@ -89,7 +99,11 @@ const AddOutreach = () => {
                               <label htmlFor="first_name">First Name:</label>
                               <Field
                                 type="text"
-                                className={`form-control ${touched.first_name && errors.first_name ? 'error-input' : ''}`}
+                                className={`form-control ${
+                                  touched.first_name && errors.first_name
+                                    ? "error-input"
+                                    : ""
+                                }`}
                                 id="first_name"
                                 placeholder="Enter first name"
                                 name="first_name"
@@ -107,7 +121,11 @@ const AddOutreach = () => {
                               <label htmlFor="last_name">Last Name:</label>
                               <Field
                                 type="text"
-                                className={`form-control ${touched.last_name && errors.last_name ? 'error-input' : ''}`}
+                                className={`form-control ${
+                                  touched.last_name && errors.last_name
+                                    ? "error-input"
+                                    : ""
+                                }`}
                                 id="last_name"
                                 placeholder="Enter Last Name"
                                 name="last_name"
@@ -126,7 +144,11 @@ const AddOutreach = () => {
                               <label htmlFor="swab_number">Swab Number:</label>
                               <Field
                                 type="number"
-                                className={`form-control ${touched.swab_number && errors.swab_number ? 'error-input' : ''}`}
+                                className={`form-control ${
+                                  touched.swab_number && errors.swab_number
+                                    ? "error-input"
+                                    : ""
+                                }`}
                                 id="swab_number"
                                 placeholder="Enter Swab Number"
                                 name="swab_number"
@@ -143,7 +165,11 @@ const AddOutreach = () => {
                               <label htmlFor="gender">Gender:</label>
                               <Field
                                 as="select"
-                                className={`form-control ${touched.gender && errors.gender ? 'error-input' : ''}`}
+                                className={`form-control ${
+                                  touched.gender && errors.gender
+                                    ? "error-input"
+                                    : ""
+                                }`}
                                 id="gender"
                                 name="gender"
                               >
@@ -165,7 +191,11 @@ const AddOutreach = () => {
                               </label>
                               <Field
                                 type="date"
-                                className={`form-control ${touched.date_of_birth && errors.date_of_birth ? 'error-input' : ''}`}
+                                className={`form-control ${
+                                  touched.date_of_birth && errors.date_of_birth
+                                    ? "error-input"
+                                    : ""
+                                }`}
                                 id="date_of_birth"
                                 placeholder="Enter date of birth"
                                 name="date_of_birth"
@@ -184,7 +214,11 @@ const AddOutreach = () => {
                               <label htmlFor="company">Company Name:</label>
                               <Field
                                 type="text"
-                                className={`form-control ${touched.company && errors.company ? 'error-input' : ''}`}
+                                className={`form-control ${
+                                  touched.company && errors.company
+                                    ? "error-input"
+                                    : ""
+                                }`}
                                 id="company"
                                 placeholder="Enter Company Name"
                                 name="company"
@@ -221,9 +255,14 @@ const AddOutreach = () => {
           <div className="box">
             <div className="box-header no-border">
               <h4 className="box-title">Latest Users</h4>
+              <div class="box-controls pull-right">
+                <div class="lookup lookup-circle lookup-right">
+                  <input type="text" name="s" placeholder="Patients id" />
+                </div>
+              </div>
             </div>
             <div className="box-body">
-              <EntryTable newEntry={newEntry} />
+              <EntryTable />
             </div>
           </div>
         </div>

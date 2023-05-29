@@ -1,0 +1,6 @@
+.my-component {
+    background-image: url(../../../../public/assets/images/gallery/landscape14.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }

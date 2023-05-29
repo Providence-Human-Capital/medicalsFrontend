@@ -10,6 +10,10 @@
   box-shadow: none;
 }
 
+.custom-size{
+  width: 50%;
+}
+
 .input-group .input-group-text {
   border-color: #e7e7e7;
   border-radius: 5px;
@@ -20,8 +24,8 @@
 }
 
 .custom-form {
-  width: 70%;
-  margin: 3rem auto;
+  width: 90%;
+  margin: 1rem auto;
 }
 
 .active-link {
@@ -42,6 +46,11 @@
   display: flex;
   justify-content: start;
   padding: 10px;
+  
+}
+
+.table-spacing {
+  padding-bottom: 5rem;
 }
 
 .pagination > li > a {

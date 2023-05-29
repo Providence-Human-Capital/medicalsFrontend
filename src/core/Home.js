@@ -6,8 +6,11 @@ import PatientStatisticsCard from "../views/dashboard/components/PatientStatisti
 import IllnessAnalysisCard from "../views/dashboard/components/IllnessAnalysisCard";
 import SmokingAnalysisCard from "../views/dashboard/components/SmokingAnalysisCard";
 import BmiAnalysis from "../views/dashboard/components/BmiAnalysis";
+import { useSelector } from "react-redux";
 
 const Home = ({}) => {
+
+  const totalPatients = useSelector((state) => state.patient.patients.length)
   return (
     <Fragment>
       <section className="content">
@@ -19,7 +22,7 @@ const Home = ({}) => {
                   "https://rhythm-admin-template.multipurposethemes.com/images/svg-icon/medical/icon-2.svg"
                 }
                 Label={"Total Patients"}
-                Number={767}
+                Number={totalPatients}
               />
               <SmallCard
                 Label={"To 81 Baines"}

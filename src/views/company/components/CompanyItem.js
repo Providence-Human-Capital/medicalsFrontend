@@ -20,7 +20,36 @@ const CompanyItem = ({ company }) => {
         <td>{company.province}</td>
         <td>{company.designation}</td>
         <td>{company.contact_number}</td>
-        <td>
+        <td class="text-end">
+            <Link
+              to={"/illness"}
+              class="waves-effect waves-light btn btn-primary-light btn-circle"
+            >
+              <span class="icon-Settings-1 fs-18">
+                <span class="path1"></span>
+                <span class="path2"></span>
+              </span>
+            </Link>
+            <Link
+             to={`/companies/${company.id}/edit`}
+              class="waves-effect waves-light btn btn-primary-light btn-circle mx-5"
+            >
+              <span class="icon-Write">
+                <span class="path1"></span>
+                <span class="path2"></span>
+              </span>
+            </Link>
+            <Link
+              href="#"
+              class="waves-effect waves-light btn btn-primary-light btn-circle"
+            >
+              <span class="icon-Trash1 fs-18">
+                <span class="path1"></span>
+                <span class="path2"></span>
+              </span>
+            </Link>
+          </td>
+        {/* <td>
           <div className="btn-group">
             <Link
               className="hover-primary dropdown-toggle no-caret"
@@ -43,7 +72,7 @@ const CompanyItem = ({ company }) => {
               </Link>
             </div>
           </div>
-        </td>
+        </td> */}
       </tr>
     </Fragment>
   );

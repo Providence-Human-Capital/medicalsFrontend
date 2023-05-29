@@ -74,6 +74,7 @@ const AddCompany = () => {
   return (
     <Fragment>
       <BreadCrumb title={"Add Companies"} activeTab={"Add Companies"} />
+     
       <div className="row">
         <div className="col-xl-12 col-12">
           <div className="box">
@@ -211,17 +212,17 @@ const AddCompany = () => {
                               <option value="Choose province">
                                 Choose province
                               </option>
-                              <option value="Gauteng">Harare</option>
-                              <option value="KwaZulu-Natal">
+                              <option value="Harare">Harare</option>
+                              <option value="Bulawayo">
                                 Bulawayo
                               </option>
-                              <option value="Western Cape">Manicaland</option>
-                              <option value="Eastern Cape">Mashonaland Central</option>
-                              <option value="North West">Mashonaland East</option>
-                              <option value="Limpopo">Mashonaland West</option>
-                              <option value="Free State">Masvingo</option>
-                              <option value="Mpumalanga">Matebeleland North</option>
-                              <option value="Mpumalanga">Matebeleland South</option>
+                              <option value="Manicaland">Manicaland</option>
+                              <option value="Mashonaland Central">Mashonaland Central</option>
+                              <option value="Mashonaland East">Mashonaland East</option>
+                              <option value="Mashonaland West">Mashonaland West</option>
+                              <option value="Masvingo">Masvingo</option>
+                              <option value="Matebeleland North">Matebeleland North</option>
+                              <option value="Matebeleland South">Matebeleland South</option>
                             </Field>
                             <ErrorMessage
                               name="province"

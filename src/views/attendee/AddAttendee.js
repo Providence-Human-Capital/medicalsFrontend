@@ -7,10 +7,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { API } from "../../config";
 import Loading from "../../components/loader/Loading";
+import Alert from "../../components/notifications/Alert";
+import { uiActions } from "../../redux_store/ui-store";
 
 const AddAttendee = () => {
   const [loading, setLoading] = useState(false);
   const [redirectBack, setRedirectBack] = useState(false);
+  const [redirectToPatients, setRedirectToPatients] = useState(false);
+  const [continueAddingAttendees, setContinueAddingAttendees] = useState(false);
+  const addedNew = useSelector((state) => state.ui.showAlert);
 
   const styles = {
     formContainer: {
@@ -63,28 +68,54 @@ const AddAttendee = () => {
       });
       const data = await response.json();
       console.log("Responsee", data);
+      dispatch(
+        uiActions.setAlert({
+          setAlert: true,
+        })
+      );
 
-      resetForm();
       setRedirectBack(true);
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
       setSubmitting(false);
+      setTimeout(() => {
+        dispatch(
+          uiActions.setAlert({
+            setAlert: false,
+          })
+        );
+      }, 4000);
+
+      if (redirectToPatients) {
+        navigate("/patients");
+      } else if (continueAddingAttendees) {
+        resetForm();
+      }
     }
   };
 
   useEffect(() => {
     if (redirectBack) {
-      navigate("/patients");
     } else {
       return;
     }
-  }, [redirectBack]);
+  }, [redirectBack, addedNew]);
+
+  const onInputChange = () => {
+    dispatch(
+      uiActions.setAlert({
+        setAlert: false,
+      })
+    );
+  };
 
   return (
     <Fragment>
       <BreadCrumb title={"Add Attendee"} activeTab={"Add Attendee"} />
+      {addedNew && <Alert message={"Attendee Successfully Added!"} />}
+
       <div className="row">
         <div className="col-xl-12 col-12">
           <div className="box">
@@ -98,7 +129,13 @@ const AddAttendee = () => {
                     onSubmit={onSubmit}
                     validationSchema={validationSchema}
                   >
-                    {({ values, isSubmitting, handleSubmit, touched, errors }) => (
+                    {({
+                      values,
+                      isSubmitting,
+                      handleSubmit,
+                      touched,
+                      errors,
+                    }) => (
                       <Form>
                         <div className="row">
                           <div className="col-md-6">
@@ -106,7 +143,11 @@ const AddAttendee = () => {
                               <label htmlFor="first_name">First Name:</label>
                               <Field
                                 type="text"
-                                className={`form-control ${touched.first_name && errors.first_name ? 'error-input' : ''}`}
+                                className={`form-control ${
+                                  touched.first_name && errors.first_name
+                                    ? "error-input"
+                                    : ""
+                                }`}
                                 id="first_name"
                                 placeholder="Enter first name"
                                 name="first_name"
@@ -123,7 +164,11 @@ const AddAttendee = () => {
                               <label htmlFor="last_name">Last Name:</label>
                               <Field
                                 type="text"
-                                className="form-control"
+                                className={`form-control ${
+                                  touched.last_name && errors.last_name
+                                    ? "error-input"
+                                    : ""
+                                }`}
                                 id="last_name"
                                 placeholder="Enter last name"
                                 name="last_name"
@@ -144,7 +189,11 @@ const AddAttendee = () => {
                               </label>
                               <Field
                                 as="select"
-                                className="form-control"
+                                className={`form-control ${
+                                  touched.x_ray_status && errors.x_ray_status
+                                    ? "error-input"
+                                    : ""
+                                }`}
                                 id="x_ray_status"
                                 name="x_ray_status"
                               >
@@ -164,7 +213,11 @@ const AddAttendee = () => {
                               <label htmlFor="company_id">Company Name:</label>
                               <Field
                                 as="select"
-                                className="form-control"
+                                className={`form-control ${
+                                  touched.company_id && errors.company_id
+                                    ? "error-input"
+                                    : ""
+                                }`}
                                 id="company_id"
                                 name="company_id"
                               >
@@ -187,7 +240,11 @@ const AddAttendee = () => {
                               <label htmlFor="gender">Gender:</label>
                               <Field
                                 as="select"
-                                className="form-control"
+                                className={`form-control ${
+                                  touched.gender && errors.gender
+                                    ? "error-input"
+                                    : ""
+                                }`}
                                 id="gender"
                                 name="gender"
                               >
@@ -211,7 +268,12 @@ const AddAttendee = () => {
                               </label>
                               <Field
                                 type="text"
-                                className="form-control"
+                                className={`form-control ${
+                                  touched.employee_number &&
+                                  errors.employee_number
+                                    ? "error-input"
+                                    : ""
+                                }`}
                                 id="employee_number"
                                 placeholder="Enter Employee Number"
                                 name="employee_number"
@@ -228,7 +290,11 @@ const AddAttendee = () => {
                               <label htmlFor="national_id">National ID:</label>
                               <Field
                                 type="text"
-                                className="form-control"
+                                className={`form-control ${
+                                  touched.national_id && errors.national_id
+                                    ? "error-input"
+                                    : ""
+                                }`}
                                 id="national_id"
                                 placeholder="Enter national ID"
                                 name="national_id"
@@ -249,17 +315,26 @@ const AddAttendee = () => {
                                 <div className="input-group-prepend">
                                   <Field
                                     component="select"
-                                    className="form-control"
+                                    className={`form-control ${
+                                      touched.country_code &&
+                                      errors.country_code
+                                        ? "error-input"
+                                        : ""
+                                    }`}
                                     id="country_code"
                                     name="country_code"
                                   >
-                                    <option value="+263">+263</option>
+                                    <option value="+263" defaultValue={"+263"}>+263</option>
                                     <option value="+263">+263</option>
                                   </Field>
                                 </div>
                                 <Field
                                   type="text"
-                                  className="form-control"
+                                  className={`form-control ${
+                                    touched.phone_number && errors.phone_number
+                                      ? "error-input"
+                                      : ""
+                                  }`}
                                   id="phone_number"
                                   placeholder="Enter phone number"
                                   name="phone_number"
@@ -286,7 +361,11 @@ const AddAttendee = () => {
                               </label>
                               <Field
                                 as="select"
-                                className="form-control"
+                                className={`form-control ${
+                                  touched.exam_purpose && errors.exam_purpose
+                                    ? "error-input"
+                                    : ""
+                                }`}
                                 id="exam_purpose"
                                 name="exam_purpose"
                               >
@@ -314,7 +393,11 @@ const AddAttendee = () => {
                               </label>
                               <Field
                                 type="date"
-                                className="form-control"
+                                className={`form-control ${
+                                  touched.date_of_birth && errors.date_of_birth
+                                    ? "error-input"
+                                    : ""
+                                }`}
                                 id="date_of_birth"
                                 placeholder="Enter date of birth"
                                 name="date_of_birth"
@@ -325,6 +408,42 @@ const AddAttendee = () => {
                                 className="text-danger"
                               />
                             </div>
+                          </div>
+                        </div>
+                        <div className="row checkbox-row">
+                          <div className="form-check">
+                            <input
+                              type="checkbox"
+                              className="form-check-input"
+                              id="redirectAfterAdd"
+                              checked={redirectToPatients}
+                              onChange={(e) =>
+                                setRedirectToPatients(e.target.checked)
+                              }
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="redirectAfterAdd"
+                            >
+                             Redirect after adding a new attendee
+                            </label>
+                          </div>
+                          <div className="form-check">
+                            <input
+                              type="checkbox"
+                              className="form-check-input"
+                              id="continueAddingAttendees"
+                              checked={continueAddingAttendees}
+                              onChange={(e) =>
+                                setContinueAddingAttendees(e.target.checked)
+                              }
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="continueAddingAttendees"
+                            >
+                              Continue adding attendees
+                            </label>
                           </div>
                         </div>
 
