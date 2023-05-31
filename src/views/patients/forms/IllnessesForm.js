@@ -6,17 +6,19 @@ import { useSelector } from "react-redux";
 import Vitals from "../components/Vitals";
 import PButtons from "../components/PButtons";
 
-const diseases = [
-  "Cancer",
-  "Heart Disease",
-  "Diabetes",
-  // ... list of diseases from the database
-];
+// const diseases = [
+//   "Cancer",
+//   "Heart Disease",
+//   "Diabetes",
+//   // ... list of diseases from the database
+// ];
 
 const IllnessesForm = () => {
   const [currentDisease, setCurrentDisease] = useState(0);
   const [treatedForDisease, setTreatedForDisease] = useState(false);
   const [yearOfTreatment, setYearOfTreatment] = useState("");
+
+  const diseases = useSelector((state) => state.illness.illnesses)
 
   const handleNextDisease = () => {
     setCurrentDisease(currentDisease + 1);
@@ -58,6 +60,7 @@ const IllnessesForm = () => {
                   <h2>Have You Ever Been Treated For Any Of The Illness Listed Below?</h2>
                   <div className="illness-form">
                     <div className="row">
+                      
                       <div className="col-md-3">
                         <div
                           className="nav flex-column nav-pills"
@@ -70,7 +73,7 @@ const IllnessesForm = () => {
                             <a
                             
                               key={index}
-                              className={`nav-link fw-800 custom-disease ${
+                              className={`nav-link fw-500 custom-disease ${
                                 index === currentDisease ? "active" : ""
                               }`}
                               id={`v-pills-${index}-tab`}
@@ -80,7 +83,7 @@ const IllnessesForm = () => {
                               aria-controls={`v-pills-${index}`}
                               aria-selected={index === currentDisease}
                             >
-                              {disease}
+                              {disease.id} {" - "}{disease.illness_name}
                             </a>
                           ))}
                         </div>
@@ -97,7 +100,7 @@ const IllnessesForm = () => {
                               role="tabpanel"
                               aria-labelledby={`v-pills-${index}-tab`}
                             >
-                              <h2>{disease}</h2>
+                              <h2>{disease.illness_name}</h2>
                               <div className="form-group">
                                 <label>Treated for this disease?</label>
                                 <select
@@ -140,6 +143,7 @@ const IllnessesForm = () => {
                           </div>
                         </div>
                       </div>
+
                     </div>
                   </div>
                 </div>
