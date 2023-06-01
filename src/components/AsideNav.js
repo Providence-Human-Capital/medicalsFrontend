@@ -53,111 +53,62 @@ const AsideNav = ({}) => {
             <div className="multinav-scroll" style={styles.pageHeight}>
               {/* <!-- sidebar menu--> */}
               <ul className="sidebar-menu" data-widget="tree">
-                <li>
-                  <NavLink
-                    to={"/dashboard"}
-                    isActive={() => activeLink === "dashboard"}
-                    onClick={() => handleLinkClick("dashboard")}
-                    className={`${
-                      activeLink === "dashboard" ? "active-link" : ""
-                    }`}
-                  >
+                <li id="aside-bar">
+                  <NavLink to={"/dashboard"}>
                     <i data-feather="monitor"></i>
                     <span>Dashboard</span>
                   </NavLink>
                 </li>
 
-                <li>
-                  <NavLink
-                    to={"/attendees"}
-                    isActive={() => activeLink === "attendees"}
-                    onClick={() => handleLinkClick("attendees")}
-                    className={`${
-                      activeLink === "attendees" ? "active-link" : ""
-                    }`}
-                  >
+                <li id="aside-bar">
+                  <NavLink to={"/attendees"}>
                     <i data-feather="users"></i>
                     <span>Attendees</span>
                   </NavLink>
                 </li>
 
-                <li>
-                  <NavLink
-                    to={"/patients"}
-                    isActive={() => activeLink === "patients"}
-                    onClick={() => handleLinkClick("patients")}
-                    className={`${
-                      activeLink === "patients" ? "active-link" : ""
-                    }`}
-                  >
+                <li id="aside-bar">
+                  <NavLink to={"/patients"}>
                     <i data-feather="user-check"></i>
                     <span>Patients</span>
                   </NavLink>
                 </li>
 
-                <li>
-                  <NavLink
-                    to={"/companies"}
-                    isActive={() => activeLink === "companies"}
-                    onClick={() => handleLinkClick("companies")}
-                    className={`${
-                      activeLink === "companies" ? "active-link" : ""
-                    }`}
-                  >
+                <li id="aside-bar">
+                  <NavLink to={"/companies"}>
                     <i data-feather="plus-square"></i>
                     <span>Companies</span>
                   </NavLink>
                 </li>
 
-                <li>
-                  <NavLink
-                    to={"/outreach"}
-                    isActive={() => activeLink === "outreach"}
-                    onClick={() => handleLinkClick("outreach")}
-                    className={`${
-                      activeLink === "outreach" ? "active-link" : ""
-                    }`}
-                  >
+                <li id="aside-bar">
+                  <NavLink to={"/outreach"}>
                     <i data-feather="circle"></i>
                     <span>OutReach</span>
                   </NavLink>
                 </li>
 
-                <li>
-                  <NavLink
-                    to={"/illnesses"}
-                    isActive={() => activeLink === "illnesses"}
-                    onClick={() => handleLinkClick("illnesses")}
-                    className={`${
-                      activeLink === "illnesses" ? "active-link" : ""
-                    }`}
-                  >
+                <li id="aside-bar">
+                  <NavLink to={"/illnesses"}>
                     <i data-feather="thermometer"></i>
                     <span>Illnesses</span>
                   </NavLink>
                 </li>
 
-                <li>
-                  <NavLink
-                    to={"/tobacco"}
-                    isActive={() => activeLink === "tobacco"}
-                    onClick={() => handleLinkClick("tobacco")}
-                    className={`${
-                      activeLink === "tobacco" ? "active-link" : ""
-                    }`}
-                  >
+                <li id="aside-bar">
+                  <NavLink to={"/tobacco"}>
                     <i data-feather="slash"></i>
                     <span>Tobacco Use</span>
                   </NavLink>
                 </li>
 
-                <li>
+                <li id="aside-bar">
                   <NavLink to={"/"} activeclassname="active">
                     <i data-feather="file-text"></i>
                     <span>Certificates</span>
                   </NavLink>
                 </li>
-                <li>
+                <li id="aside-bar">
                   <NavLink to={"/"} activeclassname="active">
                     <i data-feather="calendar"></i>
                     <span>Appointments</span>

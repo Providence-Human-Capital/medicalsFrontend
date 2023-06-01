@@ -9,16 +9,30 @@
   border: 2.5px solid #e7e7e7;
   box-shadow: none;
 }
-.illness-form{
+.illness-form {
   margin-top: 3rem;
 }
 .theme-success .btn-primary {
-  background-color: #258C72 !important;
-  border-color: #258C72 !important;
+  background-color: #258c72 !important;
+  border-color: #258c72 !important;
   color: #ffffff;
 }
-.custom-size{
+.custom-size {
   width: 50%;
+}
+
+.navigation_button {
+  background-color: #ffffff !important;
+  color: #5c607b !important;
+  border: 1px solid #ffffff;
+  padding: 8px 16px;
+}
+
+.navigation_button:hover {
+  background-color: #ffffff !important;
+  color: #5c607b !important;
+  border-bottom: 3px solid #258c72;
+  border-radius: 1px;
 }
 
 .error-alert {
@@ -45,14 +59,15 @@
   cursor: pointer;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
   color: #fff !important;
   background-color: #172b4c;
 }
 
-.custom-disease{
+.custom-disease {
   text-transform: uppercase;
-  color: #5C607B !important
+  color: #5c607b !important;
 }
 .input-group .input-group-text {
   border-color: #e7e7e7;
@@ -73,6 +88,11 @@
   background-color: #fff;
 }
 
+#aside-bar a.active{
+  border-right: 3px solid #58ad46;
+  background-color: #fff;
+}
+
 .sidebar-menu > li > a {
   padding: 10px 15px;
   display: block;
@@ -86,7 +106,6 @@
   display: flex;
   justify-content: start;
   padding: 10px;
-  
 }
 
 .table-spacing {
@@ -108,11 +127,9 @@
   /* border-radius: 10px; */
 }
 
-
-.container-height{
+.container-height {
   overflow: hidden;
   min-height: 60vh;
-
 }
 
 .error-input {
@@ -148,7 +165,7 @@
 
 .alert.success {
   padding: 20px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   font-size: 16px;
   border-radius: 5px;
@@ -168,3 +185,44 @@
 .closebtn:hover {
   color: black;
 }
+
+/* PButtons Style */
+.navi-list {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+.navi-item {
+  margin-right: 10px;
+}
+
+.navi-link {
+  display: block;
+  padding: 10px 15px;
+  background-color: #fff;
+  color: #000;
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+}
+
+.navi-item a.active {
+  display: block;
+  padding: 10px 15px;
+  background-color: #fff;
+  color: #000;
+  text-decoration: none;
+  border-bottom: 3px solid #58ad46;
+}
+
+.navi-link:hover {
+  border-bottom-color: #58ad46;
+  color: #000 !important;
+}
+
+.active-ac {
+  border-bottom-color: #58ad46;
+  border-bottom: 3px solid #58ad46;
+}
+
+/* PButtons Style */
