@@ -21,6 +21,30 @@
   width: 50%;
 }
 
+.error-alert {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  margin: 10px;
+  position: relative;
+}
+
+.error-message {
+  font-weight: bold;
+}
+
+.close-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border: none;
+  background-color: transparent;
+  font-size: 20px;
+  cursor: pointer;
+}
+
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff !important;
   background-color: #172b4c;
@@ -95,6 +119,17 @@
   border-color: red;
 }
 
+.is-invalid {
+  border-color: #dc3545 !important;
+  background-color: #f8d7da !important;
+  color: #721c24 !important;
+}
+.invalid-feedback {
+  display: block;
+  margin-top: 5px;
+  font-size: 80%;
+  color: #dc3545;
+}
 
 .fade-enter {
   opacity: 0;
@@ -109,4 +144,27 @@
 .fade-exit-active {
   opacity: 0;
   transition: opacity 500ms ease-in;
+}
+
+.alert.success {
+  padding: 20px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
 }

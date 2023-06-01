@@ -1,29 +1,76 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import BreadCrumb from "../../../components/BreadCrumb";
 import PatientSideView from "../components/PatientSideView";
 import { useSelector } from "react-redux";
 import Vitals from "../components/Vitals";
 import PButtons from "../components/PButtons";
-
-// const diseases = [
-//   "Cancer",
-//   "Heart Disease",
-//   "Diabetes",
-//   // ... list of diseases from the database
-// ];
+import ErrorNotification from "../../../components/notifications/ErrorNotification";
+import axios from "axios";
+import { API } from "../../../config";
+import Alert from "../../../components/notifications/Alert";
+import Loading from "../../../components/loader/Loading";
 
 const IllnessesForm = () => {
   const [currentDisease, setCurrentDisease] = useState(0);
   const [treatedForDisease, setTreatedForDisease] = useState(false);
   const [yearOfTreatment, setYearOfTreatment] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const diseases = useSelector((state) => state.illness.illnesses);
 
-  const diseases = useSelector((state) => state.illness.illnesses)
+  const navigate = useNavigate();
 
-  const handleNextDisease = () => {
-    setCurrentDisease(currentDisease + 1);
-    setTreatedForDisease(false);
-    setYearOfTreatment("");
+  const handleNextDisease = async (event) => {
+    event.preventDefault();
+    setError("");
+    try {
+      const currentDiseaseId = diseases[currentDisease].id;
+      if (treatedForDisease) {
+        if (!yearOfTreatment) {
+          setError("Year of treatment is required");
+          return;
+        } else {
+          setIsLoading(true);
+          const response = await axios.patch(
+            `${API}/illness/update/${currentDiseaseId}/${patientId}`,
+            {
+              has_illness: treatedForDisease ? 1 : 0,
+              treatment_year: yearOfTreatment,
+            }
+          );
+
+          console.log(response);
+
+          if (response.status === 200) {
+            if (currentDisease === diseases.length - 1) {
+              navigate(`/patients/${patientId}/tobacco`);
+            }
+            setCurrentDisease(currentDisease + 1);
+            setTreatedForDisease(false);
+            setYearOfTreatment("");
+            setSuccess("You have successfully Updated and Illness");
+          } else {
+            setError("Failed to connect to from the server.");
+          }
+        }
+      } else {
+        setCurrentDisease(currentDisease + 1);
+        setTreatedForDisease(false);
+        setYearOfTreatment("");
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setError("Server might be offline. Please try again later.");
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+      setTimeout(() => {
+        setError("");
+        setSuccess("");
+      }, 5000);
+    }
   };
 
   const handlePrevDisease = () => {
@@ -37,7 +84,19 @@ const IllnessesForm = () => {
   };
 
   const handleYearOfTreatment = (e) => {
-    setYearOfTreatment(e.target.value);
+    const year = e.target.value;
+    const currentYear = new Date().getFullYear();
+    const isValidYear = /^\d{4}$/.test(year) && year <= currentYear;
+    if (isValidYear) {
+      setYearOfTreatment(year);
+      setError("");
+    } else if (year === "") {
+      setYearOfTreatment("");
+      setError("Year of treatment is required");
+    } else {
+      setYearOfTreatment(year);
+      setError("Please enter a valid year");
+    }
   };
 
   const { patientId } = useParams();
@@ -53,25 +112,28 @@ const IllnessesForm = () => {
       <div className="row">
         <div className="col-xl-9 col-12">
           <PButtons routeId={patientId} />
+          {success && <Alert message={success} />}
+
           <div className="box">
+            {error && <ErrorNotification message={error} />}
             <div className="custom-form">
               <div className="box-body">
                 <div className="container">
-                  <h2>Have You Ever Been Treated For Any Of The Illness Listed Below?</h2>
+                  <h2>
+                    Have You Ever Been Treated For Any Of The Illness Listed
+                    Below?
+                  </h2>
                   <div className="illness-form">
                     <div className="row">
-                      
                       <div className="col-md-3">
                         <div
                           className="nav flex-column nav-pills"
                           id="v-pills-tab"
                           role="tablist"
                           aria-orientation="vertical"
-
                         >
                           {diseases.map((disease, index) => (
                             <a
-                            
                               key={index}
                               className={`nav-link fw-500 custom-disease ${
                                 index === currentDisease ? "active" : ""
@@ -83,7 +145,8 @@ const IllnessesForm = () => {
                               aria-controls={`v-pills-${index}`}
                               aria-selected={index === currentDisease}
                             >
-                              {disease.id} {" - "}{disease.illness_name}
+                              {disease.id} {" - "}
+                              {disease.illness_name}
                             </a>
                           ))}
                         </div>
@@ -117,33 +180,55 @@ const IllnessesForm = () => {
                                   <label>Year of treatment:</label>
                                   <input
                                     type="text"
-                                    className="form-control"
+                                    className={`form-control ${
+                                      error ? "is-invalid" : ""
+                                    }`}
                                     value={yearOfTreatment}
                                     onChange={handleYearOfTreatment}
                                   />
+                                  {error && (
+                                    <div className="invalid-feedback">
+                                      {error}
+                                    </div>
+                                  )}
                                 </div>
                               )}
                             </div>
                           ))}
-                          <div className="text-right">
-                            <button
-                              className="btn btn-secondary m-2 "
-                              onClick={handlePrevDisease}
-                              disabled={currentDisease === 0}
-                            >
-                              Prev
-                            </button>
-                            <button
-                              className="btn btn-primary m-2"
-                              onClick={handleNextDisease}
-                              disabled={currentDisease === diseases.length - 1}
-                            >
-                              Next
-                            </button>
-                          </div>
+
+                          {isLoading ? (
+                            <Loading />
+                          ) : (
+                            <div className="text-right">
+                              <button
+                                className="btn btn-secondary m-2 "
+                                onClick={handlePrevDisease}
+                                disabled={currentDisease === 0}
+                              >
+                                Prev
+                              </button>
+                              {currentDisease === diseases.length - 1 ? (
+                                <button
+                                  className="btn btn-primary m-2"
+                                  onClick={handleNextDisease}
+                                >
+                                  Save
+                                </button>
+                              ) : (
+                                <button
+                                  className="btn btn-primary m-2"
+                                  onClick={handleNextDisease}
+                                  disabled={
+                                    currentDisease === diseases.length - 1
+                                  }
+                                >
+                                  Next
+                                </button>
+                              )}
+                            </div>
+                          )}
                         </div>
                       </div>
-
                     </div>
                   </div>
                 </div>

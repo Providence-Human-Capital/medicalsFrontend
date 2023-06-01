@@ -24,6 +24,16 @@ const Login = () => {
     setSigninValues({ ...signinValues, [e.target.name]: e.target.value });
   };
 
+  const styles = {
+    logoStyles: {
+      height: "80px",
+    },
+
+    pageH: {
+      height: "100vh",
+      overflow: "hidden",
+    },
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = { ...signinValues };
@@ -84,7 +94,7 @@ const Login = () => {
 
   return (
     <Fragment>
-      <div className="hold-transition theme-primary bg-img ">
+      <div className="hold-transition theme-primary " style={styles.pageH}>
         <div className="container h-p100">
           <div className="row align-items-center justify-content-md-center h-p100">
             <div className="col-12">
@@ -92,7 +102,15 @@ const Login = () => {
                 <div className="col-lg-5 col-md-5 col-12">
                   <div className="bg-white rounded10 shadow-lg">
                     <div className="content-top-agile p-20 pb-0">
-                      <h2 className="text-primary">Let's Get Started</h2>
+                      <div className="logo-lg">
+                        <span className="light-logo">
+                          <img
+                            src="/assets/images/providence.png"
+                            alt="logo"
+                            style={styles.logoStyles}
+                          />
+                        </span>
+                      </div>
                       <p className="mb-0">
                         Sign in to continue to Phc Medicals
                       </p>

@@ -5,9 +5,19 @@ import { useDispatch } from "react-redux";
 import Loading from "../../components/loader/Loading";
 
 const Register = () => {
-  const dispatch = useDispatch();
+  const styles = {
+    logoStyles: {
+      height: "80px",
+    },
 
-  const navigate = useNavigate()
+    pageH: {
+      height: "100vh",
+     
+    },
+  };
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [selectedValue, setSelectedValue] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -43,7 +53,7 @@ const Register = () => {
       .then((response) => {
         setIsLoading(false);
         console.log(response);
-        navigate("/login")
+        navigate("/login");
         return response.json();
       })
       .catch((err) => {
@@ -54,14 +64,22 @@ const Register = () => {
 
   return (
     <Fragment>
-      <div className="container h-p100">
+      <div className="container h-p100" style={styles.pageH}>
         <div className="row align-items-center justify-content-md-center h-p100">
           <div className="col-12">
             <div className="row justify-content-center g-0 adjust-position">
               <div className="col-lg-5 col-md-5 col-12">
                 <div className="bg-white rounded10 shadow-lg">
                   <div className="content-top-agile p-20 pb-0">
-                    <h2 className="text-primary">Get started with PHC</h2>
+                    <div className="logo-lg">
+                      <span className="light-logo">
+                        <img
+                          src="/assets/images/providence.png"
+                          alt="logo"
+                          style={styles.logoStyles}
+                        />
+                      </span>
+                    </div>
                     <p className="mb-0">Register a new membership</p>
                   </div>
                   <div className="p-40">
