@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../config";
 import { useDispatch } from "react-redux";
 import Loading from "../../components/loader/Loading";
+import ErrorNotification from "../../components/notifications/ErrorNotification";
 
 const Register = () => {
   const styles = {
@@ -12,7 +13,6 @@ const Register = () => {
 
     pageH: {
       height: "100vh",
-     
     },
   };
 
@@ -27,6 +27,40 @@ const Register = () => {
     password: "",
     password_confirmation: "",
   });
+  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
+  const validateForm = () => {
+    let errors = {};
+    let isValid = true;
+    if (!formData.name.trim()) {
+      errors.name = "Name field is required";
+      isValid = false;
+    }
+    if (!formData.email.trim()) {
+      errors.email = "Email field is required";
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      errors.email = "Email is invalid";
+      isValid = false;
+    }
+    if (!formData.password) {
+      errors.password = "Password is required";
+      isValid = false;
+    } else if (formData.password.length < 6) {
+      errors.password = "Password must be at least 6 characters";
+      isValid = false;
+    }
+    if (formData.password_confirmation !== formData.password) {
+      errors.password_confirmation = "Passwords do not match";
+      isValid = false;
+    }
+    if (!selectedValue) {
+      errors.role = "Please select a role";
+      isValid = false;
+    }
+    setErrors(errors);
+    return isValid;
+  };
 
   const handleCheckboxChange = (value) => {
     setSelectedValue(value);
@@ -41,25 +75,38 @@ const Register = () => {
     const data = { ...formData, role: selectedValue };
     console.log("DATA", JSON.stringify(data));
 
-    setIsLoading(true);
-    return fetch(`${API}/user/register`, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        setIsLoading(false);
-        console.log(response);
-        navigate("/login");
-        return response.json();
+    if (validateForm()) {
+      setIsLoading(true);
+      return fetch(`${API}/user/register`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(data),
       })
-      .catch((err) => {
-        setIsLoading(false);
-        console.log(err);
-      });
+        .then((response) => {
+          setIsLoading(false);
+          console.log(response);
+          navigate("/login");
+          return response.json();
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          if (err.message === "Failed to fetch") {
+            setError("Server is offline. Please try again later.");
+          } else {
+            setError("There was an error. Please try again.");
+          }
+
+          console.log(err);
+        })
+        .finally(() => {
+          setTimeout(() => {
+            setError("");
+          }, 5000);
+        });
+    }
   };
 
   return (
@@ -80,8 +127,12 @@ const Register = () => {
                         />
                       </span>
                     </div>
-                    <p className="mb-0">Register a new membership</p>
+                    <p className="mb-0">
+                      <strong>Register a new membership</strong>
+                    </p>
                   </div>
+                  {error && <ErrorNotification message={error} />}
+
                   <div className="p-40">
                     <form onSubmit={handleSubmit}>
                       <div className="form-group">
@@ -91,7 +142,9 @@ const Register = () => {
                           </span>
                           <input
                             type="text"
-                            className="form-control ps-15 bg-transparent"
+                            className={`form-control ps-15 bg-transparent ${
+                              errors.name ? "error-input" : ""
+                            }`}
                             id="name"
                             name="name"
                             placeholder="Full Name"
@@ -99,6 +152,11 @@ const Register = () => {
                             onChange={handleFormChange}
                           />
                         </div>
+                        {errors.name && (
+                          <span className="text-danger">
+                            <strong>{errors.name}</strong>
+                          </span>
+                        )}
                       </div>
                       <div className="form-group">
                         <div className="input-group mb-3">
@@ -107,7 +165,9 @@ const Register = () => {
                           </span>
                           <input
                             type="email"
-                            className="form-control ps-15 bg-transparent"
+                            className={`form-control ps-15 bg-transparent ${
+                              errors.email ? "error-input" : ""
+                            }`}
                             id="email"
                             name="email"
                             value={formData.email}
@@ -115,6 +175,11 @@ const Register = () => {
                             placeholder="Email"
                           />
                         </div>
+                        {errors.email && (
+                          <span className="text-danger">
+                            <strong>{errors.email}</strong>
+                          </span>
+                        )}
                       </div>
                       <div className="form-group">
                         <div className="input-group mb-3">
@@ -123,7 +188,9 @@ const Register = () => {
                           </span>
                           <input
                             type="password"
-                            className="form-control ps-15 bg-transparent"
+                            className={`form-control ps-15 bg-transparent ${
+                              errors.password ? "error-input" : ""
+                            }`}
                             placeholder="Password"
                             id="password"
                             value={formData.password}
@@ -131,6 +198,11 @@ const Register = () => {
                             onChange={handleFormChange}
                           />
                         </div>
+                        {errors.password && (
+                          <span className="text-danger">
+                            <strong> {errors.password}</strong>
+                          </span>
+                        )}
                       </div>
                       <div className="form-group">
                         <div className="input-group mb-3">
@@ -139,7 +211,9 @@ const Register = () => {
                           </span>
                           <input
                             type="password"
-                            className="form-control ps-15 bg-transparent"
+                            className={`form-control ps-15 bg-transparent ${
+                              errors.password_confirmation ? "error-input" : ""
+                            }`}
                             placeholder="Retype Password"
                             id="password_confirmation"
                             name="password_confirmation"
@@ -147,6 +221,11 @@ const Register = () => {
                             onChange={handleFormChange}
                           />
                         </div>
+                        {errors.password_confirmation && (
+                          <span className="text-danger">
+                            <strong> {errors.password_confirmation}</strong>{" "}
+                          </span>
+                        )}
                       </div>
                       <div className="row">
                         <div className="col-4">
@@ -190,7 +269,11 @@ const Register = () => {
                             <label htmlFor="basic_checkbox_3">Admin</label>
                           </div>
                         </div>
-                        {/* <!-- /.col --> */}
+                        {errors.role && (
+                          <span className="text-danger">
+                            <strong>{errors.role}</strong>
+                          </span>
+                        )}
 
                         {!isLoading && (
                           <div className="col-12 text-center mt-4">
@@ -202,8 +285,6 @@ const Register = () => {
                             </button>
                           </div>
                         )}
-
-                        {/* <!-- /.col --> */}
                       </div>
                     </form>
                     <div className="text-center">
