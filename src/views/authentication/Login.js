@@ -5,6 +5,7 @@ import { API } from "../../config";
 import Loading from "../../components/loader/Loading";
 import axios from "axios";
 import { authActions } from "../../redux_store/auth-store";
+import ErrorNotification from "../../components/notifications/ErrorNotification";
 
 const Login = () => {
   const [signinValues, setSigninValues] = useState({
@@ -13,9 +14,30 @@ const Login = () => {
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const validateForm = () => {
+    let errors = {};
+    let isValid = true;
+
+    if (!signinValues.email.trim()) {
+      errors.email = "Email field is required";
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(signinValues.email)) {
+      errors.email = "Email field is invalid";
+      isValid = false;
+    }
+    if (!signinValues.password.trim()) {
+      errors.password = "Password field is required";
+      isValid = false;
+    }
+
+    setErrors(errors);
+    return isValid;
+  };
 
   const [isLoading, setIsLoading] = useState(false);
   const [redirectToHome, setRedirectToHome] = useState(false);
@@ -65,23 +87,30 @@ const Login = () => {
   };
 
   const userSignin = async (user) => {
-    setIsLoading(true);
-    return fetch(`${API}/user/login`, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(user),
-    })
-      .then((response) => {
-        setIsLoading(false);
-        return response.json();
+    if (validateForm()) {
+      setIsLoading(true);
+      return fetch(`${API}/user/login`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(user),
       })
-      .catch((err) => {
-        setIsLoading(false);
-        console.log(err);
-      });
+        .then((response) => {
+          setIsLoading(false);
+          return response.json();
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          console.log(err);
+          if (err.message === "Failed to fetch") {
+            setError("Server is offline. Please try again later.");
+          } else {
+            setError("There was an error. Please try again.");
+          }
+        });
+    }
   };
 
   useEffect(() => {
@@ -115,6 +144,8 @@ const Login = () => {
                         Sign in to continue to Phc Medicals
                       </p>
                     </div>
+
+                    {error && <ErrorNotification message={error} />}
                     <div className="p-40">
                       <form onSubmit={handleSubmit}>
                         <div className="form-group">
@@ -125,12 +156,19 @@ const Login = () => {
                             <input
                               type="email"
                               name="email"
-                              className="form-control ps-15 bg-transparent"
+                              className={`form-control ps-15 bg-transparent ${
+                                errors.email ? "error-input" : ""
+                              }`}
                               placeholder="User Email"
                               onChange={handleFormChange}
                               value={signinValues.email}
                             />
                           </div>
+                          {errors.email && (
+                            <span className="text-danger">
+                              <strong>{errors.email}</strong>
+                            </span>
+                          )}
                         </div>
                         <div className="form-group">
                           <div className="input-group mb-3">
@@ -139,13 +177,20 @@ const Login = () => {
                             </span>
                             <input
                               type="password"
-                              className="form-control ps-15 bg-transparent"
+                              className={`form-control ps-15 bg-transparent ${
+                                errors.password ? "error-input" : ""
+                              }`}
                               placeholder="Password"
                               name="password"
                               onChange={handleFormChange}
                               value={signinValues.password}
                             />
                           </div>
+                          {errors.password && (
+                            <span className="text-danger">
+                              <strong> {errors.password}</strong>
+                            </span>
+                          )}
                         </div>
                         <div className="row">
                           <div className="col-6">
