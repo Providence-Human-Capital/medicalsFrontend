@@ -4,10 +4,11 @@ import OutreachItem from "./OutreachItem";
 import { useDispatch, useSelector } from "react-redux";
 import { API } from "../../../config";
 import { outReachActions } from "../../../redux_store/outreach-store";
+import EmptyTable from "../../../components/EmptyTable";
 
 const OutReachTable = () => {
   const dispatch = useDispatch();
-  
+
   const [pageNumber, setPageNumber] = useState(0);
   const itemsPerPage = 9;
 
@@ -83,82 +84,88 @@ const OutReachTable = () => {
   };
 
   return (
-    <Fragment>
-      <form className="form-inline custom-size">
-        <div className="input-group">
-          <input
-            type="text"
-            className="form-control"
-            id="search-input"
-            value={searchTerm}
-            onChange={handleSearch}
-            placeholder="Search by swab number, first name, or last name"
-          />
-          <div className="input-group-append">
-            <span className="input-group-text">
-              <i className="fa fa-search"></i>
-            </span>
+    <>
+      {orPatients.length === 0 ? (
+        <EmptyTable />
+      ) : (
+        <Fragment>
+          <form className="form-inline custom-size">
+            <div className="input-group">
+              <input
+                type="text"
+                className="form-control"
+                id="search-input"
+                value={searchTerm}
+                onChange={handleSearch}
+                placeholder="Search by swab number, first name, or last name"
+              />
+              <div className="input-group-append">
+                <span className="input-group-text">
+                  <i className="fa fa-search"></i>
+                </span>
+              </div>
+            </div>
+          </form>
+          <table className="table border-no table-spacing" id="example1">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th
+                  onClick={() => sortPatients("swab_number")}
+                  className="pointer-style"
+                >
+                  Swab Number
+                </th>
+                <th
+                  onClick={() => sortPatients("first_name")}
+                  className="pointer-style"
+                >
+                  First Name
+                </th>
+                <th
+                  onClick={() => sortPatients("last_name")}
+                  className="pointer-style"
+                >
+                  Last Name
+                </th>
+                <th
+                  onClick={() => sortPatients("company")}
+                  className="pointer-style"
+                >
+                  Company
+                </th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {sortedPatients &&
+                getCurrentPageData().map((patient) => (
+                  <OutreachItem key={patient.id} patient={patient} />
+                ))}
+            </tbody>
+          </table>
+          <div className="table-spacing"></div>
+          <div className="paginate-position">
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              breakLabel={"..."}
+              breakClassName={"break-me"}
+              pageCount={Math.ceil(sortedPatients.length / itemsPerPage)}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={(sortedPatients) => {
+                setPageNumber(sortedPatients.selected);
+              }}
+              containerClassName={"pagination"}
+              activeClassName={"active-paginate"}
+            />
           </div>
-        </div>
-      </form>
-      <table className="table border-no table-spacing" id="example1">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th
-              onClick={() => sortPatients("swab_number")}
-              className="pointer-style"
-            >
-              Swab Number
-            </th>
-            <th
-              onClick={() => sortPatients("first_name")}
-              className="pointer-style"
-            >
-              First Name
-            </th>
-            <th
-              onClick={() => sortPatients("last_name")}
-              className="pointer-style"
-            >
-              Last Name
-            </th>
-            <th
-              onClick={() => sortPatients("company")}
-              className="pointer-style"
-            >
-              Company
-            </th>
-            <th>Age</th>
-            <th>Gender</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedPatients &&
-            getCurrentPageData().map((patient) => (
-              <OutreachItem key={patient.id} patient={patient} />
-            ))}
-        </tbody>
-      </table>
-      <div className="table-spacing"></div>
-      <div className="paginate-position">
-        <ReactPaginate
-          previousLabel={"Previous"}
-          nextLabel={"Next"}
-          breakLabel={"..."}
-          breakClassName={"break-me"}
-          pageCount={Math.ceil(sortedPatients.length / itemsPerPage)}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={(sortedPatients) => {
-            setPageNumber(sortedPatients.selected);
-          }}
-          containerClassName={"pagination"}
-          activeClassName={"active-paginate"}
-        />
-      </div>
-    </Fragment>
+        </Fragment>
+      )}
+    </>
   );
 };
 

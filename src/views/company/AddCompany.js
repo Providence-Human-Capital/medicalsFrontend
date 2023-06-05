@@ -52,9 +52,9 @@ const AddCompany = () => {
         body: JSON.stringify(formData),
       });
       const data = await response.json();
-      
+
       resetForm();
-      setRedirectBack(true)
+      setRedirectBack(true);
     } catch (error) {
       console.error(error);
     } finally {
@@ -74,7 +74,7 @@ const AddCompany = () => {
   return (
     <Fragment>
       <BreadCrumb title={"Add Companies"} activeTab={"Add Companies"} />
-     
+
       <div className="row">
         <div className="col-xl-12 col-12">
           <div className="box">
@@ -82,22 +82,32 @@ const AddCompany = () => {
               <div className="box-body">
                 <div className="container">
                   <h2>Enter your Companies details</h2>
-                  
+
                   <Formik
                     initialValues={initialValues}
                     onSubmit={onSubmit}
                     validationSchema={validationSchema}
                   >
-                    {({ values, isSubmitting, handleSubmit }) => (
+                    {({
+                      values,
+                      isSubmitting,
+                      handleSubmit,
+                      touched,
+                      errors,
+                    }) => (
                       <Form>
                         <div className="row">
                           <div className="form-group col-md-6">
                             <label htmlFor="company_name">Company Name</label>
                             <Field
                               type="text"
-                              className="form-control"
                               id="company_name"
                               name="company_name"
+                              className={`form-control ${
+                                touched.company_name && errors.company_name
+                                  ? "error-input"
+                                  : ""
+                              }`}
                             />
                             <ErrorMessage
                               name="company_name"
@@ -109,9 +119,13 @@ const AddCompany = () => {
                             <label htmlFor="address">Address</label>
                             <Field
                               type="text"
-                              className="form-control"
                               id="address"
                               name="address"
+                              className={`form-control ${
+                                touched.address && errors.address
+                                  ? "error-input"
+                                  : ""
+                              }`}
                             />
                             <ErrorMessage
                               name="address"
@@ -127,7 +141,11 @@ const AddCompany = () => {
                             </label>
                             <Field
                               type="text"
-                              className="form-control"
+                              className={`form-control ${
+                                touched.site_telephone && errors.site_telephone
+                                  ? "error-input"
+                                  : ""
+                              }`}
                               id="site_telephone"
                               name="site_telephone"
                             />
@@ -141,7 +159,11 @@ const AddCompany = () => {
                             <label htmlFor="company_email">Company Email</label>
                             <Field
                               type="email"
-                              className="form-control"
+                              className={`form-control ${
+                                touched.company_email && errors.company_email
+                                  ? "error-input"
+                                  : ""
+                              }`}
                               id="company_email"
                               name="company_email"
                             />
@@ -157,7 +179,11 @@ const AddCompany = () => {
                             <label htmlFor="designation">Designation</label>
                             <Field
                               type="text"
-                              className="form-control"
+                              className={`form-control ${
+                                touched.designation && errors.designation
+                                  ? "error-input"
+                                  : ""
+                              }`}
                               id="designation"
                               name="designation"
                             />
@@ -173,7 +199,11 @@ const AddCompany = () => {
                             </label>
                             <Field
                               type="text"
-                              className="form-control"
+                              className={`form-control ${
+                                touched.contact_person && errors.contact_person
+                                  ? "error-input"
+                                  : ""
+                              }`}
                               id="contact_person"
                               name="contact_person"
                             />
@@ -189,7 +219,11 @@ const AddCompany = () => {
                             </label>
                             <Field
                               type="text"
-                              className="form-control"
+                              className={`form-control ${
+                                touched.contact_number && errors.contact_number
+                                  ? "error-input"
+                                  : ""
+                              }`}
                               id="contact_number"
                               name="contact_number"
                             />
@@ -205,7 +239,11 @@ const AddCompany = () => {
                             <label htmlFor="province">Province</label>
                             <Field
                               as="select"
-                              className="form-control"
+                              className={`form-control ${
+                                touched.province && errors.province
+                                  ? "error-input"
+                                  : ""
+                              }`}
                               id="province"
                               name="province"
                             >
@@ -213,16 +251,24 @@ const AddCompany = () => {
                                 Choose province
                               </option>
                               <option value="Harare">Harare</option>
-                              <option value="Bulawayo">
-                                Bulawayo
-                              </option>
+                              <option value="Bulawayo">Bulawayo</option>
                               <option value="Manicaland">Manicaland</option>
-                              <option value="Mashonaland Central">Mashonaland Central</option>
-                              <option value="Mashonaland East">Mashonaland East</option>
-                              <option value="Mashonaland West">Mashonaland West</option>
+                              <option value="Mashonaland Central">
+                                Mashonaland Central
+                              </option>
+                              <option value="Mashonaland East">
+                                Mashonaland East
+                              </option>
+                              <option value="Mashonaland West">
+                                Mashonaland West
+                              </option>
                               <option value="Masvingo">Masvingo</option>
-                              <option value="Matebeleland North">Matebeleland North</option>
-                              <option value="Matebeleland South">Matebeleland South</option>
+                              <option value="Matebeleland North">
+                                Matebeleland North
+                              </option>
+                              <option value="Matebeleland South">
+                                Matebeleland South
+                              </option>
                             </Field>
                             <ErrorMessage
                               name="province"

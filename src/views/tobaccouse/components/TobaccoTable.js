@@ -4,6 +4,7 @@ import ReactPaginate from "react-paginate";
 import { API } from "../../../config";
 import { tobaccoActions } from "../../../redux_store/tobacco-store";
 import TobaccoItem from "./TobaccoItem";
+import EmptyTable from "../../../components/EmptyTable";
 
 const TobaccoTable = () => {
   const dispatch = useDispatch();
@@ -40,39 +41,45 @@ const TobaccoTable = () => {
   }
 
   return (
-    <Fragment>
-      <table className="table border-no" id="example1">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Tobacco Name</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {allTobacco &&
-            getCurrentPageData().map((tobacco) => (
-            <TobaccoItem key={tobacco.id} tobacco={tobacco} />
-            ))}
-        </tbody>
-      </table>
-      <div className="paginate-position">
-        <ReactPaginate
-          previousLabel={"Previous"}
-          nextLabel={"Next"}
-          breakLabel={"..."}
-          breakClassName={"break-me"}
-          pageCount={Math.ceil(allTobacco.length / itemsPerPage)}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={(allTobacco) => {
-            setPageNumber(allTobacco.selected);
-          }}
-          containerClassName={"pagination"}
-          activeClassName={"active-paginate"}
-        />
-      </div>
-    </Fragment>
+    <>
+      {allTobacco.length === 0 ? (
+        <EmptyTable />
+      ) : (
+        <Fragment>
+          <table className="table border-no" id="example1">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Tobacco Name</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {allTobacco &&
+                getCurrentPageData().map((tobacco) => (
+                  <TobaccoItem key={tobacco.id} tobacco={tobacco} />
+                ))}
+            </tbody>
+          </table>
+          <div className="paginate-position">
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              breakLabel={"..."}
+              breakClassName={"break-me"}
+              pageCount={Math.ceil(allTobacco.length / itemsPerPage)}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={(allTobacco) => {
+                setPageNumber(allTobacco.selected);
+              }}
+              containerClassName={"pagination"}
+              activeClassName={"active-paginate"}
+            />
+          </div>
+        </Fragment>
+      )}
+    </>
   );
 };
 

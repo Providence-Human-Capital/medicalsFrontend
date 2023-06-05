@@ -75,21 +75,6 @@ const PatientDetails = () => {
     }
   };
 
-  // getPatientPhysicalExamResults(patientId)
-  //   .then((results) => {
-  //     const data = results.json();
-  //     if (results.ok) {
-  //       dispatch(
-  //         patientActions.setLatestPhysicalExam({
-  //           latestPhysicalExam: { ...data.data },
-  //         })
-  //       );
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     console.log("Error", error);
-  //   });
-
   const singlePatient = useSelector((state) => state.patient.singlePatient);
 
   const patientPhysicalExamRecord = useSelector(
@@ -103,7 +88,7 @@ const PatientDetails = () => {
   useEffect(() => {
     getPatient();
     getPatientPhysicalExamResults();
-    console.log('Use Effect from Detail')
+    console.log("Use Effect from Detail");
   }, []);
 
   return (
@@ -121,7 +106,9 @@ const PatientDetails = () => {
                 <BoxProfile patient={singlePatient} />
               </div>
               <div className="col-xl-6 col-12">
-                <TobaccoBox tobacco={singlePatient.tobacco_use} />
+                {singlePatient.tobacco_use && (
+                  <TobaccoBox tobacco={singlePatient.tobacco_use} />
+                )}
               </div>
             </div>
           </div>
@@ -145,11 +132,13 @@ const PatientDetails = () => {
               />
             )}
 
-            <DiseaseHistory
-              illnesses={singlePatient.illnesses}
-              health_issue={singlePatient.previous_health_issues}
-              year_of_diagnosis={singlePatient.year_of_diagnosis}
-            />
+            {singlePatient.illnesses && (
+              <DiseaseHistory
+                illnesses={singlePatient.illnesses}
+                health_issue={singlePatient.previous_health_issues}
+                year_of_diagnosis={singlePatient.year_of_diagnosis}
+              />
+            )}
           </div>
         </div>
       </section>

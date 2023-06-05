@@ -4,6 +4,11 @@ import { uiActions } from "../../redux_store/ui-store";
 
 const Alert = ({ message }) => {
   const dispatch = useDispatch();
+  const styles = {
+    spacing: {
+      paddingTop: "2rem",
+    },
+  };
 
   const closeAlert = () => {
     dispatch(
@@ -15,7 +20,7 @@ const Alert = ({ message }) => {
 
   return (
     <Fragment>
-      <div class="alert success">
+      <div class="alert success" style={styles.spacing}>
         <span class="closebtn" onClick={closeAlert}>
           &times;
         </span>

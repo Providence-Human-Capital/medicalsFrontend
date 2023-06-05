@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { companyActions } from "../../../redux_store/company-store";
 import CompanyItem from "./CompanyItem";
 import ReactPaginate from "react-paginate";
+import EmptyTable from "../../../components/EmptyTable";
 
 const CompanyTable = () => {
   const dispatch = useDispatch();
@@ -43,47 +44,53 @@ const CompanyTable = () => {
   }
 
   return (
-    <Fragment>
-      <table className="table border-no" id="example1">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Company Name</th>
-            <th>Address</th>
-            <th>Site Telephone</th>
-            <th>Company Email</th>
-            <th>Contact Person</th>
-            <th>Province</th>
-            <th>Designation</th>
-            <th>Contact Number</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {allcompanies &&
-            getCurrentPageData().map((company) => (
-              <CompanyItem key={company.id} company={company} />
-            ))}
-        </tbody>
-      </table>
-      <div className="table-spacing"></div>
-      <div className="paginate-position">
-        <ReactPaginate
-          previousLabel={"Previous"}
-          nextLabel={"Next"}
-          breakLabel={"..."}
-          breakClassName={"break-me"}
-          pageCount={Math.ceil(allcompanies.length / itemsPerPage)}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={(allcompanies) => {
-            setPageNumber(allcompanies.selected);
-          }}
-          containerClassName={"pagination"}
-          activeClassName={"active-paginate"}
-        />
-      </div>
-    </Fragment>
+    <>
+      {allcompanies.length === 0 ? (
+        <EmptyTable />
+      ) : (
+        <Fragment>
+          <table className="table border-no" id="example1">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Company Name</th>
+                <th>Address</th>
+                <th>Site Telephone</th>
+                <th>Company Email</th>
+                <th>Contact Person</th>
+                <th>Province</th>
+                <th>Designation</th>
+                <th>Contact Number</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {allcompanies &&
+                getCurrentPageData().map((company) => (
+                  <CompanyItem key={company.id} company={company} />
+                ))}
+            </tbody>
+          </table>
+          <div className="table-spacing"></div>
+          <div className="paginate-position">
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              breakLabel={"..."}
+              breakClassName={"break-me"}
+              pageCount={Math.ceil(allcompanies.length / itemsPerPage)}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={(allcompanies) => {
+                setPageNumber(allcompanies.selected);
+              }}
+              containerClassName={"pagination"}
+              activeClassName={"active-paginate"}
+            />
+          </div>
+        </Fragment>
+      )}
+    </>
   );
 };
 

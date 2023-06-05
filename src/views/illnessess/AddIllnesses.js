@@ -56,7 +56,7 @@ const AddIllness = () => {
     <Fragment>
       <BreadCrumb title={"Add Illnesses"} activeTab={"Add Illnesses"} />
       <div className="row">
-        <div className="col-xl-12 col-12">
+        <div className="col-xl-8 col-12">
           <div className="box">
             <div className="custom-form">
               <div className="box-body">
@@ -67,14 +67,18 @@ const AddIllness = () => {
                     onSubmit={onSubmit}
                     validationSchema={validationSchema}
                   >
-                    {({ values, isSubmitting, handleSubmit }) => (
+                    {({ values, isSubmitting, handleSubmit, touched, errors }) => (
                       <Form>
                         <div className="row">
                           <div className="form-group col-md-6">
                             <label htmlFor="illness_name">Illness Name</label>
                             <Field
                               type="text"
-                              className="form-control"
+                              className={`form-control ${
+                                touched.illness_name && errors.illness_name
+                                  ? "error-input"
+                                  : ""
+                              }`}
                               id="illness_name"
                               name="illness_name"
                             />

@@ -59,7 +59,7 @@ const EditIllness = () => {
     <Fragment>
       <BreadCrumb title={"Edit Illnesses"} activeTab={"Edit Illnesses"} />
       <div className="row">
-        <div className="col-xl-12 col-12">
+        <div className="col-xl-8 col-12">
           <div className="box">
             <div className="custom-form">
               <div className="box-body">

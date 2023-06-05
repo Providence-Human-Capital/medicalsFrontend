@@ -66,14 +66,18 @@ const AddTobacco = () => {
                 onSubmit={onSubmit}
                 validationSchema={validationSchema}
               >
-                {({ values, isSubmitting, handleSubmit }) => (
+                {({ values, isSubmitting, handleSubmit, touched, errors }) => (
                   <Form>
                     <div className="row">
                       <div className="form-group col-md-6">
                         <label htmlFor="illness_name">Tobacco Name</label>
                         <Field
                           type="text"
-                          className="form-control"
+                          className={`form-control ${
+                            touched.name && errors.name
+                              ? "error-input"
+                              : ""
+                          }`}
                           id="name"
                           name="name"
                         />

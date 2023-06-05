@@ -4,6 +4,7 @@ import { API } from "../../../config";
 import { useDispatch, useSelector } from "react-redux";
 import { attendeeActions } from "../../../redux_store/attendee-store";
 import ReactPaginate from "react-paginate";
+import EmptyTable from "../../../components/EmptyTable";
 
 const AttendeeTable = () => {
   const [attendees, setAttendees] = useState([]);
@@ -85,96 +86,107 @@ const AttendeeTable = () => {
   }, []);
 
   return (
-    <Fragment>
-      <form className="form-inline custom-size">
-        <div className="input-group">
-          <input
-            type="text"
-            className="form-control"
-            id="search-input"
-            value={searchTerm}
-            onChange={handleSearch}
-            placeholder="Search by swab number, first name, or last name"
-          />
-          <div className="input-group-append">
-            <span className="input-group-text">
-              <i className="fa fa-search"></i>
-            </span>
+    <>
+      {allAttendees.length === 0 ? (
+        <EmptyTable />
+      ) : (
+        <Fragment>
+          <form className="form-inline custom-size">
+            <div className="input-group">
+              <input
+                type="text"
+                className="form-control"
+                id="search-input"
+                value={searchTerm}
+                onChange={handleSearch}
+                placeholder="Search by swab number, first name, or last name"
+              />
+              <div className="input-group-append">
+                <span className="input-group-text">
+                  <i className="fa fa-search"></i>
+                </span>
+              </div>
+            </div>
+          </form>
+          <table className="table border-no" id="example1">
+            <thead>
+              <tr>
+                <th
+                  onClick={() => sortAttendees("id")}
+                  className="pointer-style"
+                >
+                  ID
+                </th>
+                <th
+                  onClick={() => sortAttendees("swab_number")}
+                  className="pointer-style"
+                >
+                  Swab Number
+                </th>
+                <th
+                  onClick={() => sortAttendees("company.company_name")}
+                  className="pointer-style"
+                >
+                  Company Name
+                </th>
+                <th
+                  onClick={() => sortAttendees("first_name")}
+                  className="pointer-style"
+                >
+                  First Name
+                </th>
+                <th
+                  onClick={() => sortAttendees("last_name")}
+                  className="pointer-style"
+                >
+                  Last Name
+                </th>
+                <th
+                  onClick={() => sortAttendees("x_ray_status")}
+                  className="pointer-style"
+                >
+                  Xray Status
+                </th>
+                <th>Check In Time</th>
+                <th
+                  onClick={() => sortAttendees("age")}
+                  className="pointer-style"
+                >
+                  Age
+                </th>
+                <th>Gender</th>
+                <th>National ID</th>
+                <th>Phone Number</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {allAttendees &&
+                getCurrentPageData().map((attendee) => (
+                  <AttendeeItem key={attendee.id} attendee={attendee} />
+                ))}
+            </tbody>
+          </table>
+          <div className="table-spacing"></div>
+          <div className="paginate-position">
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              breakLabel={"..."}
+              breakClassName={"break-me"}
+              pageCount={Math.ceil(sortedAttendees.length / itemsPerPage)}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={(sortedAttendees) => {
+                setPageNumber(sortedAttendees.selected);
+              }}
+              containerClassName={"pagination"}
+              activeClassName={"active-paginate"}
+            />
           </div>
-        </div>
-      </form>
-      <table className="table border-no" id="example1">
-        <thead>
-          <tr>
-            <th 
-            onClick={() => sortAttendees("id")}
-            className="pointer-style"
-            >ID</th>
-            <th
-              onClick={() => sortAttendees("swab_number")}
-              className="pointer-style"
-            >
-              Swab Number
-            </th>
-            <th
-              onClick={() => sortAttendees("company.company_name")}
-              className="pointer-style"
-            >
-              Company Name
-            </th>
-            <th
-              onClick={() => sortAttendees("first_name")}
-              className="pointer-style"
-            >
-              First Name
-            </th>
-            <th
-              onClick={() => sortAttendees("last_name")}
-              className="pointer-style"
-            >
-              Last Name
-            </th>
-            <th
-              onClick={() => sortAttendees("x_ray_status")}
-              className="pointer-style"
-            >
-              Xray Status
-            </th>
-            <th>Check In Time</th>
-            <th onClick={() => sortAttendees("age")} className="pointer-style">Age</th>
-            <th >
-              Gender
-            </th>
-            <th>National ID</th>
-            <th>Phone Number</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {allAttendees &&
-            getCurrentPageData().map((attendee) => (
-              <AttendeeItem key={attendee.id} attendee={attendee} />
-            ))}
-        </tbody>
-      </table>
-      <div className="table-spacing"></div>
-      <div className="paginate-position">
-        <ReactPaginate
-          previousLabel={"Previous"}
-          nextLabel={"Next"}
-          breakLabel={"..."}
-          breakClassName={"break-me"}
-          pageCount={Math.ceil(sortedAttendees.length / itemsPerPage)}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={(sortedAttendees) => {
-            setPageNumber(sortedAttendees.selected);
-          }}
-          containerClassName={"pagination"}
-          activeClassName={"active-paginate"}
-        />
-      </div>
-    </Fragment>
+        </Fragment>
+      )}
+    </>
   );
 };
 

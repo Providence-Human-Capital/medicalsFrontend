@@ -32,6 +32,10 @@ const Header = ({}) => {
     logoStyles: {
       height: "80px",
     },
+
+    logoutCursor: {
+      cursor: "pointer",
+    },
   };
 
   if (hideHeader) {
@@ -193,7 +197,11 @@ const Header = ({}) => {
                       <i className="ti-user text-muted me-2"></i> Profile
                     </Link>
                     <div className="dropdown-divider"></div>
-                    <a className="dropdown-item" onClick={signOut}>
+                    <a
+                      className="dropdown-item"
+                      onClick={signOut}
+                      style={styles.logoutCursor}
+                    >
                       <i className="ti-lock text-muted me-2"></i> Logout
                     </a>
                   </li>

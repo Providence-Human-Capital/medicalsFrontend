@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import BreadCrumb from "../../components/BreadCrumb";
 import { Link } from "react-router-dom";
 import TobaccoTable from "./components/TobaccoTable";
+import SmokingAnalysisCard from "../dashboard/components/SmokingAnalysisCard";
 
 const Tobacco = () => {
   return (
@@ -9,7 +10,7 @@ const Tobacco = () => {
       <BreadCrumb title={"Tobacco Usage"} activeTab={"Tobacco Usage List"} />
       <section className="content">
         <div className="row">
-          <div className="col-12">
+          <div className="col-xl-8 col-12">
             <div className="d-md-flex align-items-center justify-content-between mb-20">
               <div className="d-flex">
                 <Link to={"/tobacco/add"} className="btn btn-success">
@@ -25,6 +26,10 @@ const Tobacco = () => {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="col-xl-4 col-12">
+            <SmokingAnalysisCard />
           </div>
         </div>
       </section>

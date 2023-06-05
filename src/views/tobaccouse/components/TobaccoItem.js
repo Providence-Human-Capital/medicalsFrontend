@@ -7,29 +7,34 @@ const TobaccoItem = ({ tobacco }) => {
       <tr className="hover-primary">
         <td>{tobacco.id}</td>
         <td> {tobacco.name}</td>
-        <td>
-          <div className="btn-group">
-            <Link
-              className="hover-primary dropdown-toggle no-caret"
-              data-bs-toggle="dropdown"
-            >
-              <i className="fa fa-ellipsis-h"></i>
-            </Link>
-            <div className="dropdown-menu">
-              <Link className="dropdown-item" href="#">
-                View Details
-              </Link>
-              <Link
-                className="dropdown-item"
-                to={`/tobacco/${tobacco.id}/edit`}
-              >
-                Edit
-              </Link>
-              <Link className="dropdown-item" href="#">
-                Delete
-              </Link>
-            </div>
-          </div>
+        <td class="text-end">
+          <Link
+            to={"/illness"}
+            class="waves-effect waves-light btn btn-primary-light btn-circle"
+          >
+            <span class="icon-Settings-1 fs-18">
+              <span class="path1"></span>
+              <span class="path2"></span>
+            </span>
+          </Link>
+          <Link
+            to={`/tobacco/${tobacco.id}/edit`}
+            class="waves-effect waves-light btn btn-primary-light btn-circle mx-5"
+          >
+            <span class="icon-Write">
+              <span class="path1"></span>
+              <span class="path2"></span>
+            </span>
+          </Link>
+          <Link
+            href="#"
+            class="waves-effect waves-light btn btn-primary-light btn-circle"
+          >
+            <span class="icon-Trash1 fs-18">
+              <span class="path1"></span>
+              <span class="path2"></span>
+            </span>
+          </Link>
         </td>
       </tr>
     </Fragment>
