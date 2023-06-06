@@ -13,9 +13,14 @@ const companySlice = createSlice({
   reducers: {
     setCompanies: (state, action) => {
       state.companies = action.payload.companies;
-      state.isLoading = false
-      state.error = ""
+      state.isLoading = false;
+      state.error = "";
+    },
 
+    deleteCompany: (state, action) => {
+      state.companies = state.companies.filter(
+        (company) => company.id !== action.payload.id
+      );
     },
   },
 });
