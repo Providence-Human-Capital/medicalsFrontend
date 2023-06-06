@@ -15,6 +15,15 @@ const illnessSlice = createSlice({
       state.isLoading = false;
       state.error = "";
     },
+
+    deleteIllness: (state, action) => {
+      const index = state.illnesses.findIndex(
+        (illness) => illness.id === action.payload.id
+      );
+      if (index !== -1) {
+        state.illnesses.splice(index, 1);
+      }
+    },
   },
 });
 

@@ -12,7 +12,7 @@ const Register = () => {
     },
 
     pageH: {
-      height: "100vh",
+      height: "100vh !important",
     },
   };
 
