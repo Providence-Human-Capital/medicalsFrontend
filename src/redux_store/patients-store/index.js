@@ -6,7 +6,7 @@ const initialState = {
   error: "",
   singlePatient: null,
   latestPhysicalExam: null,
-  physicalExamAvailable: false
+  physicalExamAvailable: false,
 };
 
 const patientSlice = createSlice({
@@ -24,13 +24,21 @@ const patientSlice = createSlice({
     },
 
     setLatestPhysicalExam: (state, action) => {
-      state.latestPhysicalExam = action.payload.latestPhysicalExam
+      state.latestPhysicalExam = action.payload.latestPhysicalExam;
     },
 
     setPhysicalExamAvailability: (state, action) => {
-      state.physicalExamAvailable = action.payload.physicalExamAvailable
-    }
+      state.physicalExamAvailable = action.payload.physicalExamAvailable;
+    },
 
+    deletePatient: (state, action) => {
+      const index = state.patients.findIndex(
+        (patients) => patients.id === action.payload.id
+      );
+      if (index !== -1) {
+        state.patients.splice(index, 1);
+      }
+    },
   },
 });
 
