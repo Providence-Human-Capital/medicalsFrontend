@@ -6,6 +6,7 @@ import Loading from "../../components/loader/Loading";
 import axios from "axios";
 import { authActions } from "../../redux_store/auth-store";
 import ErrorNotification from "../../components/notifications/ErrorNotification";
+import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
   const [signinValues, setSigninValues] = useState({
@@ -99,15 +100,19 @@ const Login = () => {
       })
         .then((response) => {
           setIsLoading(false);
+          if (response.status === 200) {
+            toast.dark("Hey 👋👋👋, you've successfully logged in!");
+          }
           return response.json();
         })
         .catch((err) => {
           setIsLoading(false);
+
           console.log(err);
           if (err.message === "Failed to fetch") {
-            setError("Server is offline. Please try again later.");
+            toast.error("🚫🚫 Server is offline. Please try again later.");
           } else {
-            setError("There was an error. Please try again.");
+            toast.error(" 🚫🚫 There was an error. Please try again.");
           }
         });
     }

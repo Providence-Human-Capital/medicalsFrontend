@@ -178,10 +178,10 @@ const PhysicalExamForm = () => {
       />
       {addedNew && <Alert message={"Physical Exam Successfully Added!"} />}
 
-      <div style={styles.seperation}></div>
+      <div className="separation-div"></div>
       <div className="row">
         <div className="col-xl-9 col-12">
-        <PButtons routeId={patientId} />
+          <PButtons routeId={patientId} />
           <div className="box">
             <div className="custom-form">
               <div className="box-body">
@@ -385,7 +385,7 @@ const PhysicalExamForm = () => {
         </div>
         <div className="col-xl-3 col-12">
           <PatientSideView />
-          {singlePatient.vitals[0] && (
+          {singlePatient.vitals.length !== 0 && (
             <Vitals
               vitals={patientPhysicalExamRecord}
               patient={singlePatient}

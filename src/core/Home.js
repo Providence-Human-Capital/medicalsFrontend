@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Layout from "./Layout";
 import SmallCard from "../components/cards/SmallCard";
 import CertificateAnalysisCard from "../views/dashboard/components/CertificateAnalysisCard";
@@ -9,6 +9,11 @@ import BmiAnalysis from "../views/dashboard/components/BmiAnalysis";
 import { useSelector } from "react-redux";
 
 const Home = ({}) => {
+
+
+  useEffect(() => {
+   
+  }, [])
 
   const totalPatients = useSelector((state) => state.patient.patients.length)
   return (

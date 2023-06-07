@@ -35,7 +35,7 @@ const ObeservationForm = () => {
         title={"Observation and Remarks"}
         activeTab={"General Observation"}
       />
-      <div style={styles.seperation}></div>
+      <div className="separation-div"></div>
       <div className="row">
         <div className="col-xl-9 col-12">
           <PButtons routeId={patientId} />

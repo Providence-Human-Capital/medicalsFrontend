@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { authActions } from "../redux_store/auth-store";
+import { ToastContainer } from "react-toastify";
 
 const Header = ({}) => {
   const [isSideBarCollapsed, setSidebarCollapsed] = useState(false);
@@ -14,7 +15,7 @@ const Header = ({}) => {
 
   const signOut = () => {
     dispatch(authActions.setLogout());
-    navigate("/register");
+    navigate("/login");
   };
 
   useEffect(() => {});
@@ -45,6 +46,7 @@ const Header = ({}) => {
   return (
     <Fragment>
       <header className="main-header">
+        <ToastContainer autoClose={8000} />
         <div className="d-flex align-items-center logo-box justify-content-start">
           {/* <!-- Logo --> */}
           <Link to={"/"} className="logo">

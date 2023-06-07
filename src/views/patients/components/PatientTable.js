@@ -111,9 +111,9 @@ const PatientTable = () => {
             </button>
           </div>
 
-          {addedNew && (
+          {/* {addedNew && (
             <Alert message={"New Patient Has Been  Successfully Added!"} />
-          )}
+          )} */}
           <form className="form-inline custom-size mt-4">
             <div className="input-group">
               <input

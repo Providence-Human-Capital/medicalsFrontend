@@ -108,7 +108,7 @@ const IllnessesForm = () => {
   return (
     <Fragment>
       <BreadCrumb title={"Illnesses"} activeTab={"Add Patient Illnesses"} />
-
+      <div className="separation-div"></div>
       <div className="row">
         <div className="col-xl-9 col-12">
           <PButtons routeId={patientId} />

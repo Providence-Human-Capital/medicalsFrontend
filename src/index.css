@@ -28,7 +28,7 @@
   padding: 8px 16px;
 }
 
-.spacing{
+.spacing {
   padding-bottom: 2rem;
 }
 
@@ -92,7 +92,7 @@
   background-color: #fff;
 }
 
-#aside-bar a.active{
+#aside-bar a.active {
   border-right: 3px solid #58ad46;
   background-color: #fff;
 }
@@ -231,7 +231,6 @@
 
 /* PButtons Style */
 
-
 .empty-table {
   display: flex;
   justify-content: center;
@@ -269,3 +268,41 @@
 .btn-circle:hover .icon-Trash1 {
   color: red;
 } */
+
+.custom-file-label::after {
+  content: "Choose file";
+}
+.preview-images-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.preview-image-wrappers {
+  position: relative;
+
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.preview-image {
+  width: auto;
+  height: 400px;
+  object-fit: cover;
+}
+.preview-image-remove {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 0;
+  font-size: 0.75rem;
+  line-height: 1;
+  border-radius: 50%;
+}
+
+.xray-image-style {
+  height: 200px;
+  width: auto;
+}
+
+.separation-div {
+  height: 20px;
+}

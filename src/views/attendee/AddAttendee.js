@@ -9,6 +9,8 @@ import { API } from "../../config";
 import Loading from "../../components/loader/Loading";
 import Alert from "../../components/notifications/Alert";
 import { uiActions } from "../../redux_store/ui-store";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddAttendee = () => {
   const [loading, setLoading] = useState(false);
@@ -35,10 +37,10 @@ const AddAttendee = () => {
     gender: "",
     national_id: "",
     phone_number: "",
-    x_ray_status: "",
+    x_ray_status: "PENDING",
     exam_purpose: "",
     employee_number: "",
-    country_code: "",
+    country_code: "+263",
   };
 
   const validationSchema = yup.object().shape({
@@ -74,9 +76,12 @@ const AddAttendee = () => {
         })
       );
 
+      toast("Attendee added successfully");
+
       setRedirectBack(true);
     } catch (error) {
       console.error(error);
+      toast(`There was an error adding attendee ${error}`);
     } finally {
       setLoading(false);
       setSubmitting(false);
@@ -114,7 +119,7 @@ const AddAttendee = () => {
   return (
     <Fragment>
       <BreadCrumb title={"Add Attendee"} activeTab={"Add Attendee"} />
-      {addedNew && <Alert message={"Attendee Successfully Added!"} />}
+      {/* {addedNew && <Alert message={"Attendee Successfully Added!"} />} */}
 
       <div className="row">
         <div className="col-xl-12 col-12">
@@ -197,7 +202,6 @@ const AddAttendee = () => {
                                 id="x_ray_status"
                                 name="x_ray_status"
                               >
-                                <option value="">Select X-ray Status</option>
                                 <option value="PENDING">PENDING</option>
                                 <option value="DONE">DONE</option>
                               </Field>
@@ -324,7 +328,7 @@ const AddAttendee = () => {
                                     id="country_code"
                                     name="country_code"
                                   >
-                                    <option value="+263" defaultValue={"+263"}>+263</option>
+                                    <option value="+263">+263</option>
                                     <option value="+263">+263</option>
                                   </Field>
                                 </div>
@@ -339,6 +343,8 @@ const AddAttendee = () => {
                                   placeholder="Enter phone number"
                                   name="phone_number"
                                 />
+                              </div>
+                              <div>
                                 <ErrorMessage
                                   name="phone_number"
                                   component="div"
@@ -425,7 +431,7 @@ const AddAttendee = () => {
                               className="form-check-label"
                               htmlFor="redirectAfterAdd"
                             >
-                             Redirect after adding a new attendee
+                              Redirect after adding a new attendee
                             </label>
                           </div>
                           <div className="form-check">
@@ -452,7 +458,7 @@ const AddAttendee = () => {
                         ) : (
                           <button
                             type="submit"
-                            className="btn btn-primary"
+                            className="btn btn-primary mt-2"
                             disabled={isSubmitting}
                             onClick={handleSubmit}
                           >

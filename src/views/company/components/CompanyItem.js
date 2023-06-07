@@ -6,7 +6,7 @@ import { SwalDeleted } from "../../../hooks/constants";
 import { API } from "../../../config";
 import Swal from "sweetalert2";
 
-const CompanyItem = ({ company }) => {
+const CompanyItem = ({ company, index }) => {
   const styles = {
     attendeeStyles: {
       cursor: "pointer",
@@ -62,7 +62,7 @@ const CompanyItem = ({ company }) => {
   return (
     <Fragment>
       <tr className="hover-primary">
-        <td>{company.id}</td>
+        <td>{index + 1}</td>
         <td>{company.company_name}</td>
         <td>{company.address}</td>
         <td>{company.site_telephone}</td>

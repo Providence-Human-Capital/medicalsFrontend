@@ -66,8 +66,12 @@ const CompanyTable = () => {
             </thead>
             <tbody>
               {allcompanies &&
-                getCurrentPageData().map((company) => (
-                  <CompanyItem key={company.id} company={company} />
+                getCurrentPageData().map((company, index) => (
+                  <CompanyItem
+                    key={company.id}
+                    company={company}
+                    index={index}
+                  />
                 ))}
             </tbody>
           </table>
