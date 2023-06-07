@@ -121,7 +121,7 @@ const PatientDetails = () => {
               </div>
             </div>
             <div className="col-xl-4 col-12">
-              {singlePatient.vitals.length !== 0 ? (
+              {singlePatient.vitals.length === 0 ? (
                 <div className="box">
                   <div className="box-header border-0 pb-0">
                     <h4 className="box-title">Physical Examination</h4>

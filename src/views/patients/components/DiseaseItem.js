@@ -4,11 +4,17 @@ const DiseaseItem = ({ illness }) => {
   return (
     <Fragment>
       <li className="mb-2">
-        <div className="icon bg-primary fa fa-ambulance"></div>
+        <div
+          className={`icon  fa fa-ambulance ${
+            illness.has_illness === 1 ? "info-background" : "bg-primary"
+          }`}
+        ></div>
         <a className="timeline-panel text-muted">
           <h4
             className={`mb-2 mt-1 ${
-              illness.has_illness === 1 ? "bg-primary py-3 px-4  rounded" : ""
+              illness.has_illness === 1
+                ? "info-background py-3 px-4  rounded"
+                : ""
             }`}
           >
             {illness.name}
