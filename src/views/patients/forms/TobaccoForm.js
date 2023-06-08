@@ -45,7 +45,7 @@ const TobaccoForm = () => {
       <BreadCrumb title={"Tobacco"} activeTab={"Add Patient Tobacco Use"} />
       <div className="separation-div"></div>
       <div className="row">
-        <div className="col-xl-9 col-12">
+        <div className="col-xl-8 col-12">
           <PButtons routeId={patientId} />
           <div className="box">
             <div className="custom-form">
@@ -142,7 +142,7 @@ const TobaccoForm = () => {
             </div>
           </div>
         </div>
-        <div className="col-xl-3 col-12">
+        <div className="col-xl-4 col-12">
           <PatientSideView />
           {singlePatient.vitals[0] && (
             <Vitals

@@ -31,7 +31,8 @@ const InfoBox = ({ patient }) => {
               </h4>
               <h5 className="fw-500 mb-5">{patient.attendee.national_id}</h5>
               <p>
-                <i className="fa fa-clock-o"></i> { formatDate(patient.created_at, options)}
+                <i className="fa fa-clock-o"></i>{" "}
+                {formatDate(patient.created_at, options)}
               </p>
             </div>
           </div>
@@ -56,9 +57,15 @@ const InfoBox = ({ patient }) => {
             )}
             <h5 className="fw-500">
               X-Ray Status:{" "}
-              <span className="fw-200 badge badge-danger">
-                {patient.attendee.x_ray_status}
-              </span>
+              {patient.attendee.x_ray_status === "PENDING" ? (
+                <span className="fw-200 badge badge-danger">
+                  {patient.attendee.x_ray_status}
+                </span>
+              ) : (
+                <span className="fw-200 badge badge-success">
+                  {patient.attendee.x_ray_status}
+                </span>
+              )}
             </h5>
             <h5 className="fw-500">
               Phone Number:{" "}

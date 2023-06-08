@@ -110,7 +110,7 @@ const IllnessesForm = () => {
       <BreadCrumb title={"Illnesses"} activeTab={"Add Patient Illnesses"} />
       <div className="separation-div"></div>
       <div className="row">
-        <div className="col-xl-9 col-12">
+        <div className="col-xl-8 col-12">
           <PButtons routeId={patientId} />
           {success && <Alert message={success} />}
 
@@ -236,7 +236,7 @@ const IllnessesForm = () => {
             </div>
           </div>
         </div>
-        <div className="col-xl-3 col-12">
+        <div className="col-xl-4 col-12">
           <PatientSideView />
           {singlePatient.vitals[0] && (
             <Vitals

@@ -19,7 +19,7 @@ function exportToExcel(data) {
 const PatientTable = () => {
   const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(0);
-  const itemsPerPage = 9;
+  const itemsPerPage = 8;
 
   const allPatients = useSelector((state) => state.patient.patients) || [];
   const addedNew = useSelector((state) => state.ui.showAlert);

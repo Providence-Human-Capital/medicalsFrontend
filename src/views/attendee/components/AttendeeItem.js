@@ -81,7 +81,15 @@ const AttendeeItem = ({ attendee }) => {
         <td>{attendee.first_name}</td>
         <td>{attendee.last_name}</td>
         <td>
-          <span class="badge badge-success-light">{attendee.x_ray_status}</span>
+          {attendee.x_ray_status === "PENDING" ? (
+            <span class="badge badge-danger">
+              <strong>{attendee.x_ray_status}</strong>
+            </span>
+          ) : (
+            <span class="badge badge-success">
+              <strong>{attendee.x_ray_status}</strong>
+            </span>
+          )}
         </td>
         <td>{attendee.time_of_entry}</td>
 
@@ -91,7 +99,7 @@ const AttendeeItem = ({ attendee }) => {
         <td>{attendee.phone_number}</td>
         <td class="text-end">
           <Link
-            to={"/"}
+            to={`/patients/${attendee.id}`}
             class="waves-effect waves-light btn btn-primary-light btn-circle"
           >
             <span class="icon-Settings-1 fs-18">

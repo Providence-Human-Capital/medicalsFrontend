@@ -14,3 +14,19 @@ export const getPatientPhysicalExamResults = async (patientId) => {
   return response;
 };
 
+
+
+export const getAllPatients = async () => {
+  const response = await fetch(`${API}/patients`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const data = await response.json();
+  console.log('All Patients', data);
+
+  return data;
+};

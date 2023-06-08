@@ -312,3 +312,22 @@
   background-color: #3d4895;
   color: #fff
 }
+
+
+.bp-form-container {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.bp-form-container.show {
+  max-height: 500px;
+}
+
+.bp-form-container.hide {
+  max-height: 0;
+}
+
+.cursor-style {
+  cursor: pointer;
+}

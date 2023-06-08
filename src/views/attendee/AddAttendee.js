@@ -41,6 +41,7 @@ const AddAttendee = () => {
     exam_purpose: "",
     employee_number: "",
     country_code: "+263",
+    last_x_ray: "N/A",
   };
 
   const validationSchema = yup.object().shape({
@@ -55,6 +56,12 @@ const AddAttendee = () => {
     x_ray_status: yup.string().required("Please select the X ray Status"),
     exam_purpose: yup.string().required("Please select the Exam Purpose"),
     employee_number: yup.string().required("Employee Number is Required!"),
+    last_x_ray: yup
+      .string()
+      .matches(
+        /^(N\/A|\d{4}|\d{4}-\d{2})$/,
+        "Please enter a valid year (YYYY) or year and month (YYYY-MM), or N/A"
+      ),
   });
 
   const onSubmit = async (formData, { setSubmitting, resetForm }) => {
@@ -79,6 +86,13 @@ const AddAttendee = () => {
       toast("Attendee added successfully");
 
       setRedirectBack(true);
+      if (response.status === 200 | response.status === 201) {
+        if (redirectToPatients) {
+          navigate("/patients");
+        } else if (continueAddingAttendees) {
+          resetForm();
+        }
+      }
     } catch (error) {
       console.error(error);
       toast(`There was an error adding attendee ${error}`);
@@ -92,12 +106,6 @@ const AddAttendee = () => {
           })
         );
       }, 4000);
-
-      if (redirectToPatients) {
-        navigate("/patients");
-      } else if (continueAddingAttendees) {
-        resetForm();
-      }
     }
   };
 
@@ -360,7 +368,7 @@ const AddAttendee = () => {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col-md-6">
+                          <div className="col-md-4">
                             <div className="form-group">
                               <label htmlFor="exam_purpose">
                                 Exam Purpose:
@@ -392,7 +400,7 @@ const AddAttendee = () => {
                               />
                             </div>
                           </div>
-                          <div className="col-md-6">
+                          <div className="col-md-4">
                             <div className="form-group">
                               <label htmlFor="date_of_birth">
                                 Date of Birth:
@@ -415,7 +423,30 @@ const AddAttendee = () => {
                               />
                             </div>
                           </div>
+                          <div className="col-md-4">
+                            <div className="form-group">
+                              <label htmlFor="date_of_birth">
+                                Last Chest X-Ray: (YYYY-MM) / (YYYY)
+                              </label>
+                              <Field
+                                className={`form-control ${
+                                  touched.last_x_ray && errors.last_x_ray
+                                    ? "error-input"
+                                    : ""
+                                }`}
+                                id="last_x_ray"
+                                placeholder="(YYYY-MM) / (YYYY) "
+                                name="last_x_ray"
+                              />
+                              <ErrorMessage
+                                name="last_x_ray"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
+                          </div>
                         </div>
+
                         <div className="row checkbox-row">
                           <div className="form-check">
                             <input
