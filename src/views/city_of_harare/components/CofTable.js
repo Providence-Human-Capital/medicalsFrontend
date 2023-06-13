@@ -1,52 +1,40 @@
 import React, { Fragment, useEffect, useState } from "react";
-import PatientItem from "./PatientItem";
-import { API } from "../../../config";
-import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
-import { patientActions } from "../../../redux_store/patients-store";
 import * as XLSX from "xlsx";
-import Alert from "../../../components/notifications/Alert";
-import ErrorNotification from "../../../components/notifications/ErrorNotification";
-import EmptyTable from "../../../components/EmptyTable";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import SearchBox from "../../../components/SearchBox";
-import { getAllPatients } from "../../../services/api";
 import {
   sortPatients,
   filterPatients,
   getCurrentPageData,
+  exportToExcel,
 } from "../../../helpers/helpers";
+import ReactPaginate from "react-paginate";
+import { getCofHPatients } from "../../../services/api";
+import { patientActions } from "../../../redux_store/patients-store";
+import EmptyTable from "../../../components/EmptyTable";
+import SearchBox from "../../../components/SearchBox";
+import CofItem from "./CofItem";
 
-function exportToExcel(data) {
-  const worksheet = XLSX.utils.json_to_sheet(data);
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Patients");
-  XLSX.writeFile(workbook, "Patients.xlsx");
-}
-
-const PatientTable = () => {
+const CofTable = () => {
   const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(0);
   const itemsPerPage = 8;
 
-  const allPatients = useSelector((state) => state.patient.patients) || [];
-  const addedNew = useSelector((state) => state.ui.showAlert);
-  const [selectedCompany, setSelectedCompany] = useState("");
+  const cofPatients = useSelector((state) => state.patient.cofPatients);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState("id");
   const [isSortAscending, setIsSortAscending] = useState(true);
 
   useEffect(() => {
-    const fetchAllPatients = async () => {
-      const allPatients = await getAllPatients();
+    const fetchCofHPatients = async () => {
+      const cofPatients = await getCofHPatients();
       dispatch(
-        patientActions.setPatients({
-          patients: [...allPatients],
+        patientActions.setcofPatients({
+          cofPatients: cofPatients,
         })
       );
     };
-    fetchAllPatients();
+
+    fetchCofHPatients();
   }, []);
 
   const handleSort = (column) => {
@@ -64,10 +52,10 @@ const PatientTable = () => {
   };
 
   const handleExportClick = () => {
-    exportToExcel(filteredPatients);
+    exportToExcel(filteredPatients, "CityOfHarare.xlsx");
   };
 
-  const sortedPatients = sortPatients(allPatients, sortColumn, isSortAscending);
+  const sortedPatients = sortPatients(cofPatients, sortColumn, isSortAscending);
   const filteredPatients = filterPatients(sortedPatients, searchTerm);
   const currentPageData = getCurrentPageData(
     filteredPatients,
@@ -77,7 +65,7 @@ const PatientTable = () => {
 
   return (
     <>
-      {allPatients.length === 0 ? (
+      {cofPatients.length === 0 ? (
         <EmptyTable />
       ) : (
         <Fragment>
@@ -92,7 +80,6 @@ const PatientTable = () => {
             handleSearch={handleSearch}
             placeholderText={"Search by Company Name, First Name, Or Last name"}
           />
-
           <table className="table border-no" id="example1">
             <thead>
               <tr>
@@ -128,33 +115,16 @@ const PatientTable = () => {
               </tr>
             </thead>
             <tbody>
-              {allPatients &&
-                currentPageData.map((patient) => (
-                  <PatientItem key={patient.id} patient={patient} />
+              {cofPatients &&
+                currentPageData.map((patient, index) => (
+                  <CofItem key={patient.id} patient={patient} />
                 ))}
             </tbody>
           </table>
-          <div className="table-spacing"></div>
-          <div className="paginate-position">
-            <ReactPaginate
-              previousLabel={"Previous"}
-              nextLabel={"Next"}
-              breakLabel={"..."}
-              breakClassName={"break-me"}
-              pageCount={Math.ceil(sortedPatients.length / itemsPerPage)}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={(sortedPatients) => {
-                setPageNumber(sortedPatients.selected);
-              }}
-              containerClassName={"pagination"}
-              activeClassName={"active-paginate"}
-            />
-          </div>
         </Fragment>
       )}
     </>
   );
 };
 
-export default PatientTable;
+export default CofTable;

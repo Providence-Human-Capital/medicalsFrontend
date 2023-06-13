@@ -44,6 +44,10 @@ import IllnessesForm from "./views/patients/forms/IllnessesForm";
 import TobaccoForm from "./views/patients/forms/TobaccoForm";
 import XrayForm from "./views/patients/forms/XrayForm";
 import { injectStyle } from "react-toastify/dist/inject-style";
+import ExcelAddPage from "./views/attendee/ExcelAddPage";
+import Pneumo from "./views/pneumoconiosis/Pneumo";
+import CityOfHarare from "./views/city_of_harare/CityOfHarare";
+import Industry from "./views/industry/Industry";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
@@ -111,6 +115,7 @@ const WrapperComponent = () => {
 
             <Route path="/attendees" exact element={<Attendees />} />
             <Route path="/attendees/add" exact element={<AddAttendee />} />
+            <Route path="/attendees/add/excel" element={<ExcelAddPage />} />
             <Route
               path="/attendees/:attendeeId"
               exact
@@ -174,6 +179,10 @@ const WrapperComponent = () => {
             <Route path="/outreach" exact element={<Outreach />} />
             <Route path="/outreach/add" exact element={<AddOutreach />} />
             <Route path="/outreach/:id/edit" exact element={<EditOutreach />} />
+
+            <Route path="/pneumo" exact element={<Pneumo />} />
+            <Route path="/foodhandlers" exact element={<CityOfHarare />} />
+            <Route path="/industry" exact element={<Industry />} />
           </Routes>
         </div>
       </div>

@@ -91,14 +91,14 @@ Waves
 @import url(../assets/assets/icons/iconsmind/style.css);
 @import url(../assets/assets/icons/icomoon/style.css);
 @import url(../assets/assets/vendor_components/animate/animate.css);
-html {
+/* html {
   height: 100%;
   font-size: 14px; }
 
 body {
   height: 100%; }
   body.layout-boxed {
-    height: 100%; }
+    height: 100%; } */
 
 .wrapper {
   height: 100%;

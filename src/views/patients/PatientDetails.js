@@ -12,40 +12,41 @@ import { patientActions } from "../../redux_store/patients-store";
 import InfoBox from "./components/InfoBox";
 import TobaccoBox from "./components/TobaccoBox";
 import XRayBox from "./components/XRayBox";
+import { getPatient } from "../../services/api";
 // import { getPatientPhysicalExamResults } from "../../services/api";
 
 const PatientDetails = () => {
   const { patientId } = useParams();
 
   const dispatch = useDispatch();
-  const getPatient = async () => {
-    try {
-      const responseData = await fetch(
-        `${API}/patient/illnesses/${patientId}`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      );
+  // const getPatient = async () => {
+  //   try {
+  //     const responseData = await fetch(
+  //       `${API}/patient/illnesses/${patientId}`,
+  //       {
+  //         method: "GET",
+  //         headers: {
+  //           Accept: "application/json",
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
 
-      const response = await responseData.json();
-      console.log("Get Patient", response.data);
+  //     const response = await responseData.json();
+  //     console.log("Get Patient", response.data);
 
-      if (responseData.ok) {
-        dispatch(
-          patientActions.setSinglePatient({
-            singlePatient: { ...response.data },
-          })
-        );
-      }
-    } catch (error) {
-      console.log("Error", error);
-    } finally {
-    }
-  };
+  //     if (responseData.ok) {
+  //       dispatch(
+  //         patientActions.setSinglePatient({
+  //           singlePatient: { ...response.data },
+  //         })
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.log("Error", error);
+  //   } finally {
+  //   }
+  // };
 
   const getPatientPhysicalExamResults = async () => {
     try {
@@ -86,11 +87,24 @@ const PatientDetails = () => {
     (state) => state.patient.physicalExamAvailable
   );
 
+  const patientUpdated = useSelector((state) => state.patient.patientUpdated);
+
   useEffect(() => {
-    getPatient();
+    // getPatient();
+
+    const fetchPatient = async () => {
+      const patientData = await getPatient(patientId);
+      dispatch(
+        patientActions.setSinglePatient({
+          singlePatient: patientData,
+        })
+      );
+    };
+    fetchPatient();
+
     getPatientPhysicalExamResults();
     console.log("Use Effect from Detail");
-  }, []);
+  }, [patientUpdated]);
 
   return (
     <Fragment>

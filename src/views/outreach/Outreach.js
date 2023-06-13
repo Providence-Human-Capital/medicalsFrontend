@@ -4,6 +4,7 @@ import BreadCrumb from "../../components/BreadCrumb";
 import OutReachTable from "./components/OutreachTable";
 import * as XLSX from "xlsx";
 import { useSelector } from "react-redux";
+import ExcelUploader from "../../components/ExcelUploader";
 
 function exportToExcel(data) {
   const worksheet = XLSX.utils.json_to_sheet(data);
@@ -48,6 +49,7 @@ const Outreach = () => {
           </div>
         </div>
       </section>
+      <ExcelUploader />
     </Fragment>
   );
 };

@@ -1,52 +1,41 @@
 import React, { Fragment, useEffect, useState } from "react";
-import PatientItem from "./PatientItem";
-import { API } from "../../../config";
-import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
-import { patientActions } from "../../../redux_store/patients-store";
+import PneumoItem from "./PneumoItem";
 import * as XLSX from "xlsx";
-import Alert from "../../../components/notifications/Alert";
-import ErrorNotification from "../../../components/notifications/ErrorNotification";
-import EmptyTable from "../../../components/EmptyTable";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import SearchBox from "../../../components/SearchBox";
-import { getAllPatients } from "../../../services/api";
+import EmptyTable from "../../../components/EmptyTable";
+import { patientActions } from "../../../redux_store/patients-store";
+import { API } from "../../../config";
+import { getPneumoPatients } from "../../../services/api";
 import {
   sortPatients,
   filterPatients,
   getCurrentPageData,
+  exportToExcel,
 } from "../../../helpers/helpers";
+import ReactPaginate from "react-paginate";
 
-function exportToExcel(data) {
-  const worksheet = XLSX.utils.json_to_sheet(data);
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Patients");
-  XLSX.writeFile(workbook, "Patients.xlsx");
-}
-
-const PatientTable = () => {
+const PneumoTable = () => {
   const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(0);
   const itemsPerPage = 8;
 
-  const allPatients = useSelector((state) => state.patient.patients) || [];
-  const addedNew = useSelector((state) => state.ui.showAlert);
-  const [selectedCompany, setSelectedCompany] = useState("");
+  const pneumoPatients =
+    useSelector((state) => state.patient.pneumoPatients) || [];
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState("id");
   const [isSortAscending, setIsSortAscending] = useState(true);
 
   useEffect(() => {
-    const fetchAllPatients = async () => {
-      const allPatients = await getAllPatients();
+    const fetchPneumoPatients = async () => {
+      const pneumoPatients = await getPneumoPatients();
       dispatch(
-        patientActions.setPatients({
-          patients: [...allPatients],
+        patientActions.setPneumoPatients({
+          pneumoPatients: pneumoPatients,
         })
       );
     };
-    fetchAllPatients();
+    fetchPneumoPatients();
   }, []);
 
   const handleSort = (column) => {
@@ -64,10 +53,14 @@ const PatientTable = () => {
   };
 
   const handleExportClick = () => {
-    exportToExcel(filteredPatients);
+    exportToExcel(filteredPatients, "Pneumo_Patients.xlsx");
   };
 
-  const sortedPatients = sortPatients(allPatients, sortColumn, isSortAscending);
+  const sortedPatients = sortPatients(
+    pneumoPatients,
+    sortColumn,
+    isSortAscending
+  );
   const filteredPatients = filterPatients(sortedPatients, searchTerm);
   const currentPageData = getCurrentPageData(
     filteredPatients,
@@ -77,7 +70,7 @@ const PatientTable = () => {
 
   return (
     <>
-      {allPatients.length === 0 ? (
+      {pneumoPatients.length === 0 ? (
         <EmptyTable />
       ) : (
         <Fragment>
@@ -92,7 +85,6 @@ const PatientTable = () => {
             handleSearch={handleSearch}
             placeholderText={"Search by Company Name, First Name, Or Last name"}
           />
-
           <table className="table border-no" id="example1">
             <thead>
               <tr>
@@ -128,9 +120,9 @@ const PatientTable = () => {
               </tr>
             </thead>
             <tbody>
-              {allPatients &&
+              {pneumoPatients &&
                 currentPageData.map((patient) => (
-                  <PatientItem key={patient.id} patient={patient} />
+                  <PneumoItem key={patient.id} patient={patient} />
                 ))}
             </tbody>
           </table>
@@ -157,4 +149,4 @@ const PatientTable = () => {
   );
 };
 
-export default PatientTable;
+export default PneumoTable;

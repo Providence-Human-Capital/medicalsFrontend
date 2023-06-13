@@ -19,32 +19,32 @@ const OutreachItem = ({ patient }) => {
         <td>{patient.age}</td>
         <td>{patient.gender}</td>
 
-        <td class="text-end">
+        <td className="text-end">
           <Link
             to={"/"}
-            class="waves-effect waves-light btn btn-primary-light btn-circle"
+            className="waves-effect waves-light btn btn-primary-light btn-circle"
           >
-            <span class="icon-Settings-1 fs-18">
-              <span class="path1"></span>
-              <span class="path2"></span>
+            <span className="icon-Settings-1 fs-18">
+              <span className="path1"></span>
+              <span className="path2"></span>
             </span>
           </Link>
           <Link
             to={`/`}
-            class="waves-effect waves-light btn btn-primary-light btn-circle mx-5"
+            className="waves-effect waves-light btn btn-primary-light btn-circle mx-5"
           >
-            <span class="icon-Write">
-              <span class="path1"></span>
-              <span class="path2"></span>
+            <span className="icon-Write">
+              <span className="path1"></span>
+              <span className="path2"></span>
             </span>
           </Link>
           <Link
             href="#"
-            class="waves-effect waves-light btn btn-primary-light btn-circle"
+            className="waves-effect waves-light btn btn-primary-light btn-circle"
           >
-            <span class="icon-Trash1 fs-18">
-              <span class="path1"></span>
-              <span class="path2"></span>
+            <span className="icon-Trash1 fs-18">
+              <span className="path1"></span>
+              <span className="path2"></span>
             </span>
           </Link>
         </td>

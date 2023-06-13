@@ -1,0 +1,86 @@
+import React, { Fragment, useState } from "react";
+import BreadCrumb from "../../components/BreadCrumb";
+import StepForm from "../../components/StepForm";
+import IndustryClassificationForm from "./forms/IndustryClassificationForm";
+import MineralDustExposureForm from "./forms/MineralDustExposureForm";
+import ControlMeasuresForm from "./forms/ControlMeasuresForm";
+import HealthyQuestionnaireForm from "./forms/HealthyQuestionnaireForm";
+
+const Pneumo = () => {
+  const [currentStep, setCurrentStep] = useState(1);
+
+  const handleNext = () => {
+    setCurrentStep(currentStep + 1);
+  };
+
+  const handlePrev = () => {
+    setCurrentStep(currentStep - 1);
+  };
+
+  const handleSubmit = () => {
+    // Handle form submission logic here
+  };
+
+  let formComponent;
+  switch (currentStep) {
+    case 1:
+      formComponent = (
+        <IndustryClassificationForm
+          handlePrev={handlePrev}
+          handleNext={handleNext}
+        />
+      );
+      break;
+    case 2:
+      formComponent = (
+        <MineralDustExposureForm
+          handlePrev={handlePrev}
+          handleNext={handleNext}
+        />
+      );
+      break;
+    case 3:
+      formComponent = (
+        <ControlMeasuresForm handlePrev={handlePrev} handleNext={handleNext} />
+      );
+      break;
+    case 4:
+      formComponent = (
+        <HealthyQuestionnaireForm
+          handlePrev={handlePrev}
+          handleSubmit={handleSubmit}
+        />
+      );
+      break;
+    default:
+      formComponent = null;
+  }
+
+  return (
+    <Fragment>
+      <BreadCrumb
+        title={"Pneumoconiosis Patients"}
+        activeTab={"Pneumoconiosis Patients"}
+      />
+      <div className="row">
+        <div className="col-xl-8 col-12">
+          <div className="d-md-flex align-items-center justify-content-between mb-20">
+            <a
+              to={`/patients`}
+              className="btn btn-primary me-5 mb-md-0 mb-5 py-3 px-4"
+            >
+              <i className="fa fa-home"></i> Return To Profile
+            </a>
+            <div className="d-flex">
+              <StepForm currentStep={currentStep} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {formComponent}
+    </Fragment>
+  );
+};
+
+export default Pneumo;

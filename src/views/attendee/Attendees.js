@@ -5,7 +5,6 @@ import AttendeeTable from "./components/AttendeeTable";
 import { Link } from "react-router-dom";
 import { fadeInAnimation } from "../../animations/animation";
 
-
 const Attendees = ({}) => {
   const styles = {
     containerStyles: {
@@ -15,32 +14,34 @@ const Attendees = ({}) => {
   };
   return (
     <Fragment>
-      <BreadCrumb title={"Attendees"} activeTab={"Attendees"} />
-
-      <section className="content">
-        <div className="row">
-          <div className="col-12">
-          <div className="d-md-flex align-items-center justify-content-between mb-20">
-              <div className="d-flex">
-                <Link to={"/attendees/add"} className="btn btn-success">
-                  <i className="fa fa-check-circle-o"></i> Add Attendee
-                </Link>
-              </div>
-            </div>
-            <div className="box">
-              <div className="box-body">
-                <div
-                  className="table-responsive rounded card-table"
-                  style={styles.containerStyles}
-                >
-                  <AttendeeTable />
+    <BreadCrumb title={"Attendees"} activeTab={"Attendees"} />
+    <section className="content">
+      <div className="row">
+        <div className="col-12">
+          <div className="box">
+            <div className="box-body">
+              <div className="d-md-flex align-items-center justify-content-between mb-20">
+                <div className="d-flex">
+                  <Link to={"/attendees/add"} className="btn btn-success">
+                    <i className="fa fa-check-circle-o"></i> Add Attendee
+                  </Link>
                 </div>
+                <div className="d-flex justify-content-end">
+                  <h1 className="mb-0">Registered Attendees</h1>
+                </div>
+              </div>
+              <div
+                className="table-responsive rounded card-table"
+                style={styles.containerStyles}
+              >
+                <AttendeeTable />
               </div>
             </div>
           </div>
         </div>
-      </section>
-    </Fragment>
+      </div>
+    </section>
+  </Fragment>
   );
 };
 

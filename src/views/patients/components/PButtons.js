@@ -1,5 +1,14 @@
 import React, { Fragment, useEffect } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import {
+  faUser,
+  faXRay,
+  faStethoscope,
+  faHeartbeat,
+  faSmoking,
+  faComment,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const PButtons = ({ routeId }) => {
   const location = useLocation();
@@ -35,8 +44,7 @@ const PButtons = ({ routeId }) => {
                 to={`/patients/${routeId}/xray/add`}
                 className="navi-link d-block py-3 px-4"
               >
-                <i class="fa fa-bullseye" aria-hidden="true"></i> {" "}
-                Add Xray
+                <FontAwesomeIcon icon={faXRay} /> Add Xray
               </NavLink>
             </li>
             <li className="navi-item">
@@ -44,8 +52,7 @@ const PButtons = ({ routeId }) => {
                 to={`/patients/${routeId}/physical`}
                 className="navi-link d-block py-3 px-4"
               >
-                <i class="fa fa-smile-o" aria-hidden="true"></i> {" "}
-                Physical Examination
+                <FontAwesomeIcon icon={faStethoscope} /> Physical Examination
               </NavLink>
             </li>
             <li className="navi-item">
@@ -53,8 +60,7 @@ const PButtons = ({ routeId }) => {
                 to={`/patients/${routeId}/illnesses`}
                 className="navi-link d-block py-3 px-4"
               >
-                <i class="fa fa-thermometer-empty" aria-hidden="true"></i> {" "}
-                Illnesses
+                <FontAwesomeIcon icon={faHeartbeat} /> Illnesses
               </NavLink>
             </li>
             <li className="navi-item">
@@ -62,8 +68,7 @@ const PButtons = ({ routeId }) => {
                 to={`/patients/${routeId}/tobacco`}
                 className="navi-link d-block py-3 px-4"
               >
-                <i class="fa fa-universal-access" aria-hidden="true"></i> {" "}
-                Tobbacco Use
+                <FontAwesomeIcon icon={faSmoking} /> Tobbacco Use
               </NavLink>
             </li>
             <li className="navi-item">
@@ -71,8 +76,7 @@ const PButtons = ({ routeId }) => {
                 to={`/patients/${routeId}/observation`}
                 className="navi-link d-block py-3 px-4"
               >
-                <i class="fa fa-sticky-note" aria-hidden="true"></i> {" "}
-                Obeservation and Remarks
+                <FontAwesomeIcon icon={faComment} /> Obeservation and Remarks
               </NavLink>
             </li>
           </ul>

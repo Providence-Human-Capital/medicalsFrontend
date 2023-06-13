@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { attendeeActions } from "../../../redux_store/attendee-store";
 import ReactPaginate from "react-paginate";
 import EmptyTable from "../../../components/EmptyTable";
+import SearchBox from "../../../components/SearchBox";
 
 const AttendeeTable = () => {
   const [attendees, setAttendees] = useState([]);
@@ -91,23 +92,11 @@ const AttendeeTable = () => {
         <EmptyTable />
       ) : (
         <Fragment>
-          <form className="form-inline custom-size">
-            <div className="input-group">
-              <input
-                type="text"
-                className="form-control"
-                id="search-input"
-                value={searchTerm}
-                onChange={handleSearch}
-                placeholder="Search by swab number, first name, or last name"
-              />
-              <div className="input-group-append">
-                <span className="input-group-text">
-                  <i className="fa fa-search"></i>
-                </span>
-              </div>
-            </div>
-          </form>
+          <SearchBox
+            placeholderText={"Search by swab number, first name, or last name"}
+            searchTerm={searchTerm}
+            handleSearch={handleSearch}
+          />
           <table className="table border-no" id="example1">
             <thead>
               <tr>

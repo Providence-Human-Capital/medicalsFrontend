@@ -4,13 +4,14 @@ import "./components-style/Attendee.module.css";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../config";
 import Loading from "../../components/loader/Loading";
 import Alert from "../../components/notifications/Alert";
 import { uiActions } from "../../redux_store/ui-store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AddAttendeeExecel from "./AddAttendeeExecel";
 
 const AddAttendee = () => {
   const [loading, setLoading] = useState(false);
@@ -86,7 +87,7 @@ const AddAttendee = () => {
       toast("Attendee added successfully");
 
       setRedirectBack(true);
-      if (response.status === 200 | response.status === 201) {
+      if ((response.status === 200) | (response.status === 201)) {
         if (redirectToPatients) {
           navigate("/patients");
         } else if (continueAddingAttendees) {
@@ -129,6 +130,13 @@ const AddAttendee = () => {
       <BreadCrumb title={"Add Attendee"} activeTab={"Add Attendee"} />
       {/* {addedNew && <Alert message={"Attendee Successfully Added!"} />} */}
 
+      <Link
+        to={"/attendees/add/excel"}
+        className="btn btn-primary me-5 mb-md-0 mb-5 py-3 px-4"
+      >
+        Add Through Excel
+      </Link>
+      <div className="separation-div"></div>
       <div className="row">
         <div className="col-xl-12 col-12">
           <div className="box">

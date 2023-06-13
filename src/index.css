@@ -1,3 +1,18 @@
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: auto;
+}
+
 .form-control {
   color: #888;
   background: #fff;
@@ -95,6 +110,10 @@
 #aside-bar a.active {
   border-right: 3px solid #58ad46;
   background-color: #fff;
+}
+
+#aside-bar-tree a.active {
+  border-right: 3px solid #58ad46;
 }
 
 .sidebar-menu > li > a {
@@ -307,12 +326,10 @@
   height: 20px;
 }
 
-
-.info-background{
+.info-background {
   background-color: #3d4895;
-  color: #fff
+  color: #fff;
 }
-
 
 .bp-form-container {
   max-height: 0;
@@ -330,4 +347,122 @@
 
 .cursor-style {
   cursor: pointer;
+}
+
+.step-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.step span {
+  margin-top: 5px;
+  font-size: 12px;
+  text-align: center;
+}
+.step.active:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #007bff;
+  transform: translateY(-50%);
+}
+.step.active {
+  color: #007bff;
+}
+.step.active svg {
+  color: #007bff;
+}
+.step svg {
+  font-size: 24px;
+  color: #ccc;
+  margin-bottom: 5px;
+}
+.step-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.step-buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+.step-buttons button:hover {
+  background-color: #0062cc;
+}
+
+.stepper {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.step-navigation {
+  margin-bottom: 1rem;
+}
+
+.step {
+  margin-bottom: 1rem;
+}
+
+.step-form {
+  margin-top: 1rem;
+}
+
+.step-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+button {
+  margin-left: 0.5rem;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  width: 400px;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.search-box input[type="text"] {
+  flex: 1;
+  height: 100%;
+  padding: 0 10px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+.search-box button {
+  width: 40px;
+  height: 100%;
+  background-color: #58ad46;
+  color: #fff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.search-box button:hover {
+  background-color: #58ad46;
+}
+.search-box button i {
+  font-size: 20px;
+  margin-right: 5px;
 }
