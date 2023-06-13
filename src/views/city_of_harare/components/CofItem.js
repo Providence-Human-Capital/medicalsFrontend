@@ -2,14 +2,14 @@ import React, { Fragment } from "react";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import { formatDate } from "../../../helpers/helpers";
-import { handleDelete } from "../../../services/api";
+import {  handleDeletePatient } from "../../../services/api";
 import SwabResultDropdown from "../../patients/components/SwabResultDropdown";
 import { Link } from "react-router-dom";
 
 const CofItem = ({ patient }) => {
   const dispatch = useDispatch();
   const onDelete = () => {
-    handleDelete(patient.id, dispatch);
+    handleDeletePatient (patient.id, dispatch);
   };
   return (
     <Fragment>
@@ -48,24 +48,24 @@ const CofItem = ({ patient }) => {
           <span className="badge badge-danger">PENDING</span>
         </td>
 
-        <td class="text-end">
+        <td className="text-end">
           <Link
-            to={`${patient.id}`}
-            class="waves-effect waves-light btn btn-primary-light btn-circle"
+            to={`/patients/${patient.id}`}
+            className="waves-effect waves-light btn btn-primary-light btn-circle"
           >
-            <span class="icon-Settings-1 fs-18">
-              <span class="path1"></span>
-              <span class="path2"></span>
+            <span className="icon-Settings-1 fs-18">
+              <span className="path1"></span>
+              <span className="path2"></span>
             </span>
           </Link>
 
           <a
             onClick={onDelete}
-            class="waves-effect waves-light btn btn-primary-light btn-circle"
+            className="waves-effect waves-light btn btn-primary-light btn-circle"
           >
-            <span class="icon-Trash1 fs-18">
-              <span class="path1"></span>
-              <span class="path2"></span>
+            <span className="icon-Trash1 fs-18">
+              <span className="path1"></span>
+              <span className="path2"></span>
             </span>
           </a>
         </td>
@@ -75,3 +75,7 @@ const CofItem = ({ patient }) => {
 };
 
 export default CofItem;
+
+
+
+// style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"

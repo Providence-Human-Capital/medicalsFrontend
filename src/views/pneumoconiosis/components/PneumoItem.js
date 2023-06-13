@@ -7,13 +7,13 @@ import { attendeeActions } from "../../../redux_store/attendee-store";
 import { Link } from "react-router-dom";
 import SwabResultDropdown from "../../patients/components/SwabResultDropdown";
 import { formatDate } from "../../../helpers/helpers";
-import { handleDelete } from "../../../services/api";
+import { handleDeletePatient } from "../../../services/api";
 
 const PneumoItem = ({ patient }) => {
   const dispatch = useDispatch();
 
   const onDelete = () => {
-    handleDelete(patient.id, dispatch);
+    handleDeletePatient (patient.id, dispatch);
   };
 
   return (
@@ -55,7 +55,7 @@ const PneumoItem = ({ patient }) => {
 
         <td class="text-end">
           <Link
-            to={`${patient.id}`}
+            to={`/patients/${patient.id}`}
             class="waves-effect waves-light btn btn-primary-light btn-circle"
           >
             <span class="icon-Settings-1 fs-18">

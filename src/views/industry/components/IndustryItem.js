@@ -2,14 +2,14 @@ import React, { Fragment } from "react";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import { formatDate } from "../../../helpers/helpers";
-import { handleDelete } from "../../../services/api";
+import { handleDeletePatient } from "../../../services/api";
 import { Link } from "react-router-dom";
 import SwabResultDropdown from "../../patients/components/SwabResultDropdown";
 
 const IndustryItem = ({ patient }) => {
   const dispatch = useDispatch();
   const onDelete = () => {
-    handleDelete(patient.id, dispatch);
+    handleDeletePatient(patient.id, dispatch);
   };
   return (
     <Fragment>

@@ -22,7 +22,7 @@ const Companies = () => {
   const styles = {
     containerStyles: {
       minHeight: "60vh",
-      overflow: "hidden",
+      overflow: "auto",
     },
   };
   return (

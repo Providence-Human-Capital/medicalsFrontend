@@ -91,7 +91,7 @@ const AsideNav = ({}) => {
                     </li>
                     <li id="aside-bar-tree" className="mt-1">
                       {" "}
-                      <NavLink to={"/illnesses"}>
+                      <NavLink to={"/diseases"}>
                         <i class="icon-Commit">
                           <span class="path1"></span>
                           <span class="path2"></span>
@@ -101,7 +101,7 @@ const AsideNav = ({}) => {
                     </li>
                     <li id="aside-bar-tree" className="mt-1">
                       {" "}
-                      <NavLink to={"/illnesses"}>
+                      <NavLink to={"/skin/conditions"}>
                         <i class="icon-Commit">
                           <span class="path1"></span>
                           <span class="path2"></span>
@@ -111,7 +111,7 @@ const AsideNav = ({}) => {
                     </li>
                     <li id="aside-bar-tree" className="mt-1">
                       {" "}
-                      <NavLink to={"/illnesses"}>
+                      <NavLink to={"/auscultates"}>
                         <i class="icon-Commit">
                           <span class="path1"></span>
                           <span class="path2"></span>

@@ -61,7 +61,9 @@ const CompanyItem = ({ company, index }) => {
 
   return (
     <Fragment>
-      <tr className="hover-primary">
+      <tr className="hover-primary" style={{
+            overflow: "auto"
+          }}>
         <td>{index + 1}</td>
         <td>{company.company_name}</td>
         <td>{company.address}</td>

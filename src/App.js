@@ -48,6 +48,9 @@ import ExcelAddPage from "./views/attendee/ExcelAddPage";
 import Pneumo from "./views/pneumoconiosis/Pneumo";
 import CityOfHarare from "./views/city_of_harare/CityOfHarare";
 import Industry from "./views/industry/Industry";
+import SkinConditions from "./views/skinconditions/SkinConditions";
+import Auscultates from "./views/auscultates/Auscultates";
+import Diseases from "./views/diseases/Diseases";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
@@ -175,6 +178,14 @@ const WrapperComponent = () => {
               exact
               element={<EditTobacco />}
             />
+
+            <Route path="/skin/conditions" exact element={<SkinConditions />} />
+            <Route path="/skin/conditions/add" exact element={<SkinConditions />} />
+            
+            <Route path="/auscultates" exact element={<Auscultates />} />
+            <Route path="/auscultates/add" exact element={<Auscultates />} />
+            <Route path="/diseases" exact element={<Diseases />} />
+            <Route path="/diseases/add" exact element={<Diseases />} />
 
             <Route path="/outreach" exact element={<Outreach />} />
             <Route path="/outreach/add" exact element={<AddOutreach />} />
