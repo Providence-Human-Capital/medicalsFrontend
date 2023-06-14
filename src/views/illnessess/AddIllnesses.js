@@ -111,6 +111,7 @@ const AddIllness = () => {
                           <SaveButton
                             disable={isSubmitting}
                             onClick={handleSubmit}
+                            text={"Save Illness"}
                           />
                         )}
                       </Form>

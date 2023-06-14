@@ -212,7 +212,7 @@ const AsideNav = ({}) => {
                           <span class="path1"></span>
                           <span class="path2"></span>
                         </i>
-                        Security/Manufacturing
+                        Industries & Other
                       </NavLink>
                     </li>
                   </ul>

@@ -6,6 +6,7 @@ import * as yup from "yup";
 import { API } from "../../config";
 import Loading from "../../components/loader/Loading";
 import BreadCrumb from "../../components/BreadCrumb";
+import SaveButton from "../../components/buttons/SaveButton";
 
 const AddTobacco = () => {
   const [loading, setLoading] = useState(false);
@@ -52,67 +53,75 @@ const AddTobacco = () => {
   }, [redirectBack]);
 
   return (
-<Fragment>
-  <BreadCrumb title={"Add Tobacco"} activeTab={"Add Tobacco"} />
-  <div className="row">
-    <div className="col-xl-8 col-12">
-      <div className="box">
-        <div className="custom-form">
-          <div className="box-body">
-            <div className="container">
-              <h2>Enter New Tobacco</h2>
-              <Formik
-                initialValues={initialValues}
-                onSubmit={onSubmit}
-                validationSchema={validationSchema}
-              >
-                {({ values, isSubmitting, handleSubmit, touched, errors }) => (
-                  <Form>
-                    <div className="row">
-                      <div className="form-group col-md-6">
-                        <label htmlFor="illness_name">Tobacco Name</label>
-                        <Field
-                          type="text"
-                          className={`form-control my-upload ${
-                            touched.name && errors.name
-                              ? "error-input"
-                              : ""
-                          }`}
-                          id="name"
-                          name="name"
-                          placeholder="Enter Tobacco Name"
-                        />
-                        <ErrorMessage
-                          name="name"
-                          component="div"
-                          className="text-danger"
-                        />
-                      </div>
-                    </div>
-                    {loading ? (
-                      <Loading />
-                    ) : (
-                      <button
-                        type="submit"
-                        className="btn btn-primary"
-                        disabled={isSubmitting}
-                        onClick={handleSubmit}
-                      >
-                        Save Tobacco Use
-                      </button>
+    <Fragment>
+      <BreadCrumb title={"Add Tobacco"} activeTab={"Add Tobacco"} />
+      <div className="row">
+        <div className="col-xl-8 col-12">
+          <div className="box">
+            <div className="custom-form">
+              <div className="box-body">
+                <div className="container">
+                  <h2>Enter New Tobacco</h2>
+                  <Formik
+                    initialValues={initialValues}
+                    onSubmit={onSubmit}
+                    validationSchema={validationSchema}
+                  >
+                    {({
+                      values,
+                      isSubmitting,
+                      handleSubmit,
+                      touched,
+                      errors,
+                    }) => (
+                      <Form>
+                        <div className="row">
+                          <div className="form-group col-md-6">
+                            <label htmlFor="illness_name">Tobacco Name</label>
+                            <Field
+                              type="text"
+                              className={`form-control my-upload ${
+                                touched.name && errors.name ? "error-input" : ""
+                              }`}
+                              id="name"
+                              name="name"
+                              placeholder="Enter Tobacco Name"
+                            />
+                            <ErrorMessage
+                              name="name"
+                              component="div"
+                              className="text-danger"
+                            />
+                          </div>
+                        </div>
+                        {loading ? (
+                          <Loading />
+                        ) : (
+                          // <button
+                          //   type="submit"
+                          //   className="btn btn-primary"
+                          //   disabled={isSubmitting}
+                          //   onClick={handleSubmit}
+                          // >
+                          //   Save Tobacco Use
+                          // </button>
+                          <SaveButton
+                            disable={isSubmitting}
+                            onClick={handleSubmit}
+                            text={"Save Tobacco Use"}
+                          />
+                        )}
+                      </Form>
                     )}
-                  </Form>
-                )}
-              </Formik>
+                  </Formik>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</Fragment>
-  )
-  
+    </Fragment>
+  );
 };
 
 export default AddTobacco;

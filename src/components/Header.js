@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { authActions } from "../redux_store/auth-store";
 import { ToastContainer } from "react-toastify";
+import ExportExcelButton from "./buttons/ExportExcelButton";
+import NavButton from "./buttons/NavButton";
 
 const Header = ({}) => {
   const [isSideBarCollapsed, setSidebarCollapsed] = useState(false);
@@ -86,7 +88,14 @@ const Header = ({}) => {
                 </Link>
               </li>
               <li className="btn-group d-lg-inline-flex d-none">
-                
+                <NavButton to={"/foodhandlers"} text={"City Of Harare"} />
+              </li>
+
+              <li className="btn-group d-lg-inline-flex d-none">
+                <NavButton to={"/pneumo"} text={"Pneumoconiosis"} />
+              </li>
+              <li className="btn-group d-lg-inline-flex d-none">
+                <NavButton to={"/industry"} text={"Industries & Other"} />
               </li>
             </ul>
           </div>
