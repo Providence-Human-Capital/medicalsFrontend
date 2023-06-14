@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import BreadCrumb from "../../components/BreadCrumb";
 import { Link } from "react-router-dom";
 import SkinConditionTable from "./components.js/SkinConditionTable";
+import CreateButton from "../../components/buttons/CreateButton";
 
 const SkinConditions = () => {
   return (
@@ -10,16 +11,16 @@ const SkinConditions = () => {
       <section className="content">
         <div className="row">
           <div className="col-xl-8 col-12">
-            <div className="d-md-flex align-items-center justify-content-between mb-20">
-              <div className="d-flex">
-                <Link to={"/skin/conditions/add"} className="btn btn-success">
-                  <i className="fa fa-check-circle-o"></i> Add New Skin
-                  Condition
-                </Link>
-              </div>
-            </div>
             <div className="box">
               <div className="box-body">
+                <div className="d-md-flex align-items-center justify-content-between mb-20">
+                  <div className="d-flex">
+                    <CreateButton
+                      text={" Add New Skin Condition"}
+                      to={"/skin/conditions/add"}
+                    />
+                  </div>
+                </div>
                 <div className="table-responsive rounded card-table container-height">
                   <SkinConditionTable />
                 </div>

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import IllnessTable from "./components/IllnessTable";
 import IllnessAnalysisCard from "../dashboard/components/IllnessAnalysisCard";
+import CreateButton from "../../components/buttons/CreateButton";
 
 const Illnesses = () => {
   return (
@@ -12,18 +13,15 @@ const Illnesses = () => {
       <section className="content">
         <div className="row">
           <div className="col-xl-8 col-12">
-            <div className="d-md-flex align-items-center justify-content-between mb-20">
-              <div className="d-flex">
-                <Link to={"/illnesses/add"} className="btn btn-success">
-                  <i className="fa fa-check-circle-o"></i> Add Illness
-                </Link>
-              </div>
-            </div>
             <div className="box">
               <div className="box-body">
+                <div className="d-md-flex align-items-center justify-content-between mb-20">
+                  <div className="d-flex">
+                    <CreateButton text={"Add Illness"} to={"/illnesses/add"} />
+                  </div>
+                </div>
                 <div className="table-responsive rounded card-table container-height">
                   <IllnessTable />
-                 
                 </div>
               </div>
             </div>

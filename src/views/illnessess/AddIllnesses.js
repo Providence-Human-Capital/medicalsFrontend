@@ -6,6 +6,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { API } from "../../config";
 import Loading from "../../components/loader/Loading";
+import SaveButton from "../../components/buttons/SaveButton";
 
 const AddIllness = () => {
   const [loading, setLoading] = useState(false);
@@ -61,26 +62,33 @@ const AddIllness = () => {
             <div className="custom-form">
               <div className="box-body">
                 <div className="container">
-                  <h2>Enter your Illnesses details</h2>
+                  <h2>Enter New Illness</h2>
                   <Formik
                     initialValues={initialValues}
                     onSubmit={onSubmit}
                     validationSchema={validationSchema}
                   >
-                    {({ values, isSubmitting, handleSubmit, touched, errors }) => (
+                    {({
+                      values,
+                      isSubmitting,
+                      handleSubmit,
+                      touched,
+                      errors,
+                    }) => (
                       <Form>
                         <div className="row">
                           <div className="form-group col-md-6">
-                            <label htmlFor="illness_name">Illness Name</label>
+                            <label htmlFor="illness_name">Name</label>
                             <Field
                               type="text"
-                              className={`form-control ${
+                              className={`form-control my-upload ${
                                 touched.illness_name && errors.illness_name
                                   ? "error-input"
                                   : ""
                               }`}
                               id="illness_name"
                               name="illness_name"
+                              placeholder="Enter new illness name"
                             />
                             <ErrorMessage
                               name="illness_name"
@@ -92,14 +100,18 @@ const AddIllness = () => {
                         {loading ? (
                           <Loading />
                         ) : (
-                          <button
-                            type="submit"
-                            className="btn btn-primary"
-                            disabled={isSubmitting}
+                          // <button
+                          //   type="submit"
+                          //   className="btn btn-primary"
+                          //   disabled={isSubmitting}
+                          //   onClick={handleSubmit}
+                          // >
+                          //   Save Illness
+                          // </button>
+                          <SaveButton
+                            disable={isSubmitting}
                             onClick={handleSubmit}
-                          >
-                            Save Illness
-                          </button>
+                          />
                         )}
                       </Form>
                     )}

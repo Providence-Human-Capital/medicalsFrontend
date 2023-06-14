@@ -17,6 +17,7 @@ import {
   filterPatients,
   getCurrentPageData,
 } from "../../../helpers/helpers";
+import ExportExcelButton from "../../../components/buttons/ExportExcelButton";
 
 function exportToExcel(data) {
   const worksheet = XLSX.utils.json_to_sheet(data);
@@ -82,9 +83,11 @@ const PatientTable = () => {
       ) : (
         <Fragment>
           <div className="spacing">
-            <button className="btn btn-success" onClick={handleExportClick}>
+            {/* <button className="btn btn-success" onClick={handleExportClick}>
               Export to Excel
-            </button>
+            </button> */}
+
+            <ExportExcelButton onClick={handleExportClick} />
           </div>
 
           <SearchBox

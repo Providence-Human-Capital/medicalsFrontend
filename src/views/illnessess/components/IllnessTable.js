@@ -10,7 +10,7 @@ const IllnessTable = () => {
   const dispatch = useDispatch();
   const allillnesses = useSelector((state) => state.illness.illnesses) || [];
   const [pageNumber, setPageNumber] = useState(0);
-  const itemsPerPage = 9;
+  const itemsPerPage = 5;
 
   const getIllnesses = async () => {
     const illnessesResponseData = await fetch(`${API}/illness`, {

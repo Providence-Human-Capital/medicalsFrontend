@@ -7,6 +7,7 @@ import { API } from "../../config";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { companyActions } from "../../redux_store/company-store";
+import SaveButton from "../../components/buttons/SaveButton";
 
 const AddCompany = () => {
   const [loading, setLoading] = useState(false);
@@ -76,12 +77,12 @@ const AddCompany = () => {
       <BreadCrumb title={"Add Companies"} activeTab={"Add Companies"} />
 
       <div className="row">
-        <div className="col-xl-12 col-12">
+        <div className="col-xl-9 col-12">
           <div className="box">
             <div className="custom-form">
               <div className="box-body">
                 <div className="container">
-                  <h2>Enter your Companies details</h2>
+                  <h2>Enter New Company</h2>
 
                   <Formik
                     initialValues={initialValues}
@@ -103,11 +104,12 @@ const AddCompany = () => {
                               type="text"
                               id="company_name"
                               name="company_name"
-                              className={`form-control ${
+                              className={`form-control my-upload ${
                                 touched.company_name && errors.company_name
                                   ? "error-input"
                                   : ""
                               }`}
+                              placeholder="Enter company name"
                             />
                             <ErrorMessage
                               name="company_name"
@@ -121,11 +123,12 @@ const AddCompany = () => {
                               type="text"
                               id="address"
                               name="address"
-                              className={`form-control ${
+                              className={`form-control my-upload ${
                                 touched.address && errors.address
                                   ? "error-input"
                                   : ""
                               }`}
+                              placeholder="Enter address"
                             />
                             <ErrorMessage
                               name="address"
@@ -141,13 +144,14 @@ const AddCompany = () => {
                             </label>
                             <Field
                               type="text"
-                              className={`form-control ${
+                              className={`form-control my-upload ${
                                 touched.site_telephone && errors.site_telephone
                                   ? "error-input"
                                   : ""
                               }`}
                               id="site_telephone"
                               name="site_telephone"
+                              placeholder="Enter site telephone"
                             />
                             <ErrorMessage
                               name="site_telephone"
@@ -159,13 +163,14 @@ const AddCompany = () => {
                             <label htmlFor="company_email">Company Email</label>
                             <Field
                               type="email"
-                              className={`form-control ${
+                              className={`form-control my-upload ${
                                 touched.company_email && errors.company_email
                                   ? "error-input"
                                   : ""
                               }`}
                               id="company_email"
                               name="company_email"
+                              placeholder="Enter company email"
                             />
                             <ErrorMessage
                               name="company_email"
@@ -179,13 +184,14 @@ const AddCompany = () => {
                             <label htmlFor="designation">Designation</label>
                             <Field
                               type="text"
-                              className={`form-control ${
+                              className={`form-control my-upload ${
                                 touched.designation && errors.designation
                                   ? "error-input"
                                   : ""
                               }`}
                               id="designation"
                               name="designation"
+                              placeholder="Enter Designation"
                             />
                             <ErrorMessage
                               name="designation"
@@ -199,13 +205,14 @@ const AddCompany = () => {
                             </label>
                             <Field
                               type="text"
-                              className={`form-control ${
+                              className={`form-control my-upload ${
                                 touched.contact_person && errors.contact_person
                                   ? "error-input"
                                   : ""
                               }`}
                               id="contact_person"
                               name="contact_person"
+                              placeholder="Name of contact person"
                             />
                             <ErrorMessage
                               name="contact_person"
@@ -219,13 +226,14 @@ const AddCompany = () => {
                             </label>
                             <Field
                               type="text"
-                              className={`form-control ${
+                              className={`form-control my-upload ${
                                 touched.contact_number && errors.contact_number
                                   ? "error-input"
                                   : ""
                               }`}
                               id="contact_number"
                               name="contact_number"
+                              placeholder="Enter Contact Number"
                             />
                             <ErrorMessage
                               name="contact_number"
@@ -239,13 +247,14 @@ const AddCompany = () => {
                             <label htmlFor="province">Province</label>
                             <Field
                               as="select"
-                              className={`form-control ${
+                              className={`form-control my-upload ${
                                 touched.province && errors.province
                                   ? "error-input"
                                   : ""
                               }`}
                               id="province"
                               name="province"
+                              placeholder="Select A Province"
                             >
                               <option value="Choose province">
                                 Choose province
@@ -280,14 +289,19 @@ const AddCompany = () => {
                         {loading ? (
                           <Loading />
                         ) : (
-                          <button
-                            type="submit"
-                            className="btn btn-primary"
-                            disabled={isSubmitting}
+                          // <button
+                          //   type="submit"
+                          //   className="btn btn-primary"
+                          //   disabled={isSubmitting}
+                          //   onClick={handleSubmit}
+                          // >
+                          //   Save Company
+                          // </button>
+                          <SaveButton
+                            text={"Save Company"}
                             onClick={handleSubmit}
-                          >
-                            Save Company
-                          </button>
+                            disable={isSubmitting}
+                          />
                         )}
                       </Form>
                     )}

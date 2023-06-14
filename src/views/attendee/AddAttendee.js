@@ -12,6 +12,8 @@ import { uiActions } from "../../redux_store/ui-store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AddAttendeeExecel from "./AddAttendeeExecel";
+import "./component-css/CustomCss.css";
+import SaveButton from "../../components/buttons/SaveButton";
 
 const AddAttendee = () => {
   const [loading, setLoading] = useState(false);
@@ -43,6 +45,7 @@ const AddAttendee = () => {
     employee_number: "",
     country_code: "+263",
     last_x_ray: "N/A",
+    category: "",
   };
 
   const validationSchema = yup.object().shape({
@@ -57,6 +60,7 @@ const AddAttendee = () => {
     x_ray_status: yup.string().required("Please select the X ray Status"),
     exam_purpose: yup.string().required("Please select the Exam Purpose"),
     employee_number: yup.string().required("Employee Number is Required!"),
+    category: yup.string().required("Please Category is Required!"),
     last_x_ray: yup
       .string()
       .matches(
@@ -132,18 +136,19 @@ const AddAttendee = () => {
 
       <Link
         to={"/attendees/add/excel"}
-        className="btn btn-primary me-5 mb-md-0 mb-5 py-3 px-4"
+        className="btn btn-primary me-5 mb-md-0 mb-4 excel-btn"
       >
+        <i class="fa fa-table" aria-hidden="true"></i>{"   "}
         Add Through Excel
       </Link>
       <div className="separation-div"></div>
       <div className="row">
-        <div className="col-xl-12 col-12">
+        <div className="col-xl-9 col-12">
           <div className="box">
             <div className="custom-form">
               <div className="box-body">
                 <div className="container">
-                  <h2>Enter your Attendes details</h2>
+                  <h2>Enter New Patient</h2>
 
                   <Formik
                     initialValues={initialValues}
@@ -164,7 +169,7 @@ const AddAttendee = () => {
                               <label htmlFor="first_name">First Name:</label>
                               <Field
                                 type="text"
-                                className={`form-control ${
+                                className={`form-control my-upload ${
                                   touched.first_name && errors.first_name
                                     ? "error-input"
                                     : ""
@@ -185,7 +190,7 @@ const AddAttendee = () => {
                               <label htmlFor="last_name">Last Name:</label>
                               <Field
                                 type="text"
-                                className={`form-control ${
+                                className={`form-control my-upload ${
                                   touched.last_name && errors.last_name
                                     ? "error-input"
                                     : ""
@@ -210,7 +215,7 @@ const AddAttendee = () => {
                               </label>
                               <Field
                                 as="select"
-                                className={`form-control ${
+                                className={`form-control my-upload ${
                                   touched.x_ray_status && errors.x_ray_status
                                     ? "error-input"
                                     : ""
@@ -233,7 +238,7 @@ const AddAttendee = () => {
                               <label htmlFor="company_id">Company Name:</label>
                               <Field
                                 as="select"
-                                className={`form-control ${
+                                className={`form-control my-upload ${
                                   touched.company_id && errors.company_id
                                     ? "error-input"
                                     : ""
@@ -260,7 +265,7 @@ const AddAttendee = () => {
                               <label htmlFor="gender">Gender:</label>
                               <Field
                                 as="select"
-                                className={`form-control ${
+                                className={`form-control my-upload ${
                                   touched.gender && errors.gender
                                     ? "error-input"
                                     : ""
@@ -288,7 +293,7 @@ const AddAttendee = () => {
                               </label>
                               <Field
                                 type="text"
-                                className={`form-control ${
+                                className={`form-control my-upload ${
                                   touched.employee_number &&
                                   errors.employee_number
                                     ? "error-input"
@@ -310,7 +315,7 @@ const AddAttendee = () => {
                               <label htmlFor="national_id">National ID:</label>
                               <Field
                                 type="text"
-                                className={`form-control ${
+                                className={`form-control my-upload ${
                                   touched.national_id && errors.national_id
                                     ? "error-input"
                                     : ""
@@ -335,7 +340,7 @@ const AddAttendee = () => {
                                 <div className="input-group-prepend">
                                   <Field
                                     component="select"
-                                    className={`form-control ${
+                                    className={`form-control my-upload ${
                                       touched.country_code &&
                                       errors.country_code
                                         ? "error-input"
@@ -350,7 +355,7 @@ const AddAttendee = () => {
                                 </div>
                                 <Field
                                   type="text"
-                                  className={`form-control ${
+                                  className={`form-control my-upload ${
                                     touched.phone_number && errors.phone_number
                                       ? "error-input"
                                       : ""
@@ -376,14 +381,14 @@ const AddAttendee = () => {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col-md-4">
+                          <div className="col-md-3">
                             <div className="form-group">
                               <label htmlFor="exam_purpose">
                                 Exam Purpose:
                               </label>
                               <Field
                                 as="select"
-                                className={`form-control ${
+                                className={`form-control my-upload ${
                                   touched.exam_purpose && errors.exam_purpose
                                     ? "error-input"
                                     : ""
@@ -408,14 +413,15 @@ const AddAttendee = () => {
                               />
                             </div>
                           </div>
-                          <div className="col-md-4">
+
+                          <div className="col-md-3">
                             <div className="form-group">
                               <label htmlFor="date_of_birth">
                                 Date of Birth:
                               </label>
                               <Field
                                 type="date"
-                                className={`form-control ${
+                                className={`form-control my-upload ${
                                   touched.date_of_birth && errors.date_of_birth
                                     ? "error-input"
                                     : ""
@@ -431,13 +437,39 @@ const AddAttendee = () => {
                               />
                             </div>
                           </div>
-                          <div className="col-md-4">
+                          <div className="col-md-3">
+                            <div className="form-group">
+                              <label htmlFor="date_of_birth">Category:</label>
+                              <Field
+                                as="select"
+                                className={`form-control my-upload ${
+                                  touched.category && errors.category
+                                    ? "error-input"
+                                    : ""
+                                }`}
+                                id="category"
+                                name="category"
+                              >
+                                <option value="">Select Category</option>
+                                <option value="1">City Of Harare</option>
+                                <option value="2">Pneumoconiosis</option>
+                                <option value="3">Industry/Security</option>
+                              </Field>
+                              <ErrorMessage
+                                name="category"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="col-md-3">
                             <div className="form-group">
                               <label htmlFor="date_of_birth">
                                 Last Chest X-Ray: (YYYY-MM) / (YYYY)
                               </label>
                               <Field
-                                className={`form-control ${
+                                className={`form-control my-upload ${
                                   touched.last_x_ray && errors.last_x_ray
                                     ? "error-input"
                                     : ""
@@ -455,7 +487,7 @@ const AddAttendee = () => {
                           </div>
                         </div>
 
-                        <div className="row checkbox-row">
+                        <div className="row checkbox-row mb-5">
                           <div className="form-check">
                             <input
                               type="checkbox"
@@ -495,14 +527,19 @@ const AddAttendee = () => {
                         {loading ? (
                           <Loading />
                         ) : (
-                          <button
-                            type="submit"
-                            className="btn btn-primary mt-2"
-                            disabled={isSubmitting}
+                          // <button
+                          //   type="submit"
+                          //   className="btn btn-primary mt-2"
+                          //   disabled={isSubmitting}
+                          //   onClick={handleSubmit}
+                          // >
+                          //   Save Attendee
+                          // </button>
+                          <SaveButton
+                            text={"Save Attendee"}
                             onClick={handleSubmit}
-                          >
-                            Save Attendee
-                          </button>
+                            disable={isSubmitting}
+                          />
                         )}
                       </Form>
                     )}

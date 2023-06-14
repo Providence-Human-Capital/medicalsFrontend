@@ -7,15 +7,28 @@ import {
   faTimesCircle,
   faCheckCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { API } from "../../config";
+import { ToastContainer, toast } from "react-toastify";
+import { uiActions } from "../../redux_store/ui-store";
+import Loading from "../../components/loader/Loading";
+import "./component-css/CustomCss.css";
+import SaveButton from "../../components/buttons/SaveButton";
+
 const AddAttendeeExecel = () => {
   const [data, setData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [savedData, setSavedData] = useState([]);
   const [count, setCount] = useState(0);
   const [company, setCompany] = useState("");
   const [examPurpose, setExamPurpose] = useState("");
+  const [category, setCategory] = useState("");
   const companies = useSelector((state) => state.company.companies);
+  const isLoading = useSelector((state) => state.ui.isLoading);
+
+  const dispatch = useDispatch();
+
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -46,47 +59,89 @@ const AddAttendeeExecel = () => {
     );
     setFilteredData(filteredData);
   };
+
   const saveDataToDatabase = async () => {
-    const transformedData = filteredData.map((row) => ({
+    console.log("Data", data);
+    const transformedData = data.map((row) => ({
       first_name: row["First Name"],
       last_name: row["Last Name"],
       national_id: row["National ID"],
       gender: row["Gender"],
-      phone_number: row["Phone Number"],
-      date_of_birth: row["Date of Birth"],
+      phone_number: row["Phone Number"].toString(),
+      date_of_birth: new Date((row["Date of Birth"] - 25569) * 86400 * 1000)
+        .toISOString()
+        .slice(0, 10),
       exam_purpose: examPurpose,
       company_id: company,
+      category: category,
+      x_ray_status: "PENDING",
+      country_code: "+263",
+      last_x_ray: "2022-04",
+      employee_number: "112",
     }));
 
+    const savedEntries = [];
+
     for (const entry of transformedData) {
+      console.log("Entry", entry);
       try {
-        const response = await axios.post("YOUR_API_ENDPOINT", entry);
-        console.log(response);
+        dispatch(
+          uiActions.setLoadingSpinner({
+            isLoading: true,
+          })
+        );
+
+        const response = await fetch(`${API}/attendee`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(entry),
+        });
+        const data = await response.json();
+        console.log("New entry", data);
+        if ((response.status === 200) | (response.status === 201)) {
+          dispatch(
+            uiActions.setLoadingSpinner({
+              isLoading: false,
+            })
+          );
+          savedEntries.push(entry);
+        }
       } catch (error) {
-        console.error(error);
+        console.log(error);
+        toast.error("There was an error", error);
+        dispatch(
+          uiActions.setLoadingSpinner({
+            isLoading: false,
+          })
+        );
       }
     }
+
+    setSavedData(savedEntries);
   };
   return (
     <Fragment>
       <div className="row">
-        <div className="col-xl-12 col-12">
+        <div className="col-xl-8 col-12">
           <div className="box">
-            <div className="custom-form">
+            <div className="">
               <div className="box-body">
                 <div className="container">
-                  <h3 className="text-center mb-4">
-                    Excel Uploader and Search{" "}
-                  </h3>
+                  <h3 className="mb-4">Excel Uploader and Search </h3>
                   <form>
                     <div className="form-group">
                       <div className="col-xl-6 col-12">
-                        <div class="mb-3">
-                          <label htmlFor="fileInput" class="form-label">
+                        <div className="mb-3">
+                          <label
+                            htmlFor="fileInput"
+                            className="form-label form-label"
+                          >
                             Upload Excel File
                           </label>
                           <input
-                            class="form-control"
+                            className="form-control my-upload"
                             type="file"
                             id="fileInput"
                             onChange={handleFileUpload}
@@ -95,11 +150,13 @@ const AddAttendeeExecel = () => {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-md-6">
+                      <div className="col-md-4">
                         <div className="form-group">
-                          <label htmlFor="companySelect">Company</label>
+                          <label htmlFor="companySelect" className="form-label">
+                            Company
+                          </label>
                           <select
-                            className="form-control"
+                            className="form-control my-upload "
                             id="companySelect"
                             value={company}
                             onChange={(e) => setCompany(e.target.value)}
@@ -113,13 +170,16 @@ const AddAttendeeExecel = () => {
                           </select>
                         </div>
                       </div>
-                      <div className="col-md-6">
+                      <div className="col-md-4">
                         <div className="form-group">
-                          <label htmlFor="examPurposeSelect">
+                          <label
+                            htmlFor="examPurposeSelect"
+                            className="form-label"
+                          >
                             Exam Purpose
                           </label>
                           <select
-                            className="form-control"
+                            className="form-control my-upload "
                             id="examPurposeSelect"
                             value={examPurpose}
                             onChange={(event) =>
@@ -138,15 +198,50 @@ const AddAttendeeExecel = () => {
                           </select>
                         </div>
                       </div>
+                      <div className="col-md-4">
+                        <div className="form-group">
+                          <label
+                            htmlFor="categorySelect"
+                            className="form-label"
+                          >
+                            Category
+                          </label>
+                          <select
+                            className="form-control my-upload"
+                            id="categorySelect"
+                            value={category}
+                            onChange={(event) =>
+                              setCategory(event.target.value)
+                            }
+                          >
+                            <option value="">Select Category</option>
+                            <option value="1">City Of Harare</option>
+                            <option value="2">Pneumoconiosis</option>
+                            <option value="3">Industry/Security</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-md-6"></div>
+                      <div className="col-md-6"></div>
                     </div>
 
-                    <button
-                      type="button"
-                      className="btn btn-success"
-                      onClick={saveDataToDatabase}
-                    >
-                      Save To Database
-                    </button>
+                    {isLoading ? (
+                      <Loading />
+                    ) : (
+                      <SaveButton
+                        onClick={saveDataToDatabase}
+                        text={"Save To Database"}
+                      />
+                      // <button
+                      //   type="button"
+                      //   className="btn btn-success"
+                      //   onClick={saveDataToDatabase}
+                      // >
+                      //   SAVE TO DATABASE
+                      // </button>
+                    )}
                   </form>
                 </div>
               </div>
@@ -155,6 +250,41 @@ const AddAttendeeExecel = () => {
         </div>
       </div>
       <div className="separation-div"></div>
+      <div className="row">
+        <div className="col-12">
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>National ID</th>
+                <th>Gender</th>
+                <th>Phone Number</th>
+                <th>Date of Birth</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {savedData.map((entry) => (
+                <tr key={entry.national_id}>
+                  <td>{entry.first_name}</td>
+                  <td>{entry.last_name}</td>
+                  <td>{entry.national_id}</td>
+                  <td>{entry.gender}</td>
+                  <td>{entry.phone_number}</td>
+                  <td>{entry.date_of_birth}</td>
+                  <td>
+                    <FontAwesomeIcon
+                      icon={faCheckCircle}
+                      style={{ color: "green" }}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </Fragment>
   );
 };

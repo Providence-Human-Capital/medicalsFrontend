@@ -12,6 +12,7 @@ import { patientActions } from "../../../redux_store/patients-store";
 import EmptyTable from "../../../components/EmptyTable";
 import SearchBox from "../../../components/SearchBox";
 import IndustryItem from "./IndustryItem";
+import ReactPaginate from "react-paginate";
 
 const IndustryTable = () => {
   const dispatch = useDispatch();
@@ -125,6 +126,23 @@ const IndustryTable = () => {
                 ))}
             </tbody>
           </table>
+          <div className="table-spacing"></div>
+          <div className="paginate-position">
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              breakLabel={"..."}
+              breakClassName={"break-me"}
+              pageCount={Math.ceil(sortedPatients.length / itemsPerPage)}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={(sortedPatients) => {
+                setPageNumber(sortedPatients.selected);
+              }}
+              containerClassName={"pagination"}
+              activeClassName={"active-paginate"}
+            />
+          </div>
         </Fragment>
       )}
     </>

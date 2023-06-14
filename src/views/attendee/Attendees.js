@@ -4,6 +4,7 @@ import BreadCrumb from "../../components/BreadCrumb";
 import AttendeeTable from "./components/AttendeeTable";
 import { Link } from "react-router-dom";
 import { fadeInAnimation } from "../../animations/animation";
+import CreateButton from "../../components/buttons/CreateButton";
 
 const Attendees = ({}) => {
   const styles = {
@@ -22,9 +23,7 @@ const Attendees = ({}) => {
             <div className="box-body">
               <div className="d-md-flex align-items-center justify-content-between mb-20">
                 <div className="d-flex">
-                  <Link to={"/attendees/add"} className="btn btn-success">
-                    <i className="fa fa-check-circle-o"></i> Add Attendee
-                  </Link>
+                  <CreateButton text={"Add Attendee"} to={"/attendees/add"} />
                 </div>
                 <div className="d-flex justify-content-end">
                   <h1 className="mb-0">Registered Attendees</h1>

@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import CompanyTable from "./components/CompanyTable";
 import * as XLSX from "xlsx";
 import { useSelector } from "react-redux";
+import CreateButton from "../../components/buttons/CreateButton";
+import ExportExcelButton from "../../components/buttons/ExportExcelButton";
 
 function exportToExcel(data) {
   const worksheet = XLSX.utils.json_to_sheet(data);
@@ -27,35 +29,32 @@ const Companies = () => {
   };
   return (
     <Fragment>
-        <BreadCrumb title={"Companies"} activeTab={"Companies"} />
+      <BreadCrumb title={"Companies"} activeTab={"Companies"} />
 
-        <section className="content">
-          <div className="row">
-            <div className="col-12">
-              <div className="d-md-flex align-items-center justify-content-between mb-20">
-                <div className="d-flex">
-                  <Link to={"/companies/add"} className="btn btn-success">
-                    <i className="fa fa-check-circle-o"></i> Add Company
-                  </Link>
-                </div>
-                <button className="btn btn-success" onClick={handleExportClick}>
-                  Export to Excel
-                </button>
-              </div>
-              <div className="box">
-                <div className="box-body">
-                  <div
-                    className="table-responsive rounded card-table"
-                    style={styles.containerStyles}
-                  >
-                    <CompanyTable />
+      <section className="content">
+        <div className="row">
+          <div className="col-12">
+            <div className="box">
+              <div className="box-body">
+                <div className="d-md-flex align-items-center justify-content-between mb-20">
+                  <div className="d-flex">
+                    <CreateButton text={"Add Company"} to={"/companies/add"} />
                   </div>
+
+                  <ExportExcelButton onClick={handleExportClick} />
+                </div>
+                <div
+                  className="table-responsive rounded card-table"
+                  style={styles.containerStyles}
+                >
+                  <CompanyTable />
                 </div>
               </div>
             </div>
           </div>
-        </section>
-      </Fragment>
+        </div>
+      </section>
+    </Fragment>
   );
 };
 

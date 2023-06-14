@@ -14,6 +14,7 @@ import {
   exportToExcel,
 } from "../../../helpers/helpers";
 import ReactPaginate from "react-paginate";
+import ExportExcelButton from "../../../components/buttons/ExportExcelButton";
 
 const PneumoTable = () => {
   const dispatch = useDispatch();
@@ -75,9 +76,7 @@ const PneumoTable = () => {
       ) : (
         <Fragment>
           <div className="spacing">
-            <button className="btn btn-success" onClick={handleExportClick}>
-              Export to Excel
-            </button>
+            <ExportExcelButton onClick={handleExportClick} />
           </div>
 
           <SearchBox

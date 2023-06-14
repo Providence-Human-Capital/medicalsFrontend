@@ -13,6 +13,7 @@ import { patientActions } from "../../../redux_store/patients-store";
 import EmptyTable from "../../../components/EmptyTable";
 import SearchBox from "../../../components/SearchBox";
 import CofItem from "./CofItem";
+import ExportExcelButton from "../../../components/buttons/ExportExcelButton";
 
 const CofTable = () => {
   const dispatch = useDispatch();
@@ -70,9 +71,7 @@ const CofTable = () => {
       ) : (
         <Fragment>
           <div className="spacing">
-            <button className="btn btn-success" onClick={handleExportClick}>
-              Export to Excel
-            </button>
+            <ExportExcelButton onClick={handleExportClick} />
           </div>
 
           <SearchBox
@@ -80,6 +79,7 @@ const CofTable = () => {
             handleSearch={handleSearch}
             placeholderText={"Search by Company Name, First Name, Or Last name"}
           />
+          
           <table className="table border-no" id="example1">
             <thead>
               <tr>
@@ -121,6 +121,23 @@ const CofTable = () => {
                 ))}
             </tbody>
           </table>
+          <div className="table-spacing"></div>
+          <div className="paginate-position">
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              breakLabel={"..."}
+              breakClassName={"break-me"}
+              pageCount={Math.ceil(sortedPatients.length / itemsPerPage)}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={(sortedPatients) => {
+                setPageNumber(sortedPatients.selected);
+              }}
+              containerClassName={"pagination"}
+              activeClassName={"active-paginate"}
+            />
+          </div>
         </Fragment>
       )}
     </>

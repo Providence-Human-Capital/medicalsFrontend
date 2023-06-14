@@ -3,13 +3,13 @@ import BreadCrumb from "../../components/BreadCrumb";
 import IndustryTable from "./components/IndustryTable";
 
 const Industry = () => {
-    const styles = {
-        containerStyles: {
-          minHeight: "60vh",
-          overflow: "hidden",
-          minWidth: "100%",
-        },
-      };
+  const styles = {
+    containerStyles: {
+      minHeight: "60vh",
+      overflow: "hidden",
+      minWidth: "100%",
+    },
+  };
   return (
     <Fragment>
       <BreadCrumb title={"Industry Patients"} activeTab={"Industry Patients"} />

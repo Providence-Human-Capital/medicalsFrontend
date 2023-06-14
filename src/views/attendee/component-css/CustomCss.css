@@ -1,0 +1,54 @@
+input[type="file"] {
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  border: none;
+  outline: none;
+  background-color: #fff !important;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+  height: 50px;
+}
+
+.my-upload {
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2) !important;
+  border: none;
+  outline: none;
+  background-color: #fff !important;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+  height: 50px;
+}
+input[type="file"]::-webkit-file-upload-button {
+  background-color: #fff;
+  color: black;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 1px;
+  background-color: #fff;
+  font-size: 23px;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 9l-6 6-6-6z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  cursor: pointer;
+}
+
+.form-label {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+

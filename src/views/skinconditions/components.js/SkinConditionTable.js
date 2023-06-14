@@ -11,7 +11,7 @@ const SkinConditionTable = () => {
 
   const skin_conditions = useSelector((state) => state.illness.skin_conditions) || [];
   const [pageNumber, setPageNumber] = useState(0);
-  const itemsPerPage = 9;
+  const itemsPerPage = 5;
 
   useEffect(() => {
     const fetchSkinConditions = async () => {

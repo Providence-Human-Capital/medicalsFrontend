@@ -11,7 +11,7 @@ const DiseaseTable = () => {
 
   const diseases = useSelector((state) => state.illness.diseases) || [];
   const [pageNumber, setPageNumber] = useState(0);
-  const itemsPerPage = 9;
+  const itemsPerPage = 5;
 
   useEffect(() => {
     const fetchDiseases = async () => {

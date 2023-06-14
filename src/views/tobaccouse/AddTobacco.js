@@ -55,12 +55,12 @@ const AddTobacco = () => {
 <Fragment>
   <BreadCrumb title={"Add Tobacco"} activeTab={"Add Tobacco"} />
   <div className="row">
-    <div className="col-xl-12 col-12">
+    <div className="col-xl-8 col-12">
       <div className="box">
         <div className="custom-form">
           <div className="box-body">
             <div className="container">
-              <h2>Enter your Tobacco details</h2>
+              <h2>Enter New Tobacco</h2>
               <Formik
                 initialValues={initialValues}
                 onSubmit={onSubmit}
@@ -73,13 +73,14 @@ const AddTobacco = () => {
                         <label htmlFor="illness_name">Tobacco Name</label>
                         <Field
                           type="text"
-                          className={`form-control ${
+                          className={`form-control my-upload ${
                             touched.name && errors.name
                               ? "error-input"
                               : ""
                           }`}
                           id="name"
                           name="name"
+                          placeholder="Enter Tobacco Name"
                         />
                         <ErrorMessage
                           name="name"
