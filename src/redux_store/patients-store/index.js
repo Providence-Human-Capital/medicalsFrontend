@@ -11,6 +11,12 @@ const initialState = {
   industryPatients: [],
   cofPatients: [],
   patientUpdated: false,
+
+  patientStatistics: [],
+  patientsPerIllness: [],
+  patientsPerAuscultate: [],
+  patientsPerTobacco: [],
+  patientsPerDisease: [],
 };
 
 const patientSlice = createSlice({
@@ -25,6 +31,34 @@ const patientSlice = createSlice({
 
     setPneumoPatients: (state, action) => {
       state.pneumoPatients = action.payload.pneumoPatients;
+      state.isLoading = false;
+      state.error = "";
+    },
+
+    setStatistics: (state, action) => {
+      state.patientStatistics = action.payload.patientStatistics;
+      state.isLoading = false;
+      state.error = "";
+    },
+
+    setIllnessStatistics: (state, action) => {
+      state.patientsPerIllness = action.payload.patientsPerIllness;
+      state.isLoading = false;
+      state.error = "";
+    },
+
+    setTobaccouseStatistics: (state, action) => {
+      state.patientsPerTobacco = action.payload.patientsPerTobacco;
+      state.isLoading = false;
+      state.error = "";
+    },
+    setAuscultateStatistics: (state, action) => {
+      state.patientsPerAuscultate = action.payload.patientsPerAuscultate;
+      state.isLoading = false;
+      state.error = "";
+    },
+    setDiseasesStatistics: (state, action) => {
+      state.patientsPerDisease = action.payload.patientsPerDisease;
       state.isLoading = false;
       state.error = "";
     },

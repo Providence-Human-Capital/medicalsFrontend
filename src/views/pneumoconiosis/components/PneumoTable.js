@@ -112,7 +112,6 @@ const PneumoTable = () => {
                 <th>Date Of Birth</th>
                 <th>Phone Number</th>
                 <th>Employee Number</th>
-                <th>Swab Status</th>
                 <th>Last X-Ray</th>
                 <th>Certificate Status</th>
                 <th className="fw-500">Actions</th>

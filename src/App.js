@@ -27,7 +27,7 @@ import Header from "./components/Header";
 import AsideNav from "./components/AsideNav";
 import ObeservationForm from "./views/patients/forms/ObservationForm";
 import PhysicalExamForm from "./views/patients/forms/PhysicalExamForm";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AddCompany from "./views/company/AddCompany";
 import EditCompany from "./views/company/EditCompany";
 import Illnesses from "./views/illnessess/Illnesses";
@@ -51,6 +51,15 @@ import Industry from "./views/industry/Industry";
 import SkinConditions from "./views/skinconditions/SkinConditions";
 import Auscultates from "./views/auscultates/Auscultates";
 import Diseases from "./views/diseases/Diseases";
+import { patientActions } from "./redux_store/patients-store";
+import { API } from "./config";
+import {
+  getPatientsAuscultateStatistics,
+  getPatientsDiseasesStatistics,
+  getPatientsIllnessStatistics,
+  getPatientsTobaccouseStatistics,
+  getPatientStatistics,
+} from "./services/api";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
@@ -69,8 +78,56 @@ const WrapperComponent = () => {
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
   const isAuthenticated = useSelector((state) => state.auth.isAuth);
 
-  // const location = useLocation()
+  const dispatch = useDispatch();
+
   useEffect(() => {
+    const currentYear = new Date().getFullYear();
+    getPatientStatistics(currentYear);
+
+    const fetchStatsData = async () => {
+      try {
+        const patientsData = await getPatientStatistics(currentYear);
+        dispatch(
+          patientActions.setStatistics({
+            patientStatistics: patientsData,
+          })
+        );
+
+        const illnessData = await getPatientsIllnessStatistics(currentYear);
+        dispatch(
+          patientActions.setIllnessStatistics({
+            patientsPerIllness: illnessData,
+          })
+        );
+
+        const tobaccoData = await getPatientsTobaccouseStatistics(currentYear);
+        dispatch(
+          patientActions.setTobaccouseStatistics({
+            patientsPerTobacco: tobaccoData,
+          })
+        );
+
+        const auscultateData = await getPatientsAuscultateStatistics(
+          currentYear
+        );
+        dispatch(
+          patientActions.setAuscultateStatistics({
+            patientsPerAuscultate: auscultateData,
+          })
+        );
+
+        const diseaseData = await getPatientsDiseasesStatistics(currentYear);
+        dispatch(
+          patientActions.setDiseasesStatistics({
+            patientsPerDisease: diseaseData,
+          })
+        );
+      } catch (error) {
+        console.log("There was an error while fetching stats ", error);
+      }
+    };
+
+    fetchStatsData();
     const body = document.body;
     if (isSidebarCollapsed) {
       body.classList.add(
@@ -180,8 +237,12 @@ const WrapperComponent = () => {
             />
 
             <Route path="/skin/conditions" exact element={<SkinConditions />} />
-            <Route path="/skin/conditions/add" exact element={<SkinConditions />} />
-            
+            <Route
+              path="/skin/conditions/add"
+              exact
+              element={<SkinConditions />}
+            />
+
             <Route path="/auscultates" exact element={<Auscultates />} />
             <Route path="/auscultates/add" exact element={<Auscultates />} />
             <Route path="/diseases" exact element={<Diseases />} />

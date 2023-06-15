@@ -96,7 +96,7 @@ const TobaccoForm = () => {
                               <div className="form-group">
                                 <label>Do you Smoke?</label>
                                 <select
-                                  className="form-control"
+                                  className="form-control my-upload"
                                   value={smokeTobacco ? "yes" : "no"}
                                   onChange={handleSmokeTobacco}
                                 >
@@ -109,7 +109,7 @@ const TobaccoForm = () => {
                                   <label>How Many Per Day:</label>
                                   <input
                                     type="number"
-                                    className="form-control"
+                                    className="form-control my-upload"
                                     value={howManyPerDay}
                                     onChange={handleHowManyPerDay}
                                   />

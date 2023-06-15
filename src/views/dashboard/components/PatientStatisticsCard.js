@@ -2,14 +2,26 @@ import React, { Fragment, useState } from "react";
 import { Line, Bar } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
 import { PatientsData } from "../DummyData";
+import { useSelector } from "react-redux";
 
 const PatientStatisticsCard = () => {
+  const patientStatistics = useSelector(
+    (state) => state.patient.patientStatistics
+  );
   const [patientsData, setPatientsData] = useState({
-    labels: PatientsData.map((data) => data.month),
+    labels: patientStatistics.map((data) => data.month),
     datasets: [
       {
-        label: "Patients Released",
-        data: PatientsData.map((data) => data.released),
+        label: "Patients",
+        data: patientStatistics.map((data) => data.patient_count),
+      },
+      {
+        label: "Referrals",
+        data: patientStatistics.map((data) => data.referral_count),
+      },
+      {
+        label: "Radiology",
+        data: patientStatistics.map((data) => data.radiology_count),
       },
     ],
   });

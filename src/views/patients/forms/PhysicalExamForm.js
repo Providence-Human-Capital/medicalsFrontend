@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import BreadCrumb from "../../../components/BreadCrumb";
 import PatientSideView from "../components/PatientSideView";
 import { Formik, Field, Form, ErrorMessage } from "formik";
@@ -12,6 +12,11 @@ import Vitals from "../components/Vitals";
 import { patientActions } from "../../../redux_store/patients-store";
 import Alert from "../../../components/notifications/Alert";
 import PButtons from "../components/PButtons";
+import { getPatient } from "../../../services/api";
+import SaveButton from "../../../components/buttons/SaveButton";
+import ToggleButton from "../../../components/buttons/ToggleButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWaveSquare } from "@fortawesome/free-solid-svg-icons";
 
 const PhysicalExamForm = () => {
   const { patientId } = useParams();
@@ -35,6 +40,7 @@ const PhysicalExamForm = () => {
   const handleButtonClick = () => {
     setShowForm(!showForm);
   };
+  const navigate = useNavigate();
 
   const physicalId = 1;
 
@@ -67,12 +73,7 @@ const PhysicalExamForm = () => {
   });
 
   const onSubmit = async (formData, { setSubmitting, resetForm }) => {
-    dispatch(
-      uiActions.setLoadingSpinner({
-        isLoading: true,
-      })
-    );
-    console.log("Physical Exam", formData);
+    dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
     try {
       const response = await fetch(`${API}/physical/${patientId}`, {
         method: "POST",
@@ -81,46 +82,29 @@ const PhysicalExamForm = () => {
         },
         body: JSON.stringify(formData),
       });
-      const data = await response.json();
-      console.log("Pysical Response", data);
-
-      if (response.ok) {
-        dispatch(
-          patientActions.setLatestPhysicalExam({
-            latestPhysicalExam: { ...data.data },
-          }),
-
-          uiActions.setAlert({
-            setAlert: true,
-          })
-        );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
       }
+      const data = await response.json();
+      dispatch(
+        patientActions.setLatestPhysicalExam({ latestPhysicalExam: data.data })
+      );
+      dispatch(uiActions.setAlert({ setAlert: true }));
+      const patientData = await getPatient();
+      dispatch(patientActions.setSinglePatient({ singlePatient: patientData }));
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+      navigate(`/patients/${patientId}`);
     } catch (error) {
       console.log("Error", error);
     } finally {
-      dispatch(
-        uiActions.setLoadingSpinner({
-          isLoading: false,
-        })
-      );
       setTimeout(() => {
-        dispatch(
-          uiActions.setAlert({
-            setAlert: false,
-          })
-        );
+        dispatch(uiActions.setAlert({ setAlert: false }));
       }, 4000);
-
       resetForm();
     }
   };
-
   const onSubmitRepeat = async (formData, { setSubmitting, resetForm }) => {
-    dispatch(
-      uiActions.setLoadingSpinner({
-        isLoading: true,
-      })
-    );
+    dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
     console.log("Physical Exam Repeat", formData);
     try {
       const response = await fetch(
@@ -133,37 +117,21 @@ const PhysicalExamForm = () => {
           body: JSON.stringify(formData),
         }
       );
-
-      const data = await response.json();
-      console.log("Pysical Response", data);
-      if (response.ok) {
-        dispatch(
-          patientActions.setLatestPhysicalExam({
-            latestPhysicalExam: { ...data.data },
-          }),
-
-          uiActions.setAlert({
-            setAlert: true,
-          })
-        );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
       }
+      const data = await response.json();
+      dispatch(
+        patientActions.setLatestPhysicalExam({ latestPhysicalExam: data.data })
+      );
+      dispatch(uiActions.setAlert({ setAlert: true }));
     } catch (error) {
       console.log("Error", error);
     } finally {
-      dispatch(
-        uiActions.setLoadingSpinner({
-          isLoading: false,
-        })
-      );
-
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
       setTimeout(() => {
-        dispatch(
-          uiActions.setAlert({
-            setAlert: false,
-          })
-        );
+        dispatch(uiActions.setAlert({ setAlert: false }));
       }, 4000);
-
       resetForm();
     }
   };
@@ -205,7 +173,7 @@ const PhysicalExamForm = () => {
                               <label for="height">Height (in m)</label>
                               <Field
                                 type="number"
-                                className="form-control"
+                                className="form-control my-upload"
                                 id="height"
                                 placeholder="Enter height"
                                 name="height"
@@ -220,7 +188,7 @@ const PhysicalExamForm = () => {
                               <label for="weight">Weight (in kg)</label>
                               <Field
                                 type="number"
-                                className="form-control"
+                                className="form-control my-upload"
                                 id="weight"
                                 placeholder="Enter weight"
                                 name="weight"
@@ -239,7 +207,7 @@ const PhysicalExamForm = () => {
                               </label>
                               <Field
                                 type="number"
-                                className="form-control"
+                                className="form-control my-upload"
                                 id="bp_sys"
                                 placeholder="Enter systolic blood pressure"
                                 name="bp_sys"
@@ -257,7 +225,7 @@ const PhysicalExamForm = () => {
                               </label>
                               <Field
                                 type="number"
-                                className="form-control"
+                                className="form-control my-upload"
                                 id="bp_dia"
                                 placeholder="Enter diastolic blood pressure"
                                 name="bp_dia"
@@ -278,32 +246,36 @@ const PhysicalExamForm = () => {
                               <div className="input-group">
                                 <Field
                                   type="number"
-                                  className="form-control"
+                                  className="form-control my-upload"
                                   id="left_vision"
                                   placeholder="Enter left vision"
                                   name="left_vision"
                                   required
                                 />
                                 <div className="input-group-append">
-                                  <span className="input-group-text">/6</span>
+                                  <span className="input-group-text my-upload">
+                                    /6
+                                  </span>
                                 </div>
                               </div>
                             </div>
                             <div className="form-group col-md-6">
-                              <label for="right_vision">
+                              <label for="right_vision ">
                                 Right Vision (out of 6)
                               </label>
                               <div className="input-group">
                                 <Field
                                   type="number"
-                                  className="form-control"
+                                  className="form-control my-upload"
                                   id="right_vision"
                                   placeholder="Enter right vision"
                                   name="right_vision"
                                   required
                                 />
                                 <div className="input-group-append">
-                                  <span className="input-group-text">/6</span>
+                                  <span className="input-group-text my-upload">
+                                    /6
+                                  </span>
                                 </div>
                               </div>
                             </div>
@@ -311,14 +283,19 @@ const PhysicalExamForm = () => {
                           {isLoading ? (
                             <Loading />
                           ) : (
-                            <button
-                              type="submit"
-                              className="btn btn-primary"
-                              disabled={isSubmitting}
+                            // <button
+                            //   type="submit"
+                            //   className="btn btn-primary"
+                            //   disabled={isSubmitting}
+                            //   onClick={handleSubmit}
+                            // >
+                            //   Submit Examination
+                            // </button>
+                            <SaveButton
+                              text={"Submit Examination"}
+                              disable={isSubmitting}
                               onClick={handleSubmit}
-                            >
-                              Submit Examination
-                            </button>
+                            />
                           )}
                         </Form>
                       )}
@@ -328,16 +305,21 @@ const PhysicalExamForm = () => {
               </div>
             </div>
           )}
-
+          
           <button
             onClick={handleButtonClick}
-            className="btn btn-primary me-5 mb-md-0 mb-5 py-3 px-4"
+            className="btn btn-primary me-5 mb-md-0 mb-5 "
           >
+            <FontAwesomeIcon color="#fff" icon={faWaveSquare} /> { " "}
             {showForm ? "Hide BP Repeat Form" : "Add BP Repeat"}
           </button>
+          {/* <ToggleButton
+            onClick={handleButtonClick}
+            text={showForm ? "Hide BP Repeat Form" : "Show BP Repeat Form"}
+          /> */}
+
           <div className="separation-div"></div>
 
-          
           {showForm && (
             <div className="box">
               <div className="custom-form">
@@ -358,7 +340,7 @@ const PhysicalExamForm = () => {
                               </label>
                               <Field
                                 type="number"
-                                className="form-control"
+                                className="form-control my-upload"
                                 id="bp_repeat_sys"
                                 placeholder="Enter systolic blood pressure"
                                 name="bp_repeat_sys"
@@ -376,7 +358,7 @@ const PhysicalExamForm = () => {
                               </label>
                               <Field
                                 type="number"
-                                className="form-control"
+                                className="form-control my-upload"
                                 id="bp_repeat_dia"
                                 placeholder="Enter diastolic blood pressure"
                                 name="bp_repeat_dia"
@@ -392,9 +374,14 @@ const PhysicalExamForm = () => {
                           {isLoading ? (
                             <Loading />
                           ) : (
-                            <button type="submit" className="btn btn-primary">
-                              Submit BP Repeat
-                            </button>
+                            // <button type="submit" className="btn btn-primary">
+                            //   Submit BP Repeat
+                            // </button>
+                            <SaveButton
+                              text={"Submit BP Repeat"}
+                              disable={isSubmitting}
+                              onClick={onSubmitRepeat}
+                            />
                           )}
                         </Form>
                       )}

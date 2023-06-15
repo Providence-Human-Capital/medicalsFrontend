@@ -2,21 +2,23 @@ import React, { Fragment, useState } from "react";
 import { Line, Bar, Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
 import { IllnessData } from "../DummyData";
+import { useSelector } from "react-redux";
 
 const IllnessAnalysisCard = () => {
+  const illnessStats = useSelector((state) => state.patient.patientsPerIllness);
   const [illnessesData, setIllnessesData] = useState({
-    labels: IllnessData.map((data) => data.disease),
+    labels: illnessStats.map((data) => data.illness),
     datasets: [
       {
-        label: "Diagonized with Disease",
-        data: IllnessData.map((data) => data.patientsNumber),
-         backgroundColor: [
+        label: "Been Treated",
+        data: illnessStats.map((data) => data.patient_count),
+        backgroundColor: [
           "#58AD46",
           "#ecf0f1",
           "#50AF85",
           "#f3ba2f",
-          "#2a71d0"
-        ]
+          "#2a71d0",
+        ],
       },
     ],
   });

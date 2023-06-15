@@ -12,6 +12,7 @@ import Loading from "../../../components/loader/Loading";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PatientSideView from "../components/PatientSideView";
+import SaveButton from "../../../components/buttons/SaveButton";
 
 const XrayForm = () => {
   const [previewImage, setPreviewImage] = useState(null);
@@ -102,7 +103,7 @@ const XrayForm = () => {
   return (
     <Fragment>
       <BreadCrumb title={"Xray"} activeTab={"Add Xray"} />
-      <div className="separation-div" ></div>
+      <div className="separation-div"></div>
       <div className="row">
         <div className="col-xl-8 col-12">
           <PButtons routeId={patientId} />
@@ -164,7 +165,7 @@ const XrayForm = () => {
                           <Field
                             as="select"
                             name="status"
-                            className="form-control"
+                            className="form-control my-upload"
                           >
                             <option value="NEGATIVE">NEGATIVE</option>
                             <option value="POSITIVE">POSITIVE</option>
@@ -182,7 +183,7 @@ const XrayForm = () => {
                             <Field
                               type="text"
                               name="result"
-                              className={`form-control ${
+                              className={`form-control my-upload ${
                                 touched.result && errors.result
                                   ? "error-input"
                                   : ""
@@ -199,13 +200,17 @@ const XrayForm = () => {
                         {isLoading ? (
                           <Loading />
                         ) : (
-                          <button
-                            type="submit"
-                            className="btn btn-primary"
-                            disabled={isSubmitting}
-                          >
-                            Save Xray Details
-                          </button>
+                          // <button
+                          //   type="submit"
+                          //   className="btn btn-primary"
+                          //   disabled={isSubmitting}
+                          // >
+                          //   Save Xray Details
+                          // </button>
+                          <SaveButton
+                            disable={isSubmitting}
+                            text={"Save Xray Details"}
+                          />
                         )}
                       </Form>
                     )}
@@ -216,7 +221,7 @@ const XrayForm = () => {
           </div>
         </div>
         <div className="col-xl-4 col-12">
-        <PatientSideView />
+          <PatientSideView />
         </div>
       </div>
     </Fragment>

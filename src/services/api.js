@@ -282,3 +282,82 @@ export const handleDeleteDisease = async (id, dispatch) => {
 export const handleDeleteAuscultates = async (id, dispatch) => {
   handleDelete(id, dispatch, "auscultate");
 };
+
+export const getPatientsIllnessStatistics = async (year) => {
+  try {
+    const response = await fetch(`${API}/patient-counts/illness/${year}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getPatientsTobaccouseStatistics = async (year) => {
+  try {
+    const response = await fetch(`${API}/patient-counts/tobacco/${year}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getPatientsAuscultateStatistics = async (year) => {
+  try {
+    const response = await fetch(`${API}/patient-counts/auscultate/${year}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getPatientsDiseasesStatistics = async (year) => {
+  try {
+    const response = await fetch(`${API}/patient-counts/disease/${year}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getPatientStatistics = async (year) => {
+  try {
+    const response = await fetch(`${API}/patient-counts/${year}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    console.log("Patient Statistics", data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -5,6 +5,7 @@ import BreadCrumb from "../../../components/BreadCrumb";
 import PButtons from "../components/PButtons";
 import PatientSideView from "../components/PatientSideView";
 import Vitals from "../components/Vitals";
+import SaveButton from "../../../components/buttons/SaveButton";
 
 const ObeservationForm = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,6 @@ const ObeservationForm = () => {
   const patientPhysicalExamRecord = useSelector(
     (state) => state.patient.latestPhysicalExam
   );
-
 
   const styles = {
     textarea: {
@@ -56,7 +56,7 @@ const ObeservationForm = () => {
                             type="text"
                             id="previous_health_issues"
                             name="previous_health_issues"
-                            className="form-control"
+                            className="form-control my-upload"
                           />
                         </div>
                       </div>
@@ -69,7 +69,7 @@ const ObeservationForm = () => {
                             type="text"
                             id="year_of_diagnosis"
                             name="year_of_diagnosis"
-                            className="form-control"
+                            className="form-control my-upload"
                             pattern="\d{4}"
                             title="Please enter a valid year (yyyy)"
                             required
@@ -83,7 +83,7 @@ const ObeservationForm = () => {
                         id="comment"
                         name="comment"
                         rows="3"
-                        className="form-control"
+                        className="form-control my-upload"
                         style={styles.textarea}
                       ></textarea>
                     </div>
@@ -118,7 +118,7 @@ const ObeservationForm = () => {
                         id="remarks"
                         name="remarks"
                         rows="3"
-                        className="form-control"
+                        className="form-control my-upload"
                         style={styles.textarea}
                       ></textarea>
                     </div>
@@ -130,7 +130,7 @@ const ObeservationForm = () => {
                             type="text"
                             id="swab_result"
                             name="swab_result"
-                            className="form-control"
+                            className="form-control my-upload"
                           />
                         </div>
                       </div>
@@ -140,7 +140,7 @@ const ObeservationForm = () => {
                           <select
                             id="fit_to_work"
                             name="fit_to_work"
-                            className="form-control"
+                            className="form-control my-upload"
                           >
                             <option value="yes">Yes</option>
                             <option value="no">No</option>
@@ -149,9 +149,11 @@ const ObeservationForm = () => {
                       </div>
                     </div>
 
-                    <button type="submit" className="btn btn-primary">
+                    {/* <button type="submit" className="btn btn-primary">
                       Save Observation
-                    </button>
+                    </button> */}
+
+                    <SaveButton text={" Save Observation"} />
                   </form>
                 </div>
               </div>
@@ -159,7 +161,7 @@ const ObeservationForm = () => {
           </div>
         </div>
         <div className="col-xl-4 col-12">
-        <PatientSideView />
+          <PatientSideView />
           {singlePatient.vitals[0] && (
             <Vitals
               vitals={patientPhysicalExamRecord}

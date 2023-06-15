@@ -60,21 +60,21 @@ const AsideNav = ({}) => {
                   </NavLink>
                 </li>
 
-                <li class="treeview">
+                <li className="treeview">
                   <a href="#" className="mb-1">
                     <i data-feather="grid"></i>
                     <span>Admin Operations</span>
-                    <span class="pull-right-container">
-                      <i class="fa fa-angle-right pull-right"></i>
+                    <span className="pull-right-container">
+                      <i className="fa fa-angle-right pull-right"></i>
                     </span>
                   </a>
-                  <ul class="treeview-menu">
+                  <ul className="treeview-menu">
                     <li id="aside-bar-tree" className="mt-1">
                       {" "}
                       <NavLink to={"/companies"}>
-                        <i class="icon-Commit">
-                          <span class="path1"></span>
-                          <span class="path2"></span>
+                        <i className="icon-Commit">
+                          <span className="path1"></span>
+                          <span className="path2"></span>
                         </i>
                         Companies
                       </NavLink>
@@ -82,9 +82,9 @@ const AsideNav = ({}) => {
                     <li id="aside-bar-tree" className="mt-1">
                       {" "}
                       <NavLink to={"/illnesses"}>
-                        <i class="icon-Commit">
-                          <span class="path1"></span>
-                          <span class="path2"></span>
+                        <i className="icon-Commit">
+                          <span className="path1"></span>
+                          <span className="path2"></span>
                         </i>
                         Illnesses (Food Handlers)
                       </NavLink>
@@ -92,9 +92,9 @@ const AsideNav = ({}) => {
                     <li id="aside-bar-tree" className="mt-1">
                       {" "}
                       <NavLink to={"/diseases"}>
-                        <i class="icon-Commit">
-                          <span class="path1"></span>
-                          <span class="path2"></span>
+                        <i className="icon-Commit">
+                          <span className="path1"></span>
+                          <span className="path2"></span>
                         </i>
                         Diseases (Natpak)
                       </NavLink>
@@ -102,9 +102,9 @@ const AsideNav = ({}) => {
                     <li id="aside-bar-tree" className="mt-1">
                       {" "}
                       <NavLink to={"/skin/conditions"}>
-                        <i class="icon-Commit">
-                          <span class="path1"></span>
-                          <span class="path2"></span>
+                        <i className="icon-Commit">
+                          <span className="path1"></span>
+                          <span className="path2"></span>
                         </i>
                         Skin Conditions
                       </NavLink>
@@ -112,9 +112,9 @@ const AsideNav = ({}) => {
                     <li id="aside-bar-tree" className="mt-1">
                       {" "}
                       <NavLink to={"/auscultates"}>
-                        <i class="icon-Commit">
-                          <span class="path1"></span>
-                          <span class="path2"></span>
+                        <i className="icon-Commit">
+                          <span className="path1"></span>
+                          <span className="path2"></span>
                         </i>
                         Auscultates
                       </NavLink>
@@ -122,9 +122,9 @@ const AsideNav = ({}) => {
                     <li id="aside-bar-tree" className="mt-1">
                       {" "}
                       <NavLink to={"/tobacco"}>
-                        <i class="icon-Commit">
-                          <span class="path1"></span>
-                          <span class="path2"></span>
+                        <i className="icon-Commit">
+                          <span className="path1"></span>
+                          <span className="path2"></span>
                         </i>
                         Tobacco Use
                       </NavLink>
@@ -153,21 +153,21 @@ const AsideNav = ({}) => {
                   </NavLink>
                 </li> */}
 
-                <li class="treeview">
+                <li className="treeview">
                   <a href="#" className="mb-1">
                     <i data-feather="activity"></i>
                     <span>Pneumoconiosis</span>
-                    <span class="pull-right-container">
-                      <i class="fa fa-angle-right pull-right"></i>
+                    <span className="pull-right-container">
+                      <i className="fa fa-angle-right pull-right"></i>
                     </span>
                   </a>
-                  <ul class="treeview-menu">
+                  <ul className="treeview-menu">
                     <li id="aside-bar-tree" className="mt-1">
                       {" "}
                       <NavLink to={"/pneumo"}>
-                        <i class="icon-Commit">
-                          <span class="path1"></span>
-                          <span class="path2"></span>
+                        <i className="icon-Commit">
+                          <span className="path1"></span>
+                          <span className="path2"></span>
                         </i>
                         Pneumoconiosis
                       </NavLink>
@@ -175,42 +175,42 @@ const AsideNav = ({}) => {
                   </ul>
                 </li>
 
-                <li class="treeview">
+                <li className="treeview">
                   <a href="#" className="mb-1">
                     <i data-feather="archive"></i>
                     <span>City of Harare</span>
-                    <span class="pull-right-container">
-                      <i class="fa fa-angle-right pull-right"></i>
+                    <span className="pull-right-container">
+                      <i className="fa fa-angle-right pull-right"></i>
                     </span>
                   </a>
-                  <ul class="treeview-menu">
+                  <ul className="treeview-menu">
                     <li id="aside-bar-tree" className="mt-1">
                       {" "}
                       <NavLink to={"/foodhandlers"}>
-                        <i class="icon-Commit">
-                          <span class="path1"></span>
-                          <span class="path2"></span>
+                        <i className="icon-Commit">
+                          <span className="path1"></span>
+                          <span className="path2"></span>
                         </i>
                         Food Handlers
                       </NavLink>
                     </li>
                   </ul>
                 </li>
-                <li class="treeview">
+                <li className="treeview">
                   <a href="#" className="mb-1">
                     <i data-feather="archive"></i>
                     <span>Industry</span>
-                    <span class="pull-right-container">
-                      <i class="fa fa-angle-right pull-right"></i>
+                    <span className="pull-right-container">
+                      <i className="fa fa-angle-right pull-right"></i>
                     </span>
                   </a>
-                  <ul class="treeview-menu">
+                  <ul className="treeview-menu">
                     <li id="aside-bar-tree" className="mt-1">
                       {" "}
                       <NavLink to={"/industry"}>
-                        <i class="icon-Commit">
-                          <span class="path1"></span>
-                          <span class="path2"></span>
+                        <i className="icon-Commit">
+                          <span className="path1"></span>
+                          <span className="path2"></span>
                         </i>
                         Industries & Other
                       </NavLink>
@@ -225,21 +225,21 @@ const AsideNav = ({}) => {
                   </NavLink>
                 </li>
 
-                <li class="treeview">
+                <li className="treeview">
                   <a href="#" className="mb-1">
                     <i data-feather="folder"></i>
                     <span>Inventory Management</span>
-                    <span class="pull-right-container">
-                      <i class="fa fa-angle-right pull-right"></i>
+                    <span className="pull-right-container">
+                      <i className="fa fa-angle-right pull-right"></i>
                     </span>
                   </a>
-                  <ul class="treeview-menu">
+                  <ul className="treeview-menu">
                     <li id="aside-bar-tree" className="mt-1">
                       {" "}
                       <NavLink>
-                        <i class="icon-Commit">
-                          <span class="path1"></span>
-                          <span class="path2"></span>
+                        <i className="icon-Commit">
+                          <span className="path1"></span>
+                          <span className="path2"></span>
                         </i>
                         Food Handlers
                       </NavLink>

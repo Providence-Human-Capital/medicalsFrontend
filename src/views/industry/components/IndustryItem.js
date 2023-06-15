@@ -50,7 +50,7 @@ const IndustryItem = ({ patient }) => {
 
         <td class="text-end">
           <Link
-            to={`${patient.id}`}
+            to={`/patients/${patient.id}`}
             class="waves-effect waves-light btn btn-primary-light btn-circle"
           >
             <span class="icon-Settings-1 fs-18">

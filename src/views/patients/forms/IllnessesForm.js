@@ -167,7 +167,7 @@ const IllnessesForm = () => {
                               <div className="form-group">
                                 <label>Treated for this disease?</label>
                                 <select
-                                  className="form-control"
+                                  className="form-control my-upload"
                                   value={treatedForDisease ? "yes" : "no"}
                                   onChange={handleTreatedForDisease}
                                 >
@@ -180,7 +180,7 @@ const IllnessesForm = () => {
                                   <label>Year of treatment:</label>
                                   <input
                                     type="text"
-                                    className={`form-control ${
+                                    className={`form-control my-upload${
                                       error ? "is-invalid" : ""
                                     }`}
                                     value={yearOfTreatment}

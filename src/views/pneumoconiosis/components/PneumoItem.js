@@ -28,20 +28,6 @@ const PneumoItem = ({ patient }) => {
         <td>{patient.phone_number}</td>
         <td>{patient.employee_number}</td>
 
-        <td>
-          {patient.swabs.length !== 0 ? (
-            <SwabResultDropdown
-              patientId={patient.id}
-              initialSwabResult={`${patient.swabs[0].status}`}
-            />
-          ) : (
-            <SwabResultDropdown
-              patientId={patient.id}
-              initialSwabResult={"PENDING"}
-            />
-          )}
-        </td>
-
         {(patient.last_x_ray === "N/A") | (patient.last_x_ray === null) ? (
           <td>N/A</td>
         ) : (
