@@ -361,3 +361,37 @@ export const getPatientStatistics = async (year) => {
     console.log(error);
   }
 };
+
+export const getActivityByDay = async () => {
+  try {
+    const response = await fetch(`${API}/activity-by-day`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    const activityData = await response.json();
+    return activityData;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getPatientReportByDay = async () => {
+  try {
+    const response = await fetch(`${API}/activity-by-day/report`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    const patientReportData = await response.json();
+    return patientReportData;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -146,13 +146,6 @@ const AsideNav = ({}) => {
                   </NavLink>
                 </li>
 
-                {/* <li id="aside-bar">
-                  <NavLink to={"/companies"}>
-                    <i data-feather="plus-square"></i>
-                    <span>Companies</span>
-                  </NavLink>
-                </li> */}
-
                 <li className="treeview">
                   <a href="#" className="mb-1">
                     <i data-feather="activity"></i>
@@ -247,34 +240,22 @@ const AsideNav = ({}) => {
                   </ul>
                 </li>
 
-                {/* <li id="aside-bar">
-                  <NavLink to={"/illnesses"}>
-                    <i data-feather="thermometer"></i>
-                    <span>Illnesses</span>
-                  </NavLink>
-                </li> */}
-
-                {/* <li id="aside-bar">
-                  <NavLink to={"/tobacco"}>
-                    <i data-feather="slash"></i>
-                    <span>Tobacco Use</span>
-                  </NavLink>
-                </li> */}
+               
 
                 <li id="aside-bar">
-                  <NavLink to={"/"} activeclassname="active">
+                  <NavLink to={"/certificates"} activeclassname="active">
                     <i data-feather="file-text"></i>
                     <span>Certificates</span>
                   </NavLink>
                 </li>
                 <li id="aside-bar">
-                  <NavLink to={"/"} activeclassname="active">
+                  <NavLink to={"/reports"} activeclassname="active">
                     <i data-feather="square"></i>
                     <span>Reports</span>
                   </NavLink>
                 </li>
                 <li id="aside-bar">
-                  <NavLink to={"/"} activeclassname="active">
+                  <NavLink to={"/appointments"} activeclassname="active">
                     <i data-feather="calendar"></i>
                     <span>Appointments</span>
                   </NavLink>

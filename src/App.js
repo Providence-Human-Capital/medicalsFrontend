@@ -60,6 +60,10 @@ import {
   getPatientsTobaccouseStatistics,
   getPatientStatistics,
 } from "./services/api";
+import Reports from "./views/reports/Reports";
+import Appointments from "./views/appointments/Appointments";
+import CertificatesPage from "./views/certificates/CertificatesPage";
+import SingleReportPage from "./views/reports/SingleReportPage";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
@@ -255,6 +259,11 @@ const WrapperComponent = () => {
             <Route path="/pneumo" exact element={<Pneumo />} />
             <Route path="/foodhandlers" exact element={<CityOfHarare />} />
             <Route path="/industry" exact element={<Industry />} />
+
+            <Route path="/reports" exact element={<Reports />} />
+            <Route path="/report/single/:day" exact element={<SingleReportPage />} />
+            <Route path="/appointments" exact element={<Appointments />} />
+            <Route path="/certificates" exact element={<CertificatesPage />} />
           </Routes>
         </div>
       </div>

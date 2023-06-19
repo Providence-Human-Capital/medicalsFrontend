@@ -4,7 +4,7 @@ button {
   border-radius: 0.9em;
   padding: 0.8em 1.2em 0.8em 1em;
   transition: all ease-in-out 0.2s;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 button span {

@@ -17,6 +17,9 @@ const initialState = {
   patientsPerAuscultate: [],
   patientsPerTobacco: [],
   patientsPerDisease: [],
+
+  activityByDay: [],
+  reportByDay: [],
 };
 
 const patientSlice = createSlice({
@@ -29,12 +32,33 @@ const patientSlice = createSlice({
       state.error = "";
     },
 
+    isLoadingStart: (state, action) => {
+      state.isLoading = true;
+    },
+
+    isError: (state, action) => {
+      state.error = action.payload.error;
+      state.isLoading = false;
+    },
+
     setPneumoPatients: (state, action) => {
       state.pneumoPatients = action.payload.pneumoPatients;
       state.isLoading = false;
       state.error = "";
     },
 
+    setActivityByDay: (state, action) => {
+      state.activityByDay = action.payload.activityByDay;
+      state.isLoading = false;
+      state.error = "";
+    },
+
+    setReportByDay: (state, action) => {
+      state.reportByDay = action.payload.reportByDay;
+      state.isLoading = false;
+      state.error = "";
+    },
+    
     setStatistics: (state, action) => {
       state.patientStatistics = action.payload.patientStatistics;
       state.isLoading = false;

@@ -33,7 +33,7 @@ const Header = ({}) => {
 
   const styles = {
     logoStyles: {
-      height: "80px",
+      height: "4rem",
     },
 
     logoutCursor: {

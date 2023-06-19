@@ -1,0 +1,8 @@
+.pdf-container {
+  height: 80vh;
+  width: auto;
+}
+.pdf-viewer {
+  height: 100%;
+  width: 100%;
+}

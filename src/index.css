@@ -1,17 +1,4 @@
-body {
-  margin: 0 !important;
-  padding: 0 !important;
-}
-* {
-  box-sizing: border-box;
-}
 
-#root {
-  margin: 0;
-  padding: 0;
-  width: 100vw;
-  height: auto;
-}
 
 .form-control {
   color: #888;
@@ -115,11 +102,21 @@ body {
 #aside-bar-tree a.active {
   border-right: 3px solid #58ad46;
 }
+.sidebar-menu > li > a > i {
+ 
+}
 
 .sidebar-menu > li > a {
-  padding: 10px 15px;
+  padding: 7px 9px;
   display: block;
   border-radius: 0px !important;
+  font-size: 1rem !important;
+}
+
+.sidebar-menu > li > a:hover,
+.sidebar-menu > li > a:focus,
+.sidebar-menu > li > a:active {
+  padding: 7px 9px !important;
 }
 .paginate-position {
   position: absolute;
@@ -447,4 +444,8 @@ button {
 
 .excel-btn{
   text-transform: uppercase;
+}
+
+.my-bgg{
+  /* background-image: url(../../../../public/assets/images/gallery/creative/img-1.jpg); */
 }

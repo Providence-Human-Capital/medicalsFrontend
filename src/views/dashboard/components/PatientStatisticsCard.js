@@ -40,3 +40,4 @@ const PatientStatisticsCard = () => {
 };
 
 export default PatientStatisticsCard;
+ 

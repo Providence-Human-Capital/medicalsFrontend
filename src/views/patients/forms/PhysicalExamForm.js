@@ -310,7 +310,7 @@ const PhysicalExamForm = () => {
             onClick={handleButtonClick}
             className="btn btn-primary me-5 mb-md-0 mb-5 "
           >
-            <FontAwesomeIcon color="#fff" icon={faWaveSquare} /> { " "}
+            <FontAwesomeIcon color="#fff" icon={faWaveSquare} /> { "  "}
             {showForm ? "Hide BP Repeat Form" : "Add BP Repeat"}
           </button>
           {/* <ToggleButton

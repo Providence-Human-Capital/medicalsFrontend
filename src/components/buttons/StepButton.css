@@ -10,7 +10,7 @@
   display: flex;
   gap: 4px;
   align-items: center;
-  font-size: 13px;
+  font-size: 1rem;
   box-shadow: rgba(150, 143, 143, 0.2) 0px 2px 8px 0px;
 }
 
