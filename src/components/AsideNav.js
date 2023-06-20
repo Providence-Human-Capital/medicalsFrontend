@@ -234,13 +234,11 @@ const AsideNav = ({}) => {
                           <span className="path1"></span>
                           <span className="path2"></span>
                         </i>
-                        Food Handlers
+                        Inventory
                       </NavLink>
                     </li>
                   </ul>
                 </li>
-
-               
 
                 <li id="aside-bar">
                   <NavLink to={"/certificates"} activeclassname="active">

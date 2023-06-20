@@ -91,3 +91,59 @@ import axios from "axios";
   );
 }
  export default StepForm;
+
+
+
+
+
+   Schema::create('control_measures', function (Blueprint $table) {
+            $table->string('exercise')->nullable();
+            $table->string('how_often')->nullable();
+            $table->string('how_long')->nullable();
+            $table->integer('height')->nullable();
+            $table->integer('weight')->nullable();
+            $table->string('chest_in')->nullable();
+            $table->string('chest_out')->nullable();
+            $table->string('mental_state')->nullable();
+            $table->integer('le_glass')->nullable();
+            $table->integer('le_woglass')->nullable();
+            $table->integer('re_glass')->nullable();
+            $table->integer('re_woglass')->nullable();
+            $table->string('right_ear')->nullable();
+            $table->string('left_ear')->nullable();
+            $table->string('audiogram_comment')->nullable();
+            $table->string('speech')->nullable();
+        });
+
+
+         Schema::create('cadio_vascular', function (Blueprint $table) {
+           $table->string('apex_beat_position')->nullable();
+           $table->string('rate')->nullable();
+           $table->string('rhythm')->nullable();
+           $table->string('sound')->nullable();
+           $table->string('murmurs')->nullable();
+           $table->string('blood_pressure')->nullable();
+           $table->string('exercise_tolerance')->nullable();
+        });
+
+        Schema::create('respiratory', function (Blueprint $table) {
+           $table->string('lungs')->nullable();
+           $table->string('x_ray_comment')->nullable();
+           $table->string('spirometry_comment')->nullable();
+           $table->string('fev')->nullable();
+           $table->string('fvc')->nullable();
+           $table->string('sears')->nullable();
+           $table->string('tenderness')->nullable();
+           $table->string('hernia')->nullable();
+           $table->string('organomegaly')->nullable();
+           $table->string('kidney_enlargement')->nullable();
+           $table->string('urine_appear')->nullable();
+           $table->string('sg')->nullable();
+           $table->string('albumin')->nullable();
+           $table->string('sugar')->nullable();
+           $table->string('deposit')->nullable();
+           $table->string('evidence_of_disease')->nullable();
+           $table->string('evidence_of_any_disease')->nullable();
+           $table->string('lmp')->nullable();
+           $table->string('parity')->nullable();
+         });

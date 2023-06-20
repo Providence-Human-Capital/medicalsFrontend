@@ -75,7 +75,7 @@ const StepForm = ({ currentStep }) => {
               />
             </span>
 
-            <span className="progress-label">Healthy Questionnaire</span>
+            <span className="progress-label">Additional Patient Details</span>
           </li>
         </ul>
       </section>

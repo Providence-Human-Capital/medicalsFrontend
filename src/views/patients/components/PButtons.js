@@ -12,7 +12,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import StepButton from "../../../components/buttons/StepButton";
 
-const PButtons = ({ routeId }) => {
+const PButtons = ({ routeId, patient }) => {
   const location = useLocation();
   useEffect(() => {
     console.log(
@@ -41,31 +41,55 @@ const PButtons = ({ routeId }) => {
         </NavLink>
         <div className="d-flex">
           <ul className="navi-list list-unstyled">
-            <StepButton
-              text={"Physical Examination"}
-              icon={faStethoscope}
-              toLink={`/patients/${routeId}/physical`}
-            />
-            <StepButton
-              text={"Illnesses"}
-              icon={faHeartbeat}
-              toLink={`/patients/${routeId}/illnesses`}
-            />
-            <StepButton
-              text={"Tobbacco Use"}
-              icon={faSmoking}
-              toLink={`/patients/${routeId}/tobacco`}
-            />
-            <StepButton
-              text={"Add Xray"}
-              icon={faXRay}
-              toLink={`/patients/${routeId}/xray/add`}
-            />
-            <StepButton
-              text={"Obeservation and Remarks"}
-              icon={faComment}
-              toLink={`/patients/${routeId}/observation`}
-            />
+            {patient.category && patient.category === "Industry" && (
+              <Fragment>
+                <StepButton
+                  text={`Update ${patient.category} Patient`}
+                  icon={faStethoscope}
+                  toLink={`/patient/industry/${routeId}`}
+                />
+              </Fragment>
+            )}
+
+            {patient.category && patient.category === "Pneumoconiosis" && (
+              <Fragment>
+                <StepButton
+                  text={`Update ${patient.category} Patient`}
+                  icon={faStethoscope}
+                  toLink={`/patient/pneumo/${routeId}`}
+                />
+              </Fragment>
+            )}
+
+            {patient.category && patient.category === "City Of Harare" && (
+              <Fragment>
+                <StepButton
+                  text={"Physical Examination"}
+                  icon={faStethoscope}
+                  toLink={`/patients/${routeId}/physical`}
+                />
+                <StepButton
+                  text={"Illnesses"}
+                  icon={faHeartbeat}
+                  toLink={`/patients/${routeId}/illnesses`}
+                />
+                <StepButton
+                  text={"Tobbacco Use"}
+                  icon={faSmoking}
+                  toLink={`/patients/${routeId}/tobacco`}
+                />
+                <StepButton
+                  text={"Add Xray"}
+                  icon={faXRay}
+                  toLink={`/patients/${routeId}/xray/add`}
+                />
+                <StepButton
+                  text={"Obeservation and Remarks"}
+                  icon={faComment}
+                  toLink={`/patients/${routeId}/observation`}
+                />
+              </Fragment>
+            )}
           </ul>
         </div>
       </div>

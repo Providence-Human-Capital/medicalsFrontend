@@ -2,53 +2,53 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-const ControlMeasuresForm = ({ handlePrev, handleNext }) => {
-  const initialValues = {
-    wet_method: false,
-    contain_and_vent: false,
-    monitoring: false,
-    ppe: "",
-    ppe_details: "",
-    other: "",
-    other_details: "",
-  };
+const AdditionalTestsSchema = Yup.object().shape({
+  sputum: Yup.boolean(),
+  ecg: Yup.boolean(),
+  echo: Yup.boolean(),
+  chest_scan: Yup.boolean(),
+  other: Yup.boolean(),
+  other_details: Yup.string().when("other", {
+    is: true,
+    then: Yup.string().required("Other details are required"),
+  }),
+});
 
-  const validationSchema = Yup.object({
-    ppe_details: Yup.string().when("ppe", {
-      is: "Yes",
-      then: Yup.string().required("PPE details are required"),
-    }),
-  });
-
-  const handleSubmit = (values) => {
-    console.log(values);
-    // Submit form data to Laravel API
-  };
-
+const AdditionalTests = ({ handlePrev, handleNext }) => {
   return (
     <div className="step-form">
       <div className="box">
         <div className="custom-form">
           <div className="box-body">
             <div className="container">
-              <h4>Details of Control Measures Being Implemented</h4>
+              <h4>Additional Tests Requested</h4>
               <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={handleSubmit}
+                initialValues={{
+                  sputum: false,
+                  ecg: false,
+                  echo: false,
+                  chest_scan: false,
+                  other: false,
+                  other_details: "",
+                }}
+                validationSchema={AdditionalTestsSchema}
+                onSubmit={(values) => {
+                  console.log(values);
+                }}
               >
-                {({ isSubmitting, values, handleChange }) => (
+                {({ values, errors, touched }) => (
                   <Form>
+                    <p>
+                      Specify additional tests requested from the list below
+                    </p>
                     <div className="row">
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label htmlFor="wet_method">Wet Method</label>
+                          <label htmlFor="sputum">Sputum</label>
                           <Field
                             as="select"
-                            name="wet_method"
-                            value={values.wet_method}
-                            onChange={handleChange}
                             className="form-control my-upload"
+                            name="sputum"
                           >
                             <option value={false}>No</option>
                             <option value={true}>Yes</option>
@@ -57,104 +57,79 @@ const ControlMeasuresForm = ({ handlePrev, handleNext }) => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label htmlFor="contain_and_vent">
-                            Contain and Vent
-                          </label>
+                          <label htmlFor="ecg">ECG</label>
                           <Field
                             as="select"
-                            name="contain_and_vent"
-                            value={values.contain_and_vent}
-                            onChange={handleChange}
                             className="form-control my-upload"
+                            name="ecg"
                           >
                             <option value={false}>No</option>
                             <option value={true}>Yes</option>
-                          </Field>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label htmlFor="monitoring">Monitoring</label>
-                          <Field
-                            as="select"
-                            name="monitoring"
-                            value={values.monitoring}
-                            onChange={handleChange}
-                            className="form-control my-upload"
-                          >
-                            <option value={false}>No</option>
-                            <option value={true}>Yes</option>
-                          </Field>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label htmlFor="ppe">PPE</label>
-                          <Field
-                            as="select"
-                            name="ppe"
-                            value={values.ppe}
-                            onChange={handleChange}
-                            className="form-control my-upload"
-                          >
-                            <option value="">Select an option</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
                           </Field>
                         </div>
                       </div>
                     </div>
 
-                    {values.ppe === "Yes" && (
-                      <div className="form-group">
-                        <label htmlFor="ppe_details">PPE Details</label>
-                        <Field
-                          type="text"
-                          name="ppe_details"
-                          className="form-control my-upload"
-                          value={values.ppe_details}
-                          onChange={handleChange}
-                        />
-                        <ErrorMessage
-                          name="ppe_details"
-                          component="div"
-                          className="text-danger"
-                        />
+                    <div className="row">
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="echo">Echo</label>
+                          <Field
+                            as="select"
+                            className="form-control my-upload"
+                            name="echo"
+                          >
+                            <option value={false}>No</option>
+                            <option value={true}>Yes</option>
+                          </Field>
+                        </div>
                       </div>
-                    )}
-                    <div className="form-group">
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="chest_scan">Chest Scan</label>
+                          <Field
+                            as="select"
+                            className="form-control my-upload"
+                            name="chest_scan"
+                          >
+                            <option value={false}>No</option>
+                            <option value={true}>Yes</option>
+                          </Field>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="form-group col-md-4">
                       <label htmlFor="other">Other</label>
                       <Field
                         as="select"
-                        name="other"
-                        value={values.other}
-                        onChange={handleChange}
                         className="form-control my-upload"
+                        name="other"
                       >
-                        <option value="">Select an option</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
+                        <option value={false}>No</option>
+                        <option value={true}>Yes</option>
                       </Field>
                     </div>
-                    {values.other === "Yes" && (
+                    {values.other && (
                       <div className="form-group">
                         <label htmlFor="other_details">Other Details</label>
                         <Field
                           type="text"
+                          className={`form-control my-upload ${
+                            errors.other_details && touched.other_details
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           name="other_details"
-                          className="form-control my-upload"
-                          value={values.other_details}
-                          onChange={handleChange}
+                        />
+                        <ErrorMessage
+                          name="other_details"
+                          component="div"
+                          className="invalid-feedback"
                         />
                       </div>
                     )}
-                    {/* <button
-                      type="submit"
-                      className="btn btn-primary"
-                      disabled={isSubmitting}
-                    >
+                    {/* <button type="submit" className="btn btn-primary">
                       Submit
                     </button> */}
                   </Form>
@@ -182,4 +157,4 @@ const ControlMeasuresForm = ({ handlePrev, handleNext }) => {
   );
 };
 
-export default ControlMeasuresForm;
+export default AdditionalTests;

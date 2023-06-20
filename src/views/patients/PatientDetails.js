@@ -113,7 +113,7 @@ const PatientDetails = () => {
         <section className="content">
           <div className="row">
             <div className="col-xl-8 col-12">
-              <PButtons routeId={patientId} />
+              <PButtons routeId={patientId} patient={singlePatient} />
               <div className="col-xl-12 col-12">
                 <InfoBox patient={singlePatient} />
               </div>
