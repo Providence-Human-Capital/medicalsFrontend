@@ -67,6 +67,7 @@ import SingleReportPage from "./views/reports/SingleReportPage";
 import MedicalHistoryForm from "./views/industry/forms/MedicalHistoryForm";
 import IndustryPatientUpdate from "./views/industry/IndustryPatientUpdate";
 import PneumoPatientUpdate from "./views/pneumoconiosis/PneumoPatientUpdate";
+import FoodPatientUpdate from "./views/patients/FoodPatientUpdate";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
@@ -279,6 +280,11 @@ const WrapperComponent = () => {
             <Route
               path="/patient/pneumo/:patientId"
               element={<PneumoPatientUpdate />}
+            />
+
+            <Route
+              path="/patient/foodhandler/:patientId"
+              element={<FoodPatientUpdate />}
             />
           </Routes>
         </div>

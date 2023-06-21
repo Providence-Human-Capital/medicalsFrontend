@@ -38,6 +38,7 @@ const ICommentsRemarksForm = ({ handlePrev, handleNext }) => {
                       </label>
                       <Field
                         as="textarea"
+                        rows={5}
                         className={
                           "form-control my-upload" +
                           (errors.doctors_comments && touched.doctors_comments

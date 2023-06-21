@@ -18,7 +18,7 @@ import ToggleButton from "../../../components/buttons/ToggleButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWaveSquare } from "@fortawesome/free-solid-svg-icons";
 
-const PhysicalExamForm = () => {
+const PhysicalExamForm = ({ handlePrev, handleNext }) => {
   const { patientId } = useParams();
   const styles = {
     textarea: {
@@ -142,266 +142,343 @@ const PhysicalExamForm = () => {
   );
   const addedNew = useSelector((state) => state.ui.showAlert);
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
   return (
     <Fragment>
-      <BreadCrumb
-        title={"Observation and Remarks"}
-        activeTab={"General Observation"}
-      />
-      {addedNew && <Alert message={"Physical Exam Successfully Added!"} />}
+      <div className="step-form">
+        <div className="row">
+          <div className="col-xl-12 col-12">
 
-      <div className="separation-div"></div>
-      <div className="row">
-        <div className="col-xl-8 col-12">
-          <PButtons routeId={patientId} />
-          {!showForm && (
-            <div className="box">
-              <div className="custom-form">
-                <div className="box-body">
-                  <div className="container">
-                    <h2>Physical Examination</h2>
-                    <Formik
-                      initialValues={initialValues}
-                      onSubmit={onSubmit}
-                      validationSchema={validationSchema}
-                    >
-                      {({ values, isSubmitting, handleSubmit }) => (
-                        <Form>
-                          <div className="row">
-                            <div className="form-group col-md-6">
-                              <label for="height">Height (in m)</label>
-                              <Field
-                                type="number"
-                                className="form-control my-upload"
-                                id="height"
-                                placeholder="Enter height"
-                                name="height"
-                              />
-                              <ErrorMessage
-                                name="height"
-                                component="div"
-                                className="text-danger"
-                              />
-                            </div>
-                            <div className="form-group col-md-6">
-                              <label for="weight">Weight (in kg)</label>
-                              <Field
-                                type="number"
-                                className="form-control my-upload"
-                                id="weight"
-                                placeholder="Enter weight"
-                                name="weight"
-                              />
-                              <ErrorMessage
-                                name="weight"
-                                component="div"
-                                className="text-danger"
-                              />
-                            </div>
-                          </div>
-                          <div className="row">
-                            <div className="form-group col-md-6">
-                              <label for="bp_sys">
-                                Systolic Blood Pressure
-                              </label>
-                              <Field
-                                type="number"
-                                className="form-control my-upload"
-                                id="bp_sys"
-                                placeholder="Enter systolic blood pressure"
-                                name="bp_sys"
-                              />
-                              <ErrorMessage
-                                name="bp_sys"
-                                component="div"
-                                className="text-danger"
-                              />
-                            </div>
+            {!showForm && (
+              <div className="box">
+                <div className="custom-form">
+                  <div className="box-body">
+                    <div className="container">
+                      <h3>
+                        <strong>Physical Examination</strong>
+                      </h3>
+                      <Formik
+                        initialValues={initialValues}
+                        onSubmit={onSubmit}
+                        validationSchema={validationSchema}
+                      >
+                        {({ values, isSubmitting, handleSubmit }) => (
+                          <Form>
+                            <div className="row">
+                              <div className="form-group col-md-6">
+                                <div className="row">
+                                  <div className="col-md-4">
+                                    <label for="height">
+                                      <strong>Height (in m)</strong>
+                                    </label>
+                                  </div>
+                                  <div className="col-md-8">
+                                    <Field
+                                      type="number"
+                                      className="form-control my-upload"
+                                      id="height"
+                                      placeholder="Enter height"
+                                      name="height"
+                                    />
+                                    <ErrorMessage
+                                      name="height"
+                                      component="div"
+                                      className="text-danger"
+                                    />
+                                  </div>
+                                </div>
 
-                            <div className="form-group col-md-6">
-                              <label for="bp_dia">
-                                Diastolic Blood Pressure
-                              </label>
-                              <Field
-                                type="number"
-                                className="form-control my-upload"
-                                id="bp_dia"
-                                placeholder="Enter diastolic blood pressure"
-                                name="bp_dia"
-                                required
-                              />
-                              <ErrorMessage
-                                name="bp_dia"
-                                component="div"
-                                className="text-danger"
-                              />
+
+                              </div>
+                              <div className="form-group col-md-6">
+                                <div className="row">
+                                  <div className="col-md-4">
+                                    <label for="weight">
+                                      <strong>
+                                        Weight (in kg)
+                                      </strong>
+                                    </label>
+                                  </div>
+                                  <div className="col-md-8">
+                                    <Field
+                                      type="number"
+                                      className="form-control my-upload"
+                                      id="weight"
+                                      placeholder="Enter weight"
+                                      name="weight"
+                                    />
+                                    <ErrorMessage
+                                      name="weight"
+                                      component="div"
+                                      className="text-danger"
+                                    />
+                                  </div>
+                                </div>
+
+
+                              </div>
                             </div>
-                          </div>
-                          <div className="row">
-                            <div className="form-group col-md-6">
-                              <label for="left_vision">
-                                Left Vision (out of 6)
-                              </label>
-                              <div className="input-group">
-                                <Field
-                                  type="number"
-                                  className="form-control my-upload"
-                                  id="left_vision"
-                                  placeholder="Enter left vision"
-                                  name="left_vision"
-                                  required
-                                />
-                                <div className="input-group-append">
-                                  <span className="input-group-text my-upload">
-                                    /6
-                                  </span>
+                            <div className="row">
+                              <div className="form-group col-md-6">
+                                <div className="row">
+                                  <div className="col-md-4">
+                                    <label for="bp_sys">
+                                      <strong>Systolic Blood Pressure</strong>
+                                    </label>
+                                  </div>
+                                  <div className="col-md-8">
+                                    <Field
+                                      type="number"
+                                      className="form-control my-upload"
+                                      id="bp_sys"
+                                      placeholder="Enter systolic blood pressure"
+                                      name="bp_sys"
+                                    />
+                                    <ErrorMessage
+                                      name="bp_sys"
+                                      component="div"
+                                      className="text-danger"
+                                    />
+                                  </div>
+                                </div>
+
+
+                              </div>
+
+                              <div className="form-group col-md-6">
+                                <div className="row">
+                                  <div className="col-md-4">
+                                    <label for="bp_dia">
+                                      <strong>
+                                        Diastolic Blood Pressure
+                                      </strong>
+
+                                    </label>
+                                  </div>
+                                  <div className="col-md-8">
+                                    <Field
+                                      type="number"
+                                      className="form-control my-upload"
+                                      id="bp_dia"
+                                      placeholder="Enter diastolic blood pressure"
+                                      name="bp_dia"
+                                      required
+                                    />
+                                    <ErrorMessage
+                                      name="bp_dia"
+                                      component="div"
+                                      className="text-danger"
+                                    />
+                                  </div>
+                                </div>
+
+
+                              </div>
+                            </div>
+                            <div className="row">
+                              <div className="form-group col-md-6">
+                                <label for="left_vision">
+                                  Left Vision (out of 6)
+                                </label>
+                                <div className="input-group">
+                                  <Field
+                                    type="number"
+                                    className="form-control my-upload"
+                                    id="left_vision"
+                                    placeholder="Enter left vision"
+                                    name="left_vision"
+                                    required
+                                  />
+                                  <div className="input-group-append">
+                                    <span className="input-group-text my-upload">
+                                      /6
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="form-group col-md-6">
+                                <label for="right_vision ">
+                                  Right Vision (out of 6)
+                                </label>
+                                <div className="input-group">
+                                  <Field
+                                    type="number"
+                                    className="form-control my-upload"
+                                    id="right_vision"
+                                    placeholder="Enter right vision"
+                                    name="right_vision"
+                                    required
+                                  />
+                                  <div className="input-group-append">
+                                    <span className="input-group-text my-upload">
+                                      /6
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                            <div className="form-group col-md-6">
-                              <label for="right_vision ">
-                                Right Vision (out of 6)
-                              </label>
-                              <div className="input-group">
-                                <Field
-                                  type="number"
-                                  className="form-control my-upload"
-                                  id="right_vision"
-                                  placeholder="Enter right vision"
-                                  name="right_vision"
-                                  required
-                                />
-                                <div className="input-group-append">
-                                  <span className="input-group-text my-upload">
-                                    /6
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          {isLoading ? (
-                            <Loading />
-                          ) : (
-                            // <button
-                            //   type="submit"
-                            //   className="btn btn-primary"
-                            //   disabled={isSubmitting}
-                            //   onClick={handleSubmit}
-                            // >
-                            //   Submit Examination
-                            // </button>
-                            <SaveButton
-                              text={"Submit Examination"}
-                              disable={isSubmitting}
-                              onClick={handleSubmit}
-                            />
-                          )}
-                        </Form>
-                      )}
-                    </Formik>
+                            {/* {isLoading ? (
+                              <Loading />
+                            ) : (
+                              // <button
+                              //   type="submit"
+                              //   className="btn btn-primary"
+                              //   disabled={isSubmitting}
+                              //   onClick={handleSubmit}
+                              // >
+                              //   Submit Examination
+                              // </button>
+                              <SaveButton
+                                text={"Submit Examination"}
+                                disable={isSubmitting}
+                                onClick={handleSubmit}
+                              />
+                            )} */}
+                          </Form>
+                        )}
+                      </Formik>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
-          
-          <button
-            onClick={handleButtonClick}
-            className="btn btn-primary me-5 mb-md-0 mb-5 "
-          >
-            <FontAwesomeIcon color="#fff" icon={faWaveSquare} /> { "  "}
-            {showForm ? "Hide BP Repeat Form" : "Add BP Repeat"}
-          </button>
-          {/* <ToggleButton
+            )}
+
+            <button
+              onClick={handleButtonClick}
+              className="btn btn-primary me-5 mb-md-0 mb-5 "
+            >
+              <FontAwesomeIcon color="#fff" icon={faWaveSquare} /> {"  "}
+              {showForm ? "Hide BP Repeat Form" : "Add BP Repeat"}
+            </button>
+            {/* <ToggleButton
             onClick={handleButtonClick}
             text={showForm ? "Hide BP Repeat Form" : "Show BP Repeat Form"}
           /> */}
 
-          <div className="separation-div"></div>
+            <div className="separation-div"></div>
 
-          {showForm && (
-            <div className="box">
-              <div className="custom-form">
-                <div className="box-body">
-                  <div className="container">
-                    <h2>Blood Pressure Repeat</h2>
-                    <Formik
-                      initialValues={bpRepeatInitialValues}
-                      onSubmit={onSubmitRepeat}
-                      validationSchema={bpRvalidationSchema}
-                    >
-                      {({ values, isSubmitting, handleSubmit }) => (
-                        <Form>
-                          <div className="row">
-                            <div className="form-group col-md-6">
-                              <label for="bp_repeat_sys">
-                                Systolic Blood Pressure
-                              </label>
-                              <Field
-                                type="number"
-                                className="form-control my-upload"
-                                id="bp_repeat_sys"
-                                placeholder="Enter systolic blood pressure"
-                                name="bp_repeat_sys"
-                                required
-                              />
-                              <ErrorMessage
-                                name="bp_repeat_sys"
-                                component="div"
-                                className="text-danger"
-                              />
+            {showForm && (
+              <div className="box">
+                <div className="custom-form">
+                  <div className="box-body">
+                    <div className="container">
+                      <h2>Blood Pressure Repeat</h2>
+                      <Formik
+                        initialValues={bpRepeatInitialValues}
+                        onSubmit={onSubmitRepeat}
+                        validationSchema={bpRvalidationSchema}
+                      >
+                        {({ values, isSubmitting, handleSubmit }) => (
+                          <Form>
+                            <div className="row">
+                              <div className="form-group col-md-6">
+
+                                <div className="row">
+                                  <div className="col-md-4">
+                                    <label for="bp_repeat_sys">
+                                      <strong>
+                                        Systolic Blood Pressure
+                                      </strong>
+                                    </label>
+                                  </div>
+                                  <div className="col-md-8">
+                                    <Field
+                                      type="number"
+                                      className="form-control my-upload"
+                                      id="bp_repeat_sys"
+                                      placeholder="Enter systolic blood pressure"
+                                      name="bp_repeat_sys"
+                                      required
+                                    />
+                                    <ErrorMessage
+                                      name="bp_repeat_sys"
+                                      component="div"
+                                      className="text-danger"
+                                    />
+                                  </div>
+                                </div>
+
+
+                              </div>
+                              <div className="form-group col-md-6">
+                                <div className="row">
+                                  <div className="col-md-4">
+                                    <label for="bp_repeat_dia">
+                                      <strong>
+                                        Diastolic Blood Pressure
+                                      </strong>
+                                    </label>
+                                  </div>
+                                  <div className="col-md-8">
+                                    <Field
+                                      type="number"
+                                      className="form-control my-upload"
+                                      id="bp_repeat_dia"
+                                      placeholder="Enter diastolic blood pressure"
+                                      name="bp_repeat_dia"
+                                      required
+                                    />
+                                    <ErrorMessage
+                                      name="bp_repeat_dia"
+                                      component="div"
+                                      className="text-danger"
+                                    />
+                                  </div>
+                                </div>
+
+
+                              </div>
                             </div>
-                            <div className="form-group col-md-6">
-                              <label for="bp_repeat_dia">
-                                Diastolic Blood Pressure
-                              </label>
-                              <Field
-                                type="number"
-                                className="form-control my-upload"
-                                id="bp_repeat_dia"
-                                placeholder="Enter diastolic blood pressure"
-                                name="bp_repeat_dia"
-                                required
+                            {/* {isLoading ? (
+                              <Loading />
+                            ) : (
+                              // <button type="submit" className="btn btn-primary">
+                              //   Submit BP Repeat
+                              // </button>
+                              <SaveButton
+                                text={"Submit BP Repeat"}
+                                disable={isSubmitting}
+                                onClick={onSubmitRepeat}
                               />
-                              <ErrorMessage
-                                name="bp_repeat_dia"
-                                component="div"
-                                className="text-danger"
-                              />
-                            </div>
-                          </div>
-                          {isLoading ? (
-                            <Loading />
-                          ) : (
-                            // <button type="submit" className="btn btn-primary">
-                            //   Submit BP Repeat
-                            // </button>
-                            <SaveButton
-                              text={"Submit BP Repeat"}
-                              disable={isSubmitting}
-                              onClick={onSubmitRepeat}
-                            />
-                          )}
-                        </Form>
-                      )}
-                    </Formik>
+                            )} */}
+                          </Form>
+                        )}
+                      </Formik>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
+          {/* <div className="col-xl-4 col-12">
+            <PatientSideView />
+            {singlePatient.vitals.length !== 0 && (
+              <Vitals
+                vitals={patientPhysicalExamRecord}
+                patient={singlePatient}
+              />
+            )}
+          </div> */}
         </div>
-        <div className="col-xl-4 col-12">
-          <PatientSideView />
-          {singlePatient.vitals.length !== 0 && (
-            <Vitals
-              vitals={patientPhysicalExamRecord}
-              patient={singlePatient}
-            />
-          )}
+        <div
+          className="d-flex"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginTop: "20px",
+            marginBottom: "20px",
+            
+          }}
+        >
+          <button onClick={handlePrev} disabled={true}>
+            Previous
+          </button>
+
+          <button onClick={handleNext}>Next</button>
         </div>
       </div>
+
     </Fragment>
   );
 };

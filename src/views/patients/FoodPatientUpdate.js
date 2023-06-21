@@ -1,0 +1,91 @@
+import React, { Fragment, useState } from "react";
+import BreadCrumb from "../../components/BreadCrumb";
+import FStepNavigation from "./components/FStepNavigation";
+import PhysicalExamForm from "./forms/PhysicalExamForm";
+import IllnessesForm from "./forms/IllnessesForm";
+import TobaccoForm from "./forms/TobaccoForm";
+import XrayForm from "./forms/XrayForm";
+import ObeservationForm from "./forms/ObservationForm";
+import PatientSideView from "./components/PatientSideView";
+
+const FoodPatientUpdate = () => {
+  const [currentStep, setCurrentStep] = useState(1);
+  const handleNext = () => {
+    setCurrentStep(currentStep + 1);
+  };
+
+  const handlePrev = () => {
+    setCurrentStep(currentStep - 1);
+  };
+
+  const handleSubmit = () => {
+    // Handle form submission logic here
+  };
+
+  let foodHandlerForm;
+  switch (currentStep) {
+    case 1:
+      foodHandlerForm = (
+        <PhysicalExamForm
+          handlePrev={handlePrev}
+          handleNext={handleNext}
+        />
+      );
+      break;
+    case 2:
+      foodHandlerForm = (
+        <IllnessesForm
+          handlePrev={handlePrev}
+          handleNext={handleNext}
+        />
+      );
+      break;
+    case 3:
+      foodHandlerForm = (
+        <TobaccoForm
+          handlePrev={handlePrev}
+          handleNext={handleNext}
+        />
+      );
+      break;
+    case 4:
+      foodHandlerForm = (
+        <XrayForm
+          handlePrev={handlePrev}
+          handleNext={handleNext}
+        />
+      );
+      break;
+    case 5:
+      foodHandlerForm = (
+        <ObeservationForm handlePrev={handlePrev}
+          handleNext={handleNext} />
+      );
+      break;
+    default:
+      foodHandlerForm = null;
+  }
+
+  return (
+    <Fragment>
+      <BreadCrumb activeTab={"FoodHandlers"} title={"Patient"} />
+      <div className="row">
+        <div className="col-xl-8 col-12">
+          <FStepNavigation currentStep={currentStep} />
+          {foodHandlerForm}
+        </div>
+        <div className="col-xl-4 col-12">
+          <PatientSideView />
+          <div className="box">
+            <div className="box-header no-border">
+              <h4 className="box-title">Food Handler Patient Summary</h4>
+            </div>
+            <div className="box-body"></div>
+          </div>
+        </div>
+      </div>
+    </Fragment>
+  );
+};
+
+export default FoodPatientUpdate;

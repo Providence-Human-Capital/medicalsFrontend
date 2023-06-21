@@ -64,29 +64,9 @@ const PButtons = ({ routeId, patient }) => {
             {patient.category && patient.category === "City Of Harare" && (
               <Fragment>
                 <StepButton
-                  text={"Physical Examination"}
+                  text={`Update ${patient.category} Patient`}
                   icon={faStethoscope}
-                  toLink={`/patients/${routeId}/physical`}
-                />
-                <StepButton
-                  text={"Illnesses"}
-                  icon={faHeartbeat}
-                  toLink={`/patients/${routeId}/illnesses`}
-                />
-                <StepButton
-                  text={"Tobbacco Use"}
-                  icon={faSmoking}
-                  toLink={`/patients/${routeId}/tobacco`}
-                />
-                <StepButton
-                  text={"Add Xray"}
-                  icon={faXRay}
-                  toLink={`/patients/${routeId}/xray/add`}
-                />
-                <StepButton
-                  text={"Obeservation and Remarks"}
-                  icon={faComment}
-                  toLink={`/patients/${routeId}/observation`}
+                  toLink={`/patient/foodhandler/${routeId}`}
                 />
               </Fragment>
             )}
@@ -98,3 +78,31 @@ const PButtons = ({ routeId, patient }) => {
 };
 
 export default PButtons;
+
+{
+  /* <StepButton
+    text={"Physical Examination"}
+    icon={faStethoscope}
+    toLink={`/patients/${routeId}/physical`}
+  />
+  <StepButton
+    text={"Illnesses"}
+    icon={faHeartbeat}
+    toLink={`/patients/${routeId}/illnesses`}
+  />
+  <StepButton
+    text={"Tobbacco Use"}
+    icon={faSmoking}
+    toLink={`/patients/${routeId}/tobacco`}
+  />
+  <StepButton
+    text={"Add Xray"}
+    icon={faXRay}
+    toLink={`/patients/${routeId}/xray/add`}
+  />
+  <StepButton
+    text={"Obeservation and Remarks"}
+    icon={faComment}
+    toLink={`/patients/${routeId}/observation`}
+  /> */
+}

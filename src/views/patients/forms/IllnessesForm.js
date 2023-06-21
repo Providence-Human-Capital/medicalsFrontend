@@ -11,7 +11,7 @@ import { API } from "../../../config";
 import Alert from "../../../components/notifications/Alert";
 import Loading from "../../../components/loader/Loading";
 
-const IllnessesForm = () => {
+const IllnessesForm = ({ handlePrev, handleNext }) => {
   const [currentDisease, setCurrentDisease] = useState(0);
   const [treatedForDisease, setTreatedForDisease] = useState(false);
   const [yearOfTreatment, setYearOfTreatment] = useState("");
@@ -107,126 +107,126 @@ const IllnessesForm = () => {
 
   return (
     <Fragment>
-      <BreadCrumb title={"Illnesses"} activeTab={"Add Patient Illnesses"} />
-      <div className="separation-div"></div>
-      <div className="row">
-        <div className="col-xl-8 col-12">
-          <PButtons routeId={patientId} />
-          {success && <Alert message={success} />}
+      {/* <BreadCrumb title={"Illnesses"} activeTab={"Add Patient Illnesses"} />
+      <div className="separation-div"></div> */}
+      <div className="step-form">
+        <div className="row">
+          <div className="col-xl-12 col-12">
+            {/* <PButtons routeId={patientId} />
+          {success && <Alert message={success} />} */}
 
-          <div className="box">
-            {error && <ErrorNotification message={error} />}
-            <div className="custom-form">
-              <div className="box-body">
-                <div className="container">
-                  <h2>
-                    Have You Ever Been Treated For Any Of The Illness Listed
-                    Below?
-                  </h2>
-                  <div className="illness-form">
-                    <div className="row">
-                      <div className="col-md-3">
-                        <div
-                          className="nav flex-column nav-pills"
-                          id="v-pills-tab"
-                          role="tablist"
-                          aria-orientation="vertical"
-                        >
-                          {diseases.map((disease, index) => (
-                            <a
-                              key={index}
-                              className={`nav-link fw-500 custom-disease ${
-                                index === currentDisease ? "active" : ""
-                              }`}
-                              id={`v-pills-${index}-tab`}
-                              data-toggle="pill"
-                              href={`#v-pills-${index}`}
-                              role="tab"
-                              aria-controls={`v-pills-${index}`}
-                              aria-selected={index === currentDisease}
-                            >
-                              {disease.id} {" - "}
-                              {disease.illness_name}
-                            </a>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="col-md-9">
-                        <div className="tab-content" id="v-pills-tabContent">
-                          {diseases.map((disease, index) => (
-                            <div
-                              key={index}
-                              className={`tab-pane fade show ${
-                                index === currentDisease ? "active" : ""
-                              }`}
-                              id={`v-pills-${index}`}
-                              role="tabpanel"
-                              aria-labelledby={`v-pills-${index}-tab`}
-                            >
-                              <h2>{disease.illness_name}</h2>
-                              <div className="form-group">
-                                <label>Treated for this disease?</label>
-                                <select
-                                  className="form-control my-upload"
-                                  value={treatedForDisease ? "yes" : "no"}
-                                  onChange={handleTreatedForDisease}
-                                >
-                                  <option value="no">No</option>
-                                  <option value="yes">Yes</option>
-                                </select>
-                              </div>
-                              {treatedForDisease && (
-                                <div className="form-group">
-                                  <label>Year of treatment:</label>
-                                  <input
-                                    type="text"
-                                    className={`form-control my-upload${
-                                      error ? "is-invalid" : ""
-                                    }`}
-                                    value={yearOfTreatment}
-                                    onChange={handleYearOfTreatment}
-                                  />
-                                  {error && (
-                                    <div className="invalid-feedback">
-                                      {error}
-                                    </div>
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                          ))}
-
-                          {isLoading ? (
-                            <Loading />
-                          ) : (
-                            <div className="text-right">
-                              <button
-                                className="btn btn-secondary m-2 "
-                                onClick={handlePrevDisease}
-                                disabled={currentDisease === 0}
+            <div className="box">
+              {error && <ErrorNotification message={error} />}
+              <div className="custom-form">
+                <div className="box-body">
+                  <div className="container">
+                    <h3>
+                      Have You Ever Been Treated For Any Of The Illness Listed
+                      Below?
+                    </h3>
+                    <p>If you selected <strong>Yes</strong> please specify the year of treatment </p>
+                    <div className="illness-form">
+                      <div className="row">
+                        <div className="col-md-3">
+                          <div
+                            className="nav flex-column nav-pills"
+                            id="v-pills-tab"
+                            role="tablist"
+                            aria-orientation="vertical"
+                          >
+                            {diseases.map((disease, index) => (
+                              <a
+                                key={index}
+                                className={`nav-link fw-500 custom-disease ${index === currentDisease ? "active" : ""
+                                  }`}
+                                id={`v-pills-${index}-tab`}
+                                data-toggle="pill"
+                                href={`#v-pills-${index}`}
+                                role="tab"
+                                aria-controls={`v-pills-${index}`}
+                                aria-selected={index === currentDisease}
                               >
-                                Prev
-                              </button>
-                              {currentDisease === diseases.length - 1 ? (
+                                {disease.id} {" - "}
+                                {disease.illness_name}
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="col-md-9">
+                          <div className="tab-content" id="v-pills-tabContent">
+                            {diseases.map((disease, index) => (
+                              <div
+                                key={index}
+                                className={`tab-pane fade show ${index === currentDisease ? "active" : ""
+                                  }`}
+                                id={`v-pills-${index}`}
+                                role="tabpanel"
+                                aria-labelledby={`v-pills-${index}-tab`}
+                              >
+                                <h2>{disease.illness_name}</h2>
+                                <div className="form-group">
+                                  <label>Treated for this disease?</label>
+                                  <select
+                                    className="form-control my-upload"
+                                    value={treatedForDisease ? "yes" : "no"}
+                                    onChange={handleTreatedForDisease}
+                                  >
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                  </select>
+                                </div>
+                                {treatedForDisease && (
+                                  <div className="form-group">
+                                    <label>Year of treatment:</label>
+                                    <input
+                                      type="text"
+                                      className={`form-control my-upload${error ? "is-invalid" : ""
+                                        }`}
+                                      value={yearOfTreatment}
+                                      onChange={handleYearOfTreatment}
+                                    />
+                                    {error && (
+                                      <div className="invalid-feedback">
+                                        {error}
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+
+                            {isLoading ? (
+                              <Loading />
+                            ) : (
+                              <div className="text-right">
                                 <button
-                                  className="btn btn-primary m-2"
-                                  onClick={handleNextDisease}
+                                  className="btn btn-secondary m-2 "
+                                  onClick={handlePrevDisease}
+                                  disabled={currentDisease === 0}
                                 >
-                                  Save
+                                  Prev
                                 </button>
-                              ) : (
-                                <button
-                                  className="btn btn-primary m-2"
-                                  onClick={handleNextDisease}
-                                  disabled={
-                                    currentDisease === diseases.length - 1
-                                  }
-                                >
-                                  Next
-                                </button>
-                              )}
-                            </div>
-                          )}
+                                {currentDisease === diseases.length - 1 ? (
+                                  <button
+                                    className="btn btn-primary m-2"
+                                    onClick={handleNextDisease}
+                                  >
+                                    Save
+                                  </button>
+                                ) : (
+                                  <button
+                                    className="btn btn-primary m-2"
+                                    onClick={handleNextDisease}
+                                    disabled={
+                                      currentDisease === diseases.length - 1
+                                    }
+                                  >
+                                    Next
+                                  </button>
+                                )}
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -235,8 +235,7 @@ const IllnessesForm = () => {
               </div>
             </div>
           </div>
-        </div>
-        <div className="col-xl-4 col-12">
+          {/* <div className="col-xl-4 col-12">
           <PatientSideView />
           {singlePatient.vitals[0] && (
             <Vitals
@@ -244,8 +243,26 @@ const IllnessesForm = () => {
               patient={singlePatient}
             />
           )}
+        </div> */}
+        </div>
+        <div
+          className="d-flex"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginTop: "20px",
+            marginBottom: "20px",
+          }}
+        >
+          <button onClick={handlePrev} disabled={true}>
+            Previous
+          </button>
+
+          <button onClick={handleNext}>Next</button>
         </div>
       </div>
+
     </Fragment>
   );
 };

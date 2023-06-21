@@ -14,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import PatientSideView from "../components/PatientSideView";
 import SaveButton from "../../../components/buttons/SaveButton";
 
-const XrayForm = () => {
+const XrayForm = ({ handlePrev, handleNext }) => {
   const [previewImage, setPreviewImage] = useState(null);
   const isLoading = useSelector((state) => state.ui.isLoading);
 
@@ -102,128 +102,160 @@ const XrayForm = () => {
 
   return (
     <Fragment>
-      <BreadCrumb title={"Xray"} activeTab={"Add Xray"} />
-      <div className="separation-div"></div>
-      <div className="row">
-        <div className="col-xl-8 col-12">
-          <PButtons routeId={patientId} />
-          <div className="box">
-            <div className="custom-form">
-              <div className="box-body">
-                <div className="container">
-                  <h2>Upload Patient's Xray Image</h2>
-                  <Formik
-                    initialValues={initialValues}
-                    validationSchema={validationSchema}
-                    onSubmit={onSubmit}
-                  >
-                    {({
-                      isSubmitting,
-                      setFieldValue,
-                      values,
-                      touched,
-                      errors,
-                    }) => (
-                      <Form>
-                        <div className="form-group">
-                          <div className="col-xl-6 col-12">
-                            <div class="mb-3">
-                              <label htmlFor="formFile" class="form-label">
-                                Upload X-Ray Image
-                              </label>
-                              <input
-                                class="form-control"
-                                type="file"
-                                name="image"
-                                onChange={(event) =>
-                                  handleImageChange(event, setFieldValue)
-                                }
-                              />
-                            </div>
-                          </div>
-
-                          {previewImage && (
-                            <div className="preview-images-container">
-                              <div className="preview-image-wrapper">
-                                <img
-                                  src={previewImage}
-                                  alt="Preview"
-                                  className="mt-2 preview-image"
-                                  style={{ maxWidth: "100%" }}
+      {/* <BreadCrumb title={"Xray"} activeTab={"Add Xray"} /> */}
+      {/* <div className="separation-div"></div> */}
+      <div className="step-form">
+        <div className="row">
+          <div className="col-xl-12 col-12">
+            {/* <PButtons routeId={patientId} /> */}
+            <div className="box">
+              <div className="custom-form">
+                <div className="box-body">
+                  <div className="container">
+                    <h3 style={{
+                      textTransform: 'uppercase',
+                    }}>Upload Patient's Xray Image</h3>
+                    <Formik
+                      initialValues={initialValues}
+                      validationSchema={validationSchema}
+                      onSubmit={onSubmit}
+                    >
+                      {({
+                        isSubmitting,
+                        setFieldValue,
+                        values,
+                        touched,
+                        errors,
+                      }) => (
+                        <Form>
+                          <div className="form-group">
+                            <div className="col-xl-6 col-12">
+                              <div class="mb-3">
+                                <label htmlFor="formFile" class="form-label">
+                                  (Select) Upload X-Ray Image
+                                </label>
+                                <input
+                                  class="form-control"
+                                  type="file"
+                                  name="image"
+                                  onChange={(event) =>
+                                    handleImageChange(event, setFieldValue)
+                                  }
                                 />
                               </div>
                             </div>
-                          )}
-                          <ErrorMessage
-                            name="image"
-                            component="div"
-                            className="text-danger"
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label htmlFor="status">Status</label>
-                          <Field
-                            as="select"
-                            name="status"
-                            className="form-control my-upload"
-                          >
-                            <option value="NEGATIVE">NEGATIVE</option>
-                            <option value="POSITIVE">POSITIVE</option>
-                          </Field>
-                          <ErrorMessage
-                            name="status"
-                            component="div"
-                            className="text-danger"
-                          />
-                        </div>
 
-                        {values.status === "POSITIVE" && (
-                          <div className="form-group">
-                            <label htmlFor="result">Result</label>
-                            <Field
-                              type="text"
-                              name="result"
-                              className={`form-control my-upload ${
-                                touched.result && errors.result
-                                  ? "error-input"
-                                  : ""
-                              }`}
-                            />
-                            <ErrorMessage
-                              name="result"
-                              component="div"
-                              className="text-danger"
-                            />
+                            <div className="row">
+                              <div className="col-md-6">
+                                {previewImage && (
+                                  <div className="preview-images-container">
+                                    <div className="preview-image-wrapper">
+                                      <img
+                                        src={previewImage}
+                                        alt="Preview"
+                                        className="mt-2 preview-image"
+                                        style={{ maxWidth: "100%" }}
+                                      />
+                                    </div>
+                                  </div>
+                                )}
+                                <ErrorMessage
+                                  name="image"
+                                  component="div"
+                                  className="text-danger"
+                                />
+                              </div>
+                              <div className="col-md-6">
+                                <div className="form-group">
+                                  <label htmlFor="status">Status</label>
+                                  <Field
+                                    as="select"
+                                    name="status"
+                                    className="form-control my-upload"
+                                  >
+                                    <option value="NEGATIVE">GOOD</option>
+                                    <option value="POSITIVE">BAD</option>
+                                  </Field>
+                                  <ErrorMessage
+                                    name="status"
+                                    component="div"
+                                    className="text-danger"
+                                  />
+                                </div>
+
+                                {values.status === "POSITIVE" && (
+                                  <div className="form-group">
+                                    <label htmlFor="result">Result Comment</label>
+                                    <Field
+                                       as="textarea"
+                                       rows={3}
+                                      name="result"
+                                      className={`form-control my-upload ${touched.result && errors.result
+                                        ? "error-input"
+                                        : ""
+                                        }`}
+                                    />
+                                    <ErrorMessage
+                                      name="result"
+                                      component="div"
+                                      className="text-danger"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
                           </div>
-                        )}
 
-                        {isLoading ? (
-                          <Loading />
-                        ) : (
-                          // <button
-                          //   type="submit"
-                          //   className="btn btn-primary"
-                          //   disabled={isSubmitting}
-                          // >
-                          //   Save Xray Details
-                          // </button>
-                          <SaveButton
-                            disable={isSubmitting}
-                            text={"Save Xray Details"}
-                          />
-                        )}
-                      </Form>
-                    )}
-                  </Formik>
+
+                          {/* {isLoading ? (
+                            <Loading />
+                          ) : (
+                            // <button
+                            //   type="submit"
+                            //   className="btn btn-primary"
+                            //   disabled={isSubmitting}
+                            // >
+                            //   Save Xray Details
+                            // </button>
+                            <SaveButton
+                              disable={isSubmitting}
+                              text={"Save Xray Details"}
+                            />
+                          )} */}
+                        </Form>
+                      )}
+                    </Formik>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          {/* <div className="col-xl-4 col-12">
+            <PatientSideView />
+          </div> */}
         </div>
-        <div className="col-xl-4 col-12">
-          <PatientSideView />
+
+        <div
+          className="d-flex"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginTop: "20px",
+            marginBottom: "20px",
+          }}
+        >
+          <button onClick={handlePrev} disabled={true}>
+            Previous
+          </button>
+
+          <button onClick={handleNext}>Next</button>
         </div>
+
       </div>
+
+
     </Fragment>
   );
 };

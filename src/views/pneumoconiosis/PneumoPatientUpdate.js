@@ -13,6 +13,7 @@ import ResultsAndInvestigationsForm from "./forms/ResultsAndInvestigationsForm";
 import AdditionalTests from "./forms/AdditionalTests";
 import HomeAddressForm from "../patients/forms/HomeAddressForm";
 import MedicalHistoryForm from "../industry/forms/MedicalHistoryForm";
+import PatientSideView from "../patients/components/PatientSideView";
 
 const PneumoPatientUpdate = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -71,6 +72,7 @@ const PneumoPatientUpdate = () => {
           {formComponent}
         </div>
         <div className="col-xl-5 col-12">
+        {/* <PatientSideView /> */}
           <div className="box">
             <div className="box-header no-border">
               <h4 className="box-title">Pneumoconiosis Patient Summary</h4>
