@@ -1,0 +1,54 @@
+.patient-skeleton {
+    display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  height: 100vh;
+  }
+  .patient-skeleton-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .patient-skeleton-avatar {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: #ddd;
+    margin-right: 16px;
+  }
+  .patient-skeleton-name {
+    width: 400px;
+    height: 40px;
+    background-color: #ddd;
+  }
+  .patient-skeleton-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .patient-skeleton-detail {
+    width: calc(50% - 8px);
+    height: 32px;
+    margin-bottom: 8px;
+    background-color: #ddd;
+  }
+  .patient-skeleton-detail:last-child {
+    width: 100%;
+  }
+
+  .patient-skeleton-column {
+    display: flex;
+    flex-direction: column;
+    width: calc(25% - 8px);
+  }
+  .patient-skeleton-detail {
+    height: 32px;
+    margin-bottom: 8px;
+    background-color: #ddd;
+  }
+  .patient-skeleton-detail:last-child {
+    margin-bottom: 0;
+  }

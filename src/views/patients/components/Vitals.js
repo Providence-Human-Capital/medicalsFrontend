@@ -1,8 +1,10 @@
 import React, { Fragment } from "react";
 import { formatDate } from "../../../utils/dateConverter";
 import { options } from "../../../utils/dateConverter";
+import { useSelector } from "react-redux";
 
-const Vitals = ({ patient, vitals }) => {
+const Vitals = ({ patient }) => {
+  const vitals = useSelector((state) => state.forms.fPhysicalExamination);
   const styles = {
     width: {
       width: "100%",
@@ -12,15 +14,15 @@ const Vitals = ({ patient, vitals }) => {
   const BP_STATUS = () => {
     if (vitals.bp_status === "Low Blood Pressure") {
       return <span className="badge badge-info">{vitals.bp_status}</span>;
-    } else if (vitals.bmi_status === "Normal Blood Pressure") {
+    } else if (vitals.bp_status === "Normal Blood Pressure") {
       return <span className="badge badge-primary">{vitals.bp_status}</span>;
-    } else if (vitals.bmi_status === "Pre Hypertension") {
+    } else if (vitals.bp_status === "Pre Hypertension") {
       return <span className="badge badge-warning">{vitals.bp_status}</span>;
-    } else if (vitals.bmi_status === "Stage 1 Hypertension") {
+    } else if (vitals.bp_status === "Stage 1 Hypertension") {
       return <span className="badge badge-danger">{vitals.bp_status}</span>;
-    } else if (vitals.bmi_status === "Stage 2 Hypertension") {
+    } else if (vitals.bp_status === "Stage 2 Hypertension") {
       return <span className="badge badge-danger">{vitals.bp_status}</span>;
-    } else if (vitals.bmi_status === "Hypertensive Crisis") {
+    } else if (vitals.bp_status === "Hypertensive Crisis") {
       return <span className="badge badge-danger">{vitals.bp_status}</span>;
     } else {
       return <span className="badge badge-warning">{vitals.bp_status}</span>;
@@ -144,7 +146,8 @@ const Vitals = ({ patient, vitals }) => {
                       Blood Pressure{" "}
                       <span className="fw-500">
                         {" "}
-                        <i className="fa fa-clock-o"></i> {vitals.first_bp_time}
+                        <i className="fa fa-clock-o"></i>{" "}
+                        {formatDate(vitals.created_at, options)}
                       </span>
                     </span>
                   </div>
@@ -205,7 +208,7 @@ const Vitals = ({ patient, vitals }) => {
                         <span className="fw-500">
                           {" "}
                           <i className="fa fa-clock-o"></i>{" "}
-                          {vitals.last_bp_time}
+                          {formatDate(vitals.last_bp_time)}
                         </span>
                       </span>
                     </div>

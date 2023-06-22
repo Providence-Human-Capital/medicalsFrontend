@@ -1,35 +1,69 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import DiseaseItem from "./DiseaseItem";
+import { useDispatch, useSelector } from "react-redux";
+import { API } from "../../../config";
+import { formsActions } from "../../../redux_store/forms-store";
 
-const DiseaseHistory = ({ illnesses, health_issue, year_of_diagnosis }) => {
+const DiseaseHistory = ({ patientId }) => {
+  const patientIllnesses = useSelector(
+    (state) => state.forms.patientsIllnesses
+  );
+
+  const dispatch = useDispatch();
+
+  const getDiseaseHistory = async () => {
+    try {
+      const illnessesHistoryRespose = await fetch(
+        `${API}/patients/${patientId}/illnesses`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const responseData = await illnessesHistoryRespose.json();
+      console.log("Illnesss", responseData);
+
+      if (illnessesHistoryRespose.ok) {
+        dispatch(formsActions.setPatientsIllness(responseData));
+      }
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
+
+  useEffect(() => {
+    getDiseaseHistory();
+  }, [patientId]);
+
   return (
     <Fragment>
       <div className="box">
-        <div className="box-header border-0 pb-0">
-          <h4 className="box-title">Disease History</h4>
+        <div className="box-header no-border">
+          <h4 className="box-title">
+            <strong>Patient's Disease History</strong>
+          </h4>
         </div>
         <div className="box-body">
-          <div className="box-body">
-            <h5 className="fw-500">
-              Previous Health Issue's:{" "}
-              {!health_issue ? (
-                <span className="fw-200 badge badge-danger">N/A</span>
-              ) : (
-                <Fragment>
-                  <span className="fw-200 badge badge-danger m-2">
-                    {health_issue}
-                  </span>{" "}
-                  <span className="m-2">{year_of_diagnosis}</span>
-                </Fragment>
-              )}
-            </h5>
-            <div className="widget-timeline-icon">
-              <ul>
-                {illnesses &&
-                  illnesses.map((illness) => <DiseaseItem illness={illness} />)}
-              </ul>
-            </div>
-          </div>
+          <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Illness Name</th>
+                <th scope="col">Year of Treatment</th>
+              </tr>
+            </thead>
+            <tbody>
+              {patientIllnesses.map((illness, index) => (
+                <tr key={index}>
+                  <td>{illness.name}</td>
+                  <td>{illness.treatment_year}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </Fragment>

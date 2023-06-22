@@ -17,6 +17,7 @@ const Header = ({}) => {
 
   const signOut = () => {
     dispatch(authActions.setLogout());
+    
     navigate("/login");
   };
 

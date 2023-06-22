@@ -13,69 +13,54 @@ import InfoBox from "./components/InfoBox";
 import TobaccoBox from "./components/TobaccoBox";
 import XRayBox from "./components/XRayBox";
 import { getPatient } from "../../services/api";
+import { formsActions } from "../../redux_store/forms-store";
+import PatientSkeleton from "../../components/skeletons/PatientSkeleton";
 // import { getPatientPhysicalExamResults } from "../../services/api";
 
 const PatientDetails = () => {
   const { patientId } = useParams();
 
   const dispatch = useDispatch();
-  // const getPatient = async () => {
-  //   try {
-  //     const responseData = await fetch(
-  //       `${API}/patient/illnesses/${patientId}`,
-  //       {
-  //         method: "GET",
-  //         headers: {
-  //           Accept: "application/json",
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
 
-  //     const response = await responseData.json();
-  //     console.log("Get Patient", response.data);
+  const [loading, setLoading] = useState(true);
 
-  //     if (responseData.ok) {
-  //       dispatch(
-  //         patientActions.setSinglePatient({
-  //           singlePatient: { ...response.data },
-  //         })
-  //       );
-  //     }
-  //   } catch (error) {
-  //     console.log("Error", error);
-  //   } finally {
-  //   }
-  // };
+  useEffect(() => {
+    const fetchPatientData = async () => {
+      try {
+        setLoading(true);
 
-  const getPatientPhysicalExamResults = async () => {
-    try {
-      const physicalExamRecordsResponse = await fetch(
-        `${API}/physical/latest/${patientId}`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
+        const [patientData, physicalExamRecordsResponse] = await Promise.all([
+          getPatient(patientId),
+          fetch(`${API}/physical/latest/${patientId}`, {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }),
+        ]);
+
+        const physicalExamRecords = await physicalExamRecordsResponse.json();
+        console.log("Latest Physical Exam", physicalExamRecords.data);
+
+        if (physicalExamRecordsResponse.ok) {
+          dispatch(
+            formsActions.setPhysicalExamination(physicalExamRecords.data)
+          );
         }
-      );
 
-      const results = await physicalExamRecordsResponse.json();
-      console.log("Latest Physical Exam", results.data);
-      if (physicalExamRecordsResponse.ok) {
         dispatch(
-          patientActions.setLatestPhysicalExam({
-            latestPhysicalExam: { ...results.data },
-          })
+          patientActions.setSinglePatient({ singlePatient: patientData })
         );
-      } else {
+      } catch (error) {
+        console.log("Error", error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.log("Error", error);
-    } finally {
-    }
-  };
+    };
+
+    fetchPatientData();
+  }, [dispatch, patientId]);
 
   const singlePatient = useSelector((state) => state.patient.singlePatient);
 
@@ -89,26 +74,13 @@ const PatientDetails = () => {
 
   const patientUpdated = useSelector((state) => state.patient.patientUpdated);
 
-  useEffect(() => {
-    // getPatient();
-
-    const fetchPatient = async () => {
-      const patientData = await getPatient(patientId);
-      dispatch(
-        patientActions.setSinglePatient({
-          singlePatient: patientData,
-        })
-      );
-    };
-    fetchPatient();
-
-    getPatientPhysicalExamResults();
-    console.log("Use Effect from Detail");
-  }, [patientUpdated]);
-
+  if (loading) {
+    return <PatientSkeleton />;
+  }
   return (
     <Fragment>
       <BreadCrumb title={"Patient Details"} activeTab={"Patient Details"} />
+
       {singlePatient && (
         <section className="content">
           <div className="row">
@@ -148,19 +120,9 @@ const PatientDetails = () => {
                   </div>
                 </div>
               ) : (
-                <Vitals
-                  patient={singlePatient}
-                  vitals={patientPhysicalExamRecord}
-                />
+                <Vitals patient={singlePatient} />
               )}
-
-              {singlePatient.illnesses.length !== 0 && (
-                <DiseaseHistory
-                  illnesses={singlePatient.illnesses}
-                  health_issue={singlePatient.previous_health_issues}
-                  year_of_diagnosis={singlePatient.year_of_diagnosis}
-                />
-              )}
+              <DiseaseHistory patientId={patientId} />
             </div>
           </div>
         </section>

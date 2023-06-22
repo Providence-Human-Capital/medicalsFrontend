@@ -9,6 +9,7 @@ import IPhysicalTestForm from "./forms/IPhysicalTestForm";
 import CardioVascularForm from "./forms/CardioVascularForm";
 import RespiratoryForm from "./forms/RespiratoryForm";
 import ICommentsRemarksForm from "./forms/ICommentsRemarksForm";
+import PatientSideView from "../patients/components/PatientSideView";
 
 const IndustryPatientUpdate = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -75,7 +76,9 @@ const IndustryPatientUpdate = () => {
           {industryFormComponent}
         </div>
         <div className="col-xl-4 col-12">
+        <PatientSideView />
           <div className="box">
+            
             <div className="box-header no-border">
               <h4 className="box-title">Patient Summary</h4>
             </div>

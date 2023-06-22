@@ -17,7 +17,10 @@ import PatientSideView from "../patients/components/PatientSideView";
 
 const PneumoPatientUpdate = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const handleNext = () => {
+  const [formData, setFormData] = useState({});
+  
+  const handleNext = (data) => {
+    setFormData({ ...formData, ...data });
     setCurrentStep(currentStep + 1);
   };
 
@@ -72,13 +75,14 @@ const PneumoPatientUpdate = () => {
           {formComponent}
         </div>
         <div className="col-xl-5 col-12">
-        {/* <PatientSideView /> */}
+          <PatientSideView />
           <div className="box">
+
             <div className="box-header no-border">
               <h4 className="box-title">Pneumoconiosis Patient Summary</h4>
             </div>
             <div className="box-body"></div>
-           
+
           </div>
         </div>
       </div>

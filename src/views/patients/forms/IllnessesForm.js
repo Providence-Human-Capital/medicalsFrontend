@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import BreadCrumb from "../../../components/BreadCrumb";
 import PatientSideView from "../components/PatientSideView";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Vitals from "../components/Vitals";
 import PButtons from "../components/PButtons";
 import ErrorNotification from "../../../components/notifications/ErrorNotification";
@@ -10,6 +10,8 @@ import axios from "axios";
 import { API } from "../../../config";
 import Alert from "../../../components/notifications/Alert";
 import Loading from "../../../components/loader/Loading";
+import { ToastContainer, toast } from "react-toastify";
+import { formsActions } from "../../../redux_store/forms-store";
 
 const IllnessesForm = ({ handlePrev, handleNext }) => {
   const [currentDisease, setCurrentDisease] = useState(0);
@@ -20,7 +22,9 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
   const [success, setSuccess] = useState("");
   const diseases = useSelector((state) => state.illness.illnesses);
 
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleNextDisease = async (event) => {
     event.preventDefault();
@@ -41,16 +45,17 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
             }
           );
 
-          console.log(response);
+          console.log("Form illnesssssss",response);
 
           if (response.status === 200) {
             if (currentDisease === diseases.length - 1) {
-              navigate(`/patients/${patientId}/tobacco`);
+              handleNext()
             }
             setCurrentDisease(currentDisease + 1);
             setTreatedForDisease(false);
             setYearOfTreatment("");
-            setSuccess("You have successfully Updated and Illness");
+            dispatch(formsActions.setPatientsIllness(response.data.illnesses))
+            toast.dark(response.data.message);
           } else {
             setError("Failed to connect to from the server.");
           }

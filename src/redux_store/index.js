@@ -19,6 +19,7 @@ import patientSlice from "./patients-store";
 import attendeeSlice from "./attendee-store";
 import outReachSlice from "./outreach-store";
 import uiSlice from "./ui-store";
+import formsSlice from "./forms-store";
 
 const persistConfig = {
   key: "root",
@@ -33,7 +34,8 @@ const rootReducer = combineReducers({
   patient: patientSlice.reducer,
   attendee: attendeeSlice.reducer,
   outreach: outReachSlice.reducer,
-  ui: uiSlice.reducer
+  ui: uiSlice.reducer,
+  forms: formsSlice.reducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

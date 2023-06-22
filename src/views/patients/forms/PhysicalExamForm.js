@@ -17,6 +17,9 @@ import SaveButton from "../../../components/buttons/SaveButton";
 import ToggleButton from "../../../components/buttons/ToggleButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWaveSquare } from "@fortawesome/free-solid-svg-icons";
+import PrevButton from "../../../components/buttons/PrevButton";
+import NextButton from "../../../components/buttons/NextButton";
+import { formsActions } from "../../../redux_store/forms-store";
 
 const PhysicalExamForm = ({ handlePrev, handleNext }) => {
   const { patientId } = useParams();
@@ -85,15 +88,18 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
+      console.log("Physical Submission Successful");
       const data = await response.json();
-      dispatch(
-        patientActions.setLatestPhysicalExam({ latestPhysicalExam: data.data })
-      );
+      console.log("Physical Submission Successful", data);
+      // dispatch(
+      //   patientActions.setLatestPhysicalExam({ latestPhysicalExam: data.data })
+      // );
       dispatch(uiActions.setAlert({ setAlert: true }));
       const patientData = await getPatient();
-      dispatch(patientActions.setSinglePatient({ singlePatient: patientData }));
+      // dispatch(patientActions.setSinglePatient({ singlePatient: patientData }));
       dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
-      navigate(`/patients/${patientId}`);
+      dispatch(formsActions.setPhysicalExamination(data.data));
+      handleNext();
     } catch (error) {
       console.log("Error", error);
     } finally {
@@ -121,6 +127,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
+      console.log("Response...", data)
       dispatch(
         patientActions.setLatestPhysicalExam({ latestPhysicalExam: data.data })
       );
@@ -140,15 +147,13 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
   const patientPhysicalExamRecord = useSelector(
     (state) => state.patient.latestPhysicalExam
   );
-  const addedNew = useSelector((state) => state.ui.showAlert);
 
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
   return (
     <Fragment>
       <div className="step-form">
         <div className="row">
           <div className="col-xl-12 col-12">
-
             {!showForm && (
               <div className="box">
                 <div className="custom-form">
@@ -187,16 +192,12 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                     />
                                   </div>
                                 </div>
-
-
                               </div>
                               <div className="form-group col-md-6">
                                 <div className="row">
                                   <div className="col-md-4">
                                     <label for="weight">
-                                      <strong>
-                                        Weight (in kg)
-                                      </strong>
+                                      <strong>Weight (in kg)</strong>
                                     </label>
                                   </div>
                                   <div className="col-md-8">
@@ -214,8 +215,6 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                     />
                                   </div>
                                 </div>
-
-
                               </div>
                             </div>
                             <div className="row">
@@ -241,18 +240,13 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                     />
                                   </div>
                                 </div>
-
-
                               </div>
 
                               <div className="form-group col-md-6">
                                 <div className="row">
                                   <div className="col-md-4">
                                     <label for="bp_dia">
-                                      <strong>
-                                        Diastolic Blood Pressure
-                                      </strong>
-
+                                      <strong>Diastolic Blood Pressure</strong>
                                     </label>
                                   </div>
                                   <div className="col-md-8">
@@ -271,8 +265,6 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                     />
                                   </div>
                                 </div>
-
-
                               </div>
                             </div>
                             <div className="row">
@@ -317,23 +309,36 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                 </div>
                               </div>
                             </div>
-                            {/* {isLoading ? (
-                              <Loading />
-                            ) : (
-                              // <button
-                              //   type="submit"
-                              //   className="btn btn-primary"
-                              //   disabled={isSubmitting}
-                              //   onClick={handleSubmit}
-                              // >
-                              //   Submit Examination
-                              // </button>
-                              <SaveButton
-                                text={"Submit Examination"}
-                                disable={isSubmitting}
-                                onClick={handleSubmit}
-                              />
-                            )} */}
+                            <div
+                              className="d-flex"
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                marginTop: "20px",
+                                marginBottom: "20px",
+                              }}
+                            >
+                              <button onClick={handlePrev} disabled={true}>
+                                Previous
+                              </button>
+
+                              {/* <PrevButton disable={true} onClick={handlePrev} /> */}
+
+                              {isLoading ? (
+                                <Loading />
+                              ) : (
+                                // <button
+                                //   disable={isSubmitting}
+                                //   onClick={handleSubmit}
+                                // >
+                                //   Next
+                                // </button>
+                                <button onClick={handleNext}>Temporary Next</button>
+                              )}
+
+                              {/* <NextButton onClick={handleNext} /> */}
+                            </div>
                           </Form>
                         )}
                       </Formik>
@@ -350,10 +355,6 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
               <FontAwesomeIcon color="#fff" icon={faWaveSquare} /> {"  "}
               {showForm ? "Hide BP Repeat Form" : "Add BP Repeat"}
             </button>
-            {/* <ToggleButton
-            onClick={handleButtonClick}
-            text={showForm ? "Hide BP Repeat Form" : "Show BP Repeat Form"}
-          /> */}
 
             <div className="separation-div"></div>
 
@@ -372,13 +373,10 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                           <Form>
                             <div className="row">
                               <div className="form-group col-md-6">
-
                                 <div className="row">
                                   <div className="col-md-4">
                                     <label for="bp_repeat_sys">
-                                      <strong>
-                                        Systolic Blood Pressure
-                                      </strong>
+                                      <strong>Systolic Blood Pressure</strong>
                                     </label>
                                   </div>
                                   <div className="col-md-8">
@@ -397,16 +395,12 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                     />
                                   </div>
                                 </div>
-
-
                               </div>
                               <div className="form-group col-md-6">
                                 <div className="row">
                                   <div className="col-md-4">
                                     <label for="bp_repeat_dia">
-                                      <strong>
-                                        Diastolic Blood Pressure
-                                      </strong>
+                                      <strong>Diastolic Blood Pressure</strong>
                                     </label>
                                   </div>
                                   <div className="col-md-8">
@@ -425,22 +419,37 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                     />
                                   </div>
                                 </div>
-
-
                               </div>
                             </div>
-                            {/* {isLoading ? (
-                              <Loading />
-                            ) : (
-                              // <button type="submit" className="btn btn-primary">
-                              //   Submit BP Repeat
-                              // </button>
-                              <SaveButton
-                                text={"Submit BP Repeat"}
-                                disable={isSubmitting}
-                                onClick={onSubmitRepeat}
-                              />
-                            )} */}
+                            <div
+                              className="d-flex"
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                marginTop: "20px",
+                                marginBottom: "20px",
+                              }}
+                            >
+                              <button onClick={handlePrev} disabled={true}>
+                                Previous
+                              </button>
+
+                              {/* <PrevButton disable={true} onClick={handlePrev} /> */}
+
+                              {isLoading ? (
+                                <Loading />
+                              ) : (
+                                <button
+                                  disable={isSubmitting}
+                                  onClick={handleSubmit}
+                                >
+                                  Next
+                                </button>
+                              )}
+
+                              {/* <NextButton onClick={handleNext} /> */}
+                            </div>
                           </Form>
                         )}
                       </Formik>
@@ -450,35 +459,8 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
               </div>
             )}
           </div>
-          {/* <div className="col-xl-4 col-12">
-            <PatientSideView />
-            {singlePatient.vitals.length !== 0 && (
-              <Vitals
-                vitals={patientPhysicalExamRecord}
-                patient={singlePatient}
-              />
-            )}
-          </div> */}
-        </div>
-        <div
-          className="d-flex"
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginTop: "20px",
-            marginBottom: "20px",
-            
-          }}
-        >
-          <button onClick={handlePrev} disabled={true}>
-            Previous
-          </button>
-
-          <button onClick={handleNext}>Next</button>
         </div>
       </div>
-
     </Fragment>
   );
 };
