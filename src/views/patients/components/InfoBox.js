@@ -3,8 +3,10 @@ import { formatDate } from "../../../utils/dateConverter";
 import styles from "../patient-css/styles.module.css";
 
 import { options } from "../../../utils/dateConverter";
+import { useSelector } from "react-redux";
 
 const InfoBox = ({ patient }) => {
+  const patientsRemarks = useSelector((state) => state.forms.fPatientRemarks);
   return (
     <Fragment>
       <div className="box bg-bubbles-white">
@@ -75,8 +77,8 @@ const InfoBox = ({ patient }) => {
         </div>
         <div className="box-body pt-0">
           <h4 className="fw-500">Doctor's Comment</h4>
-          {patient.comment ? (
-            <p>{patient.comment}</p>
+          {patientsRemarks.comment ? (
+            <p>{patientsRemarks.comment}</p>
           ) : (
             <p>No comment from the doctor yet.</p>
           )}
@@ -91,8 +93,8 @@ const InfoBox = ({ patient }) => {
         </div>
         <div className="box-body pt-0">
           <h4 className="fw-500">Doctor's Remarks</h4>
-          {patient.remarks ? (
-            <p>{patient.remarks}</p>
+          {patientsRemarks.remarks ? (
+            <p>{patientsRemarks.remarks}</p>
           ) : (
             <p>No remarks from the doctor yet.</p>
           )}

@@ -166,6 +166,7 @@ const WrapperComponent = () => {
       <AsideNav />
       <div className="content-wrapper">
         <div className="container-full">
+          <ScrollToTop />
           <Routes location={location}>
             <Route
               path="/"

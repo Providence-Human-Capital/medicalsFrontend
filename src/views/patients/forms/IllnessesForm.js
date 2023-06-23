@@ -22,7 +22,6 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
   const [success, setSuccess] = useState("");
   const diseases = useSelector((state) => state.illness.illnesses);
 
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -45,16 +44,16 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
             }
           );
 
-          console.log("Form illnesssssss",response);
+          console.log("Form illnesssssss", response);
 
           if (response.status === 200) {
             if (currentDisease === diseases.length - 1) {
-              handleNext()
+              handleNext();
             }
             setCurrentDisease(currentDisease + 1);
             setTreatedForDisease(false);
             setYearOfTreatment("");
-            dispatch(formsActions.setPatientsIllness(response.data.illnesses))
+            dispatch(formsActions.setPatientsIllness(response.data.illnesses));
             toast.dark(response.data.message);
           } else {
             setError("Failed to connect to from the server.");
@@ -129,7 +128,10 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
                       Have You Ever Been Treated For Any Of The Illness Listed
                       Below?
                     </h3>
-                    <p>If you selected <strong>Yes</strong> please specify the year of treatment </p>
+                    <p>
+                      If you selected <strong>Yes</strong> please specify the
+                      year of treatment{" "}
+                    </p>
                     <div className="illness-form">
                       <div className="row">
                         <div className="col-md-3">
@@ -142,8 +144,9 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
                             {diseases.map((disease, index) => (
                               <a
                                 key={index}
-                                className={`nav-link fw-500 custom-disease ${index === currentDisease ? "active" : ""
-                                  }`}
+                                className={`nav-link fw-500 custom-disease ${
+                                  index === currentDisease ? "active" : ""
+                                }`}
                                 id={`v-pills-${index}-tab`}
                                 data-toggle="pill"
                                 href={`#v-pills-${index}`}
@@ -162,8 +165,9 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
                             {diseases.map((disease, index) => (
                               <div
                                 key={index}
-                                className={`tab-pane fade show ${index === currentDisease ? "active" : ""
-                                  }`}
+                                className={`tab-pane fade show ${
+                                  index === currentDisease ? "active" : ""
+                                }`}
                                 id={`v-pills-${index}`}
                                 role="tabpanel"
                                 aria-labelledby={`v-pills-${index}-tab`}
@@ -185,8 +189,9 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
                                     <label>Year of treatment:</label>
                                     <input
                                       type="text"
-                                      className={`form-control my-upload${error ? "is-invalid" : ""
-                                        }`}
+                                      className={`form-control my-upload${
+                                        error ? "is-invalid" : ""
+                                      }`}
                                       value={yearOfTreatment}
                                       onChange={handleYearOfTreatment}
                                     />
@@ -237,37 +242,27 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
                     </div>
                   </div>
                 </div>
+                <div
+                  className="d-flex"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginTop: "20px",
+                    marginBottom: "20px",
+                  }}
+                >
+                  <button onClick={handlePrev} disabled={true}>
+                    Previous
+                  </button>
+
+                  <button onClick={handleNext}>Next</button>
+                </div>
               </div>
             </div>
           </div>
-          {/* <div className="col-xl-4 col-12">
-          <PatientSideView />
-          {singlePatient.vitals[0] && (
-            <Vitals
-              vitals={patientPhysicalExamRecord}
-              patient={singlePatient}
-            />
-          )}
-        </div> */}
-        </div>
-        <div
-          className="d-flex"
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginTop: "20px",
-            marginBottom: "20px",
-          }}
-        >
-          <button onClick={handlePrev} disabled={true}>
-            Previous
-          </button>
-
-          <button onClick={handleNext}>Next</button>
         </div>
       </div>
-
     </Fragment>
   );
 };

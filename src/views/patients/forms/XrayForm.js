@@ -7,6 +7,7 @@ import PButtons from "../components/PButtons";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "../../../redux_store/ui-store";
+import { formsActions } from "../../../redux_store/forms-store";
 import Loading from "../../../components/loader/Loading";
 
 import { toast } from "react-toastify";
@@ -67,10 +68,13 @@ const XrayForm = ({ handlePrev, handleNext }) => {
             isLoading: false,
           })
         );
+        dispatch(formsActions.setPatientsXray(data["x-ray"]));
+
+        handleNext();
       }
       console.log("X ray response Data", data);
+
       toast.success("Patient X-Ray Add Successfully");
-      navigate(`/patients/${patientId}`);
     } catch (error) {
       dispatch(
         uiActions.setLoadingSpinner({
@@ -102,19 +106,20 @@ const XrayForm = ({ handlePrev, handleNext }) => {
 
   return (
     <Fragment>
-      {/* <BreadCrumb title={"Xray"} activeTab={"Add Xray"} /> */}
-      {/* <div className="separation-div"></div> */}
       <div className="step-form">
         <div className="row">
           <div className="col-xl-12 col-12">
-            {/* <PButtons routeId={patientId} /> */}
             <div className="box">
               <div className="custom-form">
                 <div className="box-body">
                   <div className="container">
-                    <h3 style={{
-                      textTransform: 'uppercase',
-                    }}>Upload Patient's Xray Image</h3>
+                    <h3
+                      style={{
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Upload Patient's Xray Image
+                    </h3>
                     <Formik
                       initialValues={initialValues}
                       validationSchema={validationSchema}
@@ -185,15 +190,18 @@ const XrayForm = ({ handlePrev, handleNext }) => {
 
                                 {values.status === "POSITIVE" && (
                                   <div className="form-group">
-                                    <label htmlFor="result">Result Comment</label>
+                                    <label htmlFor="result">
+                                      Result Comment
+                                    </label>
                                     <Field
-                                       as="textarea"
-                                       rows={3}
+                                      as="textarea"
+                                      rows="4"
                                       name="result"
-                                      className={`form-control my-upload ${touched.result && errors.result
-                                        ? "error-input"
-                                        : ""
-                                        }`}
+                                      className={`form-control my-upload ${
+                                        touched.result && errors.result
+                                          ? "error-input"
+                                          : ""
+                                      }`}
                                     />
                                     <ErrorMessage
                                       name="result"
@@ -204,9 +212,7 @@ const XrayForm = ({ handlePrev, handleNext }) => {
                                 )}
                               </div>
                             </div>
-
                           </div>
-
 
                           {/* {isLoading ? (
                             <Loading />
@@ -223,6 +229,28 @@ const XrayForm = ({ handlePrev, handleNext }) => {
                               text={"Save Xray Details"}
                             />
                           )} */}
+                          {isLoading ? (
+                            <Loading />
+                          ) : (
+                            <div
+                              className="d-flex"
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                marginTop: "20px",
+                                marginBottom: "20px",
+                              }}
+                            >
+                              <button onClick={handlePrev} disabled={true}>
+                                Previous
+                              </button>
+
+                              <button type="submit" disabled={isSubmitting}>
+                                Save & Next
+                              </button>
+                            </div>
+                          )}
                         </Form>
                       )}
                     </Formik>
@@ -231,31 +259,8 @@ const XrayForm = ({ handlePrev, handleNext }) => {
               </div>
             </div>
           </div>
-          {/* <div className="col-xl-4 col-12">
-            <PatientSideView />
-          </div> */}
         </div>
-
-        <div
-          className="d-flex"
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginTop: "20px",
-            marginBottom: "20px",
-          }}
-        >
-          <button onClick={handlePrev} disabled={true}>
-            Previous
-          </button>
-
-          <button onClick={handleNext}>Next</button>
-        </div>
-
       </div>
-
-
     </Fragment>
   );
 };

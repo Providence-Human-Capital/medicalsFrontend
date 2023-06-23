@@ -12,7 +12,7 @@ import { patientActions } from "../../redux_store/patients-store";
 import InfoBox from "./components/InfoBox";
 import TobaccoBox from "./components/TobaccoBox";
 import XRayBox from "./components/XRayBox";
-import { getPatient } from "../../services/api";
+import { getCurrentPatientRemarks, getPatient } from "../../services/api";
 import { formsActions } from "../../redux_store/forms-store";
 import PatientSkeleton from "../../components/skeletons/PatientSkeleton";
 // import { getPatientPhysicalExamResults } from "../../services/api";
@@ -25,6 +25,10 @@ const PatientDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    getCurrentPatientRemarks(patientId).then((remarks) => {
+      dispatch(formsActions.setFoodHandlerRemarks(remarks));
+    });
+
     const fetchPatientData = async () => {
       try {
         setLoading(true);
@@ -41,8 +45,6 @@ const PatientDetails = () => {
         ]);
 
         const physicalExamRecords = await physicalExamRecordsResponse.json();
-        console.log("Latest Physical Exam", physicalExamRecords.data);
-
         if (physicalExamRecordsResponse.ok) {
           dispatch(
             formsActions.setPhysicalExamination(physicalExamRecords.data)
@@ -73,7 +75,7 @@ const PatientDetails = () => {
   );
 
   const patientUpdated = useSelector((state) => state.patient.patientUpdated);
-
+  const { vitals } = singlePatient;
   if (loading) {
     return <PatientSkeleton />;
   }
@@ -90,24 +92,20 @@ const PatientDetails = () => {
                 <InfoBox patient={singlePatient} />
               </div>
               <div className="row">
-                <div className="col-xl-4 col-12">
+                <div className="col-xl-6 col-12">
                   <BoxProfile patient={singlePatient} />
                 </div>
-                <div className="col-xl-4 col-12">
-                  {singlePatient.tobacco_use.length !== 0 && (
-                    <TobaccoBox tobacco={singlePatient.tobacco_use} />
-                  )}
-                </div>
-
-                <div className="col-xl-4 col-12">
-                  {singlePatient.xray.length !== 0 && (
-                    <XRayBox x_ray={singlePatient.xray} />
-                  )}
-                </div>
+                <div className="col-xl-6 col-12"></div>
               </div>
             </div>
-            <div className="col-xl-4 col-12">
-              {singlePatient.vitals.length === 0 ? (
+            <div
+              className="col-xl-4 col-12"
+              style={{
+                overflowY: "scroll",
+                height: "80vh",
+              }}
+            >
+              {vitals.length === 0 ? (
                 <div className="box">
                   <div className="box-header border-0 pb-0">
                     <h4 className="box-title">Physical Examination</h4>
@@ -123,6 +121,8 @@ const PatientDetails = () => {
                 <Vitals patient={singlePatient} />
               )}
               <DiseaseHistory patientId={patientId} />
+              <TobaccoBox patientId={patientId} />
+              <XRayBox patientId={patientId} />
             </div>
           </div>
         </section>

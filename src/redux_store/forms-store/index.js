@@ -19,6 +19,9 @@ const initialState = {
   },
 
   patientsIllnesses: null,
+  patientsTobaccos: null,
+  patientsXray: null,
+  fPatientRemarks: null,
 };
 
 const formsSlice = createSlice({
@@ -49,6 +52,21 @@ const formsSlice = createSlice({
     setPatientsIllness: (state, action) => ({
       ...state,
       patientsIllnesses: action.payload,
+    }),
+
+    setPatientsTobaccos: (state, action) => ({
+      ...state,
+      patientsTobaccos: action.payload,
+    }),
+
+    setPatientsXray: (state, action) => ({
+      ...state,
+      patientsXray: action.payload,
+    }),
+
+    setFoodHandlerRemarks: (state, action) => ({
+      ...state,
+      fPatientRemarks: action.payload,
     }),
   },
 });

@@ -11,6 +11,8 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Vitals from "./components/Vitals";
 import DiseaseHistory from "./components/DiseaseHistory";
+import TobaccoBox from "./components/TobaccoBox";
+import XRayBox from "./components/XRayBox";
 
 const FoodPatientUpdate = () => {
   const { patientId } = useParams();
@@ -80,24 +82,34 @@ const FoodPatientUpdate = () => {
   return (
     <Fragment>
       <BreadCrumb activeTab={"FoodHandlers"} title={"Patient"} />
-      <div className="row">
-        <div className="col-xl-8 col-12">
-          <FStepNavigation currentStep={currentStep} />
-          {foodHandlerForm}
-        </div>
-        <div className="col-xl-4 col-12">
-          <Vitals patient={singlePatient} />
-          <PatientSideView />
-          <div className="box">
-            <div className="box-header no-border">
-              <h4 className="box-title">Food Handler Patient Summary</h4>
-            </div>
-            <div className="box-body">
-              <DiseaseHistory />
+      <section className="content">
+        <div className="row">
+          <div className="col-xl-8 col-12">
+            <FStepNavigation currentStep={currentStep} />
+            {foodHandlerForm}
+          </div>
+          <div
+            className="col-xl-4 col-12"
+            style={{
+              overflowY: "scroll",
+              height: "80vh",
+            }}
+          >
+            <Vitals patient={singlePatient} />
+            <PatientSideView />
+            <div className="box">
+              <div className="box-header no-border">
+                <h4 className="box-title">Food Handler Patient Summary</h4>
+              </div>
+              <div className="box-body">
+                <DiseaseHistory />
+                <TobaccoBox />
+                <XRayBox />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </Fragment>
   );
 };

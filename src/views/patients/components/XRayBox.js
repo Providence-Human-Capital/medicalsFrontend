@@ -1,8 +1,40 @@
 import React, { Fragment, useEffect } from "react";
-import { IMAGE_URL } from "../../../config";
+import { API, IMAGE_URL } from "../../../config";
 import { formatDate, options } from "../../../utils/dateConverter";
+import { useDispatch, useSelector } from "react-redux";
+import { formsActions } from "../../../redux_store/forms-store";
 
-const XRayBox = ({ x_ray }) => {
+const XRayBox = ({ patientId }) => {
+  const dispatch = useDispatch();
+  // http://localhost:8000/api/patients/6/latest-xray
+  const patientXray = useSelector((state) => state.forms.patientsXray) || {};
+
+  const getPatientsXray = async () => {
+    try {
+      const xrayResponse = await fetch(
+        `${API}/patients/${patientId}/latest-xray`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const responseData = await xrayResponse.json();
+      console.log("Xray response: " + responseData);
+      if (xrayResponse.ok) {
+        dispatch(formsActions.setPatientsXray(responseData.latest_xray));
+      }
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
+
+  useEffect(() => {
+    getPatientsXray();
+  }, [patientId]);
   return (
     <Fragment>
       <div className="box">
@@ -11,30 +43,39 @@ const XRayBox = ({ x_ray }) => {
           <div className="box-body box-profile">
             <div className="row">
               <div className="col-12 mb-3">
-                {x_ray[0].status === "POSITIVE" ? (
+                {patientXray.status === "POSITIVE" ? (
                   <p className="fw-500 mb-0">
                     XRay Status:{" "}
-                    <span className="badge badge-success">
-                      {x_ray[0].status}
+                    <span className="badge badge-danger">
+                      {patientXray.status}
                     </span>
                   </p>
                 ) : (
                   <p className="fw-500 mb-0">
                     XRay Status:{" "}
-                    <span className="badge badge-danger">
-                      {x_ray[0].status}
+                    <span className="badge badge-success">
+                      {patientXray.status}
                     </span>
                   </p>
                 )}
                 <p className="fw-500">
                   {" "}
                   <i className="fa fa-clock-o"></i>{" "}
-                  {formatDate(x_ray[0].created_at, options)}
+                  {formatDate(patientXray.created_at, options)}
                 </p>
               </div>
+              {patientXray.result && (
+                <div className="col-12">
+                  <p>
+                    {" "}
+                    <strong>Comment:</strong> {patientXray.result}
+                  </p>
+                </div>
+              )}
+
               <div className="col-12">
                 <img
-                  src={`${IMAGE_URL}/${x_ray[0].image}`}
+                  src={`${IMAGE_URL}/${patientXray.image}`}
                   className="img-fluid"
                   alt="Patient's XRay"
                 />

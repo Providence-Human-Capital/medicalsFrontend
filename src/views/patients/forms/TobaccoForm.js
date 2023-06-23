@@ -1,11 +1,16 @@
 import React, { Fragment, useEffect } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import BreadCrumb from "../../../components/BreadCrumb";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PatientSideView from "../components/PatientSideView";
 import Vitals from "../components/Vitals";
 import PButtons from "../components/PButtons";
 import { useState } from "react";
+import axios from "axios";
+import { API } from "../../../config";
+import Loading from "../../../components/loader/Loading";
+import { ToastContainer, toast } from "react-toastify";
+import { formsActions } from "../../../redux_store/forms-store";
 
 const TobaccoForm = ({ handlePrev, handleNext }) => {
   const { patientId } = useParams();
@@ -13,17 +18,67 @@ const TobaccoForm = ({ handlePrev, handleNext }) => {
   const patientPhysicalExamRecord = useSelector(
     (state) => state.patient.latestPhysicalExam
   );
-
   const tobaccos = useSelector((state) => state.tobacco.tobaccos);
-
   const [currentTobacco, setCurrentTobacco] = useState(0);
   const [smokeTobacco, setSmokeTobacco] = useState(false);
   const [howManyPerDay, setHowManyPerDay] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const handleNextTobacco = () => {
-    setCurrentTobacco(currentTobacco + 1);
-    setSmokeTobacco(false);
-    setHowManyPerDay("");
+  const dispatch = useDispatch();
+
+  const handleNextTobacco = async (event) => {
+    event.preventDefault();
+    setError("");
+    try {
+      const currentTobaccoId = tobaccos[currentTobacco].id;
+      if (smokeTobacco) {
+        if (!howManyPerDay) {
+          setError("Please enter how many tobaccos per day");
+          return;
+        } else {
+          setIsLoading(true);
+          const response = await axios.patch(
+            `${API}/tobacco/update/${currentTobaccoId}/${patientId}`,
+            {
+              do_smoke: smokeTobacco ? 1 : 0,
+              how_many: howManyPerDay,
+            }
+          );
+
+          console.log("Tobacco..", response);
+          if (response.status === 200) {
+            if (currentTobacco === tobaccos.length - 1) {
+              handleNext();
+            }
+            setCurrentTobacco(currentTobacco + 1);
+            setSmokeTobacco(false);
+            setHowManyPerDay("");
+            dispatch(
+              formsActions.setPatientsTobaccos(response.data.tobacco_uses)
+            );
+            toast.info(response.data.message);
+          } else {
+            setError("Failed to connect to from the server.");
+          }
+        }
+      } else {
+        setCurrentTobacco(currentTobacco + 1);
+        setSmokeTobacco(false);
+        setHowManyPerDay("");
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setError("Server might be offline. Please try again later.");
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+      setTimeout(() => {
+        setError("");
+        setSuccess("");
+      }, 5000);
+    }
   };
 
   const handlePrevTobacco = () => {
@@ -50,14 +105,17 @@ const TobaccoForm = ({ handlePrev, handleNext }) => {
               <div className="custom-form">
                 <div className="box-body">
                   <div className="container">
-                    <h3 style={{
-                      textTransform: 'uppercase',
-                    }}>
-                      <strong>
-                        Tobacco Use
-                      </strong>
+                    <h3
+                      style={{
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      <strong>Tobacco Use</strong>
                     </h3>
-                    <p>If selected <strong>Yes</strong> Please Specify the Number Per Day  </p>
+                    <p>
+                      If selected <strong>Yes</strong> Please Specify the Number
+                      Per Day{" "}
+                    </p>
                     <div className="illness-form">
                       <div className="row">
                         <div className="col-md-3">
@@ -70,8 +128,9 @@ const TobaccoForm = ({ handlePrev, handleNext }) => {
                             {tobaccos.map((tobacco, index) => (
                               <a
                                 key={index}
-                                className={`nav-link fw-500 custom-disease ${index === currentTobacco ? "active" : ""
-                                  }`}
+                                className={`nav-link fw-500 custom-disease ${
+                                  index === currentTobacco ? "active" : ""
+                                }`}
                                 id={`v-pills-${index}-tab`}
                                 data-toggle="pill"
                                 href={`#v-pills-${index}`}
@@ -90,8 +149,9 @@ const TobaccoForm = ({ handlePrev, handleNext }) => {
                             {tobaccos.map((tobacco, index) => (
                               <div
                                 key={index}
-                                className={`tab-pane fade show ${index === currentTobacco ? "active" : ""
-                                  }`}
+                                className={`tab-pane fade show ${
+                                  index === currentTobacco ? "active" : ""
+                                }`}
                                 id={`v-pills-${index}`}
                                 role="tabpanel"
                                 aria-labelledby={`v-pills-${index}-tab`}
@@ -121,59 +181,63 @@ const TobaccoForm = ({ handlePrev, handleNext }) => {
                                 )}
                               </div>
                             ))}
-                            <div className="text-right">
-                              <button
-                                className="btn btn-secondary m-2 "
-                                onClick={handlePrevTobacco}
-                                disabled={currentTobacco === 0}
-                              >
-                                Prev
-                              </button>
-                              <button
-                                className="btn btn-primary m-2"
-                                onClick={handleNextTobacco}
-                                disabled={currentTobacco === tobaccos.length - 1}
-                              >
-                                Next
-                              </button>
-                            </div>
+
+                            {isLoading ? (
+                              <Loading />
+                            ) : (
+                              <div className="text-right">
+                                <button
+                                  className="btn btn-secondary m-2 "
+                                  onClick={handlePrevTobacco}
+                                  disabled={currentTobacco === 0}
+                                >
+                                  Prev
+                                </button>
+                                {currentTobacco === tobaccos.length - 1 ? (
+                                  <button
+                                    className="btn btn-primary m-2"
+                                    onClick={handleNextTobacco}
+                                  >
+                                    Save
+                                  </button>
+                                ) : (
+                                  <button
+                                    className="btn btn-primary m-2"
+                                    onClick={handleNextTobacco}
+                                    disabled={
+                                      currentTobacco === tobaccos.length - 1
+                                    }
+                                  >
+                                    Next
+                                  </button>
+                                )}
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                <div
+                  className="d-flex"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginTop: "20px",
+                    marginBottom: "20px",
+                  }}
+                >
+                  <button onClick={handlePrev}>Previous</button>
+
+                  <button onClick={handleNext}>Next</button>
+                </div>
               </div>
             </div>
           </div>
-          {/* <div className="col-xl-4 col-12">
-          <PatientSideView />
-          {singlePatient.vitals[0] && (
-            <Vitals
-              vitals={patientPhysicalExamRecord}
-              patient={singlePatient}
-            />
-          )}
-        </div> */}
-        </div>
-        <div
-          className="d-flex"
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginTop: "20px",
-            marginBottom: "20px",
-          }}
-        >
-          <button onClick={handlePrev} >
-            Previous
-          </button>
-
-          <button onClick={handleNext}>Next</button>
         </div>
       </div>
-
     </Fragment>
   );
 };

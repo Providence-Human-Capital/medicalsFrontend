@@ -395,3 +395,20 @@ export const getPatientReportByDay = async () => {
     console.log(error);
   }
 };
+
+export const getCurrentPatientRemarks = async (patientId) => {
+  try {
+    const response = await fetch(`${API}/patients/${patientId}/latest-remark`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

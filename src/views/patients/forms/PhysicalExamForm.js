@@ -148,7 +148,9 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
     (state) => state.patient.latestPhysicalExam
   );
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    
+  }, []);
   return (
     <Fragment>
       <div className="step-form">
