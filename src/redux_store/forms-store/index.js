@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  //Food Handlers Form
   fPhysicalExamination: {
     id: "",
     bmi: "",
@@ -18,10 +19,17 @@ const initialState = {
     weight: "",
   },
 
+  //Food Handlers
   patientsIllnesses: null,
   patientsTobaccos: null,
   patientsXray: null,
   fPatientRemarks: null,
+
+  //Pneumoconiosis
+  pIndustryClassification: null,
+  pMineralDExposure: null,
+  pMeasures: null,
+  pOccupationDetails: null,
 };
 
 const formsSlice = createSlice({
@@ -59,14 +67,69 @@ const formsSlice = createSlice({
       patientsTobaccos: action.payload,
     }),
 
+    resetPatientsTobaccos: (state) => ({
+      ...state,
+      patientsTobaccos: initialState.patientsTobaccos,
+    }),
+
     setPatientsXray: (state, action) => ({
       ...state,
       patientsXray: action.payload,
     }),
 
+    resetPatientsXray: (state) => ({
+      ...state,
+      patientsXray: initialState.patientsXray,
+    }),
+
     setFoodHandlerRemarks: (state, action) => ({
       ...state,
       fPatientRemarks: action.payload,
+    }),
+
+    resetFoodHandlerRemarks: (state) => ({
+      ...state,
+      fPatientRemarks: initialState.fPatientRemarks,
+    }),
+
+    setIndustryClassification: (state, action) => ({
+      ...state,
+      pIndustryClassification: action.payload,
+    }),
+
+    resetIndustryClassification: (state) => ({
+      ...state,
+      pIndustryClassification: initialState.pIndustryClassification,
+    }),
+
+    setMineralDustExposure: (state, action) => ({
+      ...state,
+      pMineralDExposure: action.payload,
+    }),
+
+    resetMineralDustExposure: (state) => ({
+      ...state,
+      pMineralDExposure: initialState.pMineralDExposure,
+    }),
+
+    setControlMeasures: (state, action) => ({
+      ...state,
+      pMeasures: action.payload,
+    }),
+
+    resetControlMeasures: (state) => ({
+      ...state,
+      pMeasures: initialState.pMeasures,
+    }),
+
+    setOccupationDetails: (state, action) => ({
+      ...state,
+      pOccupationDetails: action.payload,
+    }),
+
+    reseOccupationDetails: (state) => ({
+      ...state,
+      pOccupationDetails: initialState.pOccupationDetails,
     }),
   },
 });

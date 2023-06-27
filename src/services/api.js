@@ -412,3 +412,21 @@ export const getCurrentPatientRemarks = async (patientId) => {
     console.log(error);
   }
 };
+
+export const getLatestPatientXray = async (patientId) => {
+  try {
+    const response = await fetch(`${API}/patients/${patientId}/latest-xray`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    console.log("Xray Data", data);
+    return data.latest_xray;
+  } catch (error) {
+    console.log(error);
+  }
+};

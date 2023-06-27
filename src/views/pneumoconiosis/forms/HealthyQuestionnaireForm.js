@@ -2,8 +2,18 @@ import React from "react";
 import "./FormsStyle.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { uiActions } from "../../../redux_store/ui-store";
+import { API } from "../../../config";
+import { formsActions } from "../../../redux_store/forms-store";
+import Loading from "../../../components/loader/Loading";
 
-const HealthyQuestionnaireForm = ({ handlePrev, handleSubmit }) => {
+const HealthyQuestionnaireForm = ({ handlePrev, handleNext }) => {
+  const isLoading = useSelector((state) => state.ui.isLoading);
+  const dispatch = useDispatch();
+  const { patientId } = useParams();
+
   const initialValues = {
     dusty_occupation: false,
     occupation_details: "",
@@ -26,10 +36,34 @@ const HealthyQuestionnaireForm = ({ handlePrev, handleSubmit }) => {
     }),
   });
 
-  // const handleSubmit = (values) => {
-  //   console.log(values);
-  //   // Submit form data to Laravel API
-  // };
+  const handleSubmitForm = async (values) => {
+    values.dusty_occupation = values.dusty_occupation === "true"; //Converting a string to a boolean
+    console.log(values);
+
+    try {
+      dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
+      const response = await fetch(
+        `${API}/patient/${patientId}/previous/occupation`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const responseData = await response.json();
+      dispatch(formsActions.setOccupationDetails(responseData.data));
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+    } catch (error) {
+      console.log("Error", error);
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+    }
+  };
 
   return (
     <div className="step-form">
@@ -41,7 +75,7 @@ const HealthyQuestionnaireForm = ({ handlePrev, handleSubmit }) => {
               <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
-                onSubmit={handleSubmit}
+                onSubmit={handleSubmitForm}
               >
                 {({ isSubmitting, values, handleChange }) => (
                   <Form>
@@ -56,6 +90,9 @@ const HealthyQuestionnaireForm = ({ handlePrev, handleSubmit }) => {
                         onChange={handleChange}
                         className="form-control my-upload"
                       >
+                        <option value="">Select 
+                        <strong>(Yes/No)</strong>
+                        </option>
                         <option value={false}>No</option>
                         <option value={true}>Yes</option>
                       </Field>
@@ -65,7 +102,7 @@ const HealthyQuestionnaireForm = ({ handlePrev, handleSubmit }) => {
                       <>
                         <div className="form-group">
                           <label htmlFor="occupation_details">
-                            Occupation Details
+                            Occupation Details <strong>(Describe What You Did)</strong>
                           </label>
                           <Field
                             type="text"
@@ -115,47 +152,43 @@ const HealthyQuestionnaireForm = ({ handlePrev, handleSubmit }) => {
                       </>
                     )}
 
-                    {/* <button
-                      type="submit"
-                      className="btn btn-primary"
-                      disabled={isSubmitting}
+                    <div
+                      className="d-flex"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                      }}
                     >
-                      Submit
-                    </button> */}
+                      <button onClick={handlePrev}>Previous</button>
+
+                      {isLoading ? (
+                        <Loading />
+                      ) : (
+                        <button
+                          onClick={handleSubmitForm}
+                          style={{
+                            backgroundColor: "#007bff",
+                            color: "#fff",
+                            border: "none",
+                            padding: "10px 20px",
+                            borderRadius: "5px",
+                            cursor: "pointer",
+                            fontSize: "16px",
+                          }}
+                        >
+                          Submit
+                        </button>
+                      )}
+                    </div>
                   </Form>
                 )}
               </Formik>
             </div>
           </div>
         </div>
-      </div>
-
-      <div
-        className="d-flex"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: "20px",
-          marginBottom: "20px",
-        }}
-      >
-        <button onClick={handlePrev}>Previous</button>
-
-        <button
-          onClick={handleSubmit}
-          style={{
-            backgroundColor: "#007bff",
-            color: "#fff",
-            border: "none",
-            padding: "10px 20px",
-            borderRadius: "5px",
-            cursor: "pointer",
-            fontSize: "16px",
-          }}
-        >
-          Submit
-        </button>
       </div>
     </div>
   );

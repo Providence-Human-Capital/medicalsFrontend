@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import StepForm from "../../components/StepForm";
 import BreadCrumb from "../../components/BreadCrumb";
 import IndustryClassificationForm from "./forms/IndustryClassificationForm";
@@ -18,7 +18,7 @@ import PatientSideView from "../patients/components/PatientSideView";
 const PneumoPatientUpdate = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({});
-  
+
   const handleNext = (data) => {
     setFormData({ ...formData, ...data });
     setCurrentStep(currentStep + 1);
@@ -66,26 +66,44 @@ const PneumoPatientUpdate = () => {
     default:
       formComponent = null;
   }
+
+  useEffect(() => {
+    const storedStep = localStorage.getItem("currentStep");
+    if (storedStep) {
+      setCurrentStep(parseInt(storedStep));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("currentStep", currentStep);
+  }, [currentStep]);
+
   return (
     <Fragment>
       <BreadCrumb activeTab={"Pneumoconiosis"} title={"Patient"} />
-      <div className="row">
-        <div className="col-xl-7 col-12">
-          <StepForm currentStep={currentStep} />
-          {formComponent}
-        </div>
-        <div className="col-xl-5 col-12">
-          <PatientSideView />
-          <div className="box">
-
-            <div className="box-header no-border">
-              <h4 className="box-title">Pneumoconiosis Patient Summary</h4>
+      <section className="content">
+        <div className="row">
+          <div className="col-xl-7 col-12">
+            <StepForm currentStep={currentStep} />
+            {formComponent}
+          </div>
+          <div
+            className="col-xl-5 col-12"
+            style={{
+              overflowY: "scroll",
+              height: "80vh",
+            }}
+          >
+            <PatientSideView />
+            <div className="box">
+              <div className="box-header no-border">
+                <h4 className="box-title">Pneumoconiosis Patient Summary</h4>
+              </div>
+              <div className="box-body"></div>
             </div>
-            <div className="box-body"></div>
-
           </div>
         </div>
-      </div>
+      </section>
     </Fragment>
   );
 };

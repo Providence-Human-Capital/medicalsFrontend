@@ -1,28 +1,69 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { API } from "../../../config";
+import { formsActions } from "../../../redux_store/forms-store";
+import { uiActions } from "../../../redux_store/ui-store";
+import Loading from "../../../components/loader/Loading";
 
 const ControlMeasuresForm = ({ handlePrev, handleNext }) => {
+  const isLoading = useSelector((state) => state.ui.isLoading);
+  const dispatch = useDispatch();
+  const { patientId } = useParams();
+
   const initialValues = {
     wet_method: false,
     contain_and_vent: false,
     monitoring: false,
-    ppe: "",
+    ppe: false,
     ppe_details: "",
-    other: "",
+    other: false,
     other_details: "",
   };
 
   const validationSchema = Yup.object({
     ppe_details: Yup.string().when("ppe", {
-      is: "Yes",
+      is: true,
       then: Yup.string().required("PPE details are required"),
     }),
+    contain_and_vent: Yup.boolean().nullable(),
   });
 
-  const handleSubmit = (values) => {
-    console.log(values);
+  const handleSubmit = async (values) => {
+    values.wet_method = values.wet_method === "true";
+    values.contain_and_vent = values.contain_and_vent === "true";
+    values.monitoring = values.monitoring === "true";
+    values.other = values.other === "true";
+    const data = { ...values, ppe: values.ppe === "Yes" ? true : false };
     // Submit form data to Laravel API
+    dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
+    try {
+      const response = await fetch(
+        `${API}/patient/${patientId}/control/measures`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const responseData = await response.json();
+      console.log("Classification Response" + responseData);
+      dispatch(formsActions.setControlMeasures(responseData.data));
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+      handleNext();
+    } catch (error) {
+      console.log("Error", error);
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+    }
   };
 
   return (
@@ -31,7 +72,11 @@ const ControlMeasuresForm = ({ handlePrev, handleNext }) => {
         <div className="custom-form">
           <div className="box-body">
             <div className="container">
-              <h4>Details of Control Measures Being Implemented</h4>
+              <h4>
+                <strong>
+                  3. Details of Control Measures Being Implemented
+                </strong>
+              </h4>
               <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -58,7 +103,7 @@ const ControlMeasuresForm = ({ handlePrev, handleNext }) => {
                       <div className="col-md-6">
                         <div className="form-group">
                           <label htmlFor="contain_and_vent">
-                            Contain and Vent
+                            <strong>Containment and Ventilation</strong>
                           </label>
                           <Field
                             as="select"
@@ -67,8 +112,9 @@ const ControlMeasuresForm = ({ handlePrev, handleNext }) => {
                             onChange={handleChange}
                             className="form-control my-upload"
                           >
-                            <option value={false}>No</option>
+                            <option value="">Select</option>
                             <option value={true}>Yes</option>
+                            <option value={false}>No</option>
                           </Field>
                         </div>
                       </div>
@@ -99,9 +145,9 @@ const ControlMeasuresForm = ({ handlePrev, handleNext }) => {
                             onChange={handleChange}
                             className="form-control my-upload"
                           >
-                            <option value="">Select an option</option>
-                            <option value="Yes">Yes</option>
+                            <option value="">Select(Yes/No)</option>
                             <option value="No">No</option>
+                            <option value="Yes">Yes</option>
                           </Field>
                         </div>
                       </div>
@@ -134,11 +180,11 @@ const ControlMeasuresForm = ({ handlePrev, handleNext }) => {
                         className="form-control my-upload"
                       >
                         <option value="">Select an option</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
+                        <option value={true}>Yes</option>
+                        <option value={false}>No</option>
                       </Field>
                     </div>
-                    {values.other === "Yes" && (
+                    {values.other === "true" && (
                       <div className="form-group">
                         <label htmlFor="other_details">Other Details</label>
                         <Field
@@ -150,33 +196,32 @@ const ControlMeasuresForm = ({ handlePrev, handleNext }) => {
                         />
                       </div>
                     )}
-                    {/* <button
-                      type="submit"
-                      className="btn btn-primary"
-                      disabled={isSubmitting}
+                    <div
+                      className="d-flex"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                      }}
                     >
-                      Submit
-                    </button> */}
+                      <button onClick={handlePrev}>Previous</button>
+                      {isLoading ? (
+                        <Loading />
+                      ) : (
+                        // <button type="submit" onClick={handleSubmit}>
+                        //   Next
+                        // </button>
+                        <button onClick={handleNext}>Temp Next</button>
+                      )}
+                    </div>
                   </Form>
                 )}
               </Formik>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        className="d-flex"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: "20px",
-          marginBottom: "20px",
-        }}
-      >
-        <button onClick={handlePrev}>Previous</button>
-
-        <button onClick={handleNext}>Next</button>
       </div>
     </div>
   );

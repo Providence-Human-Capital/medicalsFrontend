@@ -12,7 +12,11 @@ import { patientActions } from "../../redux_store/patients-store";
 import InfoBox from "./components/InfoBox";
 import TobaccoBox from "./components/TobaccoBox";
 import XRayBox from "./components/XRayBox";
-import { getCurrentPatientRemarks, getPatient } from "../../services/api";
+import {
+  getCurrentPatientRemarks,
+  getLatestPatientXray,
+  getPatient,
+} from "../../services/api";
 import { formsActions } from "../../redux_store/forms-store";
 import PatientSkeleton from "../../components/skeletons/PatientSkeleton";
 // import { getPatientPhysicalExamResults } from "../../services/api";
@@ -27,6 +31,10 @@ const PatientDetails = () => {
   useEffect(() => {
     getCurrentPatientRemarks(patientId).then((remarks) => {
       dispatch(formsActions.setFoodHandlerRemarks(remarks));
+    });
+
+    getLatestPatientXray(patientId).then((xray) => {
+      dispatch(formsActions.setPatientsXray(xray));
     });
 
     const fetchPatientData = async () => {
@@ -73,6 +81,7 @@ const PatientDetails = () => {
   const isAvailable = useSelector(
     (state) => state.patient.physicalExamAvailable
   );
+  const patientXray = useSelector((state) => state.forms.patientsXray) || {};
 
   const patientUpdated = useSelector((state) => state.patient.patientUpdated);
   const { vitals } = singlePatient;

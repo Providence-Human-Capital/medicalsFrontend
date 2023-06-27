@@ -3,37 +3,17 @@ import { API, IMAGE_URL } from "../../../config";
 import { formatDate, options } from "../../../utils/dateConverter";
 import { useDispatch, useSelector } from "react-redux";
 import { formsActions } from "../../../redux_store/forms-store";
+import { getLatestPatientXray } from "../../../services/api";
 
 const XRayBox = ({ patientId }) => {
   const dispatch = useDispatch();
   // http://localhost:8000/api/patients/6/latest-xray
   const patientXray = useSelector((state) => state.forms.patientsXray) || {};
 
-  const getPatientsXray = async () => {
-    try {
-      const xrayResponse = await fetch(
-        `${API}/patients/${patientId}/latest-xray`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const responseData = await xrayResponse.json();
-      console.log("Xray response: " + responseData);
-      if (xrayResponse.ok) {
-        dispatch(formsActions.setPatientsXray(responseData.latest_xray));
-      }
-    } catch (error) {
-      console.log("Error", error);
-    }
-  };
-
   useEffect(() => {
-    getPatientsXray();
+    getLatestPatientXray(patientId).then((xray) => {
+      dispatch(formsActions.setPatientsXray(xray));
+    });
   }, [patientId]);
   return (
     <Fragment>

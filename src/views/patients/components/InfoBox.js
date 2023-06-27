@@ -75,30 +75,35 @@ const InfoBox = ({ patient }) => {
             </h5>
           </div>
         </div>
-        <div className="box-body pt-0">
-          <h4 className="fw-500">Doctor's Comment</h4>
-          {patientsRemarks.comment ? (
-            <p>{patientsRemarks.comment}</p>
-          ) : (
-            <p>No comment from the doctor yet.</p>
-          )}
-        </div>
-        <div className="box-body pt-0">
-          <h4 className="fw-500">General Observation</h4>
-          {patient.general_observation ? (
-            <p>{patient.general_observation}</p>
-          ) : (
-            <p>Now Observation's from the doctor yet.</p>
-          )}
-        </div>
-        <div className="box-body pt-0">
-          <h4 className="fw-500">Doctor's Remarks</h4>
-          {patientsRemarks.remarks ? (
-            <p>{patientsRemarks.remarks}</p>
-          ) : (
-            <p>No remarks from the doctor yet.</p>
-          )}
-        </div>
+        {patientsRemarks && (
+          <Fragment>
+            <div className="box-body pt-0">
+              <h4 className="fw-500">Doctor's Comment</h4>
+              {patientsRemarks.comment ? (
+                <p>{patientsRemarks.comment}</p>
+              ) : (
+                <p>No comment from the doctor yet.</p>
+              )}
+            </div>
+            <div className="box-body pt-0">
+              <h4 className="fw-500">General Observation</h4>
+              {patient.general_observation ? (
+                <p>{patient.general_observation}</p>
+              ) : (
+                <p>Now Observation's from the doctor yet.</p>
+              )}
+            </div>
+
+            <div className="box-body pt-0">
+              <h4 className="fw-500">Doctor's Remarks</h4>
+              {patientsRemarks.remarks && patientsRemarks.remarks ? (
+                <p>{patientsRemarks.remarks}</p>
+              ) : (
+                <p>No remarks from the doctor yet.</p>
+              )}
+            </div>
+          </Fragment>
+        )}
       </div>
     </Fragment>
   );

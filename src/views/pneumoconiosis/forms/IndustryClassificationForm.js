@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { uiActions } from "../../../redux_store/ui-store";
+import { API } from "../../../config";
+import { formsActions } from "../../../redux_store/forms-store";
+import Loading from "../../../components/loader/Loading";
+import { useParams } from "react-router-dom";
 
 const IndustryClassificationForm = ({ handlePrev, handleNext }) => {
+  const isLoading = useSelector((state) => state.ui.isLoading);
+  const dispatch = useDispatch();
+  const { patientId } = useParams();
   const initialValues = {
     industry: "",
     mineral: "",
@@ -21,10 +30,40 @@ const IndustryClassificationForm = ({ handlePrev, handleNext }) => {
     }),
   });
 
-  const handleSubmit = (values) => {
-    console.log(values);
-    // Submit form data to Laravel API
+  const handleSubmit = async (values) => {
+
+    // console.log("These are the values", JSON.stringify(values));
+    dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
+
+    console.log(JSON.stringify(values));
+    try {
+      const response = await fetch(
+        `${API}/patient/${patientId}/classification`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const responseData = await response.json();
+      console.log("Classification Response: " + responseData);
+      dispatch(formsActions.setIndustryClassification(responseData.data));
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+      handleNext();
+    } catch (error) {
+      console.log("Error", error);
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+    }
   };
+
+  useEffect(() => {}, []);
 
   return (
     <div className="step-form">
@@ -32,7 +71,7 @@ const IndustryClassificationForm = ({ handlePrev, handleNext }) => {
         <div className="custom-form">
           <div className="box-body">
             <div className="container">
-            <h4>Industry Classification</h4>
+              <h4>Industry Classification</h4>
               <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -120,41 +159,34 @@ const IndustryClassificationForm = ({ handlePrev, handleNext }) => {
                         </div>
                       </div>
                     )}
-
-                    {/* <div className="form-group row">
-                      <div className="col-sm-10 offset-sm-2">
-                        <button
-                          type="submit"
-                          className="btn btn-primary"
-                          disabled={isSubmitting}
-                        >
-                          Submit
-                        </button>
-                      </div>
-                    </div> */}
+                    <div
+                      className="d-flex"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      <button onClick={handlePrev} disabled={true}>
+                        Previous
+                      </button>
+                      {isLoading ? (
+                        <Loading />
+                      ) : (
+                        // <button type="submit" disabled={isSubmitting}>
+                        //   Next
+                        // </button>
+                        <button  onClick={handleNext} > Tempo Next</button>
+                      )}
+                    </div>
                   </Form>
                 )}
               </Formik>
             </div>
           </div>
         </div>
-      </div>
-
-      <div
-        className="d-flex"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: "20px",
-          marginBottom: "20px",
-        }}
-      >
-        <button onClick={handlePrev} disabled={true}>
-          Previous
-        </button>
-
-        <button onClick={handleNext}>Next</button>
       </div>
     </div>
   );

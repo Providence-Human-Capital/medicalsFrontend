@@ -1,8 +1,17 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { API } from "../../../config";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { formsActions } from "../../../redux_store/forms-store";
+import { uiActions } from "../../../redux_store/ui-store";
+import Loading from "../../../components/loader/Loading";
 
 const MineralDustExposureForm = ({ handlePrev, handleNext }) => {
+  const isLoading = useSelector((state) => state.ui.isLoading);
+  const { patientId } = useParams();
+  const dispatch = useDispatch();
   const initialValues = {
     mineral_dust_exposure: "",
     other_details: "",
@@ -16,9 +25,34 @@ const MineralDustExposureForm = ({ handlePrev, handleNext }) => {
       then: Yup.string().required("Other details are required"),
     }),
   });
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     console.log(values);
-    // Submit form data to Laravel API
+    dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
+    try {
+      const response = await fetch(
+        `${API}/patient/${patientId}/mineral/exposure`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const responseData = await response.json();
+      console.log("Mineral Exposure", responseData);
+      dispatch(formsActions.setMineralDustExposure(responseData.data));
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+      handleNext();
+    } catch (error) {
+      console.log("Error: " + error);
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+    }
   };
   const mineralDustExposureOptions = [
     { label: "Silica", value: "Silica" },
@@ -33,7 +67,7 @@ const MineralDustExposureForm = ({ handlePrev, handleNext }) => {
         <div className="custom-form">
           <div className="box-body">
             <div className="container">
-            <h4>Which Mineral Dust Exposure Is Causing Health Risk?</h4>
+              <h4>Which Mineral Dust Exposure Is Causing Health Risk?</h4>
               <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -94,27 +128,31 @@ const MineralDustExposureForm = ({ handlePrev, handleNext }) => {
                         </div>
                       </div>
                     )}
+                    <div
+                      className="d-flex"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      <button onClick={handlePrev}>Previous</button>
+
+                      {isLoading ? (
+                        <Loading />
+                      ) : (
+                        // <button onClick={handleSubmit}>Next</button>
+                        <button onClick={handleNext}>Tempo Next</button>
+                      )}
+                    </div>
                   </Form>
                 )}
               </Formik>
             </div>
           </div>
         </div>
-      </div>
-
-      <div
-        className="d-flex"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: "20px",
-          marginBottom: "20px",
-        }}
-      >
-        <button onClick={handlePrev}>Previous</button>
-
-        <button onClick={handleNext}>Next</button>
       </div>
     </div>
   );
