@@ -16,10 +16,10 @@ const IllnessInjuryForm = ({ handlePrev, handleNext }) => {
   const validationSchema = Yup.object().shape({
     ...diseases.reduce((acc, disease) => {
       acc[disease.name] = Yup.object().shape({
-        hasDisease: Yup.string().required("Required"),
+        hasDisease: Yup.string().nullable(),
         yearTreated: Yup.string().when("hasDisease", {
           is: "yes",
-          then: Yup.string().required("Required"),
+          then: Yup.string().required("Provide Year of Treatment"),
         }),
       });
       return acc;
@@ -27,7 +27,7 @@ const IllnessInjuryForm = ({ handlePrev, handleNext }) => {
   });
 
   const onSubmit = (values) => {
-    console.log(values);
+    console.log("These are the values",values);
   };
   return (
     <div className="step-form">

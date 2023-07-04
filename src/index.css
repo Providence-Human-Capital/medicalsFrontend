@@ -453,3 +453,8 @@ button {
   text-transform: "uppercase" !important;
   font-weight: bold !important;
 }
+
+
+.medical-text{
+  color: #000;
+}

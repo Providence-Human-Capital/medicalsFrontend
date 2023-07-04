@@ -19,6 +19,12 @@ import {
 } from "../../services/api";
 import { formsActions } from "../../redux_store/forms-store";
 import PatientSkeleton from "../../components/skeletons/PatientSkeleton";
+import HomeAddress from "../industry/components/HomeAddress";
+import MedicalHistoryBox from "../industry/components/MedicalHistoryBox";
+import OtherPhysicalExamination from "../industry/components/OtherPhysicalExamination";
+import CardioBox from "../industry/components/CardioBox";
+import RespiratoryBox from "../industry/components/RespiratoryBox";
+import IComments from "../industry/components/IComments";
 // import { getPatientPhysicalExamResults } from "../../services/api";
 
 const PatientDetails = () => {
@@ -63,13 +69,24 @@ const PatientDetails = () => {
 
   //Industry and Other
   const homeAddressesRecord = useSelector((state) => state.forms.homeAddresses);
-  const otherIllnessInjuriesRecord = useSelector((state) => state.forms.otherIllnessInjuries);
-  const otherMedicalHistoryRecord = useSelector((state) => state.forms.otherMedicalHistory);
-  const otherPhysicalExaminationRecord = useSelector((state) => state.forms.otherPhysicalExamination);
-  const otherCardioVascularCheckRecord = useSelector((state) => state.forms.otherCardioVascularCheck);
-  const otherRespiratoryCheckRecord = useSelector((state) => state.forms.otherRespiratoryCheck);
-  const otherCommentsAndRemarksRecord = useSelector((state) => state.forms.otherCommentsAndRemarks);
-
+  const otherIllnessInjuriesRecord = useSelector(
+    (state) => state.forms.otherIllnessInjuries
+  );
+  const otherMedicalHistoryRecord = useSelector(
+    (state) => state.forms.otherMedicalHistory
+  );
+  const otherPhysicalExaminationRecord = useSelector(
+    (state) => state.forms.otherPhysicalExamination
+  );
+  const otherCardioVascularCheckRecord = useSelector(
+    (state) => state.forms.otherCardioVascularCheck
+  );
+  const otherRespiratoryCheckRecord = useSelector(
+    (state) => state.forms.otherRespiratoryCheck
+  );
+  const otherCommentsAndRemarksRecord = useSelector(
+    (state) => state.forms.otherCommentsAndRemarks
+  );
 
   useEffect(() => {
     getCurrentPatientRemarks(patientId).then((remarks) => {
@@ -216,26 +233,19 @@ const PatientDetails = () => {
                   className="col-xl-4 col-12"
                   style={{
                     overflowY: "scroll",
-                  
+
                     height: "80vh",
                   }}
                 >
-                  <div className="box">
-                    <div className="box-header border-0 pb-0">
-                      <h4 className="box-title transform-header">
-                        Patients Details
-                      </h4>
-                    </div>
-                    <div className="box-body">
-                      <p>{JSON.stringify(homeAddressesRecord)}</p>
-                      <p>{JSON.stringify(otherIllnessInjuriesRecord)}</p>
-                      <p>{JSON.stringify(otherMedicalHistoryRecord)}</p>
-                      <p>{JSON.stringify(otherPhysicalExaminationRecord)}</p>
-                      <p>{JSON.stringify(otherCardioVascularCheckRecord)}</p>
-                      <p>{JSON.stringify(otherRespiratoryCheckRecord)}</p>
-                      <p>{JSON.stringify(otherCommentsAndRemarksRecord)}</p>
-                    </div>
-                  </div>
+                  <HomeAddress homeAddress={homeAddressesRecord} />
+                  <MedicalHistoryBox mHistory={otherMedicalHistoryRecord} />
+                  <OtherPhysicalExamination
+                    physical={otherPhysicalExaminationRecord}
+                    vitals={otherCardioVascularCheckRecord}
+                  />
+                  <CardioBox data={otherCardioVascularCheckRecord} />
+                  <RespiratoryBox data={otherRespiratoryCheckRecord} />
+                  <IComments data={otherCommentsAndRemarksRecord} />
                 </div>
               </Fragment>
             )}
