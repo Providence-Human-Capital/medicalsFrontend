@@ -1,14 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
-const validationSchema = Yup.object().shape({
-  doctors_comments: Yup.string().nullable(),
-});
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { uiActions } from "../../../redux_store/ui-store";
+import { API } from "../../../config";
+import { formsActions } from "../../../redux_store/forms-store";
+import { toast } from "react-toastify";
+import ErrorBox from "../../../components/ErrorBox";
+import Loading from "../../../components/loader/Loading";
 
 const ICommentsRemarksForm = ({ handlePrev, handleNext }) => {
+  const isLoading = useSelector((state) => state.ui.isLoading);
+  const dispatch = useDispatch();
+  const { patientId } = useParams();
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const validationSchema = Yup.object().shape({
+    doctors_comments: Yup.string().nullable(),
+  });
+
+  const handleSubmit = async (values) => {
+    console.log(values);
+
+    try {
+      dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
+      const response = await fetch(`${API}/other/comments/${patientId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const responseData = await response.json();
+      dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
+      dispatch(formsActions.setOtherCommentsAndRemarks(responseData.data));
+      toast.dark("Doctors Comments and Remarks Successfully Added");
+      navigate(`/patients/${patientId}`);
+    } catch (error) {
+      console.log("Error", error);
+      setError(error);
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+    }
+  };
   return (
     <div className="step-form">
+      {/* {error && <ErrorBox error={error} />} */}
       <div className="box">
         <div className="custom-form">
           <div className="box-body">
@@ -26,9 +67,7 @@ const ICommentsRemarksForm = ({ handlePrev, handleNext }) => {
                   doctors_comments: "",
                 }}
                 validationSchema={validationSchema}
-                onSubmit={(values) => {
-                  console.log(values);
-                }}
+                onSubmit={handleSubmit}
               >
                 {({ errors, touched }) => (
                   <Form>
@@ -55,27 +94,30 @@ const ICommentsRemarksForm = ({ handlePrev, handleNext }) => {
                       />
                     </div>
 
-                   
+                    <div
+                      className="d-flex"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      <button onClick={handlePrev}>Previous</button>
+
+                      {isLoading ? (
+                        <Loading />
+                      ) : (
+                        <button onClick={handleSubmit}>Submit</button>
+                      )}
+                    </div>
                   </Form>
                 )}
               </Formik>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        className="d-flex"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: "20px",
-          marginBottom: "20px",
-        }}
-      >
-        <button onClick={handlePrev}>Previous</button>
-
-        <button onClick={handleNext}>Next</button>
       </div>
     </div>
   );

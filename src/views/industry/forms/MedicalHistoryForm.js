@@ -2,43 +2,88 @@ import React, { Fragment } from "react";
 import BreadCrumb from "../../../components/BreadCrumb";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { uiActions } from "../../../redux_store/ui-store";
+import { API } from "../../../config";
+import { toast } from "react-toastify";
+import { formsActions } from "../../../redux_store/forms-store";
+import Loading from "../../../components/loader/Loading";
 
-const HealthSchema = Yup.object().shape({
-  serious_injury: Yup.boolean(),
-  injury_details: Yup.string().when("serious_injury", {
-    is: true,
-    then: Yup.string().required("Injury details are required"),
-  }),
-  admitted: Yup.boolean(),
-  admission_details: Yup.string().when("admitted", {
-    is: true,
-    then: Yup.string().required("Admission details are required"),
-  }),
-  allergies: Yup.boolean(),
-  allergies_details: Yup.string().when("allergies", {
-    is: true,
-    then: Yup.string().required("Allergy details are required"),
-  }),
-  health_state: Yup.string(),
-  alcohol: Yup.boolean(),
-  alcohol_per_day: Yup.number().when("alcohol", {
-    is: true,
-    then: Yup.number().required("Alcohol per day is required"),
-  }),
-  alcohol_per_week: Yup.number().when("alcohol", {
-    is: true,
-    then: Yup.number().required("Alcohol per week is required"),
-  }),
-  exercise: Yup.string(),
-});
 const MedicalHistoryForm = ({ handlePrev, handleNext }) => {
+  const isLoading = useSelector((state) => state.ui.isLoading);
+  const dispatch = useDispatch();
+  const { patientId } = useParams();
+
+  const HealthSchema = Yup.object().shape({
+    serious_injury: Yup.boolean(),
+    injury_details: Yup.string().when("serious_injury", {
+      is: true,
+      then: Yup.string().required("Injury details are required"),
+    }),
+    admitted: Yup.boolean(),
+    admission_details: Yup.string().when("admitted", {
+      is: true,
+      then: Yup.string().required("Admission details are required"),
+    }),
+    allergies: Yup.boolean(),
+    allergies_details: Yup.string().when("allergies", {
+      is: true,
+      then: Yup.string().required("Allergy details are required"),
+    }),
+    health_state: Yup.string(),
+    alcohol: Yup.boolean(),
+    alcohol_per_day: Yup.number().when("alcohol", {
+      is: true,
+      then: Yup.number().required("Alcohol per day is required"),
+    }),
+    alcohol_per_week: Yup.number().when("alcohol", {
+      is: true,
+      then: Yup.number().required("Alcohol per week is required"),
+    }),
+    exercise: Yup.string(),
+  });
+
+  const onHandleSubmit = async (values) => {
+    values.serious_injury = values.serious_injury === "true";
+    values.admitted = values.admitted === "true";
+    values.allergies = values.allergies === "true";
+    values.alcohol = values.alcohol === "true";
+    try {
+      dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
+      const response = await fetch(`${API}/medical/history/${patientId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const responseData = await response.json();
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+      dispatch(formsActions.setMedicalHistory(responseData.data));
+      toast.dark("Patient's Medical History Successfully Added");
+      handleNext();
+    } catch (error) {
+      console.log("Error", error);
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+    }
+  };
+
   return (
     <div className="step-form">
       <div className="box">
         <div className="custom-form">
           <div className="box-body">
             <div className="container">
-              <h4>
+              <h4
+                style={{
+                  textTransform: "uppercase",
+                }}
+              >
                 <strong>Patients Medical History (Step 2)</strong>
               </h4>
 
@@ -56,9 +101,8 @@ const MedicalHistoryForm = ({ handlePrev, handleNext }) => {
                   alcohol_per_week: null,
                   exercise: "",
                 }}
-                onSubmit={(values) => {
-                  console.log(values);
-                }}
+                validationSchema={HealthSchema}
+                onSubmit={onHandleSubmit}
               >
                 {({ errors, touched, values }) => (
                   <Form>
@@ -254,8 +298,8 @@ const MedicalHistoryForm = ({ handlePrev, handleNext }) => {
                             className="form-control my-upload"
                           >
                             <option value="">Select an option</option>
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>
+                            <option value={true}>Yes</option>
+                            <option value={false}>No</option>
                           </Field>
                         </div>
                       </div>
@@ -317,26 +361,32 @@ const MedicalHistoryForm = ({ handlePrev, handleNext }) => {
                     {/* <button type="submit" className="btn btn-primary">
                       Submit
                     </button> */}
+
+                    <div
+                      className="d-flex"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      <button onClick={handlePrev}>Previous</button>
+                      <button onClick={handleNext}>Temp Next</button>
+
+                      {isLoading ? (
+                        <Loading />
+                      ) : (
+                        <button onClick={onHandleSubmit}>Next</button>
+                      )}
+                    </div>
                   </Form>
                 )}
               </Formik>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        className="d-flex"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: "20px",
-          marginBottom: "20px",
-        }}
-      >
-        <button onClick={handlePrev}>Previous</button>
-
-        <button onClick={handleNext}>Next</button>
       </div>
     </div>
   );

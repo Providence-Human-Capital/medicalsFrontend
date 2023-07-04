@@ -1,8 +1,19 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { uiActions } from "../../../redux_store/ui-store";
+import { API } from "../../../config";
+import { formsActions } from "../../../redux_store/forms-store";
+import { toast } from "react-toastify";
+import Loading from "../../../components/loader/Loading";
 
 const ResultsAndInvestigationsForm = ({ handlePrev, handleNext }) => {
+  const isLoading = useSelector((state) => state.ui.isLoading);
+  const dispatch = useDispatch();
+  const { patientId } = useParams();
+
   const initialValues = {
     chest_x_ray: false,
     x_ray_comments: "",
@@ -47,8 +58,41 @@ const ResultsAndInvestigationsForm = ({ handlePrev, handleNext }) => {
     ),
   });
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
+    values.chest_x_ray = values.chest_x_ray === "true";
+    values.suitable_for_dusty = values.suitable_for_dusty === "true";
+    values.other_medical_conditions =
+      values.other_medical_conditions === "true";
+    values.referral = values.referral === "true";
+    values.tb_free = values.tb_free === "true";
+    values.tb_suspect = values.tb_suspect === "true";
+    values.tb_confirmed = values.tb_confirmed === "true";
     console.log(values);
+    try {
+      dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
+      const response = await fetch(
+        `${API}/patient/${patientId}/results/investigation`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const responseData = await response.json();
+      dispatch(formsActions.setPneumoResultsRemarks(responseData.data));
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+      toast.dark("Physical Tests Successfully Added");
+      handleNext();
+    } catch (error) {
+      console.log("Error", error);
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+    }
+
     // Submit form data to backend
   };
   return (
@@ -57,7 +101,13 @@ const ResultsAndInvestigationsForm = ({ handlePrev, handleNext }) => {
         <div className="custom-form">
           <div className="box-body">
             <div className="container">
-              <h4>Results and Investigations</h4>
+              <h4
+                style={{
+                  textTransform: "uppercase",
+                }}
+              >
+                <strong>Section E: Results and Investigations</strong>
+              </h4>
               <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -66,23 +116,36 @@ const ResultsAndInvestigationsForm = ({ handlePrev, handleNext }) => {
                 {({ isSubmitting, values, handleChange }) => (
                   <Form>
                     <div className="form-group">
-                      <label htmlFor="chest_x_ray">
-                        Chest X-Ray Abnormal ?
-                      </label>
-                      <Field
-                        as="select"
-                        name="chest_x_ray"
-                        value={values.chest_x_ray}
-                        onChange={handleChange}
-                        className="form-control my-upload"
-                      >
-                        <option value={true}>Yes</option>
-                        <option value={false}>No</option>
-                      </Field>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <label htmlFor="chest_x_ray">
+                            <strong>
+                              Chest X-Ray comment by medical officer:
+                            </strong>
+                          </label>
+                        </div>
+                        <div className="col-md-6">
+                          <p>
+                            <strong>(Normal / Abnormal)</strong>
+                          </p>
+                          <Field
+                            as="select"
+                            name="chest_x_ray"
+                            value={values.chest_x_ray}
+                            onChange={handleChange}
+                            className="form-control my-upload"
+                          >
+                            <option value={true}>Abnormal</option>
+                            <option value={false}>Normal</option>
+                          </Field>
+                        </div>
+                      </div>
                     </div>
                     {values.chest_x_ray && (
                       <div className="form-group">
-                        <label htmlFor="x_ray_comments">X-Ray Comments</label>
+                        <label htmlFor="x_ray_comments">
+                          <strong>Please describe any abnormalities</strong>
+                        </label>
                         <Field
                           type="text"
                           name="x_ray_comments"
@@ -284,33 +347,34 @@ const ResultsAndInvestigationsForm = ({ handlePrev, handleNext }) => {
                         <option value={false}>No</option>
                       </Field>
                     </div>
-                    {/* <button
-                      type="submit"
-                      className="btn btn-primary"
-                      disabled={isSubmitting}
+                    {
+                      isLoading ? (
+                        <Loading />
+                      ) : (
+                        <button type="submit" onClick={handleSubmit}>Save (Test)</button>
+                      )
+                    }
+                    
+                    <div
+                      className="d-flex"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                      }}
                     >
-                      Submit
-                    </button> */}
+                      <button onClick={handlePrev}>Previous</button>
+
+                      <button onClick={handleNext}>Next</button>
+                    </div>
                   </Form>
                 )}
               </Formik>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        className="d-flex"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: "20px",
-          marginBottom: "20px",
-        }}
-      >
-        <button onClick={handlePrev}>Previous</button>
-
-        <button onClick={handleNext}>Next</button>
       </div>
     </div>
   );

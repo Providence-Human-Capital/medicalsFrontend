@@ -1,41 +1,47 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
-const validationSchema = Yup.object().shape({
-  tb: Yup.boolean(),
-  copd: Yup.boolean(),
-  pneumonia: Yup.boolean(),
-  hypertension: Yup.boolean(),
-  chest_injuries: Yup.boolean(),
-  asthma: Yup.boolean(),
-  diabetes: Yup.boolean(),
-  epilepsy: Yup.boolean(),
-  heart_disease: Yup.boolean(),
-  hernia: Yup.boolean(),
-  hernia_details: Yup.string().when("hernia", {
-    is: true,
-    then: Yup.string().required("Please enter your hernia details")
-  }),
-  medical_condition_details: Yup.string(),
-});
-
-const initialValues = {
-  tb: false,
-  copd: false,
-  pneumonia: false,
-  hypertension: false,
-  chest_injuries: false,
-  asthma: false,
-  diabetes: false,
-  epilepsy: false,
-  heart_disease: false,
-  hernia: false,
-  hernia_details: " ",
-  medical_condition_details: "",
-};
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
+  const isLoading = useSelector((state) => state.ui.isLoading);
+  const dispatch = useDispatch();
+  const { patientId } = useParams();
+
+  const initialValues = {
+    tb: false,
+    copd: false,
+    pneumonia: false,
+    hypertension: false,
+    chest_injuries: false,
+    asthma: false,
+    diabetes: false,
+    epilepsy: false,
+    heart_disease: false,
+    hernia: false,
+    hernia_details: " ",
+    medical_condition_details: "",
+  };
+
+  const validationSchema = Yup.object().shape({
+    tb: Yup.boolean(),
+    copd: Yup.boolean(),
+    pneumonia: Yup.boolean(),
+    hypertension: Yup.boolean(),
+    chest_injuries: Yup.boolean(),
+    asthma: Yup.boolean(),
+    diabetes: Yup.boolean(),
+    epilepsy: Yup.boolean(),
+    heart_disease: Yup.boolean(),
+    hernia: Yup.boolean(),
+    hernia_details: Yup.string().when("hernia", {
+      is: true,
+      then: Yup.string().required("Please enter your hernia details"),
+    }),
+    medical_condition_details: Yup.string(),
+  });
+
   const handleSubmit = (values) => {
     console.log("Mediiiii", values);
   };
@@ -313,29 +319,29 @@ const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
                         className="text-danger"
                       />
                     </div>
-                    <button type="submit" className="btn btn-primary">
+                    {/* <button type="submit" className="btn btn-primary">
                       Submit
-                    </button>
+                    </button> */}
+                    <div
+                      className="d-flex"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      <button onClick={handlePrev}>Previous</button>
+
+                      <button onClick={handleNext}>Next</button>
+                    </div>
                   </Form>
                 )}
               </Formik>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        className="d-flex"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: "20px",
-          marginBottom: "20px",
-        }}
-      >
-        <button onClick={handlePrev}>Previous</button>
-
-        <button onClick={handleNext}>Next</button>
       </div>
     </div>
   );

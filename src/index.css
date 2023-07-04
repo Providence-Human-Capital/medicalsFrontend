@@ -1,5 +1,3 @@
-
-
 .form-control {
   color: #888;
   background: #fff;
@@ -103,7 +101,6 @@
   border-right: 3px solid #58ad46;
 }
 .sidebar-menu > li > a > i {
- 
 }
 
 .sidebar-menu > li > a {
@@ -429,8 +426,6 @@ button {
   margin-left: 0.5rem;
 }
 
-
-
 .my-upload {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2) !important;
   border: none;
@@ -442,10 +437,19 @@ button {
   height: 50px;
 }
 
-.excel-btn{
+.excel-btn {
   text-transform: uppercase;
 }
 
-.my-bgg{
+.my-bgg {
   /* background-image: url(../../../../public/assets/images/gallery/creative/img-1.jpg); */
+}
+
+.label {
+  text-transform: capitalize;
+}
+
+.transform-header {
+  text-transform: "uppercase" !important;
+  font-weight: bold !important;
 }

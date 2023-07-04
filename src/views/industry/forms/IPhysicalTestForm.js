@@ -1,46 +1,85 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
-const validationSchema = Yup.object().shape({
-  exercise: Yup.string().nullable(),
-  how_often: Yup.string().nullable(),
-  how_long: Yup.string().nullable(),
-  height: Yup.number().nullable(),
-  weight: Yup.number().nullable(),
-  chest_in: Yup.string().nullable(),
-  chest_out: Yup.string().nullable(),
-  mental_state: Yup.string().nullable(),
-  le_glass: Yup.number().nullable(),
-  le_woglass: Yup.number().nullable(),
-  re_glass: Yup.number().nullable(),
-  re_woglass: Yup.number().nullable(),
-  right_ear: Yup.string().nullable(),
-  left_ear: Yup.string().nullable(),
-  audiogram_comment: Yup.string().nullable(),
-  speech: Yup.string().nullable(),
-});
-
-const initialValues = {
-  exercise: "",
-  how_often: "",
-  how_long: "",
-  height: null,
-  weight: null,
-  chest_in: "",
-  chest_out: "",
-  mental_state: "",
-  le_glass: null,
-  le_woglass: null,
-  re_glass: null,
-  re_woglass: null,
-  right_ear: "",
-  left_ear: "",
-  audiogram_comment: "",
-  speech: "",
-};
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { uiActions } from "../../../redux_store/ui-store";
+import Loading from "../../../components/loader/Loading";
+import { API } from "../../../config";
+import { toast } from "react-toastify";
+import { formsActions } from "../../../redux_store/forms-store";
 
 const IPhysicalTestForm = ({ handlePrev, handleNext }) => {
+  const isLoading = useSelector((state) => state.ui.isLoading);
+  const dispatch = useDispatch();
+  const { patientId } = useParams();
+
+  const validationSchema = Yup.object().shape({
+    exercise: Yup.string().nullable(),
+    how_often: Yup.string().nullable(),
+    how_long: Yup.string().nullable(),
+    height: Yup.number().required("Patients Height is required"),
+    weight: Yup.number().required("Patients Weight is required"),
+    chest_in: Yup.string().nullable(),
+    chest_out: Yup.string().nullable(),
+    mental_state: Yup.string().nullable(),
+    le_glass: Yup.number().nullable(),
+    le_woglass: Yup.number().nullable(),
+    re_glass: Yup.number().nullable(),
+    re_woglass: Yup.number().nullable(),
+    right_ear: Yup.string().nullable(),
+    left_ear: Yup.string().nullable(),
+    audiogram_comment: Yup.string().nullable(),
+    speech: Yup.string().nullable(),
+  });
+
+  const initialValues = {
+    exercise: "",
+    how_often: "",
+    how_long: "",
+    height: null,
+    weight: null,
+    chest_in: "",
+    chest_out: "",
+    mental_state: "",
+    le_glass: null,
+    le_woglass: null,
+    re_glass: null,
+    re_woglass: null,
+    right_ear: "",
+    left_ear: "",
+    audiogram_comment: "",
+    speech: "",
+  };
+
+  const handleSubmit = async (values) => {
+    console.log(values);
+    
+
+    try {
+      dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
+      const response = await fetch(`${API}/other/physical_exam/${patientId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const responseData = await response.json();
+      dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
+      dispatch(formsActions.setOtherPhysicalExamination(responseData.data));
+      toast.dark("Patient's Medical History Successfully Added");
+      handleNext();
+    } catch (error) {
+      console.log("Error", error);
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+    }
+  };
   return (
     <div className="step-form">
       <div className="box">
@@ -53,12 +92,9 @@ const IPhysicalTestForm = ({ handlePrev, handleNext }) => {
               <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
-                onSubmit={(values, { setSubmitting }) => {
-                  console.log(values);
-                  setSubmitting(false);
-                }}
+                onSubmit={handleSubmit}
               >
-                {({ isSubmitting }) => (
+                {({ isSubmitting, errors, touched }) => (
                   <Form>
                     <div className="row">
                       <div className="col-md-6">
@@ -403,26 +439,31 @@ const IPhysicalTestForm = ({ handlePrev, handleNext }) => {
                       Submit
                       
                     </button> */}
+                    <div
+                      className="d-flex"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      <button onClick={handlePrev}>Previous</button>
+
+                      {isLoading ? (
+                        <Loading />
+                      ) : (
+                        // <button onClick={handleSubmit}>Next</button>
+                        <button onClick={handleNext}>Temp Next</button>
+                      )}
+                    </div>
                   </Form>
                 )}
               </Formik>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        className="d-flex"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: "20px",
-          marginBottom: "20px",
-        }}
-      >
-        <button onClick={handlePrev}>Previous</button>
-
-        <button onClick={handleNext}>Next</button>
       </div>
     </div>
   );

@@ -1,22 +1,70 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
-const AddressSchema = Yup.object().shape({
-  street: Yup.string().nullable(),
-  address: Yup.string().nullable(),
-  city: Yup.string().nullable(),
-  province: Yup.string().nullable(),
-});
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import Loading from "../../../components/loader/Loading";
+import { API } from "../../../config";
+import { uiActions } from "../../../redux_store/ui-store";
+import { formsActions } from "../../../redux_store/forms-store";
+import { toast } from "react-toastify";
 
 const HomeAddressForm = ({ handlePrev, handleNext }) => {
+  const isLoading = useSelector((state) => state.ui.isLoading);
+  const dispatch = useDispatch();
+  const { patientId } = useParams();
+
+  const AddressSchema = Yup.object().shape({
+    street: Yup.string().nullable(),
+    address: Yup.string().required("Please enter the address atleast"),
+    city: Yup.string().nullable(),
+    province: Yup.string().required("Please select the province"),
+  });
+
+  const onSubmit = async (values) => {
+    console.log(values);
+    try {
+      dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
+      const response = await fetch(`${API}/home/address/${patientId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const responseData = await response.json();
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+      toast.dark("Home address successfully updated!");
+      dispatch(formsActions.setHomeAddress(responseData.data));
+
+      handleNext();
+    } catch (err) {
+      console.log("Error", err);
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+    }
+  };
+
+  useEffect(() => {
+    dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+  }, []);
   return (
     <div className="step-form">
       <div className="box">
         <div className="custom-form">
           <div className="box-body">
             <div className="container">
-              <h4>Home Address</h4>
+              <h4
+                style={{
+                  textTransform: "uppercase",
+                }}
+              >
+                Home Address
+              </h4>
               <p>Please Enter Your Home Address!</p>
               <Formik
                 initialValues={{
@@ -26,9 +74,7 @@ const HomeAddressForm = ({ handlePrev, handleNext }) => {
                   province: "",
                 }}
                 validationSchema={AddressSchema}
-                onSubmit={(values) => {
-                  console.log(values);
-                }}
+                onSubmit={onSubmit}
               >
                 {({ errors, touched }) => (
                   <Form>
@@ -125,29 +171,34 @@ const HomeAddressForm = ({ handlePrev, handleNext }) => {
                       </div>
                     </div>
 
-                    {/* <button type="submit" className="btn btn-primary">
+                    <button type="submit" className="btn btn-primary">
                       Submit
-                    </button> */}
+                    </button>
+                    <div
+                      className="d-flex"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      <button onClick={handlePrev}>Previous</button>
+
+                      {isLoading ? (
+                        <Loading />
+                      ) : (
+                        <button onClick={handleNext}>Temp Next</button>
+                        // <button onClick={onSubmit} type="submit">Next</button>
+                      )}
+                    </div>
                   </Form>
                 )}
               </Formik>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        className="d-flex"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: "20px",
-          marginBottom: "20px",
-        }}
-      >
-        <button onClick={handlePrev}>Previous</button>
-
-        <button onClick={handleNext}>Next</button>
       </div>
     </div>
   );

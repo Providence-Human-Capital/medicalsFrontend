@@ -30,6 +30,23 @@ const initialState = {
   pMineralDExposure: null,
   pMeasures: null,
   pOccupationDetails: null,
+  pneumoNextPhase: false,
+  pSymptomsExamination: null,
+  smokingHistory: null,
+  pneumoPhysicalTests: null,
+  pneumoXrayUpload: null,
+  pneumoSystemsCheck: null,
+  pneumoResultsRemarks: null,
+  pneumoAdditionalTest: null,
+
+  //Undustry and Other
+  homeAddresses: null,
+  otherIllnessInjuries: null,
+  otherMedicalHistory: null,
+  otherPhysicalExamination: null,
+  otherCardioVascularCheck: null,
+  otherRespiratoryCheck: null,
+  otherCommentsAndRemarks: null,
 };
 
 const formsSlice = createSlice({
@@ -131,6 +148,153 @@ const formsSlice = createSlice({
       ...state,
       pOccupationDetails: initialState.pOccupationDetails,
     }),
+
+    togglePneumoNextPhase: (state) => {
+      state.pneumoNextPhase = !state.pneumoNextPhase;
+    },
+
+    setSymptomsExamination: (state, action) => ({
+      ...state,
+      pSymptomsExamination: action.payload,
+    }),
+
+    resetSymptomsExamination: (state) => ({
+      ...state,
+      pSymptomsExamination: initialState.pSymptomsExamination,
+    }),
+
+    setSmokingHistory: (state, action) => ({
+      ...state,
+      smokingHistory: action.payload,
+    }),
+
+    resetSmokingHistory: (state) => ({
+      ...state,
+      smokingHistory: initialState.smokingHistory,
+    }),
+
+    setPneumoPhysicalTests: (state, action) => ({
+      ...state,
+      pneumoPhysicalTests: action.payload,
+    }),
+
+    resetPneumoPhysicalTests: (state) => ({
+      ...state,
+      pneumoPhysicalTests: initialState.pneumoPhysicalTests,
+    }),
+
+    setPneumoSystemsCheck: (state, action) => ({
+      ...state,
+      pneumoSystemsCheck: action.payload,
+    }),
+
+    resetPneumoSystemsCheck: (state) => ({
+      ...state,
+      pneumoSystemsCheck: initialState.pneumoSystemsCheck,
+    }),
+
+    setPneumoResultsRemarks: (state, action) => ({
+      ...state,
+      pneumoResultsRemarks: action.payload,
+    }),
+
+    resetPneumoResultsRemarks: (state) => ({
+      ...state,
+      pneumoResultsRemarks: initialState.pneumoResultsRemarks,
+    }),
+
+    setPneumoAdditionalTest: (state, action) => ({
+      ...state,
+      pneumoAdditionalTest: action.payload,
+    }),
+
+    resetPneumoAdditionalTest: (state) => ({
+      ...state,
+      pneumoAdditionalTest: initialState.pneumoAdditionalTest,
+    }),
+
+    setPneumoXrayUpload: (state, action) => ({
+      ...state,
+      pneumoXrayUpload: action.payload,
+    }),
+
+    resetPneumoXrayUpload: (state) => ({
+      ...state,
+      pneumoXrayUpload: initialState.pneumoXrayUpload,
+    }),
+
+    //Industry and Other State Management
+    setHomeAddress: (state, action) => ({
+      ...state,
+      homeAddresses: action.payload,
+    }),
+
+    resetHomeAddress: (state) => ({
+      ...state,
+      homeAddresses: initialState.homeAddresses,
+    }),
+
+    setInjuriesAndIllnesses: (state, action) => ({
+      ...state,
+      otherIllnessInjuries: action.payload,
+    }),
+
+    resetInjuriesAndIllnesses: (state) => ({
+      ...state,
+      otherIllnessInjuries: initialState.otherIllnessInjuries,
+    }),
+
+    setMedicalHistory: (state, action) => ({
+      ...state,
+      otherMedicalHistory: action.payload,
+    }),
+
+    resetMedicalHistory: (state) => ({
+      ...state,
+      otherMedicalHistory: initialState.otherMedicalHistory,
+    }),
+
+    setOtherPhysicalExamination: (state, action) => ({
+      ...state,
+      otherPhysicalExamination: action.payload,
+    }),
+
+    resetOtherPhysicalExamination: (state) => ({
+      ...state,
+      otherPhysicalExamination: initialState.otherPhysicalExamination,
+    }),
+
+    setOtherCardioVascularCheck: (state, action) => ({
+      ...state,
+      otherCardioVascularCheck: action.payload,
+    }),
+
+    resetOtherCardioVascularCheck: (state) => ({
+      ...state,
+      otherCardioVascularCheck: initialState.otherCardioVascularCheck,
+    }),
+
+    setOtherRespiratoryCheck: (state, action) => ({
+      ...state,
+      otherRespiratoryCheck: action.payload
+    }),
+
+    resetOtherRespiratoryCheck: (state) => ({
+      ...state,
+      otherRespiratoryCheck: initialState.otherRespiratoryCheck
+    }),
+
+    setOtherCommentsAndRemarks: (state, action) => ({
+      ...state,
+      otherCommentsAndRemarks: action.payload
+    }),
+
+    resetOtherCommentsAndRemarks: (state) => ({
+      ...state,
+      otherCommentsAndRemarks: initialState.otherCommentsAndRemarks
+    })
+
+
   },
 });
 

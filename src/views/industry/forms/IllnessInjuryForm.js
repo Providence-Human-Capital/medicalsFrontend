@@ -115,7 +115,7 @@ const IllnessInjuryForm = ({ handlePrev, handleNext }) => {
                       {diseases.slice(16, 32).map((disease, index) => (
                         <div className="col-md-6" key={disease.id}>
                           <div className="form-group">
-                          <FontAwesomeIcon icon={faDisease} />
+                            <FontAwesomeIcon icon={faDisease} />
                             <label htmlFor={disease.name}>
                               {" "}
                               <strong>
@@ -160,29 +160,30 @@ const IllnessInjuryForm = ({ handlePrev, handleNext }) => {
                         </div>
                       ))}
                     </div>
-                    {/* <button className="btn btn-primary" type="submit">
+                    <button className="btn btn-primary" type="submit">
                       Submit
-                    </button> */}
+                    </button>
+
+                    <div
+                      className="d-flex"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      <button onClick={handlePrev}>Previous</button>
+
+                      <button onClick={handleNext}>Next</button>
+                    </div>
                   </Form>
                 )}
               </Formik>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        className="d-flex"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: "20px",
-          marginBottom: "20px",
-        }}
-      >
-        <button onClick={handlePrev}>Previous</button>
-
-        <button onClick={handleNext}>Next</button>
       </div>
     </div>
   );

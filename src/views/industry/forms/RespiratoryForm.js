@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { API } from "../../../config";
+import { formsActions } from "../../../redux_store/forms-store";
+import { uiActions } from "../../../redux_store/ui-store";
+import Loading from "../../../components/loader/Loading";
 
 const RespiratoryForm = ({ handlePrev, handleNext }) => {
+  const isLoading = useSelector((state) => state.ui.isLoading);
+  const dispatch = useDispatch();
+  const { patientId } = useParams();
+
   const initialValues = {
     lungs: "",
     x_ray_comment: "",
@@ -26,29 +37,55 @@ const RespiratoryForm = ({ handlePrev, handleNext }) => {
   };
 
   const validationSchema = Yup.object({
-    lungs: Yup.string().required("Required"),
-    x_ray_comment: Yup.string().required("Required"),
-    spirometry_comment: Yup.string().required("Required"),
-    fev: Yup.string().required("Required"),
-    fvc: Yup.string().required("Required"),
-    sears: Yup.string().required("Required"),
-    tenderness: Yup.string().required("Required"),
-    hernia: Yup.string().required("Required"),
-    organomegaly: Yup.string().required("Required"),
-    kidney_enlargement: Yup.string().required("Required"),
-    urine_appear: Yup.string().required("Required"),
-    sg: Yup.string().required("Required"),
-    albumin: Yup.string().required("Required"),
-    sugar: Yup.string().required("Required"),
-    deposit: Yup.string().required("Required"),
-    evidence_of_disease: Yup.string().required("Required"),
-    evidence_of_any_disease: Yup.string().required("Required"),
-    lmp: Yup.string().required("Required"),
-    parity: Yup.string().required("Required"),
+    lungs: Yup.string().nullable(),
+    x_ray_comment: Yup.string().nullable(),
+    spirometry_comment: Yup.string().nullable(),
+    fev: Yup.string().nullable(),
+    fvc: Yup.string().nullable(),
+    sears: Yup.string().nullable(),
+    tenderness: Yup.string().nullable(),
+    hernia: Yup.string().nullable(),
+    organomegaly: Yup.string().nullable(),
+    kidney_enlargement: Yup.string().nullable(),
+    urine_appear: Yup.string().nullable(),
+    sg: Yup.string().nullable(),
+    albumin: Yup.string().nullable(),
+    sugar: Yup.string().nullable(),
+    deposit: Yup.string().nullable(),
+    evidence_of_disease: Yup.string().nullable(),
+    evidence_of_any_disease: Yup.string().nullable(),
+    lmp: Yup.string().nullable(),
+    parity: Yup.string().nullable(),
   });
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     console.log(values);
+
+    try {
+      dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
+      const response = await fetch(`${API}/respiratory/${patientId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const responseData = await response.json();
+      dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
+      dispatch(formsActions.setOtherRespiratoryCheck(responseData.data));
+      toast.dark("Patient's Respiratory Data  Successfully Added");
+      handleNext()
+    } catch (error) {
+      console.log("Error", error);
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+    }
   };
+
+  useEffect(() => {
+    // dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+  }, []);
   return (
     <div className="step-form">
       <div className="box">
@@ -494,26 +531,32 @@ const RespiratoryForm = ({ handlePrev, handleNext }) => {
                         </div>
                       </div>
                     </div>
+
+                    <button onClick={onSubmit}>Submit Test</button>
+                    <div
+                      className="d-flex"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      <button onClick={handlePrev}>Previous</button>
+
+                      {isLoading ? (
+                        <Loading />
+                      ) : (
+                        <button onClick={handleNext}>Next</button>
+                      )}
+                    </div>
                   </Form>
                 )}
               </Formik>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        className="d-flex"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: "20px",
-          marginBottom: "20px",
-        }}
-      >
-        <button onClick={handlePrev}>Previous</button>
-
-        <button onClick={handleNext}>Next</button>
       </div>
     </div>
   );

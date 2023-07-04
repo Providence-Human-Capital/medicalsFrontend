@@ -1,79 +1,76 @@
-import React, { Fragment } from "react";
-import "../../../components/StepForm.css";
+import React, { useState, useEffect, Fragment } from "react";
+import "./StepForm.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faWeight,
-  faHospital,
-  faSuitcaseMedical,
-  faNotesMedical,
-  faLungs,
-  faHeartCircleCheck,
-  faUserDoctor
+  faBandage,
+  faCapsules,
+  faSmoking,
+  faHospitalUser,
 } from "@fortawesome/free-solid-svg-icons";
 
-const IStepNavigation = ({ currentStep }) => {
+const NextPhaseStep = ({ nextPhaseCurrent }) => {
   return (
     <Fragment>
       <section className="step-wizard">
         <ul className="step-wizard-list">
           <li
             className={`step-wizard-item ${
-              currentStep === 1 ? "current-item" : ""
+              nextPhaseCurrent === 1 ? "current-item" : ""
             }`}
           >
             <span className="progress-count">
               <FontAwesomeIcon
-                icon={faSuitcaseMedical}
+                icon={faBandage}
                 className={`progress-icon ${
-                  currentStep === 1 ? "current-icon" : ""
+                  nextPhaseCurrent === 1 ? "current-icon" : ""
                 }`}
               />
             </span>
 
-            <span className="progress-label">Additional Details</span>
+            <span className="progress-label">Symptoms Test</span>
           </li>
           <li
             className={`step-wizard-item ${
-              currentStep === 2 ? "current-item" : ""
+              nextPhaseCurrent === 2 ? "current-item" : ""
             }`}
           >
             <span className="progress-count">
               <FontAwesomeIcon
-                icon={faHospital}
+                icon={faCapsules}
                 className={`progress-icon ${
-                  currentStep === 2 ? "current-icon" : ""
+                  nextPhaseCurrent === 2 ? "current-icon" : ""
                 }`}
               />
             </span>
 
-            <span className="progress-label">Illness and Injuries</span>
+            <span className="progress-label">Medical Conditions Test</span>
           </li>
           <li
             className={`step-wizard-item ${
-              currentStep === 3 ? "current-item" : ""
+              nextPhaseCurrent === 3 ? "current-item" : ""
             }`}
           >
             <span className="progress-count">
               <FontAwesomeIcon
-                icon={faNotesMedical}
+                icon={faSmoking}
                 className={`progress-icon ${
-                  currentStep === 3 ? "current-icon" : ""
+                  nextPhaseCurrent === 3 ? "current-icon" : ""
                 }`}
               />
             </span>
 
-            <span className="progress-label">Medical Histories</span>
+            <span className="progress-label">Smoking History</span>
           </li>
           <li
             className={`step-wizard-item ${
-              currentStep === 4 ? "current-item" : ""
+              nextPhaseCurrent === 4 ? "current-item" : ""
             }`}
           >
             <span className="progress-count">
               <FontAwesomeIcon
-                icon={faWeight}
+                icon={faHospitalUser}
                 className={`progress-icon ${
-                  currentStep === 4 ? "current-icon" : ""
+                  nextPhaseCurrent === 4 ? "current-icon" : ""
                 }`}
               />
             </span>
@@ -82,51 +79,51 @@ const IStepNavigation = ({ currentStep }) => {
           </li>
           <li
             className={`step-wizard-item ${
-              currentStep === 5 ? "current-item" : ""
+              nextPhaseCurrent === 5 ? "current-item" : ""
             }`}
           >
             <span className="progress-count">
               <FontAwesomeIcon
-                icon={faHeartCircleCheck}
+                icon={faHospitalUser}
                 className={`progress-icon ${
-                  currentStep === 5 ? "current-icon" : ""
+                  nextPhaseCurrent === 5 ? "current-icon" : ""
                 }`}
               />
             </span>
 
-            <span className="progress-label">Cardio Vascular Check</span>
+            <span className="progress-label">Systems Test </span>
           </li>
           <li
             className={`step-wizard-item ${
-              currentStep === 6 ? "current-item" : ""
+              nextPhaseCurrent === 6 ? "current-item" : ""
             }`}
           >
             <span className="progress-count">
               <FontAwesomeIcon
-                icon={faLungs}
+                icon={faHospitalUser}
                 className={`progress-icon ${
-                  currentStep === 6 ? "current-icon" : ""
+                  nextPhaseCurrent === 6 ? "current-icon" : ""
                 }`}
               />
             </span>
 
-            <span className="progress-label">Respiratory Systems Check</span>
+            <span className="progress-label">Results and Investigation</span>
           </li>
           <li
             className={`step-wizard-item ${
-              currentStep === 7 ? "current-item" : ""
+              nextPhaseCurrent === 7 ? "current-item" : ""
             }`}
           >
             <span className="progress-count">
               <FontAwesomeIcon
-                icon={faUserDoctor}
+                icon={faHospitalUser}
                 className={`progress-icon ${
-                  currentStep === 7 ? "current-icon" : ""
+                  nextPhaseCurrent === 7 ? "current-icon" : ""
                 }`}
               />
             </span>
 
-            <span className="progress-label">Comments & Remarks</span>
+            <span className="progress-label">Additional Test</span>
           </li>
         </ul>
       </section>
@@ -134,4 +131,4 @@ const IStepNavigation = ({ currentStep }) => {
   );
 };
 
-export default IStepNavigation;
+export default NextPhaseStep;

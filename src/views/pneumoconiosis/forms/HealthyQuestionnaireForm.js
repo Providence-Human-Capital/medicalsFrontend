@@ -39,6 +39,7 @@ const HealthyQuestionnaireForm = ({ handlePrev, handleNext }) => {
   const handleSubmitForm = async (values) => {
     values.dusty_occupation = values.dusty_occupation === "true"; //Converting a string to a boolean
     console.log(values);
+    
 
     try {
       dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
@@ -58,6 +59,7 @@ const HealthyQuestionnaireForm = ({ handlePrev, handleNext }) => {
       }
       const responseData = await response.json();
       dispatch(formsActions.setOccupationDetails(responseData.data));
+      dispatch(formsActions.togglePneumoNextPhase())
       dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
     } catch (error) {
       console.log("Error", error);
