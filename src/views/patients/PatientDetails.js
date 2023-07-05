@@ -25,6 +25,16 @@ import OtherPhysicalExamination from "../industry/components/OtherPhysicalExamin
 import CardioBox from "../industry/components/CardioBox";
 import RespiratoryBox from "../industry/components/RespiratoryBox";
 import IComments from "../industry/components/IComments";
+import IndustryClassificationBox from "../pneumoconiosis/components/IndustryClassificationBox";
+import MineralDustExBox from "../pneumoconiosis/components/MineralDustExBox";
+import DustyOccupation from "../pneumoconiosis/components/DustyOccupation";
+import SymptomsBox from "../pneumoconiosis/components/SymptomsBox";
+import MeasuresBox from "../pneumoconiosis/components/MeasuresBox";
+import SmokingHistoryBox from "../pneumoconiosis/components/SmokingHistoryBox";
+import PhysicalBox from "../pneumoconiosis/components/PhysicalBox";
+import SystemsCheckBox from "../pneumoconiosis/components/SystemsCheckBox";
+import ResultsAndInvestigation from "../pneumoconiosis/components/ResultsAndInvestigation";
+import AdditionalTestsBox from "../pneumoconiosis/components/AdditionalTestsBox";
 // import { getPatientPhysicalExamResults } from "../../services/api";
 
 const PatientDetails = () => {
@@ -178,17 +188,25 @@ const PatientDetails = () => {
                   }}
                 >
                   <div>
-                    <h1>Side Summary for Pneumoconiosis</h1>
-                    <p>{JSON.stringify(industryClassification)}</p>
-                    <p>{JSON.stringify(pMineralDExposureRecord)}</p>
-                    <p>{JSON.stringify(pMeasuresRecord)}</p>
-                    <p>{JSON.stringify(pOccupationDetailsRecord)}</p>
-                    <p>{JSON.stringify(pSymptomsExaminationRecord)}</p>
-                    <p>{JSON.stringify(smokingHistoryRecord)}</p>
-                    <p>{JSON.stringify(pneumoPhysicalTestsRecord)}</p>
-                    <p>{JSON.stringify(pneumoSystemsCheckRecord)}</p>
-                    <p>{JSON.stringify(pneumoResultsRemarksRecord)}</p>
-                    <p>{JSON.stringify(pneumoAdditionalTestRecord)}</p>
+                    <IndustryClassificationBox
+                      classification={industryClassification}
+                    />
+                    <MineralDustExBox exposure={pMineralDExposureRecord} />
+                    <DustyOccupation dusty_occ={pOccupationDetailsRecord} />
+                    <SymptomsBox symptoms={pSymptomsExaminationRecord} />
+                    {/* <MeasuresBox measures={pMeasuresRecord} /> */}
+                    <SmokingHistoryBox smoking={smokingHistoryRecord} />
+                    <PhysicalBox
+                      patient={singlePatient}
+                      physical={pneumoPhysicalTestsRecord}
+                    />
+                    <SystemsCheckBox syscheck={pneumoSystemsCheckRecord} />
+                    <ResultsAndInvestigation />
+                    <AdditionalTestsBox />
+
+                    {/* <p>{JSON.stringify(pneumoResultsRemarksRecord)}</p>
+                    
+                    <p>{JSON.stringify(pneumoAdditionalTestRecord)}</p> */}
                   </div>
                 </div>
               </Fragment>
