@@ -35,6 +35,8 @@ import PhysicalBox from "../pneumoconiosis/components/PhysicalBox";
 import SystemsCheckBox from "../pneumoconiosis/components/SystemsCheckBox";
 import ResultsAndInvestigation from "../pneumoconiosis/components/ResultsAndInvestigation";
 import AdditionalTestsBox from "../pneumoconiosis/components/AdditionalTestsBox";
+import ConditionsTestBox from "../pneumoconiosis/components/ConditionsTestBox";
+import InjuryBox from "../industry/components/InjuryBox";
 // import { getPatientPhysicalExamResults } from "../../services/api";
 
 const PatientDetails = () => {
@@ -67,6 +69,10 @@ const PatientDetails = () => {
 
   const pneumoSystemsCheckRecord = useSelector(
     (state) => state.forms.pneumoSystemsCheck
+  );
+
+  const pneumoConditionsTestRecord = useSelector(
+    (state) => state.forms.pneumoConditionsTest
   );
 
   const pneumoResultsRemarksRecord = useSelector(
@@ -195,6 +201,9 @@ const PatientDetails = () => {
                     <DustyOccupation dusty_occ={pOccupationDetailsRecord} />
                     <SymptomsBox symptoms={pSymptomsExaminationRecord} />
                     {/* <MeasuresBox measures={pMeasuresRecord} /> */}
+                    <ConditionsTestBox
+                      conditions={pneumoConditionsTestRecord}
+                    />
                     <SmokingHistoryBox smoking={smokingHistoryRecord} />
                     <PhysicalBox
                       patient={singlePatient}
@@ -261,6 +270,7 @@ const PatientDetails = () => {
                     physical={otherPhysicalExaminationRecord}
                     vitals={otherCardioVascularCheckRecord}
                   />
+                  <InjuryBox injuries={otherIllnessInjuriesRecord} />
                   <CardioBox data={otherCardioVascularCheckRecord} />
                   <RespiratoryBox data={otherRespiratoryCheckRecord} />
                   <IComments data={otherCommentsAndRemarksRecord} />

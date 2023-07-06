@@ -3,6 +3,10 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { uiActions } from "../../../redux_store/ui-store";
+import { API } from "../../../config";
+import { formsActions } from "../../../redux_store/forms-store";
+import { ToastContainer, toast } from "react-toastify";
 
 const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -42,8 +46,44 @@ const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
     medical_condition_details: Yup.string(),
   });
 
-  const handleSubmit = (values) => {
-    console.log("Mediiiii", values);
+  const handleSubmit = async (values) => {
+    // /patient/{patientId}/conditions/test
+
+    values.tb = values.tb === "true";
+    values.copd = values.copd === "true";
+    values.pneumonia = values.pneumonia === "true";
+    values.hypertension = values.hypertension === "true";
+    values.chest_injuries = values.chest_injuries === "true";
+    values.asthma = values.asthma === "true";
+    values.diabetes = values.diabetes === "true";
+    values.epilepsy = values.epilepsy === "true";
+    values.heart_disease = values.heart_disease === "true";
+    values.hernia = values.hernia === "true";
+
+    try {
+      dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
+      const response = await fetch(
+        `${API}/patient/${patientId}/conditions/test`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const responseData = await response.json();
+      dispatch(formsActions.setPneumoConditionsTest(responseData.data));
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+      toast.dark("Adding Symptoms was a success!");
+      handleNext()
+    } catch (error) {
+      console.log("Error", error);
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+    }
   };
   return (
     <div className="step-form">
@@ -74,8 +114,8 @@ const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
                             value={values.tb}
                             onChange={handleChange}
                           >
-                            <option value="false">No</option>
-                            <option value="true">Yes</option>
+                            <option value="false">Not Diagnosed</option>
+                            <option value="true">Diagnosed</option>
                           </Field>
                           <ErrorMessage
                             name="tb"
@@ -95,8 +135,8 @@ const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
                             value={values.copd}
                             onChange={handleChange}
                           >
-                            <option value="false">No</option>
-                            <option value="true">Yes</option>
+                            <option value="false">Not Diagnosed</option>
+                            <option value="true">Diagnosed</option>
                           </Field>
                           <ErrorMessage
                             name="copd"
@@ -119,8 +159,8 @@ const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
                             value={values.pneumonia}
                             onChange={handleChange}
                           >
-                            <option value="false">No</option>
-                            <option value="true">Yes</option>
+                            <option value="false">Not Diagnosed</option>
+                            <option value="true">Diagnosed</option>
                           </Field>
                           <ErrorMessage
                             name="pneumonia"
@@ -140,8 +180,8 @@ const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
                             value={values.hypertension}
                             onChange={handleChange}
                           >
-                            <option value="false">No</option>
-                            <option value="true">Yes</option>
+                            <option value="false">Not Diagnosed</option>
+                            <option value="true">Diagnosed</option>
                           </Field>
                           <ErrorMessage
                             name="hypertension"
@@ -164,8 +204,8 @@ const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
                             value={values.chest_injuries}
                             onChange={handleChange}
                           >
-                            <option value="false">No</option>
-                            <option value="true">Yes</option>
+                            <option value="false">Not Diagnosed</option>
+                            <option value="true">Diagnosed</option>
                           </Field>
                           <ErrorMessage
                             name="chest_injuries"
@@ -185,8 +225,8 @@ const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
                             value={values.asthma}
                             onChange={handleChange}
                           >
-                            <option value="false">No</option>
-                            <option value="true">Yes</option>
+                            <option value="false">Not Diagnosed</option>
+                            <option value="true">Diagnosed</option>
                           </Field>
                           <ErrorMessage
                             name="asthma"
@@ -209,8 +249,8 @@ const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
                             value={values.diabetes}
                             onChange={handleChange}
                           >
-                            <option value="false">No</option>
-                            <option value="true">Yes</option>
+                            <option value="false">Not Diagnosed</option>
+                            <option value="true">Diagnosed</option>
                           </Field>
                           <ErrorMessage
                             name="diabetes"
@@ -230,8 +270,8 @@ const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
                             value={values.epilepsy}
                             onChange={handleChange}
                           >
-                            <option value="false">No</option>
-                            <option value="true">Yes</option>
+                            <option value="false">Not Diagnosed</option>
+                            <option value="true">Diagnosed</option>
                           </Field>
                           <ErrorMessage
                             name="epilepsy"
@@ -254,8 +294,8 @@ const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
                             value={values.heart_disease}
                             onChange={handleChange}
                           >
-                            <option value="false">No</option>
-                            <option value="true">Yes</option>
+                            <option value="false">Not Diagnosed</option>
+                            <option value="true">Diagnosed</option>
                           </Field>
                           <ErrorMessage
                             name="heart_disease"
@@ -275,8 +315,8 @@ const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
                             value={values.hernia}
                             onChange={handleChange}
                           >
-                            <option value="false">No</option>
-                            <option value="true">Yes</option>
+                            <option value="false">Not Diagnosed</option>
+                            <option value="true">Diagnosed</option>
                           </Field>
                           <ErrorMessage
                             name="hernia"
@@ -286,22 +326,24 @@ const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
                         </div>
                       </div>
                     </div>
+                    {values.hernia && (
+                      <div className="form-group">
+                        <label htmlFor="hernia_details">Hernia Details</label>
+                        <Field
+                          className="form-control my-upload"
+                          id="hernia_details"
+                          name="hernia_details"
+                          value={values.hernia_details}
+                          onChange={handleChange}
+                        ></Field>
+                        <ErrorMessage
+                          name="hernia_details"
+                          component="div"
+                          className="text-danger"
+                        />{" "}
+                      </div>
+                    )}
 
-                    <div className="form-group">
-                      <label htmlFor="hernia_details">Hernia Details</label>
-                      <Field
-                        className="form-control my-upload"
-                        id="hernia_details"
-                        name="hernia_details"
-                        value={values.hernia_details}
-                        onChange={handleChange}
-                      ></Field>
-                      <ErrorMessage
-                        name="hernia_details"
-                        component="div"
-                        className="text-danger"
-                      />
-                    </div>
                     <div className="form-group">
                       <label htmlFor="medical_condition_details">
                         Medical Condition Comments (Optional)
@@ -319,9 +361,9 @@ const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
                         className="text-danger"
                       />
                     </div>
-                    {/* <button type="submit" className="btn btn-primary">
+                    <button type="submit" className="btn btn-primary">
                       Submit
-                    </button> */}
+                    </button>
                     <div
                       className="d-flex"
                       style={{

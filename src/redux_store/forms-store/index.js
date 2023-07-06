@@ -38,6 +38,7 @@ const initialState = {
   pneumoSystemsCheck: null,
   pneumoResultsRemarks: null,
   pneumoAdditionalTest: null,
+  pneumoConditionsTest: null,
 
   //Undustry and Other
   homeAddresses: null,
@@ -149,6 +150,15 @@ const formsSlice = createSlice({
       pOccupationDetails: initialState.pOccupationDetails,
     }),
 
+    setPneumoConditionsTest: (state, action) => ({
+      ...state,
+      pneumoConditionsTest: action.payload,
+    }),
+
+    resetPneumoConditionsTest: (state) => ({
+      ...state,
+      pneumoConditionsTest: initialState.pneumoConditionsTest,
+    }),
     togglePneumoNextPhase: (state) => {
       state.pneumoNextPhase = !state.pneumoNextPhase;
     },
@@ -276,25 +286,23 @@ const formsSlice = createSlice({
 
     setOtherRespiratoryCheck: (state, action) => ({
       ...state,
-      otherRespiratoryCheck: action.payload
+      otherRespiratoryCheck: action.payload,
     }),
 
     resetOtherRespiratoryCheck: (state) => ({
       ...state,
-      otherRespiratoryCheck: initialState.otherRespiratoryCheck
+      otherRespiratoryCheck: initialState.otherRespiratoryCheck,
     }),
 
     setOtherCommentsAndRemarks: (state, action) => ({
       ...state,
-      otherCommentsAndRemarks: action.payload
+      otherCommentsAndRemarks: action.payload,
     }),
 
     resetOtherCommentsAndRemarks: (state) => ({
       ...state,
-      otherCommentsAndRemarks: initialState.otherCommentsAndRemarks
-    })
-
-
+      otherCommentsAndRemarks: initialState.otherCommentsAndRemarks,
+    }),
   },
 });
 

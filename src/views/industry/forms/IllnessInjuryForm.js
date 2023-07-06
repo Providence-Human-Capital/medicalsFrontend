@@ -1,12 +1,20 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDisease } from "@fortawesome/free-solid-svg-icons";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { API } from "../../../config";
+import { formsActions } from "../../../redux_store/forms-store";
+import { uiActions } from "../../../redux_store/ui-store";
 
 const IllnessInjuryForm = ({ handlePrev, handleNext }) => {
   const diseases = useSelector((state) => state.illness.diseases);
+  const isLoading = useSelector((state) => state.ui.isLoading);
+  const dispatch = useDispatch();
+  const { patientId } = useParams();
 
   const initialValues = diseases.reduce((acc, disease) => {
     acc[disease.name] = { hasDisease: "", yearTreated: "" };
@@ -26,8 +34,41 @@ const IllnessInjuryForm = ({ handlePrev, handleNext }) => {
     }, {}),
   });
 
-  const onSubmit = (values) => {
-    console.log("These are the values",values);
+  const onSubmit = async (values) => {
+    // console.log("These are the values",values);
+    const changedDiseases = Object.keys(values).filter((disease) => {
+      return (
+        values[disease].hasDisease !== "" || values[disease].yearTreated !== ""
+      );
+    });
+
+    const dataToSend = changedDiseases.map((disease) => {
+      return {
+        id: diseases.find((item) => item.name === disease).id,
+        hasDisease: values[disease].hasDisease,
+        yearTreated: values[disease].yearTreated,
+      };
+    });
+
+    
+
+    for (const disease of dataToSend) {
+      try {
+        const response = await axios.patch(
+          `${API}/disease/update/${disease.id}/${patientId}`,
+          {
+            has_disease: disease.hasDisease === "yes" ? true : false,
+            date: disease.yearTreated,
+          }
+        );
+        console.log("Disease", response);
+        if (response.status === 200) {
+          dispatch(formsActions.setInjuriesAndIllnesses(response.data.diseases));
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
   return (
     <div className="step-form">

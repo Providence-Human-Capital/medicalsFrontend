@@ -90,6 +90,7 @@ const Header = ({}) => {
               </li>
               <li className="btn-group d-lg-inline-flex d-none">
                 <NavButton to={"/foodhandlers"} text={"City Of Harare"} />
+                
               </li>
 
               <li className="btn-group d-lg-inline-flex d-none">
