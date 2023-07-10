@@ -1,0 +1,11 @@
+.adjust-height {
+  height: 50px;
+  border-radius: 5px;
+}
+
+.auth-image {
+  background-image: url(../../../public/assets/images/52.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}

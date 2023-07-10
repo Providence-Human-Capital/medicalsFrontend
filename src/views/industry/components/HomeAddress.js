@@ -2,9 +2,10 @@ import React, { Fragment } from "react";
 import { formatDate } from "../../../utils/dateConverter";
 
 const HomeAddress = ({ homeAddress }) => {
+
   return (
     <Fragment>
-      <div class="col-12">
+      { homeAddress && <div class="col-12">
         <div class="media bg-white mb-20">
           <span class="avatar status-success">
             <img class="avatar" src="/assets/images/avatar2.png" alt="..." />
@@ -56,6 +57,9 @@ const HomeAddress = ({ homeAddress }) => {
           </div>
         </div>
       </div>
+      
+      }
+      
     </Fragment>
   );
 };

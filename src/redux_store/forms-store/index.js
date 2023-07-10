@@ -54,6 +54,9 @@ const formsSlice = createSlice({
   name: "forms",
   initialState,
   reducers: {
+
+    clearFormsOnLogOut: () => initialState,
+    
     updatePhysicalExamination: (state, action) => {
       const { name, value } = action.payload;
       return {

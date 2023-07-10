@@ -13,6 +13,7 @@ import EmptyTable from "../../../components/EmptyTable";
 import SearchBox from "../../../components/SearchBox";
 import IndustryItem from "./IndustryItem";
 import ReactPaginate from "react-paginate";
+import ExportExcelButton from "../../../components/buttons/ExportExcelButton";
 
 const IndustryTable = () => {
   const dispatch = useDispatch();
@@ -75,9 +76,7 @@ const IndustryTable = () => {
       ) : (
         <Fragment>
           <div className="spacing">
-            <button className="btn btn-success" onClick={handleExportClick}>
-              Export to Excel
-            </button>
+            <ExportExcelButton onClick={handleExportClick} />
           </div>
 
           <SearchBox
@@ -85,8 +84,8 @@ const IndustryTable = () => {
             handleSearch={handleSearch}
             placeholderText={"Search by Company Name, First Name, Or Last name"}
           />
-          <table className="table border-no" id="example1">
-            <thead>
+          <table className="table border-no mt-2 rounded10" id="example1">
+            <thead className="bg-info rounded10">
               <tr>
                 <th onClick={() => handleSort("id")} className="pointer-style">
                   ID

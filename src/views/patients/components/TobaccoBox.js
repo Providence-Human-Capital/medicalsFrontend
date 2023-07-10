@@ -3,6 +3,8 @@ import TobaccoUseItem from "./TobaccoUseItem";
 import { API } from "../../../config";
 import { useDispatch, useSelector } from "react-redux";
 import { formsActions } from "../../../redux_store/forms-store";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCrutch, faJoint } from "@fortawesome/free-solid-svg-icons";
 
 const TobaccoBox = ({ patientId }) => {
   const dispatch = useDispatch();
@@ -38,30 +40,55 @@ const TobaccoBox = ({ patientId }) => {
 
   return (
     <Fragment>
-      <div className="box">
-        <div className="box-header border-0 pb-0">
-          <h4 className="box-title">
-            <strong>Tobacco Use Analysis</strong>
-          </h4>
+      {patientTobaccos.length !== 0 && (
+        <div className="box">
+          <div className="box-header border-0">
+            <h4 className="box-title">
+              <strong>Tobacco Use Analysis</strong>
+            </h4>
+          </div>
         </div>
-        <div className="box-body">
-          <table class="table table-striped table-bordered">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">How Many Per Day</th>
-              </tr>
-            </thead>
-            <tbody>
-              {patientTobaccos.map((tobacco, index) => (
-                <tr key={index}>
-                  <td>{tobacco.name}</td>
-                  <td>{tobacco.how_many}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      )}
+
+      <div className="row">
+        {patientTobaccos.length === 0 ? (
+          <div className="col-md-12">
+            <div className="box">
+              <div className="box-header border-0 pb-0">
+                <h4 className="box-title"></h4>
+                <strong>Patient's Smoking History</strong>
+              </div>
+              <div className="box-body">
+                <h5 className="fw-500">
+                  <span className="fw-200 badge badge-info">
+                    NO AVAILABLE RECORD
+                  </span>
+                </h5>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <>
+            {patientTobaccos.map((tobacco, index) => (
+              <div className="col-md-6">
+                <div className="card">
+                  <div className="card-body">
+                    <h5 className="card-title">
+                      <FontAwesomeIcon icon={faJoint} className="mr-2" />{" "}
+                      {tobacco.name}
+                    </h5>
+                    <p className="card-text">
+                      How Many Per Day{" "}
+                      <span className="badge badge-danger">
+                        <strong>{tobacco.how_many}</strong>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
       </div>
     </Fragment>
   );

@@ -5,6 +5,14 @@ import { authActions } from "../redux_store/auth-store";
 import { ToastContainer } from "react-toastify";
 import ExportExcelButton from "./buttons/ExportExcelButton";
 import NavButton from "./buttons/NavButton";
+import { formsActions } from "../redux_store/forms-store";
+import { attendeeActions } from "../redux_store/attendee-store";
+import { companyActions } from "../redux_store/company-store";
+import { illnessActions } from "../redux_store/illness-store";
+import { outReachActions } from "../redux_store/outreach-store";
+import { patientActions } from "../redux_store/patients-store";
+import { tobaccoActions } from "../redux_store/tobacco-store";
+import { uiActions } from "../redux_store/ui-store";
 
 const Header = ({}) => {
   const [isSideBarCollapsed, setSidebarCollapsed] = useState(false);
@@ -16,8 +24,17 @@ const Header = ({}) => {
   const navigate = useNavigate();
 
   const signOut = () => {
-    dispatch(authActions.setLogout());
     
+    dispatch(authActions.setLogout());
+    dispatch(formsActions.clearFormsOnLogOut());
+    dispatch(attendeeActions.clearAttendeesOnLogout());
+    dispatch(companyActions.clearCompaniesOnLogout());
+    dispatch(illnessActions.clearIllnessesOnLogout());
+    dispatch(outReachActions.clearOutReachOnLogout());
+    dispatch(patientActions.clearPatientsOnLogout());
+    dispatch(tobaccoActions.clearTobaccoOnLogOut());
+    dispatch(uiActions.resetOnLogOut());
+
     navigate("/login");
   };
 
@@ -89,8 +106,7 @@ const Header = ({}) => {
                 </Link>
               </li>
               <li className="btn-group d-lg-inline-flex d-none">
-                <NavButton to={"/foodhandlers"} text={"City Of Harare"} />
-                
+                <NavButton to={"/foodhandlers"} text={"Food Handlers"} />
               </li>
 
               <li className="btn-group d-lg-inline-flex d-none">

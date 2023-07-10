@@ -10,6 +10,7 @@ const attendeeSlice = createSlice({
   name: "attendee",
   initialState,
   reducers: {
+    clearAttendeesOnLogout: () => initialState,
     setAttendees: (state, action) => {
       state.attendees = action.payload.attendees;
       state.isLoading = false;

@@ -3,10 +3,13 @@ import DiseaseItem from "./DiseaseItem";
 import { useDispatch, useSelector } from "react-redux";
 import { API } from "../../../config";
 import { formsActions } from "../../../redux_store/forms-store";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCrutch } from "@fortawesome/free-solid-svg-icons";
+import PlaceHolderBox from "../../../components/PlaceHolderBox";
 
 const DiseaseHistory = ({ patientId }) => {
   const patientIllnesses = useSelector(
-    (state) => state.forms.patientsIllnesses
+    (state) => state.forms.patientsIllnesses || []
   );
 
   const dispatch = useDispatch();
@@ -41,30 +44,44 @@ const DiseaseHistory = ({ patientId }) => {
 
   return (
     <Fragment>
-      <div className="box">
-        <div className="box-header no-border">
-          <h4 className="box-title">
-            <strong>Patient's Disease History</strong>
-          </h4>
+      {patientIllnesses.length !== 0 && (
+        <div className="box">
+          <div className="box-header no-border">
+            <h4 className="box-title">
+              <strong>Patient's Disease History</strong>
+            </h4>
+          </div>
         </div>
-        <div className="box-body">
-          <table class="table table-striped table-bordered">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">Illness Name</th>
-                <th scope="col">Year of Treatment</th>
-              </tr>
-            </thead>
-            <tbody>
-              {patientIllnesses.map((illness, index) => (
-                <tr key={index}>
-                  <td>{illness.name}</td>
-                  <td>{illness.treatment_year}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      )}
+
+      <div className="row">
+        {patientIllnesses.length === 0 ? (
+          <PlaceHolderBox
+            title={"Patient's Disease History"}
+            tag={"NO AVAILABLE RECORD"}
+          />
+        ) : (
+          <Fragment>
+            {patientIllnesses.map((illness, index) => (
+              <div className="col-md-6">
+                <div className="card">
+                  <div className="card-body">
+                    <h5 className="card-title">
+                      <FontAwesomeIcon icon={faCrutch} className="mr-2" />{" "}
+                      {illness.name}
+                    </h5>
+                    <p className="card-text">
+                      Treatment Year{" "}
+                      <span className="badge badge-danger">
+                        <strong>{illness.treatment_year}</strong>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </Fragment>
+        )}
       </div>
     </Fragment>
   );

@@ -10,6 +10,7 @@ const tobaccoSlice = createSlice({
   name: "tobacco",
   initialState,
   reducers: {
+    clearTobaccoOnLogOut: () => initialState,
     setTobaccos: (state, action) => {
       state.tobaccos = action.payload.tobaccos;
       state.isLoading = false;

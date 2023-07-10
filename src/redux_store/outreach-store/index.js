@@ -12,6 +12,8 @@ const outReachSlice = createSlice({
   name: "outreach",
   initialState,
   reducers: {
+
+    clearOutReachOnLogout: () => initialState,
     setOutReachPatients: (state, action) => {
       state.outreachPatients = action.payload.outreachPatients;
       state.isLoading = false;

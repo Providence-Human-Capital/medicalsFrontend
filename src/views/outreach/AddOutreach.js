@@ -99,7 +99,7 @@ const AddOutreach = () => {
                               <label htmlFor="first_name">First Name:</label>
                               <Field
                                 type="text"
-                                className={`form-control ${
+                                className={`form-control my-upload ${
                                   touched.first_name && errors.first_name
                                     ? "error-input"
                                     : ""
@@ -121,7 +121,7 @@ const AddOutreach = () => {
                               <label htmlFor="last_name">Last Name:</label>
                               <Field
                                 type="text"
-                                className={`form-control ${
+                                className={`form-control my-upload ${
                                   touched.last_name && errors.last_name
                                     ? "error-input"
                                     : ""
@@ -144,7 +144,7 @@ const AddOutreach = () => {
                               <label htmlFor="swab_number">Swab Number:</label>
                               <Field
                                 type="number"
-                                className={`form-control ${
+                                className={`form-control my-upload ${
                                   touched.swab_number && errors.swab_number
                                     ? "error-input"
                                     : ""
@@ -165,7 +165,7 @@ const AddOutreach = () => {
                               <label htmlFor="gender">Gender:</label>
                               <Field
                                 as="select"
-                                className={`form-control ${
+                                className={`form-control my-upload  ${
                                   touched.gender && errors.gender
                                     ? "error-input"
                                     : ""
@@ -191,7 +191,7 @@ const AddOutreach = () => {
                               </label>
                               <Field
                                 type="date"
-                                className={`form-control ${
+                                className={`form-control my-upload ${
                                   touched.date_of_birth && errors.date_of_birth
                                     ? "error-input"
                                     : ""
@@ -214,7 +214,7 @@ const AddOutreach = () => {
                               <label htmlFor="company">Company Name:</label>
                               <Field
                                 type="text"
-                                className={`form-control ${
+                                className={`form-control my-upload ${
                                   touched.company && errors.company
                                     ? "error-input"
                                     : ""

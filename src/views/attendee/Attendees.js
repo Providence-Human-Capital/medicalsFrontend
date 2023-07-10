@@ -25,9 +25,7 @@ const Attendees = ({}) => {
                 <div className="d-flex">
                   <CreateButton text={"Add Attendee"} to={"/attendees/add"} />
                 </div>
-                <div className="d-flex justify-content-end">
-                  <h1 className="mb-0">Registered Attendees</h1>
-                </div>
+                
               </div>
               <div
                 className="table-responsive rounded card-table"

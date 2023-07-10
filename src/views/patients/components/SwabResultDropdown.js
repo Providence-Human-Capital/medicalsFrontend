@@ -5,7 +5,12 @@ import { uiActions } from "../../../redux_store/ui-store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from "../../../components/loader/Loading";
-import { getAllPatients } from "../../../services/api";
+import {
+  getAllPatients,
+  getCofHPatients,
+  getIndustryPatients,
+  getPneumoPatients,
+} from "../../../services/api";
 import Swal from "sweetalert2";
 
 import { patientActions } from "../../../redux_store/patients-store";
@@ -35,6 +40,33 @@ const SwabResultDropdown = ({ patientId, initialSwabResult }) => {
     );
   };
 
+  const fetchCofHPatients = async () => {
+    const cofPatients = await getCofHPatients();
+    dispatch(
+      patientActions.setcofPatients({
+        cofPatients: cofPatients,
+      })
+    );
+  };
+
+  const fetchPneumoPatients = async () => {
+    const pneumoPatients = await getPneumoPatients();
+    dispatch(
+      patientActions.setPneumoPatients({
+        pneumoPatients: pneumoPatients,
+      })
+    );
+  };
+
+  const fetchIndustryPatients = async () => {
+    const industryPatients = await getIndustryPatients();
+    dispatch(
+      patientActions.setIndustryPatients({
+        industryPatients: industryPatients,
+      })
+    );
+  };
+
   const handleSave = async (selectedValue) => {
     dispatch(
       uiActions.setLoadingSpinner({
@@ -57,6 +89,9 @@ const SwabResultDropdown = ({ patientId, initialSwabResult }) => {
           })
         );
         getAllPatients();
+        fetchCofHPatients();
+        fetchPneumoPatients();
+        fetchIndustryPatients();
         Swal.fire("Success!", "Status updated successfully.", "success");
       } else {
         throw new Error("Something went wrong.");

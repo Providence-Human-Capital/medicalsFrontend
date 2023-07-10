@@ -171,7 +171,7 @@ const AsideNav = ({}) => {
                 <li className="treeview">
                   <a href="#" className="mb-1">
                     <i data-feather="archive"></i>
-                    <span>City of Harare</span>
+                    <span>Food Handlers</span>
                     <span className="pull-right-container">
                       <i className="fa fa-angle-right pull-right"></i>
                     </span>

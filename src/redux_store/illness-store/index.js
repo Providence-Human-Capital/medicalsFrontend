@@ -13,6 +13,7 @@ const illnessSlice = createSlice({
   name: "illness",
   initialState,
   reducers: {
+    clearIllnessesOnLogout: () => initialState,
     setIllnesses: (state, action) => {
       state.illnesses = action.payload.illnesses;
       state.isLoading = false;

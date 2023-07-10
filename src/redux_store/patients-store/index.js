@@ -26,6 +26,7 @@ const patientSlice = createSlice({
   name: "patient",
   initialState,
   reducers: {
+    clearPatientsOnLogout: () => initialState,
     setPatients: (state, action) => {
       state.patients = action.payload.patients;
       state.isLoading = false;

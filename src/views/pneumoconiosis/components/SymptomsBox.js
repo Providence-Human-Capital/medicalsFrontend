@@ -22,10 +22,10 @@ const SymptomsBox = ({ symptoms }) => {
     weight_loss,
     appetite_loss,
     chest_tightness,
-  } = symptoms;
+  } = symptoms || {};
   return (
     <Fragment>
-      <div class="col-12">
+      { symptoms &&  <div class="col-12">
         <div class="media bg-white mb-20">
           <span class="avatar">
             <FontAwesomeIcon
@@ -242,7 +242,8 @@ const SymptomsBox = ({ symptoms }) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> }
+     
     </Fragment>
   );
 };

@@ -14,6 +14,7 @@ import TobaccoBox from "./components/TobaccoBox";
 import XRayBox from "./components/XRayBox";
 import {
   getCurrentPatientRemarks,
+  getFoodHandlerPatientDetails,
   getLatestPatientXray,
   getPatient,
 } from "../../services/api";
@@ -113,6 +114,10 @@ const PatientDetails = () => {
       dispatch(formsActions.setPatientsXray(xray));
     });
 
+    getFoodHandlerPatientDetails(patientId).then((data) => {
+      console.log("Foody Data: " + JSON.stringify(data));
+    });
+
     const fetchPatientData = async () => {
       try {
         setLoading(true);
@@ -160,13 +165,16 @@ const PatientDetails = () => {
   const patientXray = useSelector((state) => state.forms.patientsXray) || {};
 
   const patientUpdated = useSelector((state) => state.patient.patientUpdated);
-  const { vitals } = singlePatient;
+  const { vitals } = singlePatient || {};
   if (loading) {
     return <PatientSkeleton />;
   }
   return (
     <Fragment>
-      <BreadCrumb title={"Patient Details"} activeTab={"Patient Details"} />
+      <BreadCrumb
+        title={"Patient Details"}
+        activeTab={singlePatient.category}
+      />
 
       {singlePatient && (
         <section className="content">
@@ -210,7 +218,9 @@ const PatientDetails = () => {
                       physical={pneumoPhysicalTestsRecord}
                     />
                     <SystemsCheckBox syscheck={pneumoSystemsCheckRecord} />
-                    <ResultsAndInvestigation />
+                    <ResultsAndInvestigation
+                      resultInvestigation={pneumoResultsRemarksRecord}
+                    />
                     <AdditionalTestsBox />
 
                     {/* <p>{JSON.stringify(pneumoResultsRemarksRecord)}</p>
@@ -230,7 +240,7 @@ const PatientDetails = () => {
                     height: "80vh",
                   }}
                 >
-                  {vitals.length === 0 ? (
+                  {vitals ? (
                     <div className="box">
                       <div className="box-header border-0 pb-0">
                         <h4 className="box-title">Physical Examination</h4>
@@ -273,7 +283,7 @@ const PatientDetails = () => {
                   <InjuryBox injuries={otherIllnessInjuriesRecord} />
                   <CardioBox data={otherCardioVascularCheckRecord} />
                   <RespiratoryBox data={otherRespiratoryCheckRecord} />
-                  <IComments data={otherCommentsAndRemarksRecord} />
+                  <IComments data={otherCommentsAndRemarksRecord} />  
                 </div>
               </Fragment>
             )}

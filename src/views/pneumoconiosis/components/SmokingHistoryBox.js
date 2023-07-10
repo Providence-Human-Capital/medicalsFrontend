@@ -18,10 +18,10 @@ const SmokingHistoryBox = ({ smoking }) => {
     how_many_per_day,
     how_long,
     for_how_long,
-  } = smoking;
+  } = smoking || {};
   return (
     <Fragment>
-      <div class="col-12">
+      { smoking &&  <div class="col-12">
         <div class="media bg-white mb-20">
           <span class="avatar">
             <FontAwesomeIcon
@@ -137,7 +137,8 @@ const SmokingHistoryBox = ({ smoking }) => {
             </p>
           </div>
         </div>
-      </div>
+      </div> }
+     
     </Fragment>
   );
 };

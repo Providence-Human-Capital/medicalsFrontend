@@ -4,6 +4,7 @@ import { API } from "../../config";
 import { useDispatch } from "react-redux";
 import Loading from "../../components/loader/Loading";
 import ErrorNotification from "../../components/notifications/ErrorNotification";
+import './Auth.css'
 
 const Register = () => {
   const styles = {
@@ -111,7 +112,7 @@ const Register = () => {
 
   return (
     <Fragment>
-      <div className="container h-p100" style={styles.pageH}>
+      <div className="container h-p100">
         <div className="row align-items-center justify-content-md-center h-p100">
           <div className="col-12">
             <div className="row justify-content-center g-0 adjust-position">
@@ -137,12 +138,12 @@ const Register = () => {
                     <form onSubmit={handleSubmit}>
                       <div className="form-group">
                         <div className="input-group mb-3">
-                          <span className="input-group-text bg-transparent">
+                          <span className="input-group-text bg-transparent adjust-height">
                             <i className="ti-user"></i>
                           </span>
                           <input
                             type="text"
-                            className={`form-control ps-15 bg-transparent ${
+                            className={`form-control ps-15 bg-transparent adjust-height ${
                               errors.name ? "error-input" : ""
                             }`}
                             id="name"
@@ -160,12 +161,12 @@ const Register = () => {
                       </div>
                       <div className="form-group">
                         <div className="input-group mb-3">
-                          <span className="input-group-text bg-transparent">
+                          <span className="input-group-text bg-transparent adjust-height">
                             <i className="ti-email"></i>
                           </span>
                           <input
                             type="email"
-                            className={`form-control ps-15 bg-transparent ${
+                            className={`form-control ps-15 bg-transparent adjust-height ${
                               errors.email ? "error-input" : ""
                             }`}
                             id="email"
@@ -183,12 +184,12 @@ const Register = () => {
                       </div>
                       <div className="form-group">
                         <div className="input-group mb-3">
-                          <span className="input-group-text bg-transparent">
+                          <span className="input-group-text bg-transparent adjust-height">
                             <i className="ti-lock"></i>
                           </span>
                           <input
                             type="password"
-                            className={`form-control ps-15 bg-transparent ${
+                            className={`form-control ps-15 bg-transparent adjust-height ${
                               errors.password ? "error-input" : ""
                             }`}
                             placeholder="Password"
@@ -206,12 +207,12 @@ const Register = () => {
                       </div>
                       <div className="form-group">
                         <div className="input-group mb-3">
-                          <span className="input-group-text bg-transparent">
+                          <span className="input-group-text bg-transparent adjust-height">
                             <i className="ti-lock"></i>
                           </span>
                           <input
                             type="password"
-                            className={`form-control ps-15 bg-transparent ${
+                            className={`form-control ps-15 bg-transparent adjust-height ${
                               errors.password_confirmation ? "error-input" : ""
                             }`}
                             placeholder="Retype Password"

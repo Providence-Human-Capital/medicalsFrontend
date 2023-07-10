@@ -1,12 +1,22 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { formatDate } from "../../../utils/dateConverter";
 import styles from "../patient-css/styles.module.css";
 
 import { options } from "../../../utils/dateConverter";
 import { useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUpload } from "@fortawesome/free-solid-svg-icons";
+import "./InfoBox.css";
 
 const InfoBox = ({ patient }) => {
   const patientsRemarks = useSelector((state) => state.forms.fPatientRemarks);
+
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    setSelectedImage(URL.createObjectURL(file));
+  };
   return (
     <Fragment>
       <div className="box bg-bubbles-white">
@@ -15,11 +25,34 @@ const InfoBox = ({ patient }) => {
         ></div>
         <div className="box-body wed-up position-relative">
           <div className="d-md-flex align-items-center">
-            <div className="me-20 text-center text-md-start">
-              <img
-                src="/assets/images/avatar/2.jpg"
-                className="bg-success-light rounded10"
-                alt=""
+            <div>
+              <div className="image-container">
+                <img
+                  src={selectedImage || "/assets/images/avatar/2.jpg"}
+                  className="bg-success-light rounded50 square-image"
+                  alt=""
+                  style={{
+                    width: "200px",
+                    borderRadius: "50%",
+                  }}
+                />
+                <label
+                  htmlFor="image-upload"
+                  className="upload-button"
+                  style={{
+                    width: "200px",
+                    borderRadius: "50%",
+                  }}
+                >
+                  <FontAwesomeIcon icon={faUpload} className="upload-icon" />
+                </label>
+              </div>
+              <input
+                type="file"
+                id="image-upload"
+                className="image-upload-input hide-input"
+                accept="image/*"
+                onChange={handleImageUpload}
               />
               <div className="text-center my-10">
                 <p className="mb-0">Exam Purpose</p>

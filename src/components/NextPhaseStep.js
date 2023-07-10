@@ -12,7 +12,12 @@ const NextPhaseStep = ({ nextPhaseCurrent }) => {
   return (
     <Fragment>
       <section className="step-wizard">
-        <ul className="step-wizard-list">
+        <ul
+          className="step-wizard-list"
+          style={{
+            overflowX: "scroll",
+          }}
+        >
           <li
             className={`step-wizard-item ${
               nextPhaseCurrent === 1 ? "current-item" : ""

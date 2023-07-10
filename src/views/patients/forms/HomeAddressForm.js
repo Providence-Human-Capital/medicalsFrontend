@@ -63,7 +63,7 @@ const HomeAddressForm = ({ handlePrev, handleNext }) => {
                   textTransform: "uppercase",
                 }}
               >
-                Home Address
+                <strong>Home Address</strong>
               </h4>
               <p>Please Enter Your Home Address!</p>
               <Formik

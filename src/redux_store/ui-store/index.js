@@ -12,6 +12,7 @@ const uiSlice = createSlice({
   name: "ui",
   initialState,
   reducers: {
+    resetOnLogOut: () => initialState,
     setAlert: (state, action) => {
       state.showAlert = action.payload.setAlert;
     },

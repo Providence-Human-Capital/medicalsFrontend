@@ -1,6 +1,8 @@
 .my-component {
-    background-image: url(../../../../public/assets/images/gallery/landscape14.jpg);
+    /* background-image: url(../../../../public/assets/images/gallery/landscape14.jpg); */
+    background-image: url(../../../../public/assets/images/52.jpg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    height: 400px;
   }

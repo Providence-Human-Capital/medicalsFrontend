@@ -36,6 +36,55 @@ export const getAllPatients = async () => {
   return patients;
 };
 
+export const getIndustryPatientDetails = async (patientId) => {
+  const patientDetailResponse = await fetch(
+    `${API}/patient/${patientId}/industry`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  const responseData = await patientDetailResponse.json();
+  const patientDetail = responseData;
+  return patientDetail;
+};
+export const getPneumoPatientDetails = async (patientId) => {
+  const patientDetailResponse = await fetch(
+    `${API}/patient/${patientId}/pneumoconiosis`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  const responseData = await patientDetailResponse.json();
+  const patientDetail = responseData;
+  return patientDetail;
+};
+export const getFoodHandlerPatientDetails = async (patientId) => {
+  const patientDetailResponse = await fetch(
+    `${API}/patient/${patientId}/foodhandler`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  const responseData = await patientDetailResponse.json();
+  const patientDetail = responseData;
+  return patientDetail;
+};
+
 export const getPneumoPatients = async () => {
   const patiencesResponse = await fetch(`${API}/patients/pneumoconiosis`, {
     method: "GET",

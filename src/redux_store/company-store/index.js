@@ -11,6 +11,7 @@ const companySlice = createSlice({
   name: "company",
   initialState,
   reducers: {
+    clearCompaniesOnLogout: () => initialState,
     setCompanies: (state, action) => {
       state.companies = action.payload.companies;
       state.isLoading = false;
