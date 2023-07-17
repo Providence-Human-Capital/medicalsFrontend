@@ -3,7 +3,7 @@ import React, { Fragment } from "react";
 const BoxProfile = ({ patient }) => {
   return (
     <Fragment>
-      <div className="box">
+      <div className="box" >
         <div className="box-header border-0 pb-0">
           <h4 className="box-title fw-500">Patient Companie's Details</h4>
         </div>

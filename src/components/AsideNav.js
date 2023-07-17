@@ -243,7 +243,7 @@ const AsideNav = ({}) => {
                 <li id="aside-bar">
                   <NavLink to={"/certificates"} activeclassname="active">
                     <i data-feather="file-text"></i>
-                    <span>Certificates</span>
+                    <span>Certificates (Batches)</span>
                   </NavLink>
                 </li>
                 <li id="aside-bar">

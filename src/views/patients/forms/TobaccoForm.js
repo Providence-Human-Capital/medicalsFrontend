@@ -11,6 +11,7 @@ import { API } from "../../../config";
 import Loading from "../../../components/loader/Loading";
 import { ToastContainer, toast } from "react-toastify";
 import { formsActions } from "../../../redux_store/forms-store";
+import FormButton from "../../../components/buttons/FormButton";
 
 const TobaccoForm = ({ handlePrev, handleNext }) => {
   const { patientId } = useParams();
@@ -95,6 +96,10 @@ const TobaccoForm = ({ handlePrev, handleNext }) => {
     setHowManyPerDay(e.target.value);
   };
 
+  const handleCurrentTobaccoOnClick = (index) => { 
+    setCurrentTobacco(index);
+  }
+
   return (
     <Fragment>
       <div className="step-form">
@@ -137,6 +142,7 @@ const TobaccoForm = ({ handlePrev, handleNext }) => {
                                 role="tab"
                                 aria-controls={`v-pills-${index}`}
                                 aria-selected={index === currentTobacco}
+                                onClick={() => handleCurrentTobaccoOnClick(index)}
                               >
                                 {tobacco.id} {" - "}
                                 {tobacco.name}
@@ -229,9 +235,18 @@ const TobaccoForm = ({ handlePrev, handleNext }) => {
                     marginBottom: "20px",
                   }}
                 >
-                  <button onClick={handlePrev}>Previous</button>
+                  {/* <button onClick={handlePrev}>Previous</button> */}
 
-                  <button onClick={handleNext}>Next</button>
+                  <FormButton
+                    text={"Previous"}
+                    direction={"left"}
+                    onClick={handlePrev}
+                  />
+                  <FormButton
+                    text={"Next"}
+                    direction={"right"}
+                    onClick={handleNext}
+                  />
                 </div>
               </div>
             </div>

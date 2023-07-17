@@ -32,77 +32,39 @@ const PButtons = ({ routeId, patient }) => {
 
   return (
     <Fragment>
-      <div className="d-md-flex align-items-center justify-content-between mb-20">
-        <NavLink
-          to={`/patients/${routeId}`}
-          className="btn btn-primary me-5 mb-md-0 "
-        >
-          <i className="fa fa-home"></i> Return To Profile
-        </NavLink>
-        <div className="d-flex">
-          <ul className="navi-list list-unstyled">
-            {patient.category && patient.category === "Industry" && (
-              <Fragment>
-                <StepButton
-                  text={` Edit Patient`}
-                  icon={faStethoscope}
-                  toLink={`/patient/industry/${routeId}`}
-                />
-              </Fragment>
-            )}
+      <ul className="navi-list list-unstyled">
+        {patient.category && patient.category === "Industry" && (
+          <Fragment>
+            <StepButton
+              text={` Edit Patient`}
+              icon={faStethoscope}
+              toLink={`/patient/industry/${routeId}`}
+            />
+          </Fragment>
+        )}
 
-            {patient.category && patient.category === "Pneumoconiosis" && (
-              <Fragment>
-                <StepButton
-                  text={` Edit Patient`}
-                  icon={faStethoscope}
-                  toLink={`/patient/pneumo/${routeId}`}
-                />
-              </Fragment>
-            )}
+        {patient.category && patient.category === "Pneumoconiosis" && (
+          <Fragment>
+            <StepButton
+              text={` Edit Patient`}
+              icon={faStethoscope}
+              toLink={`/patient/pneumo/${routeId}`}
+            />
+          </Fragment>
+        )}
 
-            {patient.category && patient.category === "City Of Harare" && (
-              <Fragment>
-                <StepButton
-                  text={` Edit Patient`}
-                  icon={faStethoscope}
-                  toLink={`/patient/foodhandler/${routeId}`}
-                />
-              </Fragment>
-            )}
-          </ul>
-        </div>
-      </div>
+        {patient.category && patient.category === "City Of Harare" && (
+          <Fragment>
+            <StepButton
+              text={` Edit Patient`}
+              icon={faStethoscope}
+              toLink={`/patient/foodhandler/${routeId}`}
+            />
+          </Fragment>
+        )}
+      </ul>
     </Fragment>
   );
 };
 
 export default PButtons;
-
-{
-  /* <StepButton
-    text={"Physical Examination"}
-    icon={faStethoscope}
-    toLink={`/patients/${routeId}/physical`}
-  />
-  <StepButton
-    text={"Illnesses"}
-    icon={faHeartbeat}
-    toLink={`/patients/${routeId}/illnesses`}
-  />
-  <StepButton
-    text={"Tobbacco Use"}
-    icon={faSmoking}
-    toLink={`/patients/${routeId}/tobacco`}
-  />
-  <StepButton
-    text={"Add Xray"}
-    icon={faXRay}
-    toLink={`/patients/${routeId}/xray/add`}
-  />
-  <StepButton
-    text={"Obeservation and Remarks"}
-    icon={faComment}
-    toLink={`/patients/${routeId}/observation`}
-  /> */
-}

@@ -68,6 +68,8 @@ import MedicalHistoryForm from "./views/industry/forms/MedicalHistoryForm";
 import IndustryPatientUpdate from "./views/industry/IndustryPatientUpdate";
 import PneumoPatientUpdate from "./views/pneumoconiosis/PneumoPatientUpdate";
 import FoodPatientUpdate from "./views/patients/FoodPatientUpdate";
+import CreateBatchFormPage from "./views/certificates/components/CreateBatchFormPage";
+import BatchListPage from "./views/certificates/BatchListPage";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
@@ -287,6 +289,12 @@ const WrapperComponent = () => {
               path="/patient/foodhandler/:patientId"
               element={<FoodPatientUpdate />}
             />
+
+            <Route
+              path="/batch/create/:certificateId"
+              element={<CreateBatchFormPage />}
+            />
+            <Route path="/batch/list/:batchId" element={<BatchListPage />} />
           </Routes>
         </div>
       </div>

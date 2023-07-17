@@ -20,6 +20,7 @@ import { faWaveSquare } from "@fortawesome/free-solid-svg-icons";
 import PrevButton from "../../../components/buttons/PrevButton";
 import NextButton from "../../../components/buttons/NextButton";
 import { formsActions } from "../../../redux_store/forms-store";
+import FormButton from "../../../components/buttons/FormButton";
 
 const PhysicalExamForm = ({ handlePrev, handleNext }) => {
   const { patientId } = useParams();
@@ -127,7 +128,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      console.log("Response...", data)
+      console.log("Response...", data);
       dispatch(
         patientActions.setLatestPhysicalExam({ latestPhysicalExam: data.data })
       );
@@ -145,12 +146,12 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
 
   const singlePatient = useSelector((state) => state.patient.singlePatient);
   const patientPhysicalExamRecord = useSelector(
-    (state) => state.patient.latestPhysicalExam
+    (state) => state.forms.fPhysicalExamination
   );
 
-  useEffect(() => {
-    
-  }, []);
+  
+
+  useEffect(() => {}, []);
   return (
     <Fragment>
       <div className="step-form">
@@ -321,25 +322,21 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                 marginBottom: "20px",
                               }}
                             >
-                              <button onClick={handlePrev} disabled={true}>
-                                Previous
-                              </button>
-
-                              {/* <PrevButton disable={true} onClick={handlePrev} /> */}
+                              <FormButton
+                                text={"Previous"}
+                                direction={"left"}
+                                onClick={handlePrev}
+                              />
 
                               {isLoading ? (
                                 <Loading />
                               ) : (
-                                // <button
-                                //   disable={isSubmitting}
-                                //   onClick={handleSubmit}
-                                // >
-                                //   Next
-                                // </button>
-                                <button onClick={handleNext}>Temporary Next</button>
+                                <FormButton
+                                  text={"Next"}
+                                  direction={"right"}
+                                  onClick={onSubmit}
+                                />
                               )}
-
-                              {/* <NextButton onClick={handleNext} /> */}
                             </div>
                           </Form>
                         )}
@@ -353,6 +350,10 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
             <button
               onClick={handleButtonClick}
               className="btn btn-primary me-5 mb-md-0 mb-5 "
+              style={{
+                borderRadius: "0.9em",
+                fontWeight: "bold",
+              }}
             >
               <FontAwesomeIcon color="#fff" icon={faWaveSquare} /> {"  "}
               {showForm ? "Hide BP Repeat Form" : "Add BP Repeat"}
@@ -436,8 +437,6 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                               <button onClick={handlePrev} disabled={true}>
                                 Previous
                               </button>
-
-                              {/* <PrevButton disable={true} onClick={handlePrev} /> */}
 
                               {isLoading ? (
                                 <Loading />

@@ -183,6 +183,7 @@ const AddAttendee = () => {
                                 component="div"
                                 className="text-danger"
                               />
+                             
                             </div>
                           </div>
                           <div className="col-md-6">

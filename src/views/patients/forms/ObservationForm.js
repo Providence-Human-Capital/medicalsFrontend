@@ -12,6 +12,7 @@ import { API } from "../../../config";
 import { uiActions } from "../../../redux_store/ui-store";
 import { formsActions } from "../../../redux_store/forms-store";
 import Loading from "../../../components/loader/Loading";
+import FormButton from "../../../components/buttons/FormButton";
 
 const ObeservationForm = ({ handlePrev, handleNext }) => {
   const dispatch = useDispatch();
@@ -40,10 +41,10 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
   };
 
   const validationSchema = Yup.object().shape({
-    previous_health_issues: Yup.string().required("Required"),
+    previous_health_issues: Yup.string().nullable(),
     year_of_diagnosis: Yup.string()
       .matches(/^\d{4}$/, "Please enter a valid year (yyyy)")
-      .required("Required"),
+      .nullable(),
     comment: Yup.string(),
     chest_x_ray: Yup.string(),
     remarks: Yup.string(),
@@ -52,12 +53,6 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
   });
 
   const onSubmit = async (values, { setSubmitting }) => {
-    // '/patients/{patientId}/remarks'
-    // setTimeout(() => {
-    //   console.log(JSON.stringify(values, null, 2));
-    //   setSubmitting(false);
-    // }, 400);
-
     dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
 
     try {
@@ -103,9 +98,9 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
 
                     <Formik
                       initialValues={{
-                        previous_health_issues: "",
+                        previous_health_issues: "N/A",
                         year_of_diagnosis: "",
-                        comment: "",
+                        comment: "NAD",
                         chest_x_ray: "",
                         remarks: "",
                         swab_result: "",
@@ -270,20 +265,20 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                               marginBottom: "20px",
                             }}
                           >
-                            <button onClick={handlePrev} disabled={true}>
-                              Previous
-                            </button>
+                            <FormButton
+                              text={"Previous"}
+                              direction={"left"}
+                              onClick={handlePrev}
+                            />
 
                             {isLoading ? (
                               <Loading />
                             ) : (
-                              <button
-                                type="submit"
-                                className="btn btn-primary"
-                                disabled={isSubmitting}
-                              >
-                                Save Obeservation
-                              </button>
+                              <FormButton
+                                text={"Save Obeservation"}
+                                direction={"right"}
+                                onClick={onSubmit}
+                              />
                             )}
                           </div>
                         </Form>

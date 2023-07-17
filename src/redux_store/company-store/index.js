@@ -4,6 +4,7 @@ const initialState = {
   companies: [],
   isLoading: false,
   error: "",
+  companiesWithBatches: [],
   companyCount: 0,
 };
 
@@ -23,6 +24,16 @@ const companySlice = createSlice({
         (company) => company.id !== action.payload.id
       );
     },
+
+    setCompaniesWithBatches: (state, action) => ({
+      ...state,
+      companiesWithBatches: action.payload,
+    }),
+
+    resetCompaniesWithBatches: (state) => ({
+      ...state,
+      companiesWithBatches: initialState.companiesWithBatches,
+    }),
   },
 });
 

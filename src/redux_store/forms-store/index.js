@@ -48,15 +48,16 @@ const initialState = {
   otherCardioVascularCheck: null,
   otherRespiratoryCheck: null,
   otherCommentsAndRemarks: null,
+
+  certificateState: null,
 };
 
 const formsSlice = createSlice({
   name: "forms",
   initialState,
   reducers: {
-
     clearFormsOnLogOut: () => initialState,
-    
+
     updatePhysicalExamination: (state, action) => {
       const { name, value } = action.payload;
       return {
@@ -76,6 +77,16 @@ const formsSlice = createSlice({
     setPhysicalExamination: (state, action) => ({
       ...state,
       fPhysicalExamination: action.payload,
+    }),
+
+    setCertificateState: (state, action) => ({
+      ...state,
+      certificateState: action.payload,
+    }),
+
+    resetCertificateState: (state, action) => ({
+      ...state,
+      certificateState: initialState.certificateState,
     }),
 
     setPatientsIllness: (state, action) => ({

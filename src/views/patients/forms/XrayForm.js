@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PatientSideView from "../components/PatientSideView";
 import SaveButton from "../../../components/buttons/SaveButton";
+import FormButton from "../../../components/buttons/FormButton";
 
 const XrayForm = ({ handlePrev, handleNext }) => {
   const [previewImage, setPreviewImage] = useState(null);
@@ -40,7 +41,7 @@ const XrayForm = ({ handlePrev, handleNext }) => {
     result: Yup.string().when("status", {
       is: "POSITIVE",
       then: Yup.string().required(
-        "You are supposed to comment on the POSTIVE status of Xray"
+        "You are supposed to comment on the  status of xray"
       ),
     }),
   });
@@ -214,21 +215,6 @@ const XrayForm = ({ handlePrev, handleNext }) => {
                             </div>
                           </div>
 
-                          {/* {isLoading ? (
-                            <Loading />
-                          ) : (
-                            // <button
-                            //   type="submit"
-                            //   className="btn btn-primary"
-                            //   disabled={isSubmitting}
-                            // >
-                            //   Save Xray Details
-                            // </button>
-                            <SaveButton
-                              disable={isSubmitting}
-                              text={"Save Xray Details"}
-                            />
-                          )} */}
                           {isLoading ? (
                             <Loading />
                           ) : (
@@ -242,13 +228,16 @@ const XrayForm = ({ handlePrev, handleNext }) => {
                                 marginBottom: "20px",
                               }}
                             >
-                              <button onClick={handlePrev} disabled={true}>
-                                Previous
-                              </button>
-
-                              <button type="submit" disabled={isSubmitting}>
-                                Save & Next
-                              </button>
+                              <FormButton
+                                text={"Previous"}
+                                direction={"left"}
+                                onClick={handlePrev}
+                              />
+                              <FormButton
+                                text={"Next"}
+                                direction={"right"}
+                                onClick={onSubmit}
+                              />
                             </div>
                           )}
                         </Form>

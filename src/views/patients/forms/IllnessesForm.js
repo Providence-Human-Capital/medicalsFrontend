@@ -12,6 +12,7 @@ import Alert from "../../../components/notifications/Alert";
 import Loading from "../../../components/loader/Loading";
 import { ToastContainer, toast } from "react-toastify";
 import { formsActions } from "../../../redux_store/forms-store";
+import FormButton from "../../../components/buttons/FormButton";
 
 const IllnessesForm = ({ handlePrev, handleNext }) => {
   const [currentDisease, setCurrentDisease] = useState(0);
@@ -44,7 +45,7 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
             }
           );
 
-          console.log("Form illnesssssss", response);
+          console.log("currentDiseaseId", currentDiseaseId);
 
           if (response.status === 200) {
             if (currentDisease === diseases.length - 1) {
@@ -109,6 +110,11 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
     (state) => state.patient.latestPhysicalExam
   );
 
+  const handleCurrentDiseaseOnClick = (index) => {
+    setCurrentDisease(index);
+  };
+  useState(() => {}, []);
+
   return (
     <Fragment>
       {/* <BreadCrumb title={"Illnesses"} activeTab={"Add Patient Illnesses"} />
@@ -153,6 +159,7 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
                                 role="tab"
                                 aria-controls={`v-pills-${index}`}
                                 aria-selected={index === currentDisease}
+                                onClick={() => handleCurrentDiseaseOnClick(index)}
                               >
                                 {disease.id} {" - "}
                                 {disease.illness_name}
@@ -252,11 +259,17 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
                     marginBottom: "20px",
                   }}
                 >
-                  <button onClick={handlePrev} disabled={true}>
-                    Previous
-                  </button>
+                  <FormButton
+                    text={"Previous"}
+                    direction={"left"}
+                    onClick={handlePrev}
+                  />
 
-                  <button onClick={handleNext}>Next</button>
+                  <FormButton
+                    text={"Next"}
+                    direction={"right"}
+                    onClick={handleNext}
+                  />
                 </div>
               </div>
             </div>

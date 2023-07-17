@@ -7,12 +7,14 @@ import DiseaseHistory from "./components/DiseaseHistory";
 import Vitals from "./components/Vitals";
 import { useParams } from "react-router-dom";
 import { API } from "../../config";
-import { useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch, useSelector } from "react-redux";
 import { patientActions } from "../../redux_store/patients-store";
 import InfoBox from "./components/InfoBox";
 import TobaccoBox from "./components/TobaccoBox";
 import XRayBox from "./components/XRayBox";
 import {
+  calculateDaysLeftForCertificateValidity,
+  foodHandlerPatientDetail,
   getCurrentPatientRemarks,
   getFoodHandlerPatientDetails,
   getLatestPatientXray,
@@ -39,11 +41,20 @@ import AdditionalTestsBox from "../pneumoconiosis/components/AdditionalTestsBox"
 import ConditionsTestBox from "../pneumoconiosis/components/ConditionsTestBox";
 import InjuryBox from "../industry/components/InjuryBox";
 // import { getPatientPhysicalExamResults } from "../../services/api";
+import { PHYSICAL_EXAM } from "../../utils/global";
+import BpPlot from "./components/BpPlot";
+import BmiPlot from "./components/BmiPlot";
+import DaysLeftBox from "./components/DaysLeftBox";
+import Swal from "sweetalert2";
+import { uiActions } from "../../redux_store/ui-store";
 
 const PatientDetails = () => {
   const { patientId } = useParams();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+  const [dayLeftData, setDayLeftData] = useState(null);
+  const [selectedBatch, setSelectedBatch] = useState("");
+  const [certifcateId, setCertifcateId] = useState(null);
 
   //Pneumo  Records from state
   const industryClassification = useSelector(
@@ -105,6 +116,10 @@ const PatientDetails = () => {
     (state) => state.forms.otherCommentsAndRemarks
   );
 
+  const companiesWithBatches = useSelector(
+    (state) => state.company.companiesWithBatches
+  );
+
   useEffect(() => {
     getCurrentPatientRemarks(patientId).then((remarks) => {
       dispatch(formsActions.setFoodHandlerRemarks(remarks));
@@ -115,9 +130,19 @@ const PatientDetails = () => {
     });
 
     getFoodHandlerPatientDetails(patientId).then((data) => {
-      console.log("Foody Data: " + JSON.stringify(data));
+      dispatch(formsActions.setCertificateState(data.certificate));
+      dispatch(formsActions.setPatientsIllness(data.illnesses));
+      dispatch(formsActions.setPatientsXray(data.xrays));
+      dispatch(formsActions.setPatientsTobaccos(data.tobaccoUses));
+      dispatch(formsActions.setPhysicalExamination(data.physical_exam));
+      const remarksObjects = Object.assign({}, ...data.fremarks);
+      dispatch(formsActions.setFoodHandlerRemarks(remarksObjects));
     });
 
+    calculateDaysLeftForCertificateValidity(patientId).then((data) => {
+      // console.log("Number of days: " + data);
+      setDayLeftData(data);
+    });
     const fetchPatientData = async () => {
       try {
         setLoading(true);
@@ -155,20 +180,101 @@ const PatientDetails = () => {
 
   const singlePatient = useSelector((state) => state.patient.singlePatient);
 
-  const patientPhysicalExamRecord = useSelector(
-    (state) => state.patient.latestPhysicalExam
-  );
-
   const isAvailable = useSelector(
     (state) => state.patient.physicalExamAvailable
   );
   const patientXray = useSelector((state) => state.forms.patientsXray) || {};
 
   const patientUpdated = useSelector((state) => state.patient.patientUpdated);
-  const { vitals } = singlePatient || {};
+  const vitals = useSelector((state) => state.forms.fPhysicalExamination);
   if (loading) {
     return <PatientSkeleton />;
   }
+
+  const filterCompany = (companyName) => {
+    return companiesWithBatches.find(
+      (company) => company.company_name === companyName
+    );
+  };
+
+  // Adding Patient to Batch
+  const handleAddToBatch = async (selectedValue, certificateId) => {
+    console.log(selectedValue);
+    try {
+      dispatch(
+        uiActions.setLoadingSpinner({
+          isLoading: true,
+        })
+      );
+      const response = await fetch(
+        `${API}/certificate/batch/${selectedValue}/${certificateId}/add`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const responseData = await response.json();
+      if (response.status === 200) {
+        dispatch(
+          uiActions.setLoadingSpinner({
+            isLoading: false,
+          })
+        );
+
+        console.log(responseData);
+
+        Swal.fire("Success!", "Adding to Batch successfully.", "success");
+      } else {
+        throw new Error("Something went wrong.");
+      }
+    } catch (error) {
+      Swal.fire("Error!", error.message, "error");
+    }
+  };
+
+  const handleCancel = () => {
+    Swal.close();
+  };
+
+  const handleAddToBatchClick = () => {
+    const company = filterCompany(singlePatient.attendee.company.company_name);
+    console.log("On click", company.certificate_batches);
+
+    if (company) {
+      Swal.fire({
+        title: "Select Certificate Batch",
+        html: `
+        <select id="status-select" class="form-select"> 
+        <option value="">Select Batch</option> 
+        ${company.certificate_batches
+          .map((batch) => `<option value="${batch.id}">${batch.name}</option>`)
+          .join("")} 
+        `,
+        showCancelButton: true,
+        confirmButtonText: "Save",
+        cancelButtonText: "Cancel",
+        focusConfirm: false,
+        preConfirm: () => {
+          const selectElement = document.getElementById("status-select");
+          const selectedValue =
+            selectElement.options[selectElement.selectedIndex].value;
+          return selectedValue;
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const selectedValue = result.value;
+          handleAddToBatch(selectedValue, singlePatient.certificate.id);
+        } else {
+          handleCancel();
+        }
+      });
+    }
+  };
+
   return (
     <Fragment>
       <BreadCrumb
@@ -180,15 +286,57 @@ const PatientDetails = () => {
         <section className="content">
           <div className="row">
             <div className="col-xl-8 col-12">
-              <PButtons routeId={patientId} patient={singlePatient} />
+              <div className="d-md-flex align-items-center justify-content-between mb-20">
+                <div style={{}}>
+                  <h4>
+                    <strong>Certificate Status</strong>
+                    {"   "}
+                    {PHYSICAL_EXAM(singlePatient.certificate_status)}
+                  </h4>
+                </div>
+
+                <div className="d-flex">
+                  <div>
+                    {singlePatient.certificate_status === "READY" ? (
+                      <button
+                        style={{
+                          color: "#fff",
+                          display: "block", // Show the button
+                        }}
+                        onClick={handleAddToBatchClick}
+                      >
+                        <strong>Add To Batch</strong>
+                      </button>
+                    ) : (
+                      <button
+                        style={{
+                          display: "none", // Hide the button
+                        }}
+                      >
+                        <strong>Add To Batch</strong>
+                      </button>
+                    )}
+                  </div>
+                  <PButtons routeId={patientId} patient={singlePatient} />
+                </div>
+              </div>
+
+              {singlePatient.certificate_status === "RELEASED" && (
+                <div className="col-xl-12 col-12">
+                  <DaysLeftBox daysLeftData={dayLeftData} />
+                </div>
+              )}
+
               <div className="col-xl-12 col-12">
                 <InfoBox patient={singlePatient} />
               </div>
               <div className="row">
                 <div className="col-xl-6 col-12">
-                  <BoxProfile patient={singlePatient} />
+                  <BpPlot />
                 </div>
-                <div className="col-xl-6 col-12"></div>
+                <div className="col-xl-6 col-12">
+                  <BmiPlot />
+                </div>
               </div>
             </div>
 
@@ -240,23 +388,7 @@ const PatientDetails = () => {
                     height: "80vh",
                   }}
                 >
-                  {vitals ? (
-                    <div className="box">
-                      <div className="box-header border-0 pb-0">
-                        <h4 className="box-title">Physical Examination</h4>
-                      </div>
-                      <div className="box-body">
-                        <h5 className="fw-500">
-                          Patient's Physical Examination:{" "}
-                          <span className="fw-200 badge badge-danger">
-                            PENDING
-                          </span>
-                        </h5>
-                      </div>
-                    </div>
-                  ) : (
-                    <Vitals patient={singlePatient} />
-                  )}
+                  <Vitals patient={singlePatient} vitals={vitals} />
                   <DiseaseHistory patientId={patientId} />
                   <TobaccoBox patientId={patientId} />
                   <XRayBox patientId={patientId} />
@@ -283,10 +415,13 @@ const PatientDetails = () => {
                   <InjuryBox injuries={otherIllnessInjuriesRecord} />
                   <CardioBox data={otherCardioVascularCheckRecord} />
                   <RespiratoryBox data={otherRespiratoryCheckRecord} />
-                  <IComments data={otherCommentsAndRemarksRecord} />  
+                  <IComments data={otherCommentsAndRemarksRecord} />
                 </div>
               </Fragment>
             )}
+            <div className="col-xl-8 col-12">
+              <BoxProfile patient={singlePatient} />
+            </div>
           </div>
         </section>
       )}

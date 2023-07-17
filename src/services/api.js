@@ -49,7 +49,7 @@ export const getIndustryPatientDetails = async (patientId) => {
   );
 
   const responseData = await patientDetailResponse.json();
-  const patientDetail = responseData;
+  const patientDetail = responseData.data;
   return patientDetail;
 };
 export const getPneumoPatientDetails = async (patientId) => {
@@ -475,6 +475,128 @@ export const getLatestPatientXray = async (patientId) => {
     const data = await response.json();
     console.log("Xray Data", data);
     return data.latest_xray;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//Certificate Batch Methods
+export const createCertificateBatch = async (companyId) => {
+  try {
+    const response = await fetch(
+      `${API}/certificate/batch/${companyId}/create`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const responseData = await response.json();
+    if (response.ok) {
+      return responseData;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Add Item to Batch
+
+export const addCertificateToBatch = async (batchId, certificateId) => {
+  try {
+    const response = await fetch(
+      `${API}/certificate/batch/${batchId}/${certificateId}/add`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const responseData = await response.json();
+    if (response.ok) {
+      return responseData;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getCertificateBatch = async (batchId) => {
+  try {
+    const response = await fetch(`${API}/certificate/batch/${batchId}/get`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    const responseData = await response.json();
+    if (response.ok) {
+      return responseData;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const dispatchCertificateBatch = async (batchId) => {
+  try {
+    const response = await fetch(
+      `${API}/certificate/batch/${batchId}/dispatch`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const responseData = await response.json();
+    if (response.ok) {
+      return responseData;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const calculateDaysLeftForCertificateValidity = async (patientId) => {
+  try {
+    const response = await fetch(`${API}/certificate/${patientId}/days/left`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    const responseData = await response.json();
+    if (response.ok) {
+      return responseData;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const companiesWithCertificateBatches = async () => {
+  try {
+    const response = await fetch(`${API}/company/with/batches`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    const responseData = await response.json();
+    if (response.ok) {
+      return responseData;
+    }
   } catch (error) {
     console.log(error);
   }
