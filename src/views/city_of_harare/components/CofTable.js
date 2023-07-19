@@ -33,6 +33,7 @@ const CofTable = () => {
           cofPatients: cofPatients,
         })
       );
+      console.log("Patients From City of Harare", cofPatients)
     };
 
     fetchCofHPatients();
@@ -66,7 +67,7 @@ const CofTable = () => {
 
   return (
     <>
-      {cofPatients.length === 0 ? (
+      {!cofPatients ? (
         <EmptyTable />
       ) : (
         <Fragment>

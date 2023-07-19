@@ -1,34 +1,72 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { createCertificateBatch } from "../../../services/api";
 import BreadCrumb from "../../../components/BreadCrumb";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
 import SaveButton from "../../../components/buttons/SaveButton";
+import { useNavigate, useParams } from "react-router-dom";
+import { uiActions } from "../../../redux_store/ui-store";
+import { API } from "../../../config";
+import Loading from "../../../components/loader/Loading";
 
 const CreateBatchFormPage = () => {
   const [error, setError] = useState("");
   const companies = useSelector((state) => state.company.companies);
+  const isLoading = useSelector((state) => state.ui.isLoading);
+  const dispatch = useDispatch();
+  const { companyId, companyName } = useParams();
+  const navigate = useNavigate();
 
   const initialValues = {
-    company_id: "",
-    custom_name: "",
+    // company_id: "",
+    name: "",
   };
 
   const validationSchema = yup.object().shape({
-    company_id: yup.number().required("Please select a company"),
-    custom_name: yup.string().nullable(),
+    // company_id: yup.number().required("Please select a company"),
+    name: yup.string().nullable(),
   });
 
-  const handleCreateBatch = async (companyId) => {
-    createCertificateBatch(companyId)
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-        setError(err);
-      });
+  const handleCreateBatch = async (formData) => {
+    console.log("Custom Form Data", formData);
+
+    try {
+      dispatch(
+        uiActions.setLoadingSpinner({
+          isLoading: true,
+        })
+      );
+      const response = await fetch(
+        `${API}/certificate/batch/${companyId}/create`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const responseData = await response.json();
+      if (response.ok) {
+        dispatch(
+          uiActions.setLoadingSpinner({
+            isLoading: false,
+          })
+        );
+        navigate("/certificates");
+      }
+    } catch (error) {
+      console.log(error);
+      setError(error);
+      dispatch(
+        uiActions.setLoadingSpinner({
+          isLoading: false,
+        })
+      );
+    }
   };
 
   useEffect(() => {}, []);
@@ -44,7 +82,7 @@ const CreateBatchFormPage = () => {
                 <div className="box-body">
                   <div className="container">
                     <h3>
-                      <strong>Create New Batch</strong>
+                      <strong>Create New Batch ({companyName})</strong>
                     </h3>
 
                     <Formik
@@ -69,50 +107,31 @@ const CreateBatchFormPage = () => {
                                 <Field
                                   type="text"
                                   className={`form-control my-upload ${
-                                    touched.custom_name && errors.custom_name
+                                    touched.name && errors.name
                                       ? "error-input"
                                       : ""
                                   }`}
-                                  id="custom_name"
+                                  id="name"
                                   placeholder="Enter The Custom Batch Name"
-                                  name="custom_name"
+                                  name="name"
                                 />
                                 <ErrorMessage
-                                  name="custom_name"
+                                  name="name"
                                   component="div"
                                   className="text-danger"
                                 />
                               </div>
                             </div>
-                            <div className="col-md-4">
-                            <div className="form-group">
-                              <label htmlFor="company_id">Company Name:</label>
-                              <Field
-                                as="select"
-                                className={`form-control my-upload ${
-                                  touched.company_id && errors.company_id
-                                    ? "error-input"
-                                    : ""
-                                }`}
-                                id="company_id"
-                                name="company_id"
-                              >
-                                <option value="">Select a company</option>
-                                {companies.map((company) => (
-                                  <option key={company.id} value={company.id}>
-                                    {company.company_name}
-                                  </option>
-                                ))}
-                              </Field>
-                              <ErrorMessage
-                                name="company_id"
-                                component="div"
-                                className="text-danger"
-                              />
-                            </div>
+                            <div className="col-md-4"></div>
                           </div>
-                          </div>
-                          <SaveButton text={"Create Batch"} />
+                          {isLoading ? (
+                            <Loading />
+                          ) : (
+                            <SaveButton
+                              text={"Create Batch"}
+                              onClick={handleCreateBatch}
+                            />
+                          )}
                         </Form>
                       )}
                     </Formik>

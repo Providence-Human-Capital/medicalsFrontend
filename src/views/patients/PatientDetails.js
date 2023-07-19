@@ -47,6 +47,7 @@ import BmiPlot from "./components/BmiPlot";
 import DaysLeftBox from "./components/DaysLeftBox";
 import Swal from "sweetalert2";
 import { uiActions } from "../../redux_store/ui-store";
+import Loading from "../../components/loader/Loading";
 
 const PatientDetails = () => {
   const { patientId } = useParams();
@@ -55,6 +56,7 @@ const PatientDetails = () => {
   const [dayLeftData, setDayLeftData] = useState(null);
   const [selectedBatch, setSelectedBatch] = useState("");
   const [certifcateId, setCertifcateId] = useState(null);
+  const isLoading = useSelector((state) => state.ui.isLoading);
 
   //Pneumo  Records from state
   const industryClassification = useSelector(
@@ -176,6 +178,8 @@ const PatientDetails = () => {
     };
 
     fetchPatientData();
+   
+
   }, [dispatch, patientId]);
 
   const singlePatient = useSelector((state) => state.patient.singlePatient);
@@ -229,10 +233,20 @@ const PatientDetails = () => {
 
         Swal.fire("Success!", "Adding to Batch successfully.", "success");
       } else {
-        throw new Error("Something went wrong.");
+        dispatch(
+          uiActions.setLoadingSpinner({
+            isLoading: false,
+          })
+        );
+        throw new Error(`${responseData.message}`);
       }
     } catch (error) {
-      Swal.fire("Error!", error.message, "error");
+      Swal.fire("Something went wrong!", error.message, "error");
+      dispatch(
+        uiActions.setLoadingSpinner({
+          isLoading: false,
+        })
+      );
     }
   };
 
@@ -275,6 +289,8 @@ const PatientDetails = () => {
     }
   };
 
+ 
+
   return (
     <Fragment>
       <BreadCrumb
@@ -296,27 +312,32 @@ const PatientDetails = () => {
                 </div>
 
                 <div className="d-flex">
-                  <div>
-                    {singlePatient.certificate_status === "READY" ? (
-                      <button
-                        style={{
-                          color: "#fff",
-                          display: "block", // Show the button
-                        }}
-                        onClick={handleAddToBatchClick}
-                      >
-                        <strong>Add To Batch</strong>
-                      </button>
-                    ) : (
-                      <button
-                        style={{
-                          display: "none", // Hide the button
-                        }}
-                      >
-                        <strong>Add To Batch</strong>
-                      </button>
-                    )}
-                  </div>
+                  {isLoading ? (
+                    <Loading />
+                  ) : (
+                    <div>
+                      {singlePatient.certificate_status === "READY" ? (
+                        <button
+                          style={{
+                            color: "#fff",
+                            display: "block", // Show the button
+                          }}
+                          onClick={handleAddToBatchClick}
+                        >
+                          <strong>Add To Batch</strong>
+                        </button>
+                      ) : (
+                        <button
+                          style={{
+                            display: "none", // Hide the button
+                          }}
+                        >
+                          <strong>Add To Batch</strong>
+                        </button>
+                      )}
+                    </div>
+                  )}
+
                   <PButtons routeId={patientId} patient={singlePatient} />
                 </div>
               </div>

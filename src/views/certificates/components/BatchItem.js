@@ -30,7 +30,7 @@ const BatchItem = ({ batch }) => {
         </div>
         <div className="d-flex flex-column fw-500">
           <Link
-            to={`/batch/list/${batch.id}`}
+            to={`/batch/list/${batch.id}/${batch.name}`}
             className="text-dark hover-primary mb-1 fs-16"
           >
             {batch.name}

@@ -7,6 +7,7 @@ import { API } from "../../../config";
 import { formsActions } from "../../../redux_store/forms-store";
 import Loading from "../../../components/loader/Loading";
 import { useParams } from "react-router-dom";
+import FormButton from "../../../components/buttons/FormButton";
 
 const IndustryClassificationForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -31,7 +32,6 @@ const IndustryClassificationForm = ({ handlePrev, handleNext }) => {
   });
 
   const handleSubmit = async (values) => {
-
     // console.log("These are the values", JSON.stringify(values));
     dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
 
@@ -63,7 +63,9 @@ const IndustryClassificationForm = ({ handlePrev, handleNext }) => {
     }
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+  }, []);
 
   return (
     <div className="step-form">
@@ -169,16 +171,29 @@ const IndustryClassificationForm = ({ handlePrev, handleNext }) => {
                         marginBottom: "20px",
                       }}
                     >
-                      <button onClick={handlePrev} disabled={true}>
+                      {/* <button onClick={handlePrev} disabled={true}>
                         Previous
-                      </button>
+                      </button> */}
+                      <FormButton
+                        disabled={true}
+                        text={"Previous"}
+                        direction={"left"}
+                        onClick={handlePrev}
+                      />
+
                       {isLoading ? (
                         <Loading />
                       ) : (
                         // <button type="submit" disabled={isSubmitting}>
                         //   Next
                         // </button>
-                        <button  onClick={handleNext} > Tempo Next</button>
+                        // <button onClick={handleNext}> Tempo Next</button>
+
+                        <FormButton
+                          text={"Next"}
+                          direction={"right"}
+                          onClick={handleSubmit}
+                        />
                       )}
                     </div>
                   </Form>

@@ -54,7 +54,7 @@ const BatchBox = ({ company }) => {
                 ) : (
                   <div>
                     <Link
-                      // to={`/batch/create/${}`}
+                      to={`/batch/create/${company.id}/${company.company_name}`}
                       style={{
                         marginLeft: "10px",
                         fontSize: "14px",
@@ -85,8 +85,8 @@ const BatchBox = ({ company }) => {
             }}
           >
             {company.certificate_batches &&
-              company.certificate_batches.map((batch) => (
-                <BatchItem batch={batch} />
+              company.certificate_batches.map((batch, index) => (
+                <BatchItem batch={batch} key={index} />
               ))}
           </div>
         </div>

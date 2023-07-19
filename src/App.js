@@ -291,10 +291,10 @@ const WrapperComponent = () => {
             />
 
             <Route
-              path="/batch/create/:certificateId"
+              path="/batch/create/:companyId/:companyName"
               element={<CreateBatchFormPage />}
             />
-            <Route path="/batch/list/:batchId" element={<BatchListPage />} />
+            <Route path="/batch/list/:batchId/:batchName" element={<BatchListPage />} />
           </Routes>
         </div>
       </div>
