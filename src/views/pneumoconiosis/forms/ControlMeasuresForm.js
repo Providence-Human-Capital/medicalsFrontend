@@ -7,6 +7,7 @@ import { API } from "../../../config";
 import { formsActions } from "../../../redux_store/forms-store";
 import { uiActions } from "../../../redux_store/ui-store";
 import Loading from "../../../components/loader/Loading";
+import FormButton from "../../../components/buttons/FormButton";
 
 const ControlMeasuresForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -37,6 +38,7 @@ const ControlMeasuresForm = ({ handlePrev, handleNext }) => {
     values.monitoring = values.monitoring === "true";
     values.other = values.other === "true";
     const data = { ...values, ppe: values.ppe === "Yes" ? true : false };
+    console.log(data);
     // Submit form data to Laravel API
     dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
     try {
@@ -56,7 +58,7 @@ const ControlMeasuresForm = ({ handlePrev, handleNext }) => {
       }
 
       const responseData = await response.json();
-      console.log("Classification Response" + responseData);
+      console.log("Classification Response" + JSON.stringify(responseData));
       dispatch(formsActions.setControlMeasures(responseData.data));
       dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
       handleNext();
@@ -206,14 +208,24 @@ const ControlMeasuresForm = ({ handlePrev, handleNext }) => {
                         marginBottom: "20px",
                       }}
                     >
-                      <button onClick={handlePrev}>Previous</button>
+                      {/* <button onClick={handlePrev}>Previous</button> */}
+                      <FormButton
+                        disabled={true}
+                        text={"Previous"}
+                        direction={"left"}
+                        onClick={handlePrev}
+                      />
                       {isLoading ? (
                         <Loading />
                       ) : (
                         // <button type="submit" onClick={handleSubmit}>
                         //   Next
                         // </button>
-                        <button onClick={handleNext}>Temp Next</button>
+                        <FormButton
+                          text={"Next"}
+                          direction={"right"}
+                          onClick={handleSubmit}
+                        />
                       )}
                     </div>
                   </Form>

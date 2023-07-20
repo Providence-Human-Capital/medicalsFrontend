@@ -16,7 +16,7 @@ const StepButton = ({ text, icon, toLink }) => {
     <li className="step-button">
       <NavLink to={toLink}>
         <button
-          class="button"
+        className="button"
           style={{
             borderRadius: "20px",
           }}

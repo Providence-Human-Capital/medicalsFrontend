@@ -8,6 +8,7 @@ import { API } from "../../../config";
 import { formsActions } from "../../../redux_store/forms-store";
 import { toast } from "react-toastify";
 import Loading from "../../../components/loader/Loading";
+import FormButton from "../../../components/buttons/FormButton";
 
 const ResultsAndInvestigationsForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -347,14 +348,14 @@ const ResultsAndInvestigationsForm = ({ handlePrev, handleNext }) => {
                         <option value={false}>No</option>
                       </Field>
                     </div>
-                    {
+                    {/* {
                       isLoading ? (
                         <Loading />
                       ) : (
                         <button type="submit" onClick={handleSubmit}>Save (Test)</button>
                       )
-                    }
-                    
+                    } */}
+
                     <div
                       className="d-flex"
                       style={{
@@ -365,9 +366,24 @@ const ResultsAndInvestigationsForm = ({ handlePrev, handleNext }) => {
                         marginBottom: "20px",
                       }}
                     >
-                      <button onClick={handlePrev}>Previous</button>
+                      <FormButton
+                        disabled={true}
+                        text={"Previous"}
+                        direction={"left"}
+                        onClick={handlePrev}
+                      />
+                      {isLoading ? (
+                        <Loading />
+                      ) : (
+                        <FormButton
+                          text={"Next"}
+                          direction={"right"}
+                          onClick={handleSubmit}
+                        />
+                      )}
+                      {/* <button onClick={handlePrev}>Previous</button>
 
-                      <button onClick={handleNext}>Next</button>
+                      <button onClick={handleNext}>Next</button> */}
                     </div>
                   </Form>
                 )}

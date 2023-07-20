@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { formsActions } from "../../../redux_store/forms-store";
 import { uiActions } from "../../../redux_store/ui-store";
 import Loading from "../../../components/loader/Loading";
+import FormButton from "../../../components/buttons/FormButton";
 
 const MineralDustExposureForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -138,13 +139,22 @@ const MineralDustExposureForm = ({ handlePrev, handleNext }) => {
                         marginBottom: "20px",
                       }}
                     >
-                      <button onClick={handlePrev}>Previous</button>
-
+                      <FormButton
+                        disabled={true}
+                        text={"Previous"}
+                        direction={"left"}
+                        onClick={handlePrev}
+                      />
                       {isLoading ? (
                         <Loading />
                       ) : (
                         // <button onClick={handleSubmit}>Next</button>
-                        <button onClick={handleNext}>Tempo Next</button>
+                        // <button onClick={handleNext}>Tempo Next</button>
+                        <FormButton
+                          text={"Next"}
+                          direction={"right"}
+                          onClick={handleSubmit}
+                        />
                       )}
                     </div>
                   </Form>

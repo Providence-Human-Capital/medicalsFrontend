@@ -7,6 +7,8 @@ import { uiActions } from "../../../redux_store/ui-store";
 import { API } from "../../../config";
 import { formsActions } from "../../../redux_store/forms-store";
 import { ToastContainer, toast } from "react-toastify";
+import FormButton from "../../../components/buttons/FormButton";
+import Loading from "../../../components/loader/Loading";
 
 const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -79,7 +81,7 @@ const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
       dispatch(formsActions.setPneumoConditionsTest(responseData.data));
       dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
       toast.dark("Adding Symptoms was a success!");
-      handleNext()
+      handleNext();
     } catch (error) {
       console.log("Error", error);
       dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
@@ -92,8 +94,10 @@ const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
           <div className="box-body">
             <div className="container">
               <h4>
-                Have You Ever Been Diagnosed Of Any Of The Following Medical
-                Conditions
+                <strong>
+                  Have You Ever Been Diagnosed Of Any Of The Following Medical
+                  Conditions
+                </strong>
               </h4>
               <Formik
                 initialValues={initialValues}
@@ -361,9 +365,6 @@ const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
                         className="text-danger"
                       />
                     </div>
-                    <button type="submit" className="btn btn-primary">
-                      Submit
-                    </button>
                     <div
                       className="d-flex"
                       style={{
@@ -374,9 +375,25 @@ const MedicalConditionsTestForm = ({ handlePrev, handleNext }) => {
                         marginBottom: "20px",
                       }}
                     >
-                      <button onClick={handlePrev}>Previous</button>
+                      <FormButton
+                        disabled={true}
+                        text={"Previous"}
+                        direction={"left"}
+                        onClick={handlePrev}
+                      />
+                      {isLoading ? (
+                        <Loading />
+                      ) : (
+                        <FormButton
+                          text={"Next"}
+                          direction={"right"}
+                          onClick={handleSubmit}
+                        />
+                      )}
 
-                      <button onClick={handleNext}>Next</button>
+                      {/* <button onClick={handlePrev}>Previous</button> */}
+
+                      {/* <button onClick={handleNext}>Next</button> */}
                     </div>
                   </Form>
                 )}

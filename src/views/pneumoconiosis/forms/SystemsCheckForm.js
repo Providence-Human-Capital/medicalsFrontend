@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { uiActions } from "../../../redux_store/ui-store";
 import { formsActions } from "../../../redux_store/forms-store";
 import Loading from "../../../components/loader/Loading";
+import FormButton from "../../../components/buttons/FormButton";
 
 const SystemsCheckForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -205,11 +206,11 @@ const SystemsCheckForm = ({ handlePrev, handleNext }) => {
                       />
                     </div>
 
-                    {isLoading ? (
+                    {/* {isLoading ? (
                       <Loading />
                     ) : (
                       <button type="submit">Save (Submit) </button>
-                    )}
+                    )} */}
                     <div
                       className="d-flex"
                       style={{
@@ -220,22 +221,21 @@ const SystemsCheckForm = ({ handlePrev, handleNext }) => {
                         marginBottom: "20px",
                       }}
                     >
-                      <button onClick={handlePrev}>Previous</button>
-
-                      <button
-                        onClick={handleNext}
-                        style={{
-                          backgroundColor: "#007bff",
-                          color: "#fff",
-                          border: "none",
-                          padding: "10px 20px",
-                          borderRadius: "5px",
-                          cursor: "pointer",
-                          fontSize: "16px",
-                        }}
-                      >
-                        Next (Save)
-                      </button>
+                      <FormButton
+                        disabled={true}
+                        text={"Previous"}
+                        direction={"left"}
+                        onClick={handlePrev}
+                      />
+                      {isLoading ? (
+                        <Loading />
+                      ) : (
+                        <FormButton
+                          text={"Next"}
+                          direction={"right"}
+                          onClick={handleSubmit}
+                        />
+                      )}
                     </div>
                   </Form>
                 )}

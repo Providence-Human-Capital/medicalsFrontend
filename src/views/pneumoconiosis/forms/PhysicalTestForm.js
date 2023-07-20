@@ -20,6 +20,7 @@ import { formsActions } from "../../../redux_store/forms-store";
 import { uiActions } from "../../../redux_store/ui-store";
 import { API } from "../../../config";
 import Loading from "../../../components/loader/Loading";
+import FormButton from "../../../components/buttons/FormButton";
 
 const BPRepeatForm = () => {
   return (
@@ -330,11 +331,11 @@ const PhysicalTestForm = ({ handlePrev, handleNext }) => {
                     </div>
                     {showBPRepeatForm && <BPRepeatForm />}
 
-                    {isLoading ? (
+                    {/* {isLoading ? (
                       <Loading />
                     ) : (
                       <button type="submit">Submit (Save)</button>
-                    )}
+                    )} */}
                     <div
                       className="d-flex"
                       style={{
@@ -345,22 +346,25 @@ const PhysicalTestForm = ({ handlePrev, handleNext }) => {
                         marginBottom: "20px",
                       }}
                     >
-                      <button onClick={handlePrev}>Previous</button>
+                      <FormButton
+                        disabled={true}
+                        text={"Previous"}
+                        direction={"left"}
+                        onClick={handlePrev}
+                      />
 
-                      <button
-                        onClick={handleNext}
-                        style={{
-                          backgroundColor: "#007bff",
-                          color: "#fff",
-                          border: "none",
-                          padding: "10px 20px",
-                          borderRadius: "5px",
-                          cursor: "pointer",
-                          fontSize: "16px",
-                        }}
-                      >
-                        Temp (Next Step)
-                      </button>
+                      {isLoading ? (
+                        <Loading />
+                      ) : (
+                        // <button type="submit" onClick={handleSubmit}>
+                        //   Next
+                        // </button>
+                        <FormButton
+                          text={"Next"}
+                          direction={"right"}
+                          onClick={onSubmit}
+                        />
+                      )}
                     </div>
                   </Form>
                 )}

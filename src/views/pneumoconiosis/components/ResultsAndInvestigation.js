@@ -38,7 +38,7 @@ const ResultsAndInvestigation = ({ resultInvestigation }) => {
   return (
     <>
       {resultInvestigation && (
-        <div className="container">
+        <div className="row">
           <h5
             className="mb-2"
             style={{
@@ -53,22 +53,23 @@ const ResultsAndInvestigation = ({ resultInvestigation }) => {
             <div className="col-md-12">
               <div className="card">
                 <div className="card-body">
-                  <div class="media bg-white mb-20">
-                    <span class="avatar">
-                      <FontAwesomeIcon
-                        icon={faXRay}
-                        className="mr-2"
-                        size="2x"
+                  <div className="row">
+                    <div className="col-md-3">
+                      <img
+                        src="/assets/images/x-ray.svg"
+                        className="w-100 bg-primary-light rounded10 me-15"
+                        alt=""
                       />
-                    </span>
-                    <div class="media-body">
-                      <h5 className="card-title">
-                        Chest X-ray comment by medical officer
-                      </h5>
+                    </div>
+                    <div className="col-md-9">
+                      <div class="media-body">
+                        <h5 className="card-title">
+                          Chest X-ray comment by medical officer
+                        </h5>
+                      </div>
+                      <p className="card-text">{x_ray_comments}</p>
                     </div>
                   </div>
-
-                  <p className="card-text">{x_ray_comments}</p>
                 </div>
               </div>
             </div>
@@ -78,18 +79,23 @@ const ResultsAndInvestigation = ({ resultInvestigation }) => {
             <div className="col-md-12">
               <div className="card">
                 <div className="card-body">
-                  <div class="media bg-white mb-20">
-                    <span class="avatar">
-                      <FontAwesomeIcon
-                        icon={faLungs}
-                        className="mr-2"
-                        size="2x"
+                  <div className="row">
+                    <div className="col-md-3">
+                      <img
+                        src="/assets/images/lungs.svg"
+                        className="w-100 bg-primary-light rounded10 me-15"
+                        alt=""
                       />
-                    </span>
-                    <div class="media-body">
-                      <h5 className="card-title">Pulmonary Function Tests</h5>
+                    </div>
+                    <div className="col-md-9">
+                      <div class="media-body">
+                        <h5 className="card-title">
+                          <strong>Pulmonary Function Tests</strong>
+                        </h5>
+                      </div>
                     </div>
                   </div>
+                  <div class="media bg-white mb-10"></div>
 
                   <div className="row">
                     <div className="col-md-4">
@@ -112,31 +118,43 @@ const ResultsAndInvestigation = ({ resultInvestigation }) => {
             </div>
           </div>
           <div className="row">
-            <div className="col-md-6">
+            <div className="col-md-12">
               <div className="card">
                 <div className="card-body">
-                  <FontAwesomeIcon
-                    icon={faBedPulse}
-                    className="mr-2"
-                    size="2x"
-                  />
-                  <h5 className="card-title">Other Medical Conditions</h5>
-                  <p className="card-text">{conditions_details}</p>
+                  <div className="row">
+                    <div className="col-md-3">
+                    <img
+                        src="/assets/images/hospital-medical.svg"
+                        className="w-100 bg-primary-light rounded10 me-15"
+                        alt=""
+                      />
+                    </div>
+                    <div className="col-md-9">
+                      <h5 className="card-title">Other Medical Conditions</h5>
+                      <p className="card-text">{conditions_details}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="col-md-6">
+            <div className="col-md-12">
               <div className="card">
                 <div className="card-body">
-                  <FontAwesomeIcon
-                    icon={faTruckMedical}
-                    className="mr-2"
-                    size="2x"
-                  />
-                  <h5 className="card-title">Referral</h5>
-                  <p className="card-text">
-                    Referral Status: {referral ? "Yes" : "No"}
-                  </p>
+                  <div className="row">
+                    <div className="col-md-3">
+                    <img
+                        src="/assets/images/healthcare-hospital.svg"
+                        className="w-100 bg-primary-light rounded10 me-15"
+                        alt=""
+                      />
+                    </div>
+                    <div className="col-md-9">
+                      <h5 className="card-title">Referral</h5>
+                      <p className="card-text">
+                        Referral Status: {referral ? "Yes" : "No"}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -17,12 +17,62 @@ import PatientSideView from "../patients/components/PatientSideView";
 import { useSelector } from "react-redux";
 import NextPhaseStep from "../../components/NextPhaseStep";
 import SmokingHistoryForm from "./forms/SmokingHistoryForm";
+import IndustryClassificationBox from "./components/IndustryClassificationBox";
+import MineralDustExBox from "./components/MineralDustExBox";
+import DustyOccupation from "./components/DustyOccupation";
+import SymptomsBox from "./components/SymptomsBox";
+import ConditionsTestBox from "./components/ConditionsTestBox";
+import SmokingHistoryBox from "./components/SmokingHistoryBox";
+import PhysicalBox from "./components/PhysicalBox";
+import SystemsCheckBox from "./components/SystemsCheckBox";
+import ResultsAndInvestigation from "./components/ResultsAndInvestigation";
+import AdditionalTestsBox from "./components/AdditionalTestsBox";
+import MeasuresBox from "./components/MeasuresBox";
+import { useNavigate, useParams } from "react-router-dom";
 
 const PneumoPatientUpdate = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [nextPhaseCurrent, setNextPhaseCurrent] = useState(1);
+  const navigate = useNavigate();
+  const { patientId } = useParams();
 
   const nextPneumoPhase = useSelector((state) => state.forms.pneumoNextPhase);
+  const industryClassification = useSelector(
+    (state) => state.forms.pIndustryClassification
+  );
+  const pMineralDExposureRecord = useSelector(
+    (state) => state.forms.pMineralDExposure
+  );
+  const pOccupationDetailsRecord = useSelector(
+    (state) => state.forms.pOccupationDetails
+  );
+  const pSymptomsExaminationRecord = useSelector(
+    (state) => state.forms.pSymptomsExamination
+  );
+  const smokingHistoryRecord = useSelector(
+    (state) => state.forms.smokingHistory
+  );
+  const pneumoPhysicalTestsRecord = useSelector(
+    (state) => state.forms.pneumoPhysicalTests
+  );
+
+  const pneumoSystemsCheckRecord = useSelector(
+    (state) => state.forms.pneumoSystemsCheck
+  );
+
+  const pneumoConditionsTestRecord = useSelector(
+    (state) => state.forms.pneumoConditionsTest
+  );
+
+  const pneumoResultsRemarksRecord = useSelector(
+    (state) => state.forms.pneumoResultsRemarks
+  );
+
+  const pneumoAdditionalTestRecord = useSelector(
+    (state) => state.forms.pneumoAdditionalTest
+  );
+  const pMeasuresRecord = useSelector((state) => state.forms.pMeasures);
+  const singlePatient = useSelector((state) => state.patient.singlePatient);
 
   const handleNext = (data) => {
     setCurrentStep(currentStep + 1);
@@ -47,25 +97,43 @@ const PneumoPatientUpdate = () => {
   let nextPhaseFormComponent;
   switch (currentStep) {
     case 1:
-      formComponent = (
-        <IndustryClassificationForm
-          handlePrev={handlePrev}
-          handleNext={handleNext}
-        />
-      );
+      if (industryClassification) {
+        handleNext();
+      } else {
+        formComponent = (
+          <IndustryClassificationForm
+            handlePrev={handlePrev}
+            handleNext={handleNext}
+          />
+        );
+      }
+
       break;
     case 2:
-      formComponent = (
-        <MineralDustExposureForm
-          handlePrev={handlePrev}
-          handleNext={handleNext}
-        />
-      );
+      if (pMineralDExposureRecord) {
+        handleNext();
+      } else {
+        formComponent = (
+          <MineralDustExposureForm
+            handlePrev={handlePrev}
+            handleNext={handleNext}
+          />
+        );
+      }
+
       break;
     case 3:
-      formComponent = (
-        <ControlMeasuresForm handlePrev={handlePrev} handleNext={handleNext} />
-      );
+      if (pMeasuresRecord) {
+        handleNext();
+      } else {
+        formComponent = (
+          <ControlMeasuresForm
+            handlePrev={handlePrev}
+            handleNext={handleNext}
+          />
+        );
+      }
+
       break;
     case 4:
       formComponent = (
@@ -81,60 +149,94 @@ const PneumoPatientUpdate = () => {
 
   switch (nextPhaseCurrent) {
     case 1:
-      nextPhaseFormComponent = (
-        <SymptomsTestForm
-          handleNext={handle2PhaseNext}
-          handlePrev={handle2PhasePrev}
-        />
-      );
+      if (pSymptomsExaminationRecord) {
+        handle2PhaseNext();
+      } else {
+        nextPhaseFormComponent = (
+          <SymptomsTestForm
+            handleNext={handle2PhaseNext}
+            handlePrev={handle2PhasePrev}
+          />
+        );
+      }
+
       break;
     case 2:
-      nextPhaseFormComponent = (
-        <MedicalConditionsTestForm
-          handleNext={handle2PhaseNext}
-          handlePrev={handle2PhasePrev}
-        />
-      );
+      if (pneumoConditionsTestRecord) {
+        handle2PhaseNext();
+      } else {
+        nextPhaseFormComponent = (
+          <MedicalConditionsTestForm
+            handleNext={handle2PhaseNext}
+            handlePrev={handle2PhasePrev}
+          />
+        );
+      }
+
       break;
     case 3:
-      nextPhaseFormComponent = (
-        <SmokingHistoryForm
-          handleNext={handle2PhaseNext}
-          handlePrev={handle2PhasePrev}
-        />
-      );
+      if (smokingHistoryRecord) {
+        handle2PhaseNext();
+      } else {
+        nextPhaseFormComponent = (
+          <SmokingHistoryForm
+            handleNext={handle2PhaseNext}
+            handlePrev={handle2PhasePrev}
+          />
+        );
+      }
       break;
     case 4:
-      nextPhaseFormComponent = (
-        <PhysicalTestForm
-          handleNext={handle2PhaseNext}
-          handlePrev={handle2PhasePrev}
-        />
-      );
+      if (pneumoPhysicalTestsRecord) {
+        handle2PhaseNext();
+      } else {
+        nextPhaseFormComponent = (
+          <PhysicalTestForm
+            handleNext={handle2PhaseNext}
+            handlePrev={handle2PhasePrev}
+          />
+        );
+      }
+
       break;
     case 5:
-      nextPhaseFormComponent = (
-        <SystemsCheckForm
-          handleNext={handle2PhaseNext}
-          handlePrev={handle2PhasePrev}
-        />
-      );
+      if (pneumoSystemsCheckRecord) {
+        handle2PhaseNext();
+      } else {
+        nextPhaseFormComponent = (
+          <SystemsCheckForm
+            handleNext={handle2PhaseNext}
+            handlePrev={handle2PhasePrev}
+          />
+        );
+      }
+
       break;
     case 6:
-      nextPhaseFormComponent = (
-        <ResultsAndInvestigationsForm
-          handleNext={handle2PhaseNext}
-          handlePrev={handle2PhasePrev}
-        />
-      );
+      if (pneumoResultsRemarksRecord) {
+        handle2PhaseNext();
+      } else {
+        nextPhaseFormComponent = (
+          <ResultsAndInvestigationsForm
+            handleNext={handle2PhaseNext}
+            handlePrev={handle2PhasePrev}
+          />
+        );
+      }
+
       break;
     case 7:
-      nextPhaseFormComponent = (
-        <AdditionalTests
-          handleNext={handle2PhaseNext}
-          handlePrev={handle2PhasePrev}
-        />
-      );
+      if (pneumoAdditionalTestRecord) {
+        navigate(`/patients/${patientId}`);
+      } else {
+        nextPhaseFormComponent = (
+          <AdditionalTests
+            handleNext={handle2PhaseNext}
+            handlePrev={handle2PhasePrev}
+          />
+        );
+      }
+
       break;
     default:
       nextPhaseFormComponent = null;
@@ -156,7 +258,7 @@ const PneumoPatientUpdate = () => {
       <BreadCrumb activeTab={"Pneumoconiosis"} title={"Patient"} />
       <section className="content">
         <div className="row">
-          <div className="col-xl-7 col-12">
+          <div className="col-xl-8 col-12">
             {nextPneumoPhase ? (
               <Fragment>
                 <NextPhaseStep nextPhaseCurrent={nextPhaseCurrent} />
@@ -170,21 +272,34 @@ const PneumoPatientUpdate = () => {
             )}
           </div>
           <div
-            className="col-xl-5 col-12"
+            className="col-xl-4 col-12"
             style={{
               overflowY: "scroll",
               height: "80vh",
+              overflowX: "hidden"
             }}
           >
             <PatientSideView />
-            <div className="box">
-              <div className="box-header no-border">
-                <h4 className="box-title">Pneumoconiosis Patient Summary</h4>
-              </div>
-              <div className="box-body">
-                <h1>{nextPneumoPhase}</h1>
-              </div>
-            </div>
+            <PhysicalBox
+              patient={singlePatient}
+              physical={pneumoPhysicalTestsRecord}
+            />
+            <IndustryClassificationBox
+              classification={industryClassification}
+            />
+            <MineralDustExBox exposure={pMineralDExposureRecord} />
+            <MeasuresBox measures={pMeasuresRecord} />
+            <ConditionsTestBox conditions={pneumoConditionsTestRecord} />
+            <DustyOccupation dusty_occ={pOccupationDetailsRecord} />
+            <SymptomsBox symptoms={pSymptomsExaminationRecord} />
+
+            <SmokingHistoryBox smoking={smokingHistoryRecord} />
+
+            <SystemsCheckBox syscheck={pneumoSystemsCheckRecord} />
+            <ResultsAndInvestigation
+              resultInvestigation={pneumoResultsRemarksRecord}
+            />
+            <AdditionalTestsBox additionalTests={pneumoAdditionalTestRecord} />
           </div>
         </div>
       </section>

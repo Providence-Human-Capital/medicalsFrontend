@@ -19,6 +19,8 @@ import {
   getFoodHandlerPatientDetails,
   getLatestPatientXray,
   getPatient,
+  getPneumoPatientDetails,
+  getPneumoPatients,
 } from "../../services/api";
 import { formsActions } from "../../redux_store/forms-store";
 import PatientSkeleton from "../../components/skeletons/PatientSkeleton";
@@ -141,6 +143,54 @@ const PatientDetails = () => {
       dispatch(formsActions.setFoodHandlerRemarks(remarksObjects));
     });
 
+    if (singlePatient.category === "Pneumoconiosis") {
+      getPneumoPatientDetails(patientId).then((data) => {
+        // console.log("All Dataa", data)
+        dispatch(
+          formsActions.setIndustryClassification(data.industryClassification)
+        );
+        dispatch(formsActions.setControlMeasures(data.controlMeasures));
+        dispatch(formsActions.setMineralDustExposure(data.mineralDustExposure));
+        dispatch(formsActions.setControlMeasures(data.controlMeasures));
+        dispatch(
+          formsActions.setPneumoResultsRemarks(data.resultsInvestigation)
+        );
+        if (data.healthyQuestionnaire === null) {
+          dispatch(formsActions.setSymptomsExamination(null));
+          dispatch(formsActions.setPneumoConditionsTest(null));
+          dispatch(formsActions.setPneumoPhysicalTests(null));
+          dispatch(formsActions.setPneumoSystemsCheck(null));
+          dispatch(formsActions.setSmokingHistory(null));
+        } else {
+          dispatch(
+            formsActions.setSymptomsExamination(
+              data.healthyQuestionnaire.symptomsTest
+            )
+          );
+          dispatch(
+            formsActions.setPneumoConditionsTest(
+              data.healthyQuestionnaire.conditionsTest
+            )
+          );
+          dispatch(
+            formsActions.setPneumoPhysicalTests(
+              data.healthyQuestionnaire.physicalTest
+            )
+          );
+          dispatch(
+            formsActions.setPneumoSystemsCheck(
+              data.healthyQuestionnaire.systemsCheck
+            )
+          );
+          dispatch(
+            formsActions.setSmokingHistory(
+              data.healthyQuestionnaire.smokingHistory
+            )
+          );
+        }
+      });
+    }
+
     calculateDaysLeftForCertificateValidity(patientId).then((data) => {
       // console.log("Number of days: " + data);
       setDayLeftData(data);
@@ -178,8 +228,6 @@ const PatientDetails = () => {
     };
 
     fetchPatientData();
-   
-
   }, [dispatch, patientId]);
 
   const singlePatient = useSelector((state) => state.patient.singlePatient);
@@ -289,8 +337,6 @@ const PatientDetails = () => {
     }
   };
 
- 
-
   return (
     <Fragment>
       <BreadCrumb
@@ -368,33 +414,33 @@ const PatientDetails = () => {
                   style={{
                     overflowY: "scroll",
                     height: "80vh",
+                    overflowX: "hidden"
                   }}
                 >
                   <div>
+                    <PhysicalBox
+                      patient={singlePatient}
+                      physical={pneumoPhysicalTestsRecord}
+                    />
                     <IndustryClassificationBox
                       classification={industryClassification}
                     />
                     <MineralDustExBox exposure={pMineralDExposureRecord} />
                     <DustyOccupation dusty_occ={pOccupationDetailsRecord} />
                     <SymptomsBox symptoms={pSymptomsExaminationRecord} />
-                    {/* <MeasuresBox measures={pMeasuresRecord} /> */}
+                    <MeasuresBox measures={pMeasuresRecord} />
                     <ConditionsTestBox
                       conditions={pneumoConditionsTestRecord}
                     />
                     <SmokingHistoryBox smoking={smokingHistoryRecord} />
-                    <PhysicalBox
-                      patient={singlePatient}
-                      physical={pneumoPhysicalTestsRecord}
-                    />
+
                     <SystemsCheckBox syscheck={pneumoSystemsCheckRecord} />
                     <ResultsAndInvestigation
                       resultInvestigation={pneumoResultsRemarksRecord}
                     />
-                    <AdditionalTestsBox />
-
-                    {/* <p>{JSON.stringify(pneumoResultsRemarksRecord)}</p>
-                    
-                    <p>{JSON.stringify(pneumoAdditionalTestRecord)}</p> */}
+                    <AdditionalTestsBox
+                      additionalTests={pneumoAdditionalTestRecord}
+                    />
                   </div>
                 </div>
               </Fragment>

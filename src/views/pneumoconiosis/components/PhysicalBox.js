@@ -29,7 +29,10 @@ const PhysicalBox = ({ physical, patient }) => {
   };
 
   const convertToTwoDecimalPlaces = (value) => {
-    return value.toFixed(2);
+    if (typeof value === 'number') {
+      return value.toFixed(2);
+    }
+    return value; // or handle the error accordingly
   };
 
   const BP_STATUS = () => {

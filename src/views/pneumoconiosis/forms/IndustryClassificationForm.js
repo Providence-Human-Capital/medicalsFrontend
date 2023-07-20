@@ -35,7 +35,7 @@ const IndustryClassificationForm = ({ handlePrev, handleNext }) => {
     // console.log("These are the values", JSON.stringify(values));
     dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
 
-    console.log(JSON.stringify(values));
+    console.log(values);
     try {
       const response = await fetch(
         `${API}/patient/${patientId}/classification`,
@@ -171,24 +171,15 @@ const IndustryClassificationForm = ({ handlePrev, handleNext }) => {
                         marginBottom: "20px",
                       }}
                     >
-                      {/* <button onClick={handlePrev} disabled={true}>
-                        Previous
-                      </button> */}
                       <FormButton
                         disabled={true}
                         text={"Previous"}
                         direction={"left"}
                         onClick={handlePrev}
                       />
-
                       {isLoading ? (
                         <Loading />
                       ) : (
-                        // <button type="submit" disabled={isSubmitting}>
-                        //   Next
-                        // </button>
-                        // <button onClick={handleNext}> Tempo Next</button>
-
                         <FormButton
                           text={"Next"}
                           direction={"right"}

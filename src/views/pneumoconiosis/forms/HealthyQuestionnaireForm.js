@@ -8,6 +8,7 @@ import { uiActions } from "../../../redux_store/ui-store";
 import { API } from "../../../config";
 import { formsActions } from "../../../redux_store/forms-store";
 import Loading from "../../../components/loader/Loading";
+import FormButton from "../../../components/buttons/FormButton";
 
 const HealthyQuestionnaireForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -39,7 +40,6 @@ const HealthyQuestionnaireForm = ({ handlePrev, handleNext }) => {
   const handleSubmitForm = async (values) => {
     values.dusty_occupation = values.dusty_occupation === "true"; //Converting a string to a boolean
     console.log(values);
-    
 
     try {
       dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
@@ -59,8 +59,9 @@ const HealthyQuestionnaireForm = ({ handlePrev, handleNext }) => {
       }
       const responseData = await response.json();
       dispatch(formsActions.setOccupationDetails(responseData.data));
-      dispatch(formsActions.togglePneumoNextPhase())
+      dispatch(formsActions.togglePneumoNextPhase());
       dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+      handleNext();
     } catch (error) {
       console.log("Error", error);
       dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
@@ -73,7 +74,11 @@ const HealthyQuestionnaireForm = ({ handlePrev, handleNext }) => {
         <div className="custom-form">
           <div className="box-body">
             <div className="container">
-              <h4>Additional Patient Details</h4>
+              <h4>
+                <strong>
+                  Patient's Occupation Information (In Dusty Environements)
+                </strong>
+              </h4>
               <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -92,8 +97,9 @@ const HealthyQuestionnaireForm = ({ handlePrev, handleNext }) => {
                         onChange={handleChange}
                         className="form-control my-upload"
                       >
-                        <option value="">Select 
-                        <strong>(Yes/No)</strong>
+                        <option value="">
+                          Select
+                          <strong>(Yes/No)</strong>
                         </option>
                         <option value={false}>No</option>
                         <option value={true}>Yes</option>
@@ -104,7 +110,8 @@ const HealthyQuestionnaireForm = ({ handlePrev, handleNext }) => {
                       <>
                         <div className="form-group">
                           <label htmlFor="occupation_details">
-                            Occupation Details <strong>(Describe What You Did)</strong>
+                            Occupation Details{" "}
+                            <strong>(Describe What You Did)</strong>
                           </label>
                           <Field
                             type="text"
@@ -164,25 +171,37 @@ const HealthyQuestionnaireForm = ({ handlePrev, handleNext }) => {
                         marginBottom: "20px",
                       }}
                     >
-                      <button onClick={handlePrev}>Previous</button>
+                      {/* <button onClick={handlePrev}>Previous</button> */}
+
+                      <FormButton
+                        disabled={true}
+                        text={"Previous"}
+                        direction={"left"}
+                        onClick={handlePrev}
+                      />
 
                       {isLoading ? (
                         <Loading />
                       ) : (
-                        <button
+                        // <button
+                        //   onClick={handleSubmitForm}
+                        //   style={{
+                        //     backgroundColor: "#007bff",
+                        //     color: "#fff",
+                        //     border: "none",
+                        //     padding: "10px 20px",
+                        //     borderRadius: "5px",
+                        //     cursor: "pointer",
+                        //     fontSize: "16px",
+                        //   }}
+                        // >
+                        //   Submit
+                        // </button>
+                        <FormButton
+                          text={"Next"}
+                          direction={"right"}
                           onClick={handleSubmitForm}
-                          style={{
-                            backgroundColor: "#007bff",
-                            color: "#fff",
-                            border: "none",
-                            padding: "10px 20px",
-                            borderRadius: "5px",
-                            cursor: "pointer",
-                            fontSize: "16px",
-                          }}
-                        >
-                          Submit
-                        </button>
+                        />
                       )}
                     </div>
                   </Form>

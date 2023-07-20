@@ -23,7 +23,7 @@ const SystemsCheckBox = ({ syscheck }) => {
   return (
     <Fragment>
       {syscheck && (
-        <div className="container">
+        <div className="row">
           <h5
             className="mb-2"
             style={{
@@ -35,99 +35,22 @@ const SystemsCheckBox = ({ syscheck }) => {
             <strong>Systems Check</strong>
           </h5>
           <div className="row">
-            <div className="col-md-4">
-              <div className="card">
-                <div className="card-body">
-                  <FontAwesomeIcon icon={faLungs} className="mr-2" size="2x" />
-                  <h5 className="card-title">Respiratory</h5>
-                  <p className="card-text">
-                    {respiratory === true ? (
-                      <span className="badge badge-danger">
-                        <strong>Abnormal</strong>
-                      </span>
-                    ) : (
-                      <span className="badge badge-info">
-                        <strong>Normal</strong>
-                      </span>
-                    )}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="card">
-                <div className="card-body">
-                  <FontAwesomeIcon icon={faHeart} className="mr-2" size="2x" />
-                  <h5 className="card-title">Circulatory</h5>
-                  <p className="card-text">
-                    {cvs === true ? (
-                      <span className="badge badge-danger">
-                        <strong>Abnormal</strong>
-                      </span>
-                    ) : (
-                      <span className="badge badge-info">
-                        <strong>Normal</strong>
-                      </span>
-                    )}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="card">
-                <div className="card-body">
-                  <FontAwesomeIcon
-                    icon={faHandDots}
-                    className="mr-2"
-                    size="2x"
-                  />
-                  <h5 className="card-title">Skin</h5>
-                  <p className="card-text">
-                    {skin === true ? (
-                      <span className="badge badge-danger">
-                        <strong>Abnormal</strong>
-                      </span>
-                    ) : (
-                      <span className="badge badge-info">
-                        <strong>Normal</strong>
-                      </span>
-                    )}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="row">
             <div className="col-md-6">
               <div className="card">
                 <div className="card-body">
-                  <FontAwesomeIcon icon={faBrain} className="mr-2" size="2x" />
-                  <h5 className="card-title">Nervous System</h5>
-                  <p className="card-text">
-                    {cns === true ? (
-                      <span className="badge badge-danger">
-                        <strong>Abnormal</strong>
-                      </span>
-                    ) : (
-                      <span className="badge badge-info">
-                        <strong>Normal</strong>
-                      </span>
-                    )}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-6">
-              <div className="card">
-                <div className="card-body">
-                  <FontAwesomeIcon icon={faXRay} className="mr-2" size="2x" />
-                  <h5 className="card-title">Musculoskeletal</h5>
-
-                  <p className="card-text">
-                    <span className="badge badge-danger">
-                      <strong>
-                        {musculoskeletal === true ? (
+                  <div className="row">
+                    <div className="col-md-6">
+                      <img
+                        src="/assets/images/lungs.svg"
+                        className="w-100 bg-primary-light rounded10 me-15"
+                        alt=""
+                      />
+                      {/* lungs.svg */}
+                    </div>
+                    <div className="col-md-6">
+                      <h5 className="card-title">Respiratory</h5>
+                      <p className="card-text">
+                        {respiratory === true ? (
                           <span className="badge badge-danger">
                             <strong>Abnormal</strong>
                           </span>
@@ -136,13 +59,136 @@ const SystemsCheckBox = ({ syscheck }) => {
                             <strong>Normal</strong>
                           </span>
                         )}
-                      </strong>
-                    </span>
-                  </p>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="card">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <img
+                        src="/assets/images/anatomical-heart.svg"
+                        className="w-100 bg-primary-light rounded10 me-15"
+                        alt=""
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <h5 className="card-title">Circulatory</h5>
+                      <p className="card-text">
+                        {cvs === true ? (
+                          <span className="badge badge-danger">
+                            <strong>Abnormal</strong>
+                          </span>
+                        ) : (
+                          <span className="badge badge-info">
+                            <strong>Normal</strong>
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="card">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <img
+                        src="/assets/images/appleavater.svg"
+                        className="w-100 bg-primary-light rounded10 me-15"
+                        alt=""
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <h5 className="card-title">Skin</h5>
+                      <p className="card-text">
+                        {skin === true ? (
+                          <span className="badge badge-danger">
+                            <strong>Abnormal</strong>
+                          </span>
+                        ) : (
+                          <span className="badge badge-info">
+                            <strong>Normal</strong>
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="card">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <img
+                        src="/assets/images/neurology.svg"
+                        className="w-100 bg-primary-light rounded10 me-15"
+                        alt=""
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <h5 className="card-title">Nervous System</h5>
+                      <p className="card-text">
+                        {cns === true ? (
+                          <span className="badge badge-danger">
+                            <strong>Abnormal</strong>
+                          </span>
+                        ) : (
+                          <span className="badge badge-info">
+                            <strong>Normal</strong>
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-md-6">
+              <div className="card">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <img
+                        src="/assets/images/x-ray.svg"
+                        className="w-100 bg-primary-light rounded10 me-15"
+                        alt=""
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <h5 className="card-title">Musculoskeletal</h5>
+
+                      <p className="card-text">
+                        <span className="badge badge-danger">
+                          <strong>
+                            {musculoskeletal === true ? (
+                              <span className="badge badge-danger">
+                                <strong>Abnormal</strong>
+                              </span>
+                            ) : (
+                              <span className="badge badge-info">
+                                <strong>Normal</strong>
+                              </span>
+                            )}
+                          </strong>
+                        </span>
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <div className="row"></div>
           <div className="row">
             <div className="col-md-12">
               <div className="card">

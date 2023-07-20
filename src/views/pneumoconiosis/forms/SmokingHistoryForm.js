@@ -7,6 +7,7 @@ import { uiActions } from "../../../redux_store/ui-store";
 import { API } from "../../../config";
 import { formsActions } from "../../../redux_store/forms-store";
 import { ToastContainer, toast } from "react-toastify";
+import FormButton from "../../../components/buttons/FormButton";
 
 const SmokingHistoryForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -46,6 +47,7 @@ const SmokingHistoryForm = ({ handlePrev, handleNext }) => {
       dispatch(formsActions.setSmokingHistory(responseData.data));
       dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
       toast.dark("Adding Smoking History Was a Success");
+      handleNext();
     } catch (error) {
       console.log("Error", error);
       dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
@@ -76,7 +78,15 @@ const SmokingHistoryForm = ({ handlePrev, handleNext }) => {
                         <div className="form-group">
                           <div className="row">
                             <div className="col-md-6">
-                              <label htmlFor="do_smoke">Do You Smoke</label>
+                              <label
+                                htmlFor="do_smoke"
+                                style={{
+                                  textTransform: "capitalize",
+                                  fontWeight: "200",
+                                }}
+                              >
+                                Do You Smoke
+                              </label>
                             </div>
                             <div className="col-md-6">
                               <Field
@@ -86,60 +96,83 @@ const SmokingHistoryForm = ({ handlePrev, handleNext }) => {
                                 onChange={handleChange}
                                 className="form-control my-upload"
                               >
-                                <option value="">Select</option>
+                                <option value="">Select (Yes/No)</option>
                                 <option value={true}>Yes</option>
                                 <option value={false}>No</option>
                               </Field>
                             </div>
                           </div>
                         </div>
-                        <div className="form-group">
-                          <div className="row">
-                            <div className="col-md-8">
-                              <label htmlFor="how_many_per_day">
-                                <strong>
-                                  For How Long (Specify in Years)?
-                                </strong>
-                              </label>
-                              <p></p>
+
+                        {values.do_smoke && (
+                          <Fragment>
+                            <div className="form-group">
+                              <div className="row">
+                                <div className="col-md-8">
+                                  <label
+                                    htmlFor="how_many_per_day"
+                                    style={{
+                                      textTransform: "capitalize",
+                                      fontWeight: "200",
+                                    }}
+                                  >
+                                    <strong>
+                                      How Many Per Day?
+                                    </strong>
+                                  </label>
+                                  <p></p>
+                                </div>
+                                <div className="col-md-4">
+                                  <Field
+                                    type="number"
+                                    name="how_many_per_day"
+                                    className="form-control my-upload"
+                                    value={values.how_many_per_day}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
                             </div>
-                            <div className="col-md-4">
-                              <Field
-                                type="number"
-                                name="how_many_per_day"
-                                className="form-control my-upload"
-                                value={values.how_many_per_day}
-                                onChange={handleChange}
-                              />
+                            <div className="form-group">
+                              <div className="row">
+                                <div className="col-md-6">
+                                  <label
+                                    htmlFor="how_long"
+                                    style={{
+                                      textTransform: "capitalize",
+                                      fontWeight: "200",
+                                    }}
+                                  >
+                                    <strong>
+                                      For How Long (Specify in Years)?
+                                    </strong>
+                                  </label>
+                                </div>
+                                <div className="col-md-6">
+                                  <Field
+                                    type="text"
+                                    name="how_long"
+                                    className="form-control my-upload"
+                                    value={values.how_long}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
-                        <div className="form-group">
-                          <div className="row">
-                            <div className="col-md-6">
-                              <label htmlFor="how_long">
-                                <strong>
-                                  For How Long (Specify in Years)?
-                                </strong>
-                              </label>
-                            </div>
-                            <div className="col-md-6">
-                              <Field
-                                type="text"
-                                name="how_long"
-                                className="form-control my-upload"
-                                value={values.how_long}
-                                onChange={handleChange}
-                              />
-                            </div>
-                          </div>
-                        </div>
+                          </Fragment>
+                        )}
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
                           <div className="row">
                             <div className="col-md-6">
-                              <label htmlFor="past_smoker">
+                              <label
+                                htmlFor="past_smoker"
+                                style={{
+                                  textTransform: "capitalize",
+                                  fontWeight: "200",
+                                }}
+                              >
                                 <strong>Past Smoker?</strong>
                               </label>
                             </div>
@@ -151,33 +184,42 @@ const SmokingHistoryForm = ({ handlePrev, handleNext }) => {
                                 onChange={handleChange}
                                 className="form-control my-upload"
                               >
-                                <option value="">Select</option>
+                                <option value="">Select (Yes / No)</option>
                                 <option value={true}>Yes</option>
                                 <option value={false}>No</option>
                               </Field>
                             </div>
                           </div>
                         </div>
-                        <div className="form-group">
-                          <div className="row">
-                            <div className="col-md-8">
-                              <label htmlFor="cough">
-                                <strong>
-                                  For How Long (Specify in Years)?
-                                </strong>
-                              </label>
-                            </div>
-                            <div className="col-md-4">
-                              <Field
-                                type="text"
-                                name="for_how_long"
-                                className="form-control my-upload"
-                                value={values.for_how_long}
-                                onChange={handleChange}
-                              />
+
+                        {values.past_smoker && (
+                          <div className="form-group">
+                            <div className="row">
+                              <div className="col-md-8">
+                                <label
+                                  htmlFor="cough"
+                                  style={{
+                                    textTransform: "capitalize",
+                                    fontWeight: "200",
+                                  }}
+                                >
+                                  <strong>
+                                    For How Long (Specify in Years)?
+                                  </strong>
+                                </label>
+                              </div>
+                              <div className="col-md-4">
+                                <Field
+                                  type="text"
+                                  name="for_how_long"
+                                  className="form-control my-upload"
+                                  value={values.for_how_long}
+                                  onChange={handleChange}
+                                />
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        )}
                       </div>
                     </div>
                     <div
@@ -190,12 +232,22 @@ const SmokingHistoryForm = ({ handlePrev, handleNext }) => {
                         marginBottom: "20px",
                       }}
                     >
-                      <button onClick={handlePrev}>Previous</button>
+                      <FormButton
+                        disabled={true}
+                        text={"Previous"}
+                        direction={"left"}
+                        onClick={handlePrev}
+                      />
                       {isLoading ? (
                         <Loading />
                       ) : (
                         // <button onClick={handleSubmit}>Next Page (Save)</button>
-                        <button onClick={handleNext}>Temp Next Page</button>
+                        // <button onClick={handleNext}>Temp Next Page</button>
+                        <FormButton
+                          text={"Next"}
+                          direction={"right"}
+                          onClick={handleSubmit}
+                        />
                       )}
                     </div>
                   </Form>

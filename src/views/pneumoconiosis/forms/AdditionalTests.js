@@ -8,6 +8,7 @@ import { API } from "../../../config";
 import { formsActions } from "../../../redux_store/forms-store";
 import { toast } from "react-toastify";
 import Loading from "../../../components/loader/Loading";
+import FormButton from "../../../components/buttons/FormButton";
 
 const AdditionalTests = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -213,11 +214,7 @@ const AdditionalTests = ({ handlePrev, handleNext }) => {
                       </div>
                     )}
 
-                    {isLoading ? (
-                      <Loading />
-                    ) : (
-                      <button type="submit">Save</button>
-                    )}
+                  
                     <div
                       className="d-flex"
                       style={{
@@ -228,9 +225,24 @@ const AdditionalTests = ({ handlePrev, handleNext }) => {
                         marginBottom: "20px",
                       }}
                     >
-                      <button onClick={handlePrev}>Previous</button>
+                      <FormButton
+                        disabled={true}
+                        text={"Previous"}
+                        direction={"left"}
+                        onClick={handlePrev}
+                      />
+                      {isLoading ? (
+                        <Loading />
+                      ) : (
+                        <FormButton
+                          text={"Save "}
+                          direction={"right"}
+                          onClick={handleSubmit}
+                        />
+                      )}
+                      {/* <button onClick={handlePrev}>Previous</button>
 
-                      <button onClick={handleNext}>Save</button>
+                      <button onClick={handleNext}>Save</button> */}
                     </div>
                   </Form>
                 )}

@@ -7,6 +7,7 @@ import { API } from "../../../config";
 import { formsActions } from "../../../redux_store/forms-store";
 import { ToastContainer, toast } from "react-toastify";
 import Loading from "../../../components/loader/Loading";
+import FormButton from "../../../components/buttons/FormButton";
 
 const SymptomsTestForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -56,6 +57,7 @@ const SymptomsTestForm = ({ handlePrev, handleNext }) => {
       dispatch(formsActions.setSymptomsExamination(responseData.data));
       dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
       toast.dark("Adding Symptoms was a success!");
+      handleNext();
     } catch (error) {
       console.log("Error", error);
       // toast.error("Error adding", error);
@@ -320,12 +322,23 @@ const SymptomsTestForm = ({ handlePrev, handleNext }) => {
                         marginBottom: "20px",
                       }}
                     >
-                      <button onClick={handlePrev}>Previous</button>
+                      {/* <button onClick={handlePrev}>Previous</button> */}
+                      <FormButton
+                        disabled={true}
+                        text={"Previous"}
+                        direction={"left"}
+                        onClick={handlePrev}
+                      />
                       {isLoading ? (
                         <Loading />
                       ) : (
                         // <button onClick={handleSubmit}>Next Page (Save)</button>
-                        <button onClick={handleNext}>Temp Next Page</button>
+                        // <button onClick={handleNext}>Temp Next Page</button>
+                        <FormButton
+                          text={"Next"}
+                          direction={"right"}
+                          onClick={handleSubmit}
+                        />
                       )}
                     </div>
                   </Form>
