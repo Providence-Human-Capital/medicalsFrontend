@@ -145,7 +145,7 @@ const PatientDetails = () => {
 
     if (singlePatient.category === "Pneumoconiosis") {
       getPneumoPatientDetails(patientId).then((data) => {
-        // console.log("All Dataa", data)
+        console.log("All Dataa", data)
         dispatch(
           formsActions.setIndustryClassification(data.industryClassification)
         );

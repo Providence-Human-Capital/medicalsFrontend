@@ -236,7 +236,6 @@ const PneumoPatientUpdate = () => {
           />
         );
       }
-
       break;
     default:
       nextPhaseFormComponent = null;

@@ -64,7 +64,7 @@ const SymptomsBox = ({ symptoms }) => {
                     <div className="col-md-6">
                       <h5 className="card-title"> Cough (3 weeks long)</h5>
                       <p className="card-text">
-                        {cough === true ? (
+                        {cough === true || cough === 1 ? (
                           <span className="badge badge-danger">
                             <strong>Treated</strong>
                           </span>
@@ -93,7 +93,7 @@ const SymptomsBox = ({ symptoms }) => {
                     <div className="col-md-6">
                       <h5 className="card-title"> Night Sweats</h5>
                       <p className="card-text">
-                        {night_sweats === true ? (
+                        {night_sweats === true || night_sweats === 1 ? (
                           <span className="badge badge-danger">
                             <strong>Treated</strong>
                           </span>
@@ -122,7 +122,7 @@ const SymptomsBox = ({ symptoms }) => {
                     <div className="col-md-6">
                       <h5 className="card-title"> Shortness Of Breath</h5>
                       <p className="card-text">
-                        {shortness_of_breath === true ? (
+                        {shortness_of_breath === true || shortness_of_breath === 1 ? (
                           <span className="badge badge-danger">
                             <strong>Treated</strong>
                           </span>
@@ -151,7 +151,7 @@ const SymptomsBox = ({ symptoms }) => {
                     <div className="col-md-6">
                       <h5 className="card-title"> Chest Pains</h5>
                       <p className="card-text">
-                        {chest_pains === true ? (
+                        {chest_pains === true || chest_pains === 1 ? (
                           <span className="badge badge-danger">
                             <strong>Treated</strong>
                           </span>
@@ -180,7 +180,7 @@ const SymptomsBox = ({ symptoms }) => {
                     <div className="col-md-6">
                       <h5 className="card-title"> Coughing Blood</h5>
                       <p className="card-text">
-                        {coughing_blood === true ? (
+                        {coughing_blood === true || coughing_blood === 1 ? (
                           <span className="badge badge-danger">
                             <strong>Treated</strong>
                           </span>
@@ -209,7 +209,7 @@ const SymptomsBox = ({ symptoms }) => {
                     <div className="col-md-6">
                       <h5 className="card-title"> Weight Loss</h5>
                       <p className="card-text">
-                        {weight_loss === true ? (
+                        {weight_loss === true || weight_loss === 1 ? (
                           <span className="badge badge-danger">
                             <strong>Treated</strong>
                           </span>
@@ -238,7 +238,7 @@ const SymptomsBox = ({ symptoms }) => {
                     <div className="col-md-6">
                       <h5 className="card-title"> Appetite Loss</h5>
                       <p className="card-text">
-                        {appetite_loss === true ? (
+                        {appetite_loss === true || appetite_loss === 1 ? (
                           <span className="badge badge-danger">
                             <strong>Treated</strong>
                           </span>
@@ -267,7 +267,7 @@ const SymptomsBox = ({ symptoms }) => {
                     <div className="col-md-6">
                       <h5 className="card-title"> Chest Tightness</h5>
                       <p className="card-text">
-                        {chest_tightness === true ? (
+                        {chest_tightness === true || chest_tightness === 1 ? (
                           <span className="badge badge-danger">
                             <strong>Treated</strong>
                           </span>

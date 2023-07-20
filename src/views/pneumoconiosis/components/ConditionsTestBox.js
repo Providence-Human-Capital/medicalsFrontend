@@ -61,7 +61,7 @@ const ConditionsTestBox = ({ conditions }) => {
                     <div className="col-md-6">
                       <h5 className="card-title"> TB</h5>
                       <p className="card-text">
-                        {tb === true ? (
+                        {tb === true || tb === 1 ? (
                           <span className="badge badge-danger">
                             <strong>Diagnosed</strong>
                           </span>
@@ -90,7 +90,7 @@ const ConditionsTestBox = ({ conditions }) => {
                     <div className="col-md-6">
                       <h5 className="card-title"> COPD</h5>
                       <p className="card-text">
-                        {copd === true ? (
+                        {copd === true || copd === 1 ? (
                           <span className="badge badge-danger">
                             <strong>Diagnosed</strong>
                           </span>
@@ -119,7 +119,7 @@ const ConditionsTestBox = ({ conditions }) => {
                     <div className="col-md-6">
                       <h5 className="card-title"> Pneumonia</h5>
                       <p className="card-text">
-                        {pneumonia === true ? (
+                        {pneumonia === true || pneumonia === 1 ? (
                           <span className="badge badge-danger">
                             <strong>Diagnosed</strong>
                           </span>
@@ -148,7 +148,7 @@ const ConditionsTestBox = ({ conditions }) => {
                     <div className="col-md-6">
                       <h5 className="card-title"> Hypertension</h5>
                       <p className="card-text">
-                        {hypertension === true ? (
+                        {hypertension === true || hypertension === 1 ? (
                           <span className="badge badge-danger">
                             <strong>Diagnosed</strong>
                           </span>
@@ -177,7 +177,7 @@ const ConditionsTestBox = ({ conditions }) => {
                     <div className="col-md-6">
                       <h5 className="card-title"> Chest Injuries</h5>
                       <p className="card-text">
-                        {chest_injuries === true ? (
+                        {chest_injuries === true || chest_injuries === 1 ? (
                           <span className="badge badge-danger">
                             <strong>Diagnosed</strong>
                           </span>
@@ -206,7 +206,7 @@ const ConditionsTestBox = ({ conditions }) => {
                     <div className="col-md-6">
                       <h5 className="card-title"> Asthma</h5>
                       <p className="card-text">
-                        {asthma === true ? (
+                        {asthma === true || asthma === 1 ? (
                           <span className="badge badge-danger">
                             <strong>Diagnosed</strong>
                           </span>
@@ -235,7 +235,7 @@ const ConditionsTestBox = ({ conditions }) => {
                     <div className="col-md-6">
                       <h5 className="card-title"> Diabetes</h5>
                       <p className="card-text">
-                        {diabetes === true ? (
+                        {diabetes === true || diabetes === 1 ? (
                           <span className="badge badge-danger">
                             <strong>Diagnosed</strong>
                           </span>
@@ -264,7 +264,7 @@ const ConditionsTestBox = ({ conditions }) => {
                     <div className="col-md-6">
                       <h5 className="card-title"> Heart Disease</h5>
                       <p className="card-text">
-                        {heart_disease === true ? (
+                        {heart_disease === true || heart_disease === 1 ? (
                           <span className="badge badge-danger">
                             <strong>Diagnosed</strong>
                           </span>
@@ -293,7 +293,7 @@ const ConditionsTestBox = ({ conditions }) => {
                     <div className="col-md-6">
                       <h5 className="card-title"> Hernia</h5>
                       <p className="card-text">
-                        {hernia === true ? (
+                        {hernia === true || hernia === 1 ? (
                           <span className="badge badge-danger">
                             <strong>Diagnosed</strong>
                           </span>

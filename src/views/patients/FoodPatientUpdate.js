@@ -43,17 +43,17 @@ const FoodPatientUpdate = () => {
   let foodHandlerForm;
   switch (currentStep) {
     case 1:
-      // if (fPhysicalExamination.length !== 0) {
-      //   handleNext();
-      // } else {
-      //   foodHandlerForm = (
-      //     <PhysicalExamForm handlePrev={handlePrev} handleNext={handleNext} />
-      //   );
-      // }
+      if (fPhysicalExamination.length !== 0) {
+        handleNext();
+      } else {
+        foodHandlerForm = (
+          <PhysicalExamForm handlePrev={handlePrev} handleNext={handleNext} />
+        );
+      }
 
-      foodHandlerForm = (
-        <PhysicalExamForm handlePrev={handlePrev} handleNext={handleNext} />
-      );
+      // foodHandlerForm = (
+      //   <PhysicalExamForm handlePrev={handlePrev} handleNext={handleNext} />
+      // );
 
       break;
     case 2:

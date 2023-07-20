@@ -168,19 +168,15 @@ const SystemsCheckBox = ({ syscheck }) => {
                       <h5 className="card-title">Musculoskeletal</h5>
 
                       <p className="card-text">
-                        <span className="badge badge-danger">
-                          <strong>
-                            {musculoskeletal === true ? (
-                              <span className="badge badge-danger">
-                                <strong>Abnormal</strong>
-                              </span>
-                            ) : (
-                              <span className="badge badge-info">
-                                <strong>Normal</strong>
-                              </span>
-                            )}
-                          </strong>
-                        </span>
+                        {musculoskeletal === true ? (
+                          <span className="badge badge-danger">
+                            <strong>Abnormal</strong>
+                          </span>
+                        ) : (
+                          <span className="badge badge-info">
+                            <strong>Normal</strong>
+                          </span>
+                        )}
                       </p>
                     </div>
                   </div>
