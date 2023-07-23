@@ -120,16 +120,9 @@ const FoodPatientUpdate = () => {
           >
             <Vitals patient={singlePatient} vitals={vitals} />
             <PatientSideView />
-            <div className="box">
-              <div className="box-header no-border">
-                <h4 className="box-title">Food Handler Patient Summary</h4>
-              </div>
-              <div className="box-body">
-                <DiseaseHistory />
-                <TobaccoBox />
-                <XRayBox  patientId={patientId}  />
-              </div>
-            </div>
+            <DiseaseHistory />
+            <TobaccoBox />
+            <XRayBox patientId={patientId} />
           </div>
         </div>
       </section>

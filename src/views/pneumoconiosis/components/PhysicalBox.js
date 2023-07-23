@@ -244,7 +244,7 @@ const PhysicalBox = ({ physical, patient }) => {
                 </h5>
                 <div>
                   <h4 className="float-start mt-0 mr-10">
-                    <strong>{pulse}</strong>{" "}
+                    <strong>{pulse}</strong>{" "} {"  "}
                   </h4>
                   <div>
                     <p className="mb-0 mt-0">
@@ -270,7 +270,7 @@ const PhysicalBox = ({ physical, patient }) => {
                 </h5>
                 <div>
                   <h4 className="float-start mt-0 mr-10">
-                    <strong>{rhythm}</strong>{" "}
+                    <strong>{rhythm}</strong>{" "}{"  "}
                   </h4>
                   <div>
                     <p className="mb-0 mt-0">

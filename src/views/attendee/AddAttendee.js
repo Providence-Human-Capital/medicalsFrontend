@@ -148,7 +148,7 @@ const AddAttendee = () => {
             <div className="custom-form">
               <div className="box-body">
                 <div className="container">
-                  <h2>Enter New Patient</h2>
+                  <h2>Enter New   Client</h2>
 
                   <Formik
                     initialValues={initialValues}

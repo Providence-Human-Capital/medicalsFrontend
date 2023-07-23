@@ -35,48 +35,73 @@ const XRayBox = ({ patientId }) => {
         </div>
       ) : (
         <>
+          {/* x-ray.svg */}
           <div className="box">
             <div className="box-header border-0 pb-0">
-              <h4 className="box-title fw-500">Patient's XRay</h4>
-              <div className="box-body box-profile">
-                <div className="row">
-                  <div className="col-12 mb-3">
-                    {patientXray.status === "POSITIVE" ? (
-                      <p className="fw-500 mb-0">
-                        XRay Status:{" "}
-                        <span className="badge badge-danger">
-                          {patientXray.status}
-                        </span>
-                      </p>
-                    ) : (
-                      <p className="fw-500 mb-0">
-                        XRay Status:{" "}
-                        <span className="badge badge-success">
-                          {patientXray.status}
-                        </span>
-                      </p>
-                    )}
-                    <p className="fw-500">
-                      {" "}
-                      <i className="fa fa-clock-o"></i>{" "}
-                      {formatDate(patientXray.created_at, options)}
-                    </p>
-                  </div>
-                  {patientXray.result && (
-                    <div className="col-12">
-                      <p>
-                        {" "}
-                        <strong>Comment:</strong> {patientXray.result}
-                      </p>
+              <div className="row">
+                <div className="col-md-3">
+                  <img
+                    src="/assets/images/x-ray.svg"
+                    className="w-100 bg-primary-light rounded10 me-15"
+                    alt=""
+                  />
+                </div>
+                <div className="col-md-9">
+                  <h4
+                    className="box-title fw-500"
+                    style={{
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Patient's XRay
+                  </h4>
+                  <div className="box-body box-profile">
+                    <div className="row">
+                      <div className="col-12 mb-3">
+                        {patientXray.status === "POSITIVE" ? (
+                          <p className="fw-500 mb-0">
+                            XRay Status:{" "}
+                            <span className="badge badge-danger">
+                              {patientXray.status}
+                            </span>
+                          </p>
+                        ) : (
+                          <p className="fw-500 mb-0">
+                            XRay Status:{" "}
+                            <span className="badge badge-success">
+                              {patientXray.status}
+                            </span>
+                          </p>
+                        )}
+                        <p className="fw-500">
+                          {" "}
+                          <i className="fa fa-clock-o"></i>{" "}
+                          {formatDate(patientXray.created_at, options)}
+                        </p>
+                      </div>
+                      {patientXray.result && (
+                        <div className="col-12">
+                          <p>
+                            {" "}
+                            <strong>Comment:</strong> {patientXray.result}
+                          </p>
+                        </div>
+                      )}
                     </div>
-                  )}
-
-                  <div className="col-12">
-                    <img
-                      src={`${IMAGE_URL}/${patientXray.image}`}
-                      className="img-fluid"
-                      alt="Patient's XRay"
-                    />
+                  </div>
+                  <div className="box-body box-profile">
+                    <div className="col-12" style={{
+                      borderRadius: "5px",
+                    }}>
+                      <img
+                        src={`${IMAGE_URL}/${patientXray.image}`}
+                        className="img-fluid"
+                        alt="Patient's XRay"
+                        style={{
+                          borderRadius: "10px",
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

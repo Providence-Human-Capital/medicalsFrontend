@@ -7,6 +7,7 @@ import { faSort } from "@fortawesome/free-solid-svg-icons";
 import { companiesWithCertificateBatches } from "../../services/api";
 import { companyActions } from "../../redux_store/company-store";
 import ReactPaginate from "react-paginate";
+import TableSkeleton from "../../components/skeletons/TableSkeleton";
 
 const CertificatesPage = () => {
   const companies = useSelector((state) => state.company.companiesWithBatches);
@@ -18,7 +19,6 @@ const CertificatesPage = () => {
 
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 6;
-  
 
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected);

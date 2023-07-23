@@ -14,9 +14,9 @@ const MineralDustExBox = ({ exposure }) => {
   return (
     <Fragment>
       {exposure && (
-        <div class="col-12">
-          <div class="media bg-white mb-20">
-            <span class="avatar">
+        <div className="col-12">
+          <div className="media bg-white mb-20">
+            <span className="avatar">
               <FontAwesomeIcon
                 height="2rem"
                 icon={faSkull}
@@ -24,7 +24,7 @@ const MineralDustExBox = ({ exposure }) => {
                 size="2x"
               />{" "}
             </span>
-            <div class="media-body">
+            <div className="media-body">
               <p>
                 <strong>Mineral & Dust Exposure</strong>
               </p>
@@ -45,25 +45,25 @@ const MineralDustExBox = ({ exposure }) => {
                 {other_details && <p>{other_details}</p>}
               </div>
 
-              <ul class="list-inline mt-10">
-                <li class="pull-right">
+              <ul className="list-inline mt-10">
+                <li className="pull-right">
                   <button
                     type="button"
-                    class="btn btn-box-tool btn-sm btn-rounded"
+                    className="btn btn-box-tool btn-sm btn-rounded"
                     data-bs-toggle="tooltip"
                     title=""
                     data-bs-original-title="Edit"
                   >
-                    <i class="fa fa-pencil"></i>
+                    <i className="fa fa-pencil"></i>
                   </button>
                   <button
                     type="button"
-                    class="btn btn-box-tool btn-sm btn-rounded"
+                    className="btn btn-box-tool btn-sm btn-rounded"
                     data-bs-toggle="tooltip"
                     title=""
                     data-bs-original-title="Delete"
                   >
-                    <i class="fa fa-trash"></i>
+                    <i className="fa fa-trash"></i>
                   </button>
                 </li>
               </ul>

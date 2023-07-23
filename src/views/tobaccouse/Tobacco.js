@@ -27,7 +27,7 @@ const Tobacco = () => {
           </div>
 
           <div className="col-xl-4 col-12">
-            <SmokingAnalysisCard />
+            {/* <SmokingAnalysisCard /> */}
           </div>
         </div>
       </section>

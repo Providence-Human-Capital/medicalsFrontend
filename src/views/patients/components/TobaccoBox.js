@@ -44,7 +44,19 @@ const TobaccoBox = ({ patientId }) => {
         <div className="box">
           <div className="box-header border-0">
             <h4 className="box-title">
-              <strong>Tobacco Use Analysis</strong>
+              <strong>
+                {" "}
+                <img
+                  src="/assets/images/smoking-m.svg"
+                  className="w-100 bg-primary-light rounded10 me-15"
+                  alt=""
+                  style={{
+                    height: "40px",
+                    width: "20px",
+                  }}
+                />{" "}
+                Tobacco Use Analysis
+              </strong>
             </h4>
           </div>
         </div>
@@ -73,16 +85,24 @@ const TobaccoBox = ({ patientId }) => {
               <div className="col-md-6">
                 <div className="card">
                   <div className="card-body">
-                    <h5 className="card-title">
-                      <FontAwesomeIcon icon={faJoint} className="mr-2" />{" "}
-                      {tobacco.name}
-                    </h5>
-                    <p className="card-text">
-                      How Many Per Day{" "}
-                      <span className="badge badge-danger">
-                        <strong>{tobacco.how_many}</strong>
-                      </span>
-                    </p>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <img
+                          src="/assets/images/smoking-m.svg"
+                          className="w-100 bg-primary-light rounded10 me-15"
+                          alt=""
+                        />
+                      </div>
+                      <div className="col-md-6">
+                        <h5 className="card-title">{tobacco.name}</h5>
+                        <p className="card-text">
+                          How Many Per Day{" "}
+                          <span className="badge badge-danger">
+                            <strong>{tobacco.how_many}</strong>
+                          </span>
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

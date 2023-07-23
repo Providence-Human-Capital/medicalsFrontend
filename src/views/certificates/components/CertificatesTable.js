@@ -12,7 +12,7 @@ const CertificatesTable = ({ name, batch }) => {
               {name} {"  "} Certificates
             </h4>
             <div class="table-responsive">
-              {batch === null ? (
+              {batch.batch.certificate_batch_items.length <= 0 ? (
                 <EmptyTable />
               ) : (
                 <table class="table table-striped table-hover">
@@ -32,7 +32,7 @@ const CertificatesTable = ({ name, batch }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {batch.batch.certificate_batch_items.length &&
+                    {batch.batch.certificate_batch_items.length > 0 &&
                       batch.batch.certificate_batch_items.map((item, index) => (
                         <CertificateItem key={index} item={item} />
                       ))}

@@ -48,7 +48,17 @@ const DiseaseHistory = ({ patientId }) => {
         <div className="box">
           <div className="box-header no-border">
             <h4 className="box-title">
-              <strong>Patient's Disease History</strong>
+              <strong>
+              <img
+                  src="/assets/images/patient2.svg"
+                  className="w-100 bg-primary-light rounded10 me-15"
+                  alt=""
+                  style={{
+                    height: "40px",
+                    width: "20px",
+                  }}
+                />{"  "}
+                Patient's Disease History</strong>
             </h4>
           </div>
         </div>
@@ -66,16 +76,24 @@ const DiseaseHistory = ({ patientId }) => {
               <div className="col-md-6">
                 <div className="card">
                   <div className="card-body">
-                    <h5 className="card-title">
-                      <FontAwesomeIcon icon={faCrutch} className="mr-2" />{" "}
-                      {illness.name}
-                    </h5>
-                    <p className="card-text">
-                      Treatment Year{" "}
-                      <span className="badge badge-danger">
-                        <strong>{illness.treatment_year}</strong>
-                      </span>
-                    </p>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <img
+                          src="/assets/images/patient2.svg"
+                          className="w-100 bg-primary-light rounded10 me-15"
+                          alt=""
+                        />
+                      </div>
+                      <div className="col-md-6">
+                        <h5 className="card-title">{illness.name}</h5>
+                        <p className="card-text">
+                          Treatment Year{" "}
+                          <span className="badge badge-danger">
+                            <strong>{illness.treatment_year}</strong>
+                          </span>
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

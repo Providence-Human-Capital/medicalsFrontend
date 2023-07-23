@@ -6,14 +6,15 @@ import { patientActions } from "../../../redux_store/patients-store";
 import { attendeeActions } from "../../../redux_store/attendee-store";
 import { Link } from "react-router-dom";
 import SwabResultDropdown from "../../patients/components/SwabResultDropdown";
-import { formatDate } from "../../../helpers/helpers";
+import { PHYSICAL_EXAM, formatDate } from "../../../helpers/helpers";
 import { handleDeletePatient } from "../../../services/api";
 
 const PneumoItem = ({ patient }) => {
   const dispatch = useDispatch();
+  const { certificate_status } = patient;
 
   const onDelete = () => {
-    handleDeletePatient (patient.id, dispatch);
+    handleDeletePatient(patient.id, dispatch);
   };
 
   return (
@@ -35,9 +36,7 @@ const PneumoItem = ({ patient }) => {
             <strong>{formatDate(patient.last_x_ray)}</strong>
           </td>
         )}
-        <td>
-          <span className="badge badge-danger">PENDING</span>
-        </td>
+        <td>{PHYSICAL_EXAM(certificate_status)}</td>
 
         <td class="text-end">
           <Link

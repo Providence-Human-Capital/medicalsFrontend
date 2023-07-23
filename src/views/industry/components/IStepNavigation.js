@@ -12,6 +12,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const IStepNavigation = ({ currentStep }) => {
+ 
+  // Handle step click
+  const handleStepClick = (step) => {
+    
+  };
   return (
     <Fragment>
       <section className="step-wizard">
@@ -20,6 +25,7 @@ const IStepNavigation = ({ currentStep }) => {
             className={`step-wizard-item ${
               currentStep === 1 ? "current-item" : ""
             }`}
+            onClick={() => handleStepClick(1)}
           >
             <span className="progress-count">
               <FontAwesomeIcon
@@ -36,6 +42,7 @@ const IStepNavigation = ({ currentStep }) => {
             className={`step-wizard-item ${
               currentStep === 2 ? "current-item" : ""
             }`}
+            onClick={() => handleStepClick(2)}
           >
             <span className="progress-count">
               <FontAwesomeIcon
@@ -52,6 +59,7 @@ const IStepNavigation = ({ currentStep }) => {
             className={`step-wizard-item ${
               currentStep === 3 ? "current-item" : ""
             }`}
+            onClick={() => handleStepClick(3)}
           >
             <span className="progress-count">
               <FontAwesomeIcon
@@ -68,6 +76,7 @@ const IStepNavigation = ({ currentStep }) => {
             className={`step-wizard-item ${
               currentStep === 4 ? "current-item" : ""
             }`}
+            onClick={() => handleStepClick(4)}
           >
             <span className="progress-count">
               <FontAwesomeIcon
@@ -84,6 +93,7 @@ const IStepNavigation = ({ currentStep }) => {
             className={`step-wizard-item ${
               currentStep === 5 ? "current-item" : ""
             }`}
+            onClick={() => handleStepClick(5)}
           >
             <span className="progress-count">
               <FontAwesomeIcon
@@ -100,6 +110,7 @@ const IStepNavigation = ({ currentStep }) => {
             className={`step-wizard-item ${
               currentStep === 6 ? "current-item" : ""
             }`}
+            onClick={() => handleStepClick(6)}
           >
             <span className="progress-count">
               <FontAwesomeIcon
@@ -116,6 +127,7 @@ const IStepNavigation = ({ currentStep }) => {
             className={`step-wizard-item ${
               currentStep === 7 ? "current-item" : ""
             }`}
+            onClick={() => handleStepClick(7)}
           >
             <span className="progress-count">
               <FontAwesomeIcon

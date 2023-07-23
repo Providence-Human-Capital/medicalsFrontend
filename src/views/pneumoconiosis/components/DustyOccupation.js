@@ -19,9 +19,9 @@ const DustyOccupation = ({ dusty_occ }) => {
   return (
     <Fragment>
       {dusty_occ && (
-        <div class="col-12">
-          <div class="media bg-white mb-20">
-            <span class="avatar">
+        <div className="col-12">
+          <div className="media bg-white mb-20">
+            <span className="avatar">
               <FontAwesomeIcon
                 height="2rem"
                 icon={faHeadSideMask}
@@ -29,7 +29,7 @@ const DustyOccupation = ({ dusty_occ }) => {
                 size="2x"
               />{" "}
             </span>
-            <div class="media-body">
+            <div className="media-body">
               <p>
                 <strong>Dusty Occupation</strong>
               </p>
@@ -57,17 +57,17 @@ const DustyOccupation = ({ dusty_occ }) => {
                   </thead>
                   <tbody>
                     <td>
-                      <span class="text-fade fw-600 d-block fs-16">
+                      <span className="text-fade fw-600 d-block fs-16">
                         {occupation_details}
                       </span>
                     </td>
                     <td>
-                      <span class="text-fade fw-600 d-block fs-16">
+                      <span className="text-fade fw-600 d-block fs-16">
                         {years_worked}
                       </span>
                     </td>
                     <td>
-                      <span class="text-fade fw-600 d-block fs-16">
+                      <span className="text-fade fw-600 d-block fs-16">
                         {exposure}
                       </span>
                     </td>
@@ -75,25 +75,25 @@ const DustyOccupation = ({ dusty_occ }) => {
                 </table>
               </div>
 
-              <ul class="list-inline mt-10">
-                <li class="pull-right">
+              <ul className="list-inline mt-10">
+                <li className="pull-right">
                   <button
                     type="button"
-                    class="btn btn-box-tool btn-sm btn-rounded"
+                    className="btn btn-box-tool btn-sm btn-rounded"
                     data-bs-toggle="tooltip"
                     title=""
                     data-bs-original-title="Edit"
                   >
-                    <i class="fa fa-pencil"></i>
+                    <i className="fa fa-pencil"></i>
                   </button>
                   <button
                     type="button"
-                    class="btn btn-box-tool btn-sm btn-rounded"
+                    className="btn btn-box-tool btn-sm btn-rounded"
                     data-bs-toggle="tooltip"
                     title=""
                     data-bs-original-title="Delete"
                   >
-                    <i class="fa fa-trash"></i>
+                    <i className="fa fa-trash"></i>
                   </button>
                 </li>
               </ul>

@@ -36,6 +36,20 @@ export const getAllPatients = async () => {
   return patients;
 };
 
+export const getAllAttendees = async () => {
+  const attendeesResponse = await fetch(`${API}/attendee`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });
+  const responseData = await attendeesResponse.json();
+  console.log("All Attendees: " + responseData);
+  const attendees = responseData.data;
+  return attendees;
+};
+
 export const getIndustryPatientDetails = async (patientId) => {
   const patientDetailResponse = await fetch(
     `${API}/patient/${patientId}/industry`,
@@ -99,6 +113,21 @@ export const getPneumoPatients = async () => {
 
   const patients = responseData.data;
   return patients;
+};
+
+export const getCompanies = async () => {
+  const companiesResponse = await fetch(`${API}/company`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });
+
+  const responseData = await companiesResponse.json();
+
+  const companies = responseData.data;
+  return companies;
 };
 
 export const getCofHPatients = async () => {
@@ -347,7 +376,19 @@ export const getPatientsIllnessStatistics = async (year) => {
     console.log(error);
   }
 };
+export const getAllTobaccos = async () => {
+  const tobaccoResponse = await fetch(`${API}/tobacco`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });
 
+  const responseData = await tobaccoResponse.json();
+  const tobaccos = responseData.data;
+  return tobaccos;
+};
 export const getPatientsTobaccouseStatistics = async (year) => {
   try {
     const response = await fetch(`${API}/patient-counts/tobacco/${year}`, {
@@ -593,6 +634,27 @@ export const companiesWithCertificateBatches = async () => {
         "Content-Type": "application/json",
       },
     });
+    const responseData = await response.json();
+    if (response.ok) {
+      return responseData;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const chechCertificatesStatusUpdate = async (patientId) => {
+  try {
+    const response = await fetch(
+      `${API}/patient/${patientId}/certificate/status`,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const responseData = await response.json();
     if (response.ok) {
       return responseData;

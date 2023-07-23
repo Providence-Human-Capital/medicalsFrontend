@@ -14,6 +14,7 @@ import TobaccoBox from "./components/TobaccoBox";
 import XRayBox from "./components/XRayBox";
 import {
   calculateDaysLeftForCertificateValidity,
+  chechCertificatesStatusUpdate,
   foodHandlerPatientDetail,
   getCurrentPatientRemarks,
   getFoodHandlerPatientDetails,
@@ -50,6 +51,7 @@ import DaysLeftBox from "./components/DaysLeftBox";
 import Swal from "sweetalert2";
 import { uiActions } from "../../redux_store/ui-store";
 import Loading from "../../components/loader/Loading";
+import CategoryBox from "../../components/CategoryBox";
 
 const PatientDetails = () => {
   const { patientId } = useParams();
@@ -125,6 +127,10 @@ const PatientDetails = () => {
   );
 
   useEffect(() => {
+    chechCertificatesStatusUpdate(patientId).then((data) => {
+      console.log("From Certificates Update", data);
+    });
+
     getCurrentPatientRemarks(patientId).then((remarks) => {
       dispatch(formsActions.setFoodHandlerRemarks(remarks));
     });
@@ -143,9 +149,9 @@ const PatientDetails = () => {
       dispatch(formsActions.setFoodHandlerRemarks(remarksObjects));
     });
 
-    if (singlePatient.category === "Pneumoconiosis") {
+    if (singlePatient && singlePatient.category === "Pneumoconiosis") {
       getPneumoPatientDetails(patientId).then((data) => {
-        console.log("All Dataa", data)
+        console.log("All Dataa", data);
         dispatch(
           formsActions.setIndustryClassification(data.industryClassification)
         );
@@ -414,7 +420,7 @@ const PatientDetails = () => {
                   style={{
                     overflowY: "scroll",
                     height: "80vh",
-                    overflowX: "hidden"
+                    overflowX: "hidden",
                   }}
                 >
                   <div>
@@ -455,6 +461,8 @@ const PatientDetails = () => {
                     height: "80vh",
                   }}
                 >
+                  
+
                   <Vitals patient={singlePatient} vitals={vitals} />
                   <DiseaseHistory patientId={patientId} />
                   <TobaccoBox patientId={patientId} />

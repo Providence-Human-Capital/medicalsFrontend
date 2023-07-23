@@ -13,6 +13,7 @@ import Loading from "../../../components/loader/Loading";
 import { ToastContainer, toast } from "react-toastify";
 import { formsActions } from "../../../redux_store/forms-store";
 import FormButton from "../../../components/buttons/FormButton";
+import Swal from "sweetalert2";
 
 const IllnessesForm = ({ handlePrev, handleNext }) => {
   const [currentDisease, setCurrentDisease] = useState(0);
@@ -115,6 +116,25 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
   };
   useState(() => {}, []);
 
+  const handleNextButtonClick = () => {
+    Swal.fire({
+      icon: "warning",
+      title: "Confirmation",
+      text: "Are you sure you have asked the patient about all the illnesses?",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleNext();
+      } else {
+        // Logic to handle cancellation
+      }
+    });
+  };
+
   return (
     <Fragment>
       {/* <BreadCrumb title={"Illnesses"} activeTab={"Add Patient Illnesses"} />
@@ -159,7 +179,9 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
                                 role="tab"
                                 aria-controls={`v-pills-${index}`}
                                 aria-selected={index === currentDisease}
-                                onClick={() => handleCurrentDiseaseOnClick(index)}
+                                onClick={() =>
+                                  handleCurrentDiseaseOnClick(index)
+                                }
                               >
                                 {disease.id} {" - "}
                                 {disease.illness_name}
@@ -216,17 +238,20 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
                               <Loading />
                             ) : (
                               <div className="text-right">
-                                <button
+                                {/* <button
                                   className="btn btn-secondary m-2 "
                                   onClick={handlePrevDisease}
                                   disabled={currentDisease === 0}
                                 >
                                   Prev
-                                </button>
+                                </button> */}
                                 {currentDisease === diseases.length - 1 ? (
                                   <button
                                     className="btn btn-primary m-2"
                                     onClick={handleNextDisease}
+                                    style={{
+                                      borderRadius: "20px !important"
+                                    }}
                                   >
                                     Save
                                   </button>
@@ -237,8 +262,11 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
                                     disabled={
                                       currentDisease === diseases.length - 1
                                     }
+                                    style={{
+                                      borderRadius: "20px !important"
+                                    }}
                                   >
-                                    Next
+                                    Save 
                                   </button>
                                 )}
                               </div>
@@ -268,7 +296,7 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
                   <FormButton
                     text={"Next"}
                     direction={"right"}
-                    onClick={handleNext}
+                    onClick={handleNextButtonClick}
                   />
                 </div>
               </div>

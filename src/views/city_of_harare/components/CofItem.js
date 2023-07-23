@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
-import { formatDate } from "../../../helpers/helpers";
+import { PHYSICAL_EXAM, formatDate } from "../../../helpers/helpers";
 import { handleDeletePatient } from "../../../services/api";
 import SwabResultDropdown from "../../patients/components/SwabResultDropdown";
 import { Link } from "react-router-dom";
@@ -14,33 +14,7 @@ const CofItem = ({ patient }) => {
 
   const { certificate_status } = patient;
 
-  const PHYSICAL_EXAM = () => {
-    if (certificate_status === "PENDING") {
-      return (
-        <span className="badge badge-pill badge-primary">
-          <strong>{certificate_status}</strong>
-        </span>
-      );
-    } else if (certificate_status === "READY") {
-      return (
-        <span className="badge badge-pill badge-success">
-          <strong>{certificate_status}</strong>
-        </span>
-      );
-    } else if (certificate_status === "MONITORING") {
-      return (
-        <span className="badge badge-pill badge-warning">
-          <strong>{certificate_status}</strong>
-        </span>
-      );
-    } else {
-      return (
-        <span className="badge badge-pill badge-success">
-          <strong>{certificate_status}</strong>
-        </span>
-      );
-    }
-  };
+  
   return (
     <Fragment>
       <tr className="hover-primary">
@@ -74,7 +48,7 @@ const CofItem = ({ patient }) => {
             <strong>{formatDate(patient.last_x_ray)}</strong>
           </td>
         )}
-        <td>{PHYSICAL_EXAM()}</td>
+        <td>{PHYSICAL_EXAM(certificate_status)}</td>
 
         <td className="text-end">
           <Link
