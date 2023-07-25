@@ -18,19 +18,28 @@ import {
   getCurrentPageData,
 } from "../../../helpers/helpers";
 import ExportExcelButton from "../../../components/buttons/ExportExcelButton";
+import Loading from "../../../components/loader/Loading";
 
-function exportToExcel(data) {
-  const worksheet = XLSX.utils.json_to_sheet(data);
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Patients");
-  XLSX.writeFile(workbook, "Patients.xlsx");
-}
+const exportToExcel = (data, setLoading) => {
+  setLoading(true);
+  try {
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Patients");
+    XLSX.writeFile(workbook, "Patients.xlsx", () => {
+      setLoading(false);
+    });
+  } catch (error) {
+    console.error(error);
+    setLoading(false);
+  }
+};
 
 const PatientTable = () => {
   const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(0);
   const itemsPerPage = 8;
-
+  const [loading, setLoading] = useState(false);
   const allPatients = useSelector((state) => state.patient.patients) || [];
   const addedNew = useSelector((state) => state.ui.showAlert);
   const [selectedCompany, setSelectedCompany] = useState("");
@@ -64,10 +73,6 @@ const PatientTable = () => {
     setPageNumber(0);
   };
 
-  const handleExportClick = () => {
-    exportToExcel(filteredPatients);
-  };
-
   const sortedPatients = sortPatients(allPatients, sortColumn, isSortAscending);
   const filteredPatients = filterPatients(sortedPatients, searchTerm);
   const currentPageData = getCurrentPageData(
@@ -76,6 +81,12 @@ const PatientTable = () => {
     itemsPerPage
   );
 
+  const handleExportClick = () => {
+    exportToExcel(filteredPatients, setLoading);
+  };
+
+  useEffect(() => {}, []);
+
   return (
     <>
       {allPatients.length === 0 ? (
@@ -83,11 +94,11 @@ const PatientTable = () => {
       ) : (
         <Fragment>
           <div className="spacing">
-            {/* <button className="btn btn-success" onClick={handleExportClick}>
-              Export to Excel
-            </button> */}
-
-            <ExportExcelButton onClick={handleExportClick} />
+            {loading ? (
+              <Loading />
+            ) : (
+              <ExportExcelButton onClick={handleExportClick} />
+            )}
           </div>
 
           <SearchBox

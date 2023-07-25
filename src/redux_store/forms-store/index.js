@@ -50,6 +50,8 @@ const initialState = {
   otherCommentsAndRemarks: null,
 
   certificateState: null,
+
+  generatedDocuments: [],
 };
 
 const formsSlice = createSlice({
@@ -73,6 +75,15 @@ const formsSlice = createSlice({
       ...state,
       fPhysicalExamination: initialState.fPhysicalExamination,
     }),
+
+    setGeneratedDocuments: (state, action) => ({
+      ...state,
+      generatedDocuments: action.payload,
+    }),
+
+    resetGeneratedDocuments: (state) => {
+      state.generatedDocuments = initialState.generatedDocuments;
+    },
 
     setPhysicalExamination: (state, action) => ({
       ...state,

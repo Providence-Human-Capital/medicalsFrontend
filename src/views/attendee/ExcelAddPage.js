@@ -10,6 +10,9 @@ const ExcelAddPage = () => {
       <Link
         to={"/attendees/add"}
         className="btn btn-primary me-5 mb-md-0 mb-5 excel-btn"
+        style={{
+          borderRadius: "20px",
+        }}
       >
         <i class="fa fa-long-arrow-left" aria-hidden="true"></i> {"  "}
         Back To Form

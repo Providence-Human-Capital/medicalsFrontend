@@ -137,8 +137,12 @@ const AddAttendee = () => {
       <Link
         to={"/attendees/add/excel"}
         className="btn btn-primary me-5 mb-md-0 mb-4 excel-btn"
+        style={{
+          borderRadius: "20px",
+        }}
       >
-        <i class="fa fa-table" aria-hidden="true"></i>{"   "}
+        <i class="fa fa-table" aria-hidden="true"></i>
+        {"   "}
         Add Through Excel
       </Link>
       <div className="separation-div"></div>
@@ -148,7 +152,7 @@ const AddAttendee = () => {
             <div className="custom-form">
               <div className="box-body">
                 <div className="container">
-                  <h2>Enter New   Client</h2>
+                  <h2>Enter New Client</h2>
 
                   <Formik
                     initialValues={initialValues}
@@ -183,7 +187,6 @@ const AddAttendee = () => {
                                 component="div"
                                 className="text-danger"
                               />
-                             
                             </div>
                           </div>
                           <div className="col-md-6">

@@ -1,295 +1,258 @@
-import React, { useEffect, useState } from "react";
-import Docxtemplater from "docxtemplater";
-import PizZip from "pizzip";
-import { saveAs } from "file-saver";
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  forwardRef,
+  Fragment,
+} from "react";
+import { useDispatch, useSelector } from "react-redux";
+import ReactToPrint from "react-to-print";
+
 import BreadCrumb from "../../components/BreadCrumb";
-import { API } from "../../config";
-import Loading from "../../components/loader/Loading";
-import Swal from "sweetalert2";
+import { useReactToPrint } from "react-to-print";
 
-import inHouseCertificateImage from "../../assets/certificatesPNGs/INHOUSE_MEDICAL_CERTIFICATE_TEMPLATE-1.png";
-import cityOfHarareCertificateImage from "../../assets/certificatesPNGs/CITY_OF_HARARE_CERTIFICATE_TEMPLATE-1.png";
-import natPakCertificateImage from "../../assets/certificatesPNGs/NATPAK_PERIODICAL_CERTIFICATE_TEMPLATE-1.png";
+import InHouseCertificatePrint from "../certificates/certificates-print/InHouseCertificatePrint";
 
-const Appointments = () => {
-  const [template, setTemplate] = useState(null);
-  const [examinerName, setExaminerName] = useState("");
-  const [qualifications, setQualifications] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [certificateType, setCertificateType] = useState("InHouseCertificate");
+const PersonDetails = forwardRef(({ person }, ref) => {
+  return (
+    <div ref={ref}>
+      <InHouseCertificatePrint person={person} />
+    </div>
+  );
+});
 
-  const handleTemplateChange = (event) => {
-    setTemplate(event.target.files[0]);
-  };
-
-  const handleExaminerNameChange = (event) => {
-    setExaminerName(event.target.value);
-  };
-
-  const handleQualificationsChange = (event) => {
-    setQualifications(event.target.value);
-  };
-
-  const handleCertificateTypeChange = (event) => {
-    // New function
-    setCertificateType(event.target.value);
-  };
-
-  const fetchDataArrayFromAPI = async () => {
-    try {
-      const response = await fetch(`${API}/print-data`);
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Error fetching data from API:", error);
-      return null;
-    }
-  };
-
-  const generateDocument = async () => {
-    if (!template) {
-      Swal.fire({
-        icon: "warning",
-        title: "Please select a template file",
-        showConfirmButton: true, // Show the "OK" button
-        allowOutsideClick: false, // Prevent clicking outside the pop-up to close it
-      }).then((result) => {
-        setLoading(false);
-        if (result.isConfirmed) {
-          return; // Return after the user clicks "OK"
-        }
-      });
-    }
-    setLoading(true);
-    const dataArray = await fetchDataArrayFromAPI(); // Fetch an array of data objects from your API
-    if (!dataArray) {
-      alert("Failed to fetch data from API");
-      setLoading(false);
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = function (event) {
-      const templateContent = event.target.result;
-      dataArray.forEach((data, index) => {
-        const { first_name, last_name, company, city, address, gender } = data;
-        const fileName = `${first_name}-${last_name}(${company}).docx`;
-        const zip = new PizZip(templateContent);
-        const doc = new Docxtemplater();
-      
-        const now = new Date();
-        const monthNames = [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          "August",
-          "September",
-          "October",
-          "November",
-          "December",
+const InHousePrintAlll = forwardRef(({ person }, ref) => {
+  const [personsData, setPersonsData] = useState([]);
+  const fetchPersonsData = async () => {
+    // Simulating an asynchronous API call
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const personsData = [
+          {
+            name: "John",
+            last_name: "Doe",
+            age: 25,
+            address: "123 Main St",
+            phone: "123-456-7890",
+            company: "NatPak",
+          },
+          {
+            name: "Jane ",
+            last_name: "Smith",
+            age: 30,
+            address: "456 Elm St",
+            phone: "987-654-3210",
+            company: "NatPak",
+          },
+          {
+            name: "Michael",
+            last_name: "Johnson",
+            age: 35,
+            address: "789 Oak St",
+            phone: "555-123-4567",
+            company: "NatPak",
+          },
+          {
+            name: "Emily",
+            last_name: "Davis",
+            age: 28,
+            address: "321 Pine St",
+            phone: "777-888-9999",
+            company: "NatPak",
+          },
+          {
+            name: "David",
+            last_name: "Jonasi",
+            age: 32,
+            address: "654 Cedar St",
+            phone: "444-555-6666",
+            company: "NatPak",
+          },
         ];
-        // Format the date as "22nd of JULY 2023"
-        const date = `${now.getDate()}${
-          ["st", "nd", "rd"][((((now.getDate() + 90) % 100) - 10) % 10) - 1] ||
-          "th"
-        } of ${monthNames[now.getMonth()].toUpperCase()} ${now.getFullYear()}`;
-        doc.loadZip(zip);
-        doc.setData({
-          examinerName: examinerName,
-          qualifications: qualifications,
-          first_name: first_name,
-          last_name: last_name,
-          company: company,
-          city: city,
-          address: address,
-          date: date,
-          gender: gender,
-        });
-        // doc.setOptions({ parser: customParser });
-        doc.render();
-        const generatedDocument = doc.getZip().generate({ type: "blob" });
-        saveAs(generatedDocument, fileName);
-      });
-      setLoading(false);
-    };
-    reader.readAsBinaryString(template);
-  };
 
-  const customParser = (tag) => {
-    if (tag === "tick") {
-      return {
-        get: function (scope) {
-          const gender = scope.gender;
-          if (gender === "Male") {
-            return "☑";
-          } else if (gender === "Female") {
-            return "☑";
-          } else {
-            return "☐";
-          }
-        },
-      };
-    }
-    return false;
+        resolve(personsData);
+      }, 1000); // Simulating a 1 second delay
+    });
   };
 
   useEffect(() => {
-    // setLoading(false);
+    fetchPersonsData()
+      .then((data) => {
+        setPersonsData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching persons data:", error);
+      });
+  });
+  return (
+    <div ref={ref}>
+      {personsData.map((person, index) => (
+        <>
+          <div key={index} style={{ paddingTop: index === 0 ? 0 : "10px" }}>
+            <InHouseCertificatePrint person={person} />
+          </div>
+        </>
+      ))}
+    </div>
+  );
+});
+
+const Appointments = () => {
+  const [personsData, setPersonsData] = useState([]);
+  const dispatch = useDispatch();
+  const [selectedPersons, setSelectedPersons] = useState([]);
+
+  useEffect(() => {
+    fetchPersonsData()
+      .then((data) => {
+        setPersonsData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching persons data:", error);
+      });
+  });
+  const handlePrint = () => {
+    console.log("Printing completed");
+  };
+
+  const fetchPersonsData = async () => {
+    // Simulating an asynchronous API call
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const personsData = [
+          {
+            name: "John",
+            last_name: "Doe",
+            age: 25,
+            address: "123 Main St",
+            phone: "123-456-7890",
+            company: "NatPak",
+          },
+        ];
+
+        resolve(personsData);
+      }, 1000); // Simulating a 1 second delay
+    });
+  };
+
+  const personRefs = useRef([]);
+  const inHousePrintAllRef = useRef();
+
+  const handlePrintAll = useReactToPrint({
+    content: () => inHousePrintAllRef.current,
   });
 
   return (
     <>
       <BreadCrumb title={"Appointments"} activeTab={"Appointments"} />
       <div className="row">
-        <div className="col-md-6">
-          <div className="box">
+        <div
+          className="col-md-6"
+          style={{
+            display: "none",
+          }}
+        >
+          <InHousePrintAlll ref={inHousePrintAllRef} />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-md-8">
+          <div
+            className="box"
+            style={{
+              margin: "10px",
+            }}
+          >
             <div className="box-body">
-              <div className="p-3">
-                <h3
-                  style={{
-                    textTransform: "uppercase",
-                  }}
-                >
-                  <strong>Certificate Generator</strong>
-                </h3>
-                <form>
-                  <div className="form-group">
-                    <label htmlFor="template" className="form-label">
-                      Select Template:
-                    </label>
-                    <input
-                      type="file"
-                      id="template"
-                      accept=".docx"
-                      onChange={handleTemplateChange}
-                      className="form-control"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="examinerName">Name Of Examiner:</label>
-                    <input
-                      type="text"
-                      id="examinerName"
-                      value={examinerName}
-                      onChange={handleExaminerNameChange}
-                      className="form-control my-upload"
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="qualifications">Qualifications:</label>
-                    <input
-                      type="text"
-                      id="qualifications"
-                      value={qualifications}
-                      onChange={handleQualificationsChange}
-                      className="form-control my-upload"
-                      required
-                    />
-                  </div>
-                  <div className="form-group d-flex">
-                    <label>Certificate Type:</label>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="certificateType"
-                        id="inHouseCertificate"
-                        value="InHouseCertificate"
-                        checked={certificateType === "InHouseCertificate"}
-                        onChange={handleCertificateTypeChange}
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="inHouseCertificate"
-                      >
-                        InHouse Certificate
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="certificateType"
-                        id="cityOfHarareCertificate"
-                        value="CityOfHarareCertificate"
-                        checked={certificateType === "CityOfHarareCertificate"}
-                        onChange={handleCertificateTypeChange}
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="cityOfHarareCertificate"
-                      >
-                        City Of Harare Certificate
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="certificateType"
-                        id="natPakCertificate"
-                        value="NatPakCertificate"
-                        checked={certificateType === "NatPakCertificate"}
-                        onChange={handleCertificateTypeChange}
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="natPakCertificate"
-                      >
-                        NatPak Certificate
-                      </label>
-                    </div>
-                  </div>
-                  <div className="mb-3">
-                    <p>
-                      <strong>Disclaimer</strong> The Certificate Type Select
-                      above only shows you what the templates looks like but
-                      doesn't select a template for usage. You have to uploade a
-                      certificate to use it.
-                    </p>
-                  </div>
-                  <div className="form-group">
-                    {loading ? (
-                      <Loading />
-                    ) : (
-                      <button
-                        onClick={generateDocument}
-                        className="btn btn-primary"
-                        disabled={!template}
-                      >
-                        Generate Document
-                      </button>
-                    )}
-                  </div>
-                </form>
+              <button
+                className="btn btn-primary"
+                onClick={handlePrintAll}
+                style={{
+                  marginBottom: "1Opx",
+                  borderRadius: "20px",
+                }}
+              >
+                Print All
+              </button>
+              <div className="table-responsive mt-4">
+                <table className="table no-border">
+                  <thead>
+                    <tr className="text-uppercase bg-lightest">
+                      <th>
+                        <span className="text-dark">Patient Name</span>
+                      </th>
+                      <th>
+                        <span className="text-dark">Last Name</span>
+                      </th>
+                      <th>
+                        <span className="text-dark">Company</span>
+                      </th>
+                      <th>
+                        <span className="text-dark">Print Action</span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {personsData.map((person, index) => (
+                      <Fragment>
+                        <tr key={index}>
+                          <td>
+                            <span className="text-fade fw-600 d-block fs-16">
+                              {person.name}
+                            </span>
+                          </td>
+                          <td>
+                            <span className="text-fade fw-600 d-block fs-16">
+                              {person.last_name}
+                            </span>
+                          </td>
+                          <td>
+                            <span className="text-fade fw-600 d-block fs-16">
+                              {person.company}
+                            </span>
+                          </td>
+                          <td>
+                            <span className="text-fade fw-600 d-block fs-16">
+                              <div key={index} className="d-flex">
+                                <div
+                                  style={{
+                                    border: "1px solid black",
+                                    display: "none",
+                                  }}
+                                >
+                                  <PersonDetails
+                                    person={person}
+                                    ref={(el) =>
+                                      (personRefs.current[index] = el)
+                                    }
+                                  />
+                                </div>
+                                <ReactToPrint
+                                  trigger={() => (
+                                    <button
+                                      className="btn btn-primary"
+                                      style={{
+                                        width: "fit-content",
+                                        margin: "20px",
+                                        borderRadius: "20px",
+                                      }}
+                                    >
+                                      Print
+                                    </button>
+                                  )}
+                                  content={() => personRefs.current[index]}
+                                  onAfterPrint={handlePrint}
+                                />
+                              </div>
+                            </span>
+                          </td>
+                        </tr>
+                      </Fragment>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="col-md-6">
-          <div className="container">
-            <img
-              src={
-                certificateType === "InHouseCertificate"
-                  ? inHouseCertificateImage
-                  : certificateType === "CityOfHarareCertificate"
-                  ? cityOfHarareCertificateImage
-                  : certificateType === "NatPakCertificate"
-                  ? natPakCertificateImage
-                  : null
-              }
-              alt=""
-              className="img-fluid"
-              style={{
-                borderRadius: "10px",
-                width: "fit-content",
-                height: "fit-content",
-              }}
-            />
           </div>
         </div>
       </div>

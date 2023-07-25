@@ -29,6 +29,7 @@ import { illnessActions } from "../redux_store/illness-store";
 import { uiActions } from "../redux_store/ui-store";
 import Loading from "../components/loader/Loading";
 import { tobaccoActions } from "../redux_store/tobacco-store";
+import { Link } from "react-router-dom";
 
 const Home = ({}) => {
   const dispatch = useDispatch();
@@ -141,6 +142,21 @@ const Home = ({}) => {
                 Label={"Certificates Failed"}
                 Number={200}
               />
+            </div>
+
+            <div className="row mb-4">
+              <div className="d-flex">
+                <Link to={"/attendees/add"}>
+                  <button
+                    className="btn btn-success"
+                    style={{
+                      borderRadius: "20px",
+                    }}
+                  >
+                    <strong>Add New Client</strong>
+                  </button>
+                </Link>
+              </div>
             </div>
 
             <div className="row">

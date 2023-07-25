@@ -70,6 +70,7 @@ import PneumoPatientUpdate from "./views/pneumoconiosis/PneumoPatientUpdate";
 import FoodPatientUpdate from "./views/patients/FoodPatientUpdate";
 import CreateBatchFormPage from "./views/certificates/components/CreateBatchFormPage";
 import BatchListPage from "./views/certificates/BatchListPage";
+import PrintCertificatesPage from "./views/certificates/PrintCertificatesPage";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
@@ -294,7 +295,12 @@ const WrapperComponent = () => {
               path="/batch/create/:companyId/:companyName"
               element={<CreateBatchFormPage />}
             />
-            <Route path="/batch/list/:batchId/:batchName" element={<BatchListPage />} />
+            <Route
+              path="/batch/list/:batchId/:batchName"
+              element={<BatchListPage />}
+            />
+
+            <Route path="/certificates/print/page/" element={<PrintCertificatesPage />} />
           </Routes>
         </div>
       </div>

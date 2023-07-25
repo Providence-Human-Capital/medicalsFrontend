@@ -1,9 +1,9 @@
 import React from "react";
 import "./ExportExcelCss.css";
 
-const ExportExcelButton = () => {
+const ExportExcelButton = ({ onClick }) => {
   return (
-    <button>
+    <button onClick={onClick}>
       <span>
         <svg
           xmlns="http://www.w3.org/2000/svg"

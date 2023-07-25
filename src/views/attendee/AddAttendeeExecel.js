@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -121,6 +121,15 @@ const AddAttendeeExecel = () => {
 
     setSavedData(savedEntries);
   };
+
+  useEffect(() => {
+    // dispatch(
+    //   uiActions.setLoadingSpinner({
+    //     isLoading: false,
+    //   })
+    // );
+  }, []);
+
   return (
     <Fragment>
       <div className="row">
@@ -129,7 +138,9 @@ const AddAttendeeExecel = () => {
             <div className="">
               <div className="box-body">
                 <div className="container">
-                  <h3 className="mb-4">Excel Uploader and Search </h3>
+                  <h4 className="mb-4">
+                    <strong>Add Client Through Excel</strong>
+                  </h4>
                   <form>
                     <div className="form-group">
                       <div className="col-xl-6 col-12">

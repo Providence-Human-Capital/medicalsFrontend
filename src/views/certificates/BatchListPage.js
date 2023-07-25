@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import BreadCrumb from "../../components/BreadCrumb";
 import CertificatesTable from "./components/CertificatesTable";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { API } from "../../config";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
@@ -172,6 +172,15 @@ const BatchListPage = () => {
         ) : (
           batchList && (
             <Fragment>
+              <div className="row">
+                <div className="col-md-6 mb-5">
+                  <Link to={"/certificates/print/page/"}>
+                    <a className="btn btn-success-light mb-5">
+                      Certificates Printing Page
+                    </a>
+                  </Link>
+                </div>
+              </div>
               <CertificatesTable name={batchName} batch={batchList} />
               <div className="row">
                 <div className="col-md-8"></div>

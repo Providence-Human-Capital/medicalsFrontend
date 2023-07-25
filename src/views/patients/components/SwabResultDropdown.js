@@ -144,7 +144,7 @@ const SwabResultDropdown = ({ patientId, initialSwabResult }) => {
   return (
     <Fragment>
       <span
-        className={`badge  cursor-style ${
+        className={`badge badge-pill cursor-style ${
           initialSwabResult === "PENDING" ? "badge-danger" : "badge-success"
         }`}
         onClick={handleUpdateStatusClick}

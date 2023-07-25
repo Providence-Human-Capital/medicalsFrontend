@@ -6,6 +6,7 @@ import { patientActions } from "../../../redux_store/patients-store";
 import { API } from "../../../config";
 import { attendeeActions } from "../../../redux_store/attendee-store";
 import SwabResultDropdown from "./SwabResultDropdown";
+import { PHYSICAL_EXAM } from "../../../helpers/helpers";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -82,18 +83,17 @@ const PatientItem = ({ patient }) => {
         <td>{patient.employee_number}</td>
 
         <td>
-          { patient.swabs.length !== 0 ? (
+          {patient.swabs.length !== 0 ? (
             <SwabResultDropdown
-            patientId={patient.id}
-            initialSwabResult={`${patient.swabs[0].status}`}
-          />
+              patientId={patient.id}
+              initialSwabResult={`${patient.swabs[0].status}`}
+            />
           ) : (
             <SwabResultDropdown
-            patientId={patient.id}
-            initialSwabResult={"PENDING"}
-          />
+              patientId={patient.id}
+              initialSwabResult={"PENDING"}
+            />
           )}
-        
         </td>
 
         {(patient.last_x_ray === "N/A") | (patient.last_x_ray === null) ? (
@@ -103,31 +103,29 @@ const PatientItem = ({ patient }) => {
             <strong>{formatDate(patient.last_x_ray)}</strong>
           </td>
         )}
-        <td>
-          <span className="badge badge-danger">PENDING</span>
-        </td>
+        <td>{PHYSICAL_EXAM(patient.certificates[0].status)}</td>
 
         <td class="text-end">
-            <Link
-              to={`${patient.id}`}
-              class="waves-effect waves-light btn btn-primary-light btn-circle"
-            >
-              <span class="icon-Settings-1 fs-18">
-                <span class="path1"></span>
-                <span class="path2"></span>
-              </span>
-            </Link>
+          <Link
+            to={`${patient.id}`}
+            class="waves-effect waves-light btn btn-primary-light btn-circle"
+          >
+            <span class="icon-Settings-1 fs-18">
+              <span class="path1"></span>
+              <span class="path2"></span>
+            </span>
+          </Link>
 
-            <a
-              onClick={() => handleDelete(patient.id)}
-              class="waves-effect waves-light btn btn-primary-light btn-circle"
-            >
-              <span class="icon-Trash1 fs-18">
-                <span class="path1"></span>
-                <span class="path2"></span>
-              </span>
-            </a>
-          </td>
+          <a
+            onClick={() => handleDelete(patient.id)}
+            class="waves-effect waves-light btn btn-primary-light btn-circle"
+          >
+            <span class="icon-Trash1 fs-18">
+              <span class="path1"></span>
+              <span class="path2"></span>
+            </span>
+          </a>
+        </td>
       </tr>
     </Fragment>
   );

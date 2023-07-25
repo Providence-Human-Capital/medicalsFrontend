@@ -23,7 +23,7 @@ const Attendees = ({}) => {
             <div className="box-body">
               <div className="d-md-flex align-items-center justify-content-between mb-20">
                 <div className="d-flex">
-                  <CreateButton text={"Add Attendee"} to={"/attendees/add"} />
+                  <CreateButton text={"Add Client"} to={"/attendees/add"} />
                 </div>
                 
               </div>
