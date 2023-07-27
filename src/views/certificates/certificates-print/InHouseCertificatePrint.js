@@ -1,14 +1,34 @@
 import React from "react";
 
-function InHouseCertificatePrint({ person }) {
+function InHouseCertificatePrint({ person, doctor }) {
+  const currentDate = new Date();
+  const day = currentDate.getDate();
+  const month = currentDate.toLocaleString("default", { month: "long" });
+  const year = currentDate.getFullYear();
+
+  const getSuperscript = (number) => {
+    const suffixes = ["th", "st", "nd", "rd"];
+    const relevantDigits = number % 100;
+    const suffix =
+      suffixes[(relevantDigits - 20) % 10] ||
+      suffixes[relevantDigits] ||
+      suffixes[0];
+    return number + suffix;
+  };
+
+  const formattedDate = `${getSuperscript(day)} of ${month} ${year}`;
+
+  const normalDate = `${day} ${month} ${year}`;
+
+  
   return (
     <div
       style={{
         margin: "30px",
         border: "1px solid black",
-        padding: "20px",
+        padding: "30px",
         height: "1025px",
-        width: "fit-content"
+        width: "fit-content",
       }}
     >
       <title />
@@ -62,12 +82,28 @@ function InHouseCertificatePrint({ person }) {
         }}
       >
         <span style={{ fontFamily: '"Times New Roman"' }}>
-          I ……………………… being a Registered Medical Practitioner, hereby certify
-          that I have medically examined{" "}
+          I{" "}
           <strong>
-            <u>{person.patient.attendee.first_name.toUpperCase()}</u>
+            <u>{doctor.examinerName}</u>
           </strong>{" "}
-          on the …………… and state that:
+          being a Registered Medical Practitioner, hereby certify that I have
+          medically examined{" "}
+          <strong>
+            <u>
+              {person.patient.attendee.first_name.toUpperCase()}{" "}
+              {person.patient.attendee.last_name.toUpperCase()}
+            </u>
+          </strong>{" "}
+          on the
+          <span
+            style={{
+              textTransform: "uppercase",
+            }}
+          >
+            {" "}
+            {formattedDate}{" "}
+          </span>
+          and state that:
         </span>
       </p>
       <p
@@ -158,7 +194,9 @@ function InHouseCertificatePrint({ person }) {
           </span>
         </strong>
         <span style={{ fontFamily: '"Times New Roman"' }}>
-          ……………………………………………..
+          <strong>
+            <u>{doctor.examinerName}</u>
+          </strong>
         </span>
       </p>
       <p
@@ -176,7 +214,9 @@ function InHouseCertificatePrint({ person }) {
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </span>
         <span style={{ fontFamily: '"Times New Roman"' }}>
-          ……………………………………………..
+          <strong>
+            <u>{doctor.qualifications}</u>
+          </strong>
         </span>
         <u>
           <span style={{ fontFamily: '"Times New Roman"' }}>
@@ -226,7 +266,14 @@ function InHouseCertificatePrint({ person }) {
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </span>
         </strong>
-        <span style={{ fontFamily: '"Times New Roman"' }}>……………………….</span>
+        <span
+          style={{
+            fontFamily: '"Times New Roman"',
+            textTransform: "uppercase",
+          }}
+        >
+          <strong>{normalDate}</strong>
+        </span>
       </p>
       <p
         style={{

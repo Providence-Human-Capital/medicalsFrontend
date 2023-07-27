@@ -2,15 +2,15 @@ import React, { Fragment, forwardRef, useRef } from "react";
 import ReactToPrint from "react-to-print";
 import InHouseCertificatePrint from "../certificates-print/InHouseCertificatePrint";
 
-const SingleInHouseCertificate = forwardRef(({ certificateItem }, ref) => {
+const SingleInHouseCertificate = forwardRef(({ certificateItem, doctor }, ref) => {
   return (
     <div ref={ref}>
-      <InHouseCertificatePrint person={certificateItem} />
+      <InHouseCertificatePrint person={certificateItem} doctor={doctor} />
     </div>
   );
 });
 
-const CertificatePrintItem = ({ certificateItem, index, handlePrint }) => {
+const CertificatePrintItem = ({ certificateItem, index, handlePrint, doctor }) => {
   const inHouseRefs = useRef([]);
   return (
     <Fragment>
@@ -38,6 +38,7 @@ const CertificatePrintItem = ({ certificateItem, index, handlePrint }) => {
                 <SingleInHouseCertificate
                   certificateItem={certificateItem}
                   ref={(el) => (inHouseRefs.current[index] = el)}
+                  doctor={doctor}
                 />
               </div>
               <ReactToPrint
@@ -47,7 +48,9 @@ const CertificatePrintItem = ({ certificateItem, index, handlePrint }) => {
                     style={{
                       width: "fit-content",
                       margin: "20px",
+                      fontWeight: "bold",
                     }}
+                    disabled={!doctor}
                   >
                     Print
                   </button>

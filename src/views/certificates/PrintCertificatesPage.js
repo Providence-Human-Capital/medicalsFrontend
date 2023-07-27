@@ -1,21 +1,9 @@
 import React, { useState } from "react";
 import BreadCrumb from "../../components/BreadCrumb";
 import CertificatePrintTable from "./components/CertificatePrintTable";
+import { useDispatch, useSelector } from "react-redux";
 
 const PrintCertificatesPage = () => {
-  const [showPrintByTemplateForm, setShowPrintByTemplateForm] = useState(false);
-  const [showBasicPrintForm, setShowBasicPrintForm] = useState(false);
-
-  const handlePrintByTemplateClick = () => {
-    setShowPrintByTemplateForm(true);
-    setShowBasicPrintForm(false);
-  };
-
-  const handleBasicPrintClick = () => {
-    setShowPrintByTemplateForm(false);
-    setShowBasicPrintForm(true);
-  };
-
   return (
     <>
       <section className="content">
@@ -23,33 +11,6 @@ const PrintCertificatesPage = () => {
           title={"Certificate Printing Page"}
           activeTab={"Printing Page"}
         />
-
-        <div
-          className="d-flex"
-          style={{
-            marginBottom: "30px",
-          }}
-        >
-          <button
-            className="btn btn-success-light"
-            style={{
-              borderRadius: "20px",
-            }}
-            onClick={handlePrintByTemplateClick}
-          >
-            Print By Template
-          </button>
-          <button
-            className="btn btn-success-light"
-            style={{
-              borderRadius: "20px",
-            }}
-            onClick={handleBasicPrintClick}
-          >
-            Basic Print
-          </button>
-        </div>
-
         <CertificatePrintTable />
       </section>
     </>

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   certifificateBatch: [],
+  medicalDoctor: {},
 };
 
 const certificateSlice = createSlice({
@@ -17,6 +18,16 @@ const certificateSlice = createSlice({
     resetCertificateBatch: (state) => ({
       ...state,
       certifificateBatch: initialState.certifificateBatch,
+    }),
+
+    setMedicalDoctor: (state, action) => ({
+      ...state,
+      medicalDoctor: action.payload,
+    }),
+
+    resetMedicalDoctor: (state) => ({
+      ...state,
+      medicalDoctor: initialState.medicalDoctor,
     }),
   },
 });
