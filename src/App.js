@@ -71,6 +71,7 @@ import FoodPatientUpdate from "./views/patients/FoodPatientUpdate";
 import CreateBatchFormPage from "./views/certificates/components/CreateBatchFormPage";
 import BatchListPage from "./views/certificates/BatchListPage";
 import PrintCertificatesPage from "./views/certificates/PrintCertificatesPage";
+import { uiActions } from "./redux_store/ui-store";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
@@ -88,6 +89,7 @@ const App = () => {
 const WrapperComponent = () => {
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
   const isAuthenticated = useSelector((state) => state.auth.isAuth);
+  const isLoading = useSelector((state) => state.ui.isLoading);
 
   const dispatch = useDispatch();
 
@@ -159,6 +161,16 @@ const WrapperComponent = () => {
   }, [isSidebarCollapsed]);
 
   const location = useLocation();
+
+  useEffect(() => {
+    if(isLoading){
+      dispatch(
+        uiActions.setLoadingSpinner(
+          {  isLoading: false}
+        )
+      )
+    }
+  }, [])
 
   return (
     <Fragment>

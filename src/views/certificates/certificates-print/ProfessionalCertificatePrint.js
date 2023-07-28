@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Certificate.css";
 
-function ProfessionalCertificatePrint({ company }) {
+function ProfessionalCertificatePrint({ company, doctor, person }) {
+  // patient.created_at
+
+  const getDate = (createdAt) => {
+    const currentDate = new Date(createdAt);
+    const dayNumber = currentDate.getDate();
+    const monthYear =
+      currentDate.toLocaleString("default", { month: "long" }) +
+      " " +
+      currentDate.getFullYear();
+
+    return {
+      dayNumber,
+      monthYear,
+    };
+  };
+
+  const createdAt = person.patient.created_at;
+  const date = getDate(createdAt);
+  useEffect(() => {}, []);
+
   return (
     <>
       <div
@@ -32,8 +52,13 @@ function ProfessionalCertificatePrint({ company }) {
             &nbsp;
           </span>
           <strong>
-            <span style={{ fontFamily: '"Cooper Black"' ,textTransform: "uppercase" }}>
-              DR M.A RUMHIZHA
+            <span
+              style={{
+                fontFamily: '"Cooper Black"',
+                textTransform: "uppercase",
+              }}
+            >
+              {doctor.examinerName}
             </span>
           </strong>
         </p>
@@ -45,8 +70,14 @@ function ProfessionalCertificatePrint({ company }) {
             </span>
           </strong>
           <strong>
-            <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>
-              TAFADZWA GASHIRA
+            <span
+              style={{
+                fontFamily: '"Cooper Black"',
+                textTransform: "uppercase",
+              }}
+            >
+              {person.patient.attendee.first_name}
+              {"  "} {person.patient.attendee.last_name}
             </span>
           </strong>
           <strong>
@@ -60,7 +91,7 @@ function ProfessionalCertificatePrint({ company }) {
           </strong>
           <strong>
             <span style={{ fontFamily: '"Cooper Black"' }}>
-              26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              {date.dayNumber}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
           </strong>
           <strong>
@@ -75,7 +106,14 @@ function ProfessionalCertificatePrint({ company }) {
             </span>
           </strong>
           <strong>
-            <span style={{ fontFamily: '"Cooper Black"' }}>JULY 2023</span>
+            <span
+              style={{
+                fontFamily: '"Cooper Black"',
+                textTransform: "uppercase",
+              }}
+            >
+              {date.monthYear}
+            </span>
           </strong>
         </p>
         <p style={{ lineHeight: "normal" }}>
@@ -97,8 +135,8 @@ function ProfessionalCertificatePrint({ company }) {
             }}
           >
             <strong>
-            <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;</span>
-          </strong>
+              <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;</span>
+            </strong>
           </p>
           <p style={{ lineHeight: "normal" }}>
             <strong>
@@ -107,8 +145,14 @@ function ProfessionalCertificatePrint({ company }) {
               </span>
             </strong>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>
-                TAFADZWA GASHIRA
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              >
+                {person.patient.attendee.first_name}
+                {"  "} {person.patient.attendee.last_name}
               </span>
             </strong>
           </p>
@@ -119,7 +163,14 @@ function ProfessionalCertificatePrint({ company }) {
               </span>
             </strong>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>PRODAIRY</span>
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              >
+                {company.company_name}
+              </span>
             </strong>
           </p>
           <p style={{ marginTop: "12pt", lineHeight: "normal" }}>
@@ -129,15 +180,25 @@ function ProfessionalCertificatePrint({ company }) {
               </span>
             </strong>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>175</span>
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              >
+                {company.address}
+              </span>
             </strong>
             <strong>
               <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;&nbsp;</span>
             </strong>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>
-                MUNHONDO RD, RUWA
-              </span>
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              ></span>
             </strong>
           </p>
           <p style={{ marginTop: "12pt", lineHeight: "normal" }}>
@@ -147,8 +208,13 @@ function ProfessionalCertificatePrint({ company }) {
               </span>
             </strong>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>
-                DR. M.A RUMHIZHA
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              >
+                {doctor.examinerName}
               </span>
             </strong>
           </p>
@@ -160,35 +226,66 @@ function ProfessionalCertificatePrint({ company }) {
               </span>
             </strong>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>MD</span>
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              >
+                {doctor.qualifications}
+              </span>
             </strong>
             <strong>
               <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;&nbsp;</span>
             </strong>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>PHD</span>
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              ></span>
             </strong>
           </p>
           <p style={{ marginTop: "12pt", lineHeight: "normal" }}>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"',  }}>
+              <span style={{ fontFamily: '"Cooper Black"' }}>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </span>
             </strong>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>26</span>
-            </strong>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"',  }}>&nbsp;&nbsp;</span>
-            </strong>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>JULY</span>
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              >
+                {date.dayNumber}
+              </span>
             </strong>
             <strong>
               <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;&nbsp;</span>
             </strong>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>2023</span>
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              >
+                {date.monthYear}
+              </span>
+            </strong>
+            <strong>
+              <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;&nbsp;</span>
+            </strong>
+            <strong>
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              ></span>
             </strong>
           </p>
           <p style={{ lineHeight: "normal" }}>
@@ -202,11 +299,9 @@ function ProfessionalCertificatePrint({ company }) {
         {/* End of Second Section */}
 
         <div className="third-section-container">
-          <p style={{lineHeight: "17%" }}>
+          <p style={{ lineHeight: "17%" }}>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>
-              &nbsp;
-              </span>
+              <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;</span>
             </strong>
           </p>
           <p style={{ lineHeight: "normal" }}>
@@ -252,8 +347,14 @@ function ProfessionalCertificatePrint({ company }) {
               </span>
             </strong>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>
-                TAFADZWA GASHIRA
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              >
+                {person.patient.attendee.first_name}
+                {"  "} {person.patient.attendee.last_name}
               </span>
             </strong>
           </p>
@@ -270,7 +371,14 @@ function ProfessionalCertificatePrint({ company }) {
               </span>
             </strong>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>PRODAIRY</span>
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              >
+                {company.company_name}
+              </span>
             </strong>
           </p>
           <p
@@ -286,7 +394,14 @@ function ProfessionalCertificatePrint({ company }) {
               </span>
             </strong>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>175</span>
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              >
+                {company.address}
+              </span>
             </strong>
             <strong>
               <span style={{ fontFamily: '"Cooper Black"' }}>
@@ -294,7 +409,12 @@ function ProfessionalCertificatePrint({ company }) {
               </span>
             </strong>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>MUNHONDO</span>
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              ></span>
             </strong>
             <strong>
               <span style={{ fontFamily: '"Cooper Black"' }}>
@@ -302,7 +422,12 @@ function ProfessionalCertificatePrint({ company }) {
               </span>
             </strong>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>RD, RUWA</span>
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              ></span>
             </strong>
           </p>
           <p
@@ -318,8 +443,13 @@ function ProfessionalCertificatePrint({ company }) {
               </span>
             </strong>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>
-                DR. M.A RUMHIZHA
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              >
+                {doctor.examinerName}
               </span>
             </strong>
           </p>
@@ -336,13 +466,34 @@ function ProfessionalCertificatePrint({ company }) {
               </span>
             </strong>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>MD</span>
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              >
+                MD
+              </span>
             </strong>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>&nbsp;&nbsp;</span>
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              >
+                &nbsp;&nbsp;
+              </span>
             </strong>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>PHD</span>
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              >
+                PHD
+              </span>
             </strong>
           </p>
           <p
@@ -358,13 +509,25 @@ function ProfessionalCertificatePrint({ company }) {
               </span>
             </strong>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>20 JULY</span>
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              >
+                {date.dayNumber} {date.monthYear}
+              </span>
             </strong>
             <strong>
               <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;&nbsp;</span>
             </strong>
             <strong>
-              <span style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}>2023</span>
+              <span
+                style={{
+                  fontFamily: '"Cooper Black"',
+                  textTransform: "uppercase",
+                }}
+              ></span>
             </strong>
             <strong>
               <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;&nbsp;</span>

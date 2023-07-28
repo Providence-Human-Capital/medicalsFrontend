@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 
-function InHouseCertificatePrint({ person, doctor, company }) {
-  const currentDate = new Date();
+function InHouseCertificatePrint({ person, doctor }) {
+  const examinedDate = person.patient.created_at;
+  const currentDate = new Date(examinedDate);
   const day = currentDate.getDate();
   const month = currentDate.toLocaleString("default", { month: "long" });
   const year = currentDate.getFullYear();
@@ -19,8 +21,12 @@ function InHouseCertificatePrint({ person, doctor, company }) {
   const formattedDate = `${getSuperscript(day)} of ${month} ${year}`;
 
   const normalDate = `${day} ${month} ${year}`;
+  const company = useSelector((state) => state.certificate.batchCompany);
 
-  
+  useEffect(() => {
+    console.log("FROM INHOUSE" + JSON.stringify(company));
+  }, []);
+
   return (
     <div
       style={{
@@ -51,12 +57,12 @@ function InHouseCertificatePrint({ person, doctor, company }) {
       >
         <strong>
           <span style={{ fontFamily: '"Times New Roman"' }}>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </span>
         </strong>
         <strong>
           <u>
-            <span style={{ fontFamily: '"Times New Roman"' }}>
+            <span style={{ fontFamily: '"Cooper Black"' }}>
               MEDICAL CERTIFICATE
             </span>
           </u>
@@ -83,12 +89,20 @@ function InHouseCertificatePrint({ person, doctor, company }) {
       >
         <span style={{ fontFamily: '"Times New Roman"' }}>
           I{" "}
-          <strong>
+          <strong
+            style={{
+              fontFamily: '"Cooper Black"',
+            }}
+          >
             <u>{doctor.examinerName}</u>
           </strong>{" "}
           being a Registered Medical Practitioner, hereby certify that I have
           medically examined{" "}
-          <strong>
+          <strong
+            style={{
+              fontFamily: '"Cooper Black"',
+            }}
+          >
             <u>
               {person.patient.attendee.first_name.toUpperCase()}{" "}
               {person.patient.attendee.last_name.toUpperCase()}
@@ -140,8 +154,14 @@ function InHouseCertificatePrint({ person, doctor, company }) {
         >
           &nbsp;
         </span>
-        <span style={{ fontFamily: '"Times New Roman"' }}>
-          ………………………………………………
+        <span
+          style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}
+        >
+          {company && (
+            <strong>
+              <u>{company.company_name}</u>
+            </strong>
+          )}
         </span>
       </p>
       <p
@@ -158,8 +178,14 @@ function InHouseCertificatePrint({ person, doctor, company }) {
         <span style={{ fontFamily: '"Times New Roman"' }}>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </span>
-        <span style={{ fontFamily: '"Times New Roman"' }}>
-          ………………………………………………
+        <span
+          style={{ fontFamily: '"Cooper Black"', textTransform: "uppercase" }}
+        >
+          {company && (
+            <strong>
+              <u>{company.address}</u>
+            </strong>
+          )}
         </span>
       </p>
       <p
@@ -173,9 +199,7 @@ function InHouseCertificatePrint({ person, doctor, company }) {
         <span style={{ fontFamily: '"Times New Roman"' }}>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </span>
-        <span style={{ fontFamily: '"Times New Roman"' }}>
-          ………………………………………………
-        </span>
+        <span style={{ fontFamily: '"Times New Roman"' }}></span>
         <span style={{ fontFamily: '"Times New Roman"' }}>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </span>
@@ -193,7 +217,7 @@ function InHouseCertificatePrint({ person, doctor, company }) {
             Name of examiner&nbsp;
           </span>
         </strong>
-        <span style={{ fontFamily: '"Times New Roman"' }}>
+        <span style={{ fontFamily: '"Cooper Black"' }}>
           <strong>
             <u>{doctor.examinerName}</u>
           </strong>
@@ -213,7 +237,7 @@ function InHouseCertificatePrint({ person, doctor, company }) {
         <span style={{ fontFamily: '"Times New Roman"' }}>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </span>
-        <span style={{ fontFamily: '"Times New Roman"' }}>
+        <span style={{ fontFamily: '"Cooper Black"' }}>
           <strong>
             <u>{doctor.qualifications}</u>
           </strong>
@@ -268,7 +292,7 @@ function InHouseCertificatePrint({ person, doctor, company }) {
         </strong>
         <span
           style={{
-            fontFamily: '"Times New Roman"',
+            fontFamily: '"Cooper Black"',
             textTransform: "uppercase",
           }}
         >

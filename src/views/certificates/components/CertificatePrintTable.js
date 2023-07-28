@@ -40,7 +40,7 @@ const InHousePrintAllCertificates = forwardRef(
 );
 
 const ProfessionalCertificatePrintAll = forwardRef(
-  ({ company, batch }, ref) => {
+  ({ company, batch, doctor }, ref) => {
     return (
       <div
         ref={ref}
@@ -59,8 +59,9 @@ const ProfessionalCertificatePrintAll = forwardRef(
             >
               <ProfessionalCertificatePrint
                 key={index}
-                name={data.name}
                 company={company}
+                person={data}
+                doctor={doctor}
               />
             </div>
           </>
@@ -102,6 +103,8 @@ const CertificatePrintTable = () => {
   const batch = useSelector((state) => state.certificate.certifificateBatch);
   const batchCompany = useSelector((state) => state.certificate.batchCompany);
   const medicalDoctor = useSelector((state) => state.certificate.medicalDoctor);
+
+  console.log("FROM TABLE", +batchCompany);
 
   const handlePrint = () => {
     console.log("Printing Certificate");
@@ -152,6 +155,8 @@ const CertificatePrintTable = () => {
           ref={professionalCertificatePrintAllRef}
           company={batchCompany}
           batch={batch}
+          certificates={batch}
+          doctor={medicalDoctor}
         />
       </div>
 
@@ -338,7 +343,9 @@ const CertificatePrintTable = () => {
                 </tbody>
               </table>
             </div>
-            {/* <p>{JSON.stringify(batchCompany)}</p> */}
+            {/* <p>{JSON.stringify(medicalDoctor)}</p>
+            <p>{JSON.stringify(batchCompany)}</p>
+            <p>{JSON.stringify(batch[0].patient)}</p> */}
           </div>
         </div>
       </div>
