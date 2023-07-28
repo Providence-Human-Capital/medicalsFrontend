@@ -8,7 +8,10 @@ const CertificatesTable = ({ name, batch }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (batch.batch.certificate_batch_items.length <= 0) {
+    if (
+      batch.batch.certificate_batch_items.length <= 0 &&
+      batch.batch.company
+    ) {
       return;
     }
     dispatch(
@@ -16,6 +19,8 @@ const CertificatesTable = ({ name, batch }) => {
         batch.batch.certificate_batch_items
       )
     );
+
+    dispatch(certificateActions.setCompanyBatch(batch.batch.company));
   }, [name]);
 
   return (

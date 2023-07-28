@@ -1,6 +1,6 @@
 import React from "react";
 
-function InHouseCertificatePrint({ person, doctor }) {
+function InHouseCertificatePrint({ person, doctor, company }) {
   const currentDate = new Date();
   const day = currentDate.getDate();
   const month = currentDate.toLocaleString("default", { month: "long" });

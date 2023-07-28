@@ -151,7 +151,7 @@ const BatchListPage = () => {
       if (response.ok) {
         // return responseData;
         setIsFetching(false);
-
+        console.log("Certificate Batched: " + JSON.stringify(responseData));
         setBatchList(responseData);
       }
     } catch (error) {
@@ -161,6 +161,7 @@ const BatchListPage = () => {
   };
 
   useEffect(() => {
+    console.log("Hello World!");
     getCertificateBatch(batchId);
   }, [batchId, batchName]);
   return (

@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   certifificateBatch: [],
   medicalDoctor: {},
+  batchCompany: {},
 };
 
 const certificateSlice = createSlice({
@@ -28,6 +29,16 @@ const certificateSlice = createSlice({
     resetMedicalDoctor: (state) => ({
       ...state,
       medicalDoctor: initialState.medicalDoctor,
+    }),
+
+    setCompanyBatch: (state, action) => ({
+      ...state,
+      batchCompany: action.payload,
+    }),
+
+    resetCompanyBatch: (state) => ({
+      ...state,
+      batchCompany: initialState.batchCompany,
     }),
   },
 });

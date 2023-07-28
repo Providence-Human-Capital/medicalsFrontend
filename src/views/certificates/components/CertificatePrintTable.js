@@ -15,7 +15,7 @@ import { certificateActions } from "../../../redux_store/certificates-store";
 import ProfessionalCertificatePrint from "../certificates-print/ProfessionalCertificatePrint";
 
 const InHousePrintAllCertificates = forwardRef(
-  ({ certificates, doctor }, ref) => {
+  ({ certificates, doctor, company }, ref) => {
     return (
       <div ref={ref}>
         {certificates.map((certificate, index) => (
@@ -26,7 +26,11 @@ const InHousePrintAllCertificates = forwardRef(
                 paddingTop: index === 0 ? 0 : "10px",
               }}
             >
-              <InHouseCertificatePrint person={certificate} doctor={doctor} />
+              <InHouseCertificatePrint
+                person={certificate}
+                doctor={doctor}
+                company={company}
+              />
             </div>
           </>
         ))}
@@ -35,30 +39,36 @@ const InHousePrintAllCertificates = forwardRef(
   }
 );
 
-const ProfessionalCertificatePrintAll = forwardRef(({}, ref) => {
-  const dummyData = [
-    { id: 1, name: "John Doe" },
-    // { id: 2, name: "Jane Smith" },
-    // { id: 3, name: "Bob Johnson" },
-    // { id: 4, name: "Alice Williams" },
-  ];
-  return (
-    <div ref={ref}>
-      {dummyData.map((data, index) => (
-        <>
-          <div
-            key={index}
-            style={{
-              paddingTop: index === 0 ? 0 : "30px",
-            }}
-          >
-            <ProfessionalCertificatePrint key={data.id} name={data.name} />
-          </div>
-        </>
-      ))}
-    </div>
-  );
-});
+const ProfessionalCertificatePrintAll = forwardRef(
+  ({ company, batch }, ref) => {
+    return (
+      <div
+        ref={ref}
+        style={{
+          margin: "0",
+        }}
+      >
+        {batch.map((data, index) => (
+          <>
+            <div
+              key={index}
+              style={{
+                height: "1025px",
+                marginTop: index >= 1 ? "6rem" : "0",
+              }}
+            >
+              <ProfessionalCertificatePrint
+                key={index}
+                name={data.name}
+                company={company}
+              />
+            </div>
+          </>
+        ))}
+      </div>
+    );
+  }
+);
 
 const CertificatePrintTable = () => {
   const validationSchema = Yup.object().shape({
@@ -90,6 +100,7 @@ const CertificatePrintTable = () => {
 
   useEffect(() => {}, []);
   const batch = useSelector((state) => state.certificate.certifificateBatch);
+  const batchCompany = useSelector((state) => state.certificate.batchCompany);
   const medicalDoctor = useSelector((state) => state.certificate.medicalDoctor);
 
   const handlePrint = () => {
@@ -126,6 +137,7 @@ const CertificatePrintTable = () => {
             certificates={batch}
             ref={inHousePrintAllRef}
             doctor={medicalDoctor}
+            company={batchCompany}
           />
         </div>
       </div>
@@ -138,6 +150,8 @@ const CertificatePrintTable = () => {
       >
         <ProfessionalCertificatePrintAll
           ref={professionalCertificatePrintAllRef}
+          company={batchCompany}
+          batch={batch}
         />
       </div>
 
@@ -318,12 +332,13 @@ const CertificatePrintTable = () => {
                         handlePrint={handlePrint}
                         certificateItem={certificateItem}
                         doctor={medicalDoctor}
+                        company={batchCompany}
                       />
                     ))}
                 </tbody>
               </table>
             </div>
-            {/* <p>{JSON.stringify(batch)}</p> */}
+            {/* <p>{JSON.stringify(batchCompany)}</p> */}
           </div>
         </div>
       </div>

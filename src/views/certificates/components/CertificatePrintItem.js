@@ -10,7 +10,7 @@ const SingleInHouseCertificate = forwardRef(({ certificateItem, doctor }, ref) =
   );
 });
 
-const CertificatePrintItem = ({ certificateItem, index, handlePrint, doctor }) => {
+const CertificatePrintItem = ({ certificateItem, index, handlePrint, doctor, company }) => {
   const inHouseRefs = useRef([]);
   return (
     <Fragment>
