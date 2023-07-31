@@ -12,6 +12,7 @@ import Loading from "../../../components/loader/Loading";
 import { ToastContainer, toast } from "react-toastify";
 import { formsActions } from "../../../redux_store/forms-store";
 import FormButton from "../../../components/buttons/FormButton";
+import Swal from "sweetalert2";
 
 const TobaccoForm = ({ handlePrev, handleNext }) => {
   const { patientId } = useParams();
@@ -82,6 +83,25 @@ const TobaccoForm = ({ handlePrev, handleNext }) => {
     }
   };
 
+  const handleNextButtonClick = () => {
+    Swal.fire({
+      icon: "warning",
+      title: "Confirmation",
+      text: "Are you sure you have asked the patient about all types of smoking?",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleNext();
+      } else {
+        // Logic to handle cancellation
+      }
+    });
+  };
+
   const handlePrevTobacco = () => {
     setCurrentTobacco(currentTobacco - 1);
     setSmokeTobacco(false);
@@ -96,9 +116,9 @@ const TobaccoForm = ({ handlePrev, handleNext }) => {
     setHowManyPerDay(e.target.value);
   };
 
-  const handleCurrentTobaccoOnClick = (index) => { 
+  const handleCurrentTobaccoOnClick = (index) => {
     setCurrentTobacco(index);
-  }
+  };
 
   return (
     <Fragment>
@@ -142,7 +162,9 @@ const TobaccoForm = ({ handlePrev, handleNext }) => {
                                 role="tab"
                                 aria-controls={`v-pills-${index}`}
                                 aria-selected={index === currentTobacco}
-                                onClick={() => handleCurrentTobaccoOnClick(index)}
+                                onClick={() =>
+                                  handleCurrentTobaccoOnClick(index)
+                                }
                               >
                                 {tobacco.id} {" - "}
                                 {tobacco.name}
@@ -192,13 +214,13 @@ const TobaccoForm = ({ handlePrev, handleNext }) => {
                               <Loading />
                             ) : (
                               <div className="text-right">
-                                <button
+                                {/* <button
                                   className="btn btn-secondary m-2 "
                                   onClick={handlePrevTobacco}
                                   disabled={currentTobacco === 0}
                                 >
                                   Prev
-                                </button>
+                                </button> */}
                                 {currentTobacco === tobaccos.length - 1 ? (
                                   <button
                                     className="btn btn-primary m-2"
@@ -214,7 +236,7 @@ const TobaccoForm = ({ handlePrev, handleNext }) => {
                                       currentTobacco === tobaccos.length - 1
                                     }
                                   >
-                                    Next
+                                    Save
                                   </button>
                                 )}
                               </div>
@@ -245,7 +267,7 @@ const TobaccoForm = ({ handlePrev, handleNext }) => {
                   <FormButton
                     text={"Next"}
                     direction={"right"}
-                    onClick={handleNext}
+                    onClick={handleNextButtonClick}
                   />
                 </div>
               </div>

@@ -8,6 +8,7 @@ import { API } from "../../../config";
 import { uiActions } from "../../../redux_store/ui-store";
 import { formsActions } from "../../../redux_store/forms-store";
 import { toast } from "react-toastify";
+import FormButton from "../../../components/buttons/FormButton";
 
 const HomeAddressForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -171,9 +172,9 @@ const HomeAddressForm = ({ handlePrev, handleNext }) => {
                       </div>
                     </div>
 
-                    <button type="submit" className="btn btn-primary">
+                    {/* <button type="submit" className="btn btn-primary">
                       Submit
-                    </button>
+                    </button> */}
                     <div
                       className="d-flex"
                       style={{
@@ -184,13 +185,23 @@ const HomeAddressForm = ({ handlePrev, handleNext }) => {
                         marginBottom: "20px",
                       }}
                     >
-                      <button onClick={handlePrev}>Previous</button>
+                      {/* <button onClick={handlePrev}>Previous</button> */}
+                      <FormButton
+                        text={"Previous"}
+                        direction={"left"}
+                        onClick={handlePrev}
+                      />
 
                       {isLoading ? (
                         <Loading />
                       ) : (
-                        <button onClick={handleNext}>Temp Next</button>
+                        // <button onClick={handleNext}>Temp Next</button>
                         // <button onClick={onSubmit} type="submit">Next</button>
+                        <FormButton
+                          text={"Next"}
+                          direction={"right"}
+                          onClick={onSubmit}
+                        />
                       )}
                     </div>
                   </Form>

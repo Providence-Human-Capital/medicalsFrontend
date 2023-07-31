@@ -76,8 +76,8 @@ const AddAttendeeExecel = () => {
       category: category,
       x_ray_status: "PENDING",
       country_code: "+263",
-      last_x_ray: "2022-04",
-      employee_number: "112",
+      last_x_ray: "N/A",
+      employee_number: "",
     }));
 
     const savedEntries = [];
@@ -108,9 +108,18 @@ const AddAttendeeExecel = () => {
           );
           savedEntries.push(entry);
         }
+
+        if (response.status === 400) {
+          toast.error(data.error);
+          dispatch(
+            uiActions.setLoadingSpinner({
+              isLoading: false,
+            })
+          );
+        }
       } catch (error) {
         console.log(error);
-        toast.error("There was an error", error);
+        // toast.error("There was an error", error);
         dispatch(
           uiActions.setLoadingSpinner({
             isLoading: false,

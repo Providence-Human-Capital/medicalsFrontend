@@ -33,6 +33,7 @@ const AddAttendee = () => {
   const companies = useSelector((state) => state.company.companies);
 
   const initialValues = {
+    id_type: "zimbabwean_id",
     company_id: "",
     first_name: "",
     last_name: "",
@@ -48,13 +49,31 @@ const AddAttendee = () => {
     category: "",
   };
 
+  // /^(\d{2}-\d{7}-[A-Z]-\d{2})$/
+  // /^[A-Z]{2}-\d{7}-[A-Z]{1}-\d{2}$/,
+
+  // national_id: yup
+  //     .string()
+  //     .when("national_id_type", {
+  //       is: "zimbabwean_id",
+  //       then: yup.string()
+  //     .matches(/^(\d{2}-\d{7}-[A-Z]-\d{2})$/, "Invalid Zimbabwean ID")
+  //     .required("Zimbabwean ID is required"),
+
   const validationSchema = yup.object().shape({
     company_id: yup.number().required("Please select a company"),
     first_name: yup.string().required("First name is required"),
     last_name: yup.string().required("Last name is required"),
     date_of_birth: yup.string().required("Date of birth is required"),
     gender: yup.string().required("Select your gender"),
-    national_id: yup.string().required("Please enter the National Id"),
+    national_id: yup.string().when("id_type", {
+      is: "zimbabwean_id",
+      then: yup
+        .string()
+        .matches(/^(\d{2}-\d{7}-[A-Z]-\d{2})$/, "Invalid Zimbabwean ID")
+        .required("Zimbabwean ID is required"),
+      otherwise: yup.string().notRequired(),
+    }),
     country_code: yup.string().required("Select country code"),
     phone_number: yup.string().required("Please enter the Phone Number"),
     x_ray_status: yup.string().required("Please select the X ray Status"),
@@ -88,19 +107,27 @@ const AddAttendee = () => {
         })
       );
 
-      toast("Attendee added successfully");
-
       setRedirectBack(true);
       if ((response.status === 200) | (response.status === 201)) {
+        toast("Attendee added successfully");
         if (redirectToPatients) {
           navigate("/patients");
         } else if (continueAddingAttendees) {
           resetForm();
         }
       }
+
+      if (response.status === 400) {
+        if (data.error) {
+          toast(data.error);
+        }
+      }
+
+      if (response.status === 500) {
+        toast("An internal server error occurred! National ID might be in use");
+      }
     } catch (error) {
-      console.error(error);
-      toast(`There was an error adding attendee ${error}`);
+      console.error("Error Messsage", error);
     } finally {
       setLoading(false);
       setSubmitting(false);
@@ -129,6 +156,27 @@ const AddAttendee = () => {
     );
   };
 
+  const handleNationalIdChange = (event, setFieldValue, id_type) => {
+    const { value } = event.target;
+    let formattedValue = value
+      .replace(/[^A-Za-z0-9]/g, "") // Remove non-alphanumeric characters
+      .slice(0, 16); // Limit the length to 13 characters
+
+    if (id_type !== "international_id") {
+      if (formattedValue.length > 2) {
+        formattedValue = formattedValue.replace(/(\d{2})/, "$1-");
+      }
+      if (formattedValue.length > 10) {
+        formattedValue = formattedValue.replace(/(\d{4,7})([A-Z])/, "$1-$2-");
+      }
+      if (formattedValue.length > 13) {
+        formattedValue = formattedValue.replace(/([A-Z])(\d{1,2})$/, "$1-$2");
+      }
+    }
+
+    setFieldValue("national_id", formattedValue);
+  };
+
   return (
     <Fragment>
       <BreadCrumb title={"Add Attendee"} activeTab={"Add Attendee"} />
@@ -141,7 +189,7 @@ const AddAttendee = () => {
           borderRadius: "20px",
         }}
       >
-        <i class="fa fa-table" aria-hidden="true"></i>
+        <i className="fa fa-table" aria-hidden="true"></i>
         {"   "}
         Add Through Excel
       </Link>
@@ -165,6 +213,7 @@ const AddAttendee = () => {
                       handleSubmit,
                       touched,
                       errors,
+                      setFieldValue,
                     }) => (
                       <Form>
                         <div className="row">
@@ -316,6 +365,27 @@ const AddAttendee = () => {
                           </div>
                           <div className="col-md-4">
                             <div className="form-group">
+                              <label htmlFor="id_type">ID Type:</label>
+                              <Field
+                                as="select"
+                                className="form-control"
+                                id="id_type"
+                                name="id_type"
+                              >
+                                <option value="zimbabwean_id">
+                                  Zimbabwean ID
+                                </option>
+                                <option value="international_id">
+                                  International ID
+                                </option>
+                              </Field>
+                            </div>
+
+                            {/* {values.id_type === "zimbabwean_id" && (
+                             
+                            )} */}
+
+                            <div className="form-group">
                               <label htmlFor="national_id">National ID:</label>
                               <Field
                                 type="text"
@@ -327,6 +397,13 @@ const AddAttendee = () => {
                                 id="national_id"
                                 placeholder="Enter national ID"
                                 name="national_id"
+                                onChange={(event) =>
+                                  handleNationalIdChange(
+                                    event,
+                                    setFieldValue,
+                                    values.id_type
+                                  )
+                                }
                               />
                               <ErrorMessage
                                 name="national_id"

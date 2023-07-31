@@ -131,7 +131,7 @@ const PatientTable = () => {
                 >
                   Company
                 </th>
-                <th>Company Email</th>
+                <th>National_ID</th>
                 <th>Date Of Birth</th>
                 <th>Phone Number</th>
                 <th>Employee Number</th>

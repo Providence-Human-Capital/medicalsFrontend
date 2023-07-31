@@ -44,14 +44,24 @@ const InjuryBox = ({ injuries }) => {
                   }}
                 >
                   <div className="card-body">
-                    <h5 className="card-title">
-                      <FontAwesomeIcon icon={faUserInjured} className="mr-2" />{" "}
-                      {injury.name}
-                    </h5>
-                    <p className="card-text">
-                      Year of Treatment{" "}
-                      <span className="badge badge-info">{injury.date}</span>
-                    </p>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <img
+                          src="/assets/images/patient2.svg"
+                          className="w-100 bg-primary-light rounded10 me-15"
+                          alt=""
+                        />
+                      </div>
+                      <div className="col-md-6">
+                        <h5 className="card-title">{injury.name}</h5>
+                        <p className="card-text">
+                          Year of Treatment{" "}
+                          <span className="badge badge-info">
+                            {injury.date}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

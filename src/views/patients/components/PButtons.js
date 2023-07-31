@@ -36,7 +36,7 @@ const PButtons = ({ routeId, patient }) => {
         {patient.category && patient.category === "Industry" && (
           <Fragment>
             <StepButton
-              text={` Edit Patient`}
+              text={`Update Patient Information`}
               icon={faStethoscope}
               toLink={`/patient/industry/${routeId}`}
             />
@@ -46,7 +46,7 @@ const PButtons = ({ routeId, patient }) => {
         {patient.category && patient.category === "Pneumoconiosis" && (
           <Fragment>
             <StepButton
-              text={` Edit Patient`}
+              text={`Update Patient Information`}
               icon={faStethoscope}
               toLink={`/patient/pneumo/${routeId}`}
             />
@@ -56,7 +56,7 @@ const PButtons = ({ routeId, patient }) => {
         {patient.category && patient.category === "City Of Harare" && (
           <Fragment>
             <StepButton
-              text={` Edit Patient`}
+              text={`Update Patient Information`}
               icon={faStethoscope}
               toLink={`/patient/foodhandler/${routeId}`}
             />

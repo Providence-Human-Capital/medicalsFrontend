@@ -9,6 +9,7 @@ import { API } from "../../../config";
 import { toast } from "react-toastify";
 import { formsActions } from "../../../redux_store/forms-store";
 import Loading from "../../../components/loader/Loading";
+import FormButton from "../../../components/buttons/FormButton";
 
 const MedicalHistoryForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -49,6 +50,8 @@ const MedicalHistoryForm = ({ handlePrev, handleNext }) => {
     values.admitted = values.admitted === "true";
     values.allergies = values.allergies === "true";
     values.alcohol = values.alcohol === "true";
+
+    console.log("values", values.serious_injury); 
     try {
       dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
       const response = await fetch(`${API}/medical/history/${patientId}`, {
@@ -372,13 +375,23 @@ const MedicalHistoryForm = ({ handlePrev, handleNext }) => {
                         marginBottom: "20px",
                       }}
                     >
-                      <button onClick={handlePrev}>Previous</button>
-                      <button onClick={handleNext}>Temp Next</button>
+                      {/* <button onClick={handlePrev}>Previous</button> */}
+                      <FormButton
+                        text={"Previous"}
+                        direction={"left"}
+                        onClick={handlePrev}
+                      />
+                      {/* <button onClick={handleNext}>Temp Next</button> */}
 
                       {isLoading ? (
                         <Loading />
                       ) : (
-                        <button onClick={onHandleSubmit}>Next</button>
+                        // <button onClick={onHandleSubmit}>Next</button>
+                        <FormButton
+                          text={"Next"}
+                          direction={"right"}
+                          onClick={onHandleSubmit}
+                        />
                       )}
                     </div>
                   </Form>

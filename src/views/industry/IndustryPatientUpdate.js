@@ -10,9 +10,34 @@ import CardioVascularForm from "./forms/CardioVascularForm";
 import RespiratoryForm from "./forms/RespiratoryForm";
 import ICommentsRemarksForm from "./forms/ICommentsRemarksForm";
 import PatientSideView from "../patients/components/PatientSideView";
+import { useSelector } from "react-redux";
+import HomeAddress from "./components/HomeAddress";
+import MedicalHistoryBox from "./components/MedicalHistoryBox";
+import InjuryBox from "./components/InjuryBox";
 
 const IndustryPatientUpdate = () => {
   const [currentStep, setCurrentStep] = useState(1);
+
+  const homeAddressesRecord = useSelector((state) => state.forms.homeAddresses);
+  const otherIllnessInjuriesRecord = useSelector(
+    (state) => state.forms.otherIllnessInjuries
+  );
+  const otherMedicalHistoryRecord = useSelector(
+    (state) => state.forms.otherMedicalHistory
+  );
+  const otherPhysicalExaminationRecord = useSelector(
+    (state) => state.forms.otherPhysicalExamination
+  );
+  const otherCardioVascularCheckRecord = useSelector(
+    (state) => state.forms.otherCardioVascularCheck
+  );
+  const otherRespiratoryCheckRecord = useSelector(
+    (state) => state.forms.otherRespiratoryCheck
+  );
+  const otherCommentsAndRemarksRecord = useSelector(
+    (state) => state.forms.otherCommentsAndRemarks
+  );
+
   const handleNext = () => {
     setCurrentStep(currentStep + 1);
   };
@@ -29,9 +54,14 @@ const IndustryPatientUpdate = () => {
 
   switch (currentStep) {
     case 1:
-      industryFormComponent = (
-        <HomeAddressForm handlePrev={handlePrev} handleNext={handleNext} />
-      );
+      if (homeAddressesRecord) {
+        handleNext();
+      } else {
+        industryFormComponent = (
+          <HomeAddressForm handlePrev={handlePrev} handleNext={handleNext} />
+        );
+      }
+
       break;
     case 2:
       industryFormComponent = (
@@ -76,14 +106,19 @@ const IndustryPatientUpdate = () => {
           {industryFormComponent}
         </div>
         <div className="col-xl-4 col-12">
-        <PatientSideView />
-          <div className="box">
-            
-            <div className="box-header no-border">
-              <h4 className="box-title">Patient Summary</h4>
-            </div>
-            <div className="box-body"></div>
-          </div>
+          <PatientSideView />
+          <HomeAddress homeAddress={homeAddressesRecord} />
+          <MedicalHistoryBox mHistory={otherMedicalHistoryRecord} />
+          <InjuryBox injuries={otherIllnessInjuriesRecord} />
+          {/* <MedicalHistoryBox mHistory={otherMedicalHistoryRecord} />
+                  <OtherPhysicalExamination
+                    physical={otherPhysicalExaminationRecord}
+                    vitals={otherCardioVascularCheckRecord}
+                  />
+                  <InjuryBox injuries={otherIllnessInjuriesRecord} />
+                  <CardioBox data={otherCardioVascularCheckRecord} />
+                  <RespiratoryBox data={otherRespiratoryCheckRecord} />
+                  <IComments data={otherCommentsAndRemarksRecord} /> */}
         </div>
       </div>
     </Fragment>
