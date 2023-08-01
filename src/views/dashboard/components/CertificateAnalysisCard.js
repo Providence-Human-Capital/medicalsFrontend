@@ -1,27 +1,55 @@
 import React, { Fragment, useState } from "react";
-import { Line, Bar } from "react-chartjs-2";
-import { Chart as ChartJS } from "chart.js/auto";
+import Chart from "react-apexcharts";
 import { CertificatesData } from "../DummyData";
 
 const CertificateAnalysisCard = () => {
-  
   const [certificatesData, setCertificatesData] = useState({
-    labels: CertificatesData.map((data) => data.year),
-    datasets: [
+    options: {
+      chart: {
+        id: "certificate-analysis-chart",
+        stacked: false, // Set stacked to false for multiple columns
+      },
+      xaxis: {
+        categories: [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ],
+      },
+    },
+    series: [
       {
-        label: "Certicates Approved",
+        name: "Certificates Dispatched",
         data: CertificatesData.map((data) => data.certificatesApproved),
-        backgroundColor: [
+        colors: [
           "#58AD46",
           "#ecf0f1",
           "#50AF95",
           "#f3ba2f",
-          "#2a71d0"
-        ]
+          "#2a71d0",
+          "#ff6384", // Additional color
+          "#ffd700", // Additional color
+          // Add more colors if needed
+        ],
+      },
+      {
+        name: "Certificates Failed", // New series for Certificates Failed
+        data: CertificatesData.map((data) => data.certificatesFailed), // Dummy data for Certificates Failed
+        colors: [
+          "#FF0000", // Red color for Certificates Failed
+        ],
       },
     ],
   });
-
   return (
     <Fragment>
       <div className="box">
@@ -30,7 +58,12 @@ const CertificateAnalysisCard = () => {
         </div>
         <div className="box-body pt-0">
           <div>
-            <Bar data={certificatesData} />
+            <Chart
+              options={certificatesData.options}
+              series={certificatesData.series}
+              type="bar" // Set type to "bar" for multiple columns
+              height={400}
+            />
           </div>
           <div className="row mt-25"></div>
         </div>
@@ -38,5 +71,4 @@ const CertificateAnalysisCard = () => {
     </Fragment>
   );
 };
-
 export default CertificateAnalysisCard;

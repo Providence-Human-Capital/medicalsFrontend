@@ -170,14 +170,14 @@ const Home = ({}) => {
 
             <div className="row">
               <div className="col-xl-6 col-12">
-                <BmiAnalysis />
+                {/* <BmiAnalysis /> */}
               </div>
             </div>
           </div>
 
           <div className="col-xl-4 col-12">
             <IllnessAnalysisCard />
-            <SmokingAnalysisCard />
+            {/* <SmokingAnalysisCard /> */}
           </div>
         </div>
       </section>

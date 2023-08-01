@@ -1,7 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Line, Bar } from "react-chartjs-2";
-import { Chart as ChartJS } from "chart.js/auto";
-import { PatientsData } from "../DummyData";
+import Chart from "react-apexcharts";
 import { useSelector } from "react-redux";
 
 const PatientStatisticsCard = () => {
@@ -9,18 +7,25 @@ const PatientStatisticsCard = () => {
     (state) => state.patient.patientStatistics
   );
   const [patientsData, setPatientsData] = useState({
-    labels: patientStatistics.map((data) => data.month),
-    datasets: [
+    options: {
+      chart: {
+        id: "patients-chart",
+      },
+      xaxis: {
+        categories: patientStatistics.map((data) => data.month),
+      },
+    },
+    series: [
       {
-        label: "Patients",
+        name: "Patients",
         data: patientStatistics.map((data) => data.patient_count),
       },
       {
-        label: "Referrals",
+        name: "Referrals",
         data: patientStatistics.map((data) => data.referral_count),
       },
       {
-        label: "Radiology",
+        name: "Radiology",
         data: patientStatistics.map((data) => data.radiology_count),
       },
     ],
@@ -32,12 +37,16 @@ const PatientStatisticsCard = () => {
           <h4 className="box-title">Patient Statistics</h4>
         </div>
         <div className="box-body">
-          <Line data={patientsData} />
+          <Chart
+            options={patientsData.options}
+            series={patientsData.series}
+            type="line"
+            height={400}
+          />
         </div>
       </div>
     </Fragment>
   );
 };
-
-export default PatientStatisticsCard;
+ export default PatientStatisticsCard;
  

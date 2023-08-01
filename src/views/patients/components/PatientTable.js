@@ -20,19 +20,16 @@ import {
 import ExportExcelButton from "../../../components/buttons/ExportExcelButton";
 import Loading from "../../../components/loader/Loading";
 
-const exportToExcel = (data, setLoading) => {
-  setLoading(true);
-  try {
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Patients");
-    XLSX.writeFile(workbook, "Patients.xlsx", () => {
-      setLoading(false);
-    });
-  } catch (error) {
-    console.error(error);
-    setLoading(false);
-  }
+const exportToExcel = (data, filename) => {
+  const worksheet = XLSX.utils.json_to_sheet(data);
+  const workbook = XLSX.utils.book_new();
+  const headerStyle = {
+    font: { bold: true },
+    fill: { fgColor: { rgb: "FFFF00" } }, // Yellow background color
+  };
+
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+  XLSX.writeFile(workbook, filename);
 };
 
 const PatientTable = () => {
@@ -50,6 +47,7 @@ const PatientTable = () => {
   useEffect(() => {
     const fetchAllPatients = async () => {
       const allPatients = await getAllPatients();
+      console.log("allPatients", JSON.stringify(allPatients));
       dispatch(
         patientActions.setPatients({
           patients: [...allPatients],
@@ -82,7 +80,7 @@ const PatientTable = () => {
   );
 
   const handleExportClick = () => {
-    exportToExcel(filteredPatients, setLoading);
+    exportToExcel(filteredPatients, "data.xlsx");
   };
 
   useEffect(() => {}, []);

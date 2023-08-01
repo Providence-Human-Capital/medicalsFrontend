@@ -2,37 +2,37 @@ export const CertificatesData = [
   {
     id: 1,
     year: 2017,
-    certificatesSent: 270,
+    certificatesFailed: 270,
     certificatesApproved: 223,
   },
   {
     id: 2,
     year: 2018,
-    certificatesSent: 130,
+    certificatesFailed: 130,
     certificatesApproved: 129,
   },
   {
     id: 1,
     year: 2019,
-    certificatesSent: 449,
+    certificatesFailed: 449,
     certificatesApproved: 430,
   },
   {
     id: 1,
     year: 2020,
-    certificatesSent: 90,
+    certificatesFailed: 90,
     certificatesApproved: 90,
   },
   {
     id: 1,
     year: 2021,
-    certificatesSent: 800,
+    certificatesFailed: 800,
     certificatesApproved: 789,
   },
   {
     id: 1,
     year: 2022,
-    certificatesSent: 645,
+    certificatesFailed: 645,
     certificatesApproved: 625,
   },
 ];
