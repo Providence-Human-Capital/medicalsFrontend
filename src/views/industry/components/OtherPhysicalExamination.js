@@ -90,61 +90,69 @@ const OtherPhysicalExamination = ({ physical, vitals }) => {
                       </div>
                     </div>
                   </div>
-                  <div class="row pt-5">
-                    <div class="col-12">
-                      <span class="text-danger">Blood Pressure</span>
+                  {vitals && (
+                    <div class="row pt-5">
+                      <div class="col-12">
+                        <span class="text-danger">Blood Pressure</span>
+                      </div>
+                      <div class="col-6">
+                        <div class="progress progress-xs mb-0 mt-5 w-40">
+                          <div
+                            class="progress-bar progress-bar-success progress-bar-striped"
+                            role="progressbar"
+                            aria-valuenow="60"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            style={{
+                              width: "100%",
+                            }}
+                          ></div>
+                        </div>
+                        {vitals && (
+                          <h2 class="float-start mt-0 me-10">
+                            <strong>{vitals.bp_sys}</strong>
+                          </h2>
+                        )}
+
+                        <div>
+                          <p class="mb-0">
+                            <small>Systolic</small>
+                          </p>
+                          <p class="mb-0 mt-0">
+                            <small class="vertical-align-super">mmHg</small>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col-6 bs-1">
+                        <div class="progress progress-xs mb-0 mt-5 w-40">
+                          <div
+                            class="progress-bar progress-bar-success progress-bar-striped"
+                            role="progressbar"
+                            aria-valuenow="60"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            style={{
+                              width: "100%",
+                            }}
+                          ></div>
+                        </div>
+                        {vitals && (
+                          <h2 class="float-start mt-0 me-10">
+                            <strong>{vitals.bp_dia}</strong>
+                          </h2>
+                        )}
+
+                        <div>
+                          <p class="mb-0">
+                            <small>Diastolic</small>
+                          </p>
+                          <p class="mb-0 mt-0">
+                            <small class="vertical-align-super">mmHg</small>
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                    <div class="col-6">
-                      <div class="progress progress-xs mb-0 mt-5 w-40">
-                        <div
-                          class="progress-bar progress-bar-success progress-bar-striped"
-                          role="progressbar"
-                          aria-valuenow="60"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                          style={{
-                            width: "100%",
-                          }}
-                        ></div>
-                      </div>
-                      <h2 class="float-start mt-0 me-10">
-                        <strong>{vitals.bp_sys}</strong>
-                      </h2>
-                      <div>
-                        <p class="mb-0">
-                          <small>Systolic</small>
-                        </p>
-                        <p class="mb-0 mt-0">
-                          <small class="vertical-align-super">mmHg</small>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="col-6 bs-1">
-                      <div class="progress progress-xs mb-0 mt-5 w-40">
-                        <div
-                          class="progress-bar progress-bar-success progress-bar-striped"
-                          role="progressbar"
-                          aria-valuenow="60"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                          style={{
-                            width: "100%",
-                          }}
-                        ></div>
-                      </div>
-                      <h2 class="float-start mt-0 me-10">
-                        <strong>{vitals.bp_dia}</strong>
-                      </h2>
-                      <div>
-                        <p class="mb-0">
-                          <small>Diastolic</small>
-                        </p>
-                        <p class="mb-0 mt-0">
-                          <small class="vertical-align-super">mmHg</small>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +9,7 @@ import { formsActions } from "../../../redux_store/forms-store";
 import { toast } from "react-toastify";
 import ErrorBox from "../../../components/ErrorBox";
 import Loading from "../../../components/loader/Loading";
+import FormButton from "../../../components/buttons/FormButton";
 
 const ICommentsRemarksForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -37,7 +38,7 @@ const ICommentsRemarksForm = ({ handlePrev, handleNext }) => {
         throw new Error("Network response was not ok");
       }
       const responseData = await response.json();
-      dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
       dispatch(formsActions.setOtherCommentsAndRemarks(responseData.data));
       toast.dark("Doctors Comments and Remarks Successfully Added");
       navigate(`/patients/${patientId}`);
@@ -47,6 +48,10 @@ const ICommentsRemarksForm = ({ handlePrev, handleNext }) => {
       dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
     }
   };
+
+  useEffect(() => {
+    dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+  }, []);
   return (
     <div className="step-form">
       {/* {error && <ErrorBox error={error} />} */}
@@ -104,12 +109,22 @@ const ICommentsRemarksForm = ({ handlePrev, handleNext }) => {
                         marginBottom: "20px",
                       }}
                     >
-                      <button onClick={handlePrev}>Previous</button>
+                      {/* <button onClick={handlePrev}>Previous</button> */}
+                      <FormButton
+                        text={"Previous"}
+                        direction={"left"}
+                        onClick={handlePrev}
+                      />
 
                       {isLoading ? (
                         <Loading />
                       ) : (
-                        <button onClick={handleSubmit}>Submit</button>
+                        // <button onClick={handleSubmit}>Submit</button>
+                        <FormButton
+                          text={"Save & Redirect"}
+                          direction={"right"}
+                          onClick={handleSubmit}
+                        />
                       )}
                     </div>
                   </Form>

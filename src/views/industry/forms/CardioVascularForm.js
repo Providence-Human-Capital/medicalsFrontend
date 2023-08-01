@@ -9,6 +9,7 @@ import { formsActions } from "../../../redux_store/forms-store";
 import { toast } from "react-toastify";
 import Loading from "../../../components/loader/Loading";
 import ErrorBox from "../../../components/ErrorBox";
+import FormButton from "../../../components/buttons/FormButton";
 
 const CardioVascularForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -56,15 +57,15 @@ const CardioVascularForm = ({ handlePrev, handleNext }) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-
+  
       const responseData = await response.json();
-      dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
       dispatch(formsActions.setOtherCardioVascularCheck(responseData.data));
-      toast.dark("Patient's Cardio Data  Successfully Added");
+      toast.dark("Patient's Cardio Data Successfully Added");
       handleNext();
     } catch (error) {
       console.log("Error", error);
-      setError(error);
+      setError(error.message); // Set the error message instead of the entire error object
       dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
     }
   };
@@ -75,7 +76,7 @@ const CardioVascularForm = ({ handlePrev, handleNext }) => {
 
   return (
     <div className="step-form">
-        {error && <ErrorBox error={error} />}
+      {error && <ErrorBox error={error} />}
       <div className="box">
         <div className="custom-form">
           <div className="box-body">
@@ -147,7 +148,6 @@ const CardioVascularForm = ({ handlePrev, handleNext }) => {
                         </div>
                       </div>
                     </div>
-
                     <div className="row">
                       <div className="col-md-4">
                         <label htmlFor="sound">
@@ -192,7 +192,6 @@ const CardioVascularForm = ({ handlePrev, handleNext }) => {
                         </div>
                       </div>
                     </div>
-
                     <div className="row">
                       <div className="col-md-6">
                         <h5
@@ -274,11 +273,9 @@ const CardioVascularForm = ({ handlePrev, handleNext }) => {
                         </div>
                       </div>
                     </div>
-
-                    <button onClick={onSubmit} type="submit">
+                    {/* <button onClick={onSubmit} type="submit">
                       Save
-                    </button>
-
+                    </button> */}
                     <div
                       className="d-flex"
                       style={{
@@ -289,12 +286,22 @@ const CardioVascularForm = ({ handlePrev, handleNext }) => {
                         marginBottom: "20px",
                       }}
                     >
-                      <button onClick={handlePrev}>Previous</button>
+                      {/* <button onClick={handlePrev}>Previous</button> */}
+                      <FormButton
+                        text={"Previous"}
+                        direction={"left"}
+                        onClick={handlePrev}
+                      />
 
                       {isLoading ? (
                         <Loading />
                       ) : (
-                        <button onClick={handleNext}>Next</button>
+                        // <button onClick={handleNext}>Next</button>
+                        <FormButton
+                          text={"Next"}
+                          direction={"right"}
+                          onClick={onSubmit}
+                        />
                       )}
                     </div>
                   </Form>

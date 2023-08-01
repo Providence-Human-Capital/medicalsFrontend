@@ -63,7 +63,7 @@ export const getIndustryPatientDetails = async (patientId) => {
   );
 
   const responseData = await patientDetailResponse.json();
-  const patientDetail = responseData.data;
+  const patientDetail = responseData;
   return patientDetail;
 };
 export const getPneumoPatientDetails = async (patientId) => {

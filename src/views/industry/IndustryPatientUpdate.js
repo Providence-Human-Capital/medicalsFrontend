@@ -14,6 +14,9 @@ import { useSelector } from "react-redux";
 import HomeAddress from "./components/HomeAddress";
 import MedicalHistoryBox from "./components/MedicalHistoryBox";
 import InjuryBox from "./components/InjuryBox";
+import OtherPhysicalExamination from "./components/OtherPhysicalExamination";
+import CardioBox from "./components/CardioBox";
+import RespiratoryBox from "./components/RespiratoryBox";
 
 const IndustryPatientUpdate = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -100,27 +103,37 @@ const IndustryPatientUpdate = () => {
   return (
     <Fragment>
       <BreadCrumb activeTab={"Industry"} title={"Patient"} />
-      <div className="row">
-        <div className="col-xl-8 col-12">
-          <IStepNavigation currentStep={currentStep} />
-          {industryFormComponent}
+      <section className="content">
+        <div className="row">
+          <div className="col-xl-8 col-12">
+            <IStepNavigation
+              currentStep={currentStep}
+              setCurrentStep={setCurrentStep}
+            />
+            {industryFormComponent}
+          </div>
+          <div
+            className="col-xl-4 col-12"
+            style={{
+              overflowY: "scroll",
+              height: "80vh",
+            }}
+          >
+            <PatientSideView />
+            <HomeAddress homeAddress={homeAddressesRecord} />
+            <OtherPhysicalExamination
+              physical={otherPhysicalExaminationRecord}
+              vitals={otherCardioVascularCheckRecord}
+            />
+            <CardioBox data={otherCardioVascularCheckRecord} />
+            <MedicalHistoryBox mHistory={otherMedicalHistoryRecord} />
+            <InjuryBox injuries={otherIllnessInjuriesRecord} />
+            <CardioBox data={otherCardioVascularCheckRecord} />
+            <RespiratoryBox data={otherRespiratoryCheckRecord} />
+            {/*<IComments data={otherCommentsAndRemarksRecord} /> */}
+          </div>
         </div>
-        <div className="col-xl-4 col-12">
-          <PatientSideView />
-          <HomeAddress homeAddress={homeAddressesRecord} />
-          <MedicalHistoryBox mHistory={otherMedicalHistoryRecord} />
-          <InjuryBox injuries={otherIllnessInjuriesRecord} />
-          {/* <MedicalHistoryBox mHistory={otherMedicalHistoryRecord} />
-                  <OtherPhysicalExamination
-                    physical={otherPhysicalExaminationRecord}
-                    vitals={otherCardioVascularCheckRecord}
-                  />
-                  <InjuryBox injuries={otherIllnessInjuriesRecord} />
-                  <CardioBox data={otherCardioVascularCheckRecord} />
-                  <RespiratoryBox data={otherRespiratoryCheckRecord} />
-                  <IComments data={otherCommentsAndRemarksRecord} /> */}
-        </div>
-      </div>
+      </section>
     </Fragment>
   );
 };

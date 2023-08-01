@@ -8,6 +8,7 @@ import Loading from "../../../components/loader/Loading";
 import { API } from "../../../config";
 import { toast } from "react-toastify";
 import { formsActions } from "../../../redux_store/forms-store";
+import FormButton from "../../../components/buttons/FormButton";
 
 const IPhysicalTestForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -23,10 +24,26 @@ const IPhysicalTestForm = ({ handlePrev, handleNext }) => {
     chest_in: Yup.string().nullable(),
     chest_out: Yup.string().nullable(),
     mental_state: Yup.string().nullable(),
-    le_glass: Yup.number().nullable(),
-    le_woglass: Yup.number().nullable(),
-    re_glass: Yup.number().nullable(),
-    re_woglass: Yup.number().nullable(),
+    le_glass: Yup.number()
+      .typeError("Please enter a valid number")
+      .min(1, "Number must be at least 1")
+      .max(6, "Number must be at most 6")
+      .nullable(),
+    le_woglass: Yup.number()
+      .typeError("Please enter a valid number")
+      .min(1, "Number must be at least 1")
+      .max(6, "Number must be at most 6")
+      .nullable(),
+    re_glass: Yup.number()
+      .typeError("Please enter a valid number")
+      .min(1, "Number must be at least 1")
+      .max(6, "Number must be at most 6")
+      .nullable(),
+    re_woglass: Yup.number()
+      .typeError("Please enter a valid number")
+      .min(1, "Number must be at least 1")
+      .max(6, "Number must be at most 6")
+      .nullable(),
     right_ear: Yup.string().nullable(),
     left_ear: Yup.string().nullable(),
     audiogram_comment: Yup.string().nullable(),
@@ -52,9 +69,17 @@ const IPhysicalTestForm = ({ handlePrev, handleNext }) => {
     speech: "",
   };
 
+  const handleInputChange = (event, setFieldValue, glass) => {
+    const inputValue = event.target.value;
+    const number = parseInt(inputValue);
+
+    if (!isNaN(number) && number >= 1 && number <= 6) {
+      setFieldValue(glass, number);
+    }
+  };
+
   const handleSubmit = async (values) => {
     console.log(values);
-    
 
     try {
       dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
@@ -94,7 +119,7 @@ const IPhysicalTestForm = ({ handlePrev, handleNext }) => {
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
               >
-                {({ isSubmitting, errors, touched }) => (
+                {({ isSubmitting, errors, touched, setFieldValue }) => (
                   <Form>
                     <div className="row">
                       <div className="col-md-6">
@@ -274,6 +299,7 @@ const IPhysicalTestForm = ({ handlePrev, handleNext }) => {
                                 type="number"
                                 name="re_glass"
                                 className="form-control my-upload"
+                                max={6}
                               />
                               <ErrorMessage
                                 name="re_glass"
@@ -291,6 +317,7 @@ const IPhysicalTestForm = ({ handlePrev, handleNext }) => {
                                 type="number"
                                 name="re_woglass"
                                 className="form-control my-upload"
+                                max={6}
                               />
                               <ErrorMessage
                                 name="re_woglass"
@@ -313,6 +340,7 @@ const IPhysicalTestForm = ({ handlePrev, handleNext }) => {
                                 type="number"
                                 name="le_glass"
                                 className="form-control my-upload"
+                                max={6}
                               />
                               <ErrorMessage
                                 name="le_glass"
@@ -330,6 +358,7 @@ const IPhysicalTestForm = ({ handlePrev, handleNext }) => {
                                 type="number"
                                 name="le_woglass"
                                 className="form-control my-upload"
+                                max={6}
                               />
                               <ErrorMessage
                                 name="le_woglass"
@@ -449,13 +478,23 @@ const IPhysicalTestForm = ({ handlePrev, handleNext }) => {
                         marginBottom: "20px",
                       }}
                     >
-                      <button onClick={handlePrev}>Previous</button>
+                      {/* <button onClick={handlePrev}>Previous</button> */}
+                      <FormButton
+                        text={"Previous"}
+                        direction={"left"}
+                        onClick={handlePrev}
+                      />
 
                       {isLoading ? (
                         <Loading />
                       ) : (
                         // <button onClick={handleSubmit}>Next</button>
-                        <button onClick={handleNext}>Temp Next</button>
+                        // <button onClick={handleNext}>Temp Next</button>
+                        <FormButton
+                          text={"Next"}
+                          direction={"right"}
+                          onClick={handleSubmit}
+                        />
                       )}
                     </div>
                   </Form>

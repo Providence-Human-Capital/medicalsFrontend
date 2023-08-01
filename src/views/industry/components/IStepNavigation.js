@@ -8,14 +8,13 @@ import {
   faNotesMedical,
   faLungs,
   faHeartCircleCheck,
-  faUserDoctor
+  faUserDoctor,
 } from "@fortawesome/free-solid-svg-icons";
 
-const IStepNavigation = ({ currentStep }) => {
- 
+const IStepNavigation = ({ currentStep, setCurrentStep }) => {
   // Handle step click
   const handleStepClick = (step) => {
-    
+    setCurrentStep(step);
   };
   return (
     <Fragment>
@@ -25,7 +24,6 @@ const IStepNavigation = ({ currentStep }) => {
             className={`step-wizard-item ${
               currentStep === 1 ? "current-item" : ""
             }`}
-            onClick={() => handleStepClick(1)}
           >
             <span className="progress-count">
               <FontAwesomeIcon
@@ -36,7 +34,15 @@ const IStepNavigation = ({ currentStep }) => {
               />
             </span>
 
-            <span className="progress-label">Additional Details</span>
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(1)}
+            >
+              Additional Details
+            </span>
           </li>
           <li
             className={`step-wizard-item ${
@@ -53,7 +59,15 @@ const IStepNavigation = ({ currentStep }) => {
               />
             </span>
 
-            <span className="progress-label">Illness and Injuries</span>
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(3)}
+            >
+              Illness and Injuries
+            </span>
           </li>
           <li
             className={`step-wizard-item ${
@@ -70,13 +84,20 @@ const IStepNavigation = ({ currentStep }) => {
               />
             </span>
 
-            <span className="progress-label">Medical Histories</span>
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(3)}
+            >
+              Medical Histories
+            </span>
           </li>
           <li
             className={`step-wizard-item ${
               currentStep === 4 ? "current-item" : ""
             }`}
-            onClick={() => handleStepClick(4)}
           >
             <span className="progress-count">
               <FontAwesomeIcon
@@ -87,13 +108,20 @@ const IStepNavigation = ({ currentStep }) => {
               />
             </span>
 
-            <span className="progress-label">Physical Examination</span>
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(4)}
+            >
+              Physical Examination
+            </span>
           </li>
           <li
             className={`step-wizard-item ${
               currentStep === 5 ? "current-item" : ""
             }`}
-            onClick={() => handleStepClick(5)}
           >
             <span className="progress-count">
               <FontAwesomeIcon
@@ -104,7 +132,15 @@ const IStepNavigation = ({ currentStep }) => {
               />
             </span>
 
-            <span className="progress-label">Cardio Vascular Check</span>
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(5)}
+            >
+              Cardio Vascular Check
+            </span>
           </li>
           <li
             className={`step-wizard-item ${
@@ -121,13 +157,20 @@ const IStepNavigation = ({ currentStep }) => {
               />
             </span>
 
-            <span className="progress-label">Respiratory Systems Check</span>
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(6)}
+            >
+              Respiratory Systems Check
+            </span>
           </li>
           <li
             className={`step-wizard-item ${
               currentStep === 7 ? "current-item" : ""
             }`}
-            onClick={() => handleStepClick(7)}
           >
             <span className="progress-count">
               <FontAwesomeIcon
@@ -138,7 +181,15 @@ const IStepNavigation = ({ currentStep }) => {
               />
             </span>
 
-            <span className="progress-label">Comments & Remarks</span>
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(7)}
+            >
+              Comments & Remarks
+            </span>
           </li>
         </ul>
       </section>

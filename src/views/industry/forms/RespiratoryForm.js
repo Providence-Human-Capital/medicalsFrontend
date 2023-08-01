@@ -8,6 +8,7 @@ import { API } from "../../../config";
 import { formsActions } from "../../../redux_store/forms-store";
 import { uiActions } from "../../../redux_store/ui-store";
 import Loading from "../../../components/loader/Loading";
+import FormButton from "../../../components/buttons/FormButton";
 
 const RespiratoryForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -73,10 +74,10 @@ const RespiratoryForm = ({ handlePrev, handleNext }) => {
         throw new Error("Network response was not ok");
       }
       const responseData = await response.json();
-      dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
       dispatch(formsActions.setOtherRespiratoryCheck(responseData.data));
       toast.dark("Patient's Respiratory Data  Successfully Added");
-      handleNext()
+      handleNext();
     } catch (error) {
       console.log("Error", error);
       dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
@@ -532,7 +533,7 @@ const RespiratoryForm = ({ handlePrev, handleNext }) => {
                       </div>
                     </div>
 
-                    <button onClick={onSubmit}>Submit Test</button>
+                    {/* <button onClick={onSubmit}>Submit Test</button> */}
                     <div
                       className="d-flex"
                       style={{
@@ -543,12 +544,22 @@ const RespiratoryForm = ({ handlePrev, handleNext }) => {
                         marginBottom: "20px",
                       }}
                     >
-                      <button onClick={handlePrev}>Previous</button>
+                      {/* <button onClick={handlePrev}>Previous</button> */}
+                      <FormButton
+                        text={"Previous"}
+                        direction={"left"}
+                        onClick={handlePrev}
+                      />
 
                       {isLoading ? (
                         <Loading />
                       ) : (
-                        <button onClick={handleNext}>Next</button>
+                        // <button onClick={handleNext}>Next</button>
+                        <FormButton
+                          text={"Next"}
+                          direction={"right"}
+                          onClick={onSubmit}
+                        />
                       )}
                     </div>
                   </Form>
