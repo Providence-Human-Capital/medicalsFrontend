@@ -56,56 +56,100 @@ const RespiratoryBox = ({ data }) => {
             <div className="col-md-6">
               <div className="card">
                 <div className="card-body">
-                  <h5 className="card-title">
-                    <FontAwesomeIcon
-                      icon={faLungs}
-                      className="mr-2"
-                      size="2x"
-                    />{" "}
-                    Lungs
-                  </h5>
-                  <p className="card-text">{lungs}</p>
+                  <div className="row">
+                    <div className="col-md-3">
+                      <img
+                        src="/assets/images/lungs.svg"
+                        className="w-100 bg-primary-light rounded10 me-15"
+                        alt=""
+                      />
+                    </div>
+                    <div className="col-md-9">
+                      <h5 className="card-title"
+                       style={{
+                        fontWeight: "bold",
+                      }}
+                      >Lungs</h5>
+                      <p className="card-text">{lungs}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
             <div className="col-md-6">
               <div className="card">
                 <div className="card-body">
-                  <h5 className="card-title">
-                    <FontAwesomeIcon
-                      icon={faLungs}
-                      className="mr-2"
-                      size="2x"
-                    />{" "}
-                    Urine Appearance
-                  </h5>
-                  <p className="card-text">{urine_appear}</p>
+                  <div className="row">
+                    <div className="col-md-3">
+                      <img
+                        src="/assets/images/lungs.svg"
+                        className="w-100 bg-primary-light rounded10 me-15"
+                        alt=""
+                      />
+                    </div>
+                    <div className="col-md-9">
+                      <h5 className="card-title"
+                      style={{
+                        fontWeight: "bold",
+                      }}
+                      >Urine Appearance</h5>
+                      <p className="card-text">{urine_appear}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
             <div className="col-md-12">
               <div className="card">
                 <div className="card-body">
-                  <h5 className="card-title">
-                    <FontAwesomeIcon icon={faXRay} className="mr-2" size="1x" />{" "}
-                    X-ray on Comment
-                  </h5>
-                  <p className="card-text">{x_ray_comment}</p>
+                  <div className="row">
+                    <div className="col-md-3">
+                      <img
+                        src="/assets/images/x-ray.svg"
+                        className="w-100 bg-primary-light rounded10 me-15"
+                        alt=""
+                      />
+                    </div>
+                    <div className="col-md-9">
+                      <h5
+                        className="card-title"
+                        style={{
+                          textTransform: "uppercase",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Patient's XRay on Comment
+                      </h5>
+                      <p className="card-text">{x_ray_comment}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
             <div className="col-md-12">
               <div className="card">
                 <div className="card-body">
-                  <h5 className="card-title">
-                    <FontAwesomeIcon
-                      icon={faHeart}
-                      className="mr-2"
-                      size="1x"
-                    />{" "}
-                    Spirometry Comment
-                  </h5>
-                  <p className="card-text">{spirometry_comment}</p>
+                  <div className="row">
+                    <div className="col-md-3">
+                      <img
+                        src="/assets/images/syringe.svg"
+                        className="w-100 bg-primary-light rounded10 me-15"
+                        alt=""
+                      />
+                    </div>
+                    <div className="col-md-9">
+                      <h5
+                        className="card-title"
+                        style={{
+                          textTransform: "uppercase",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Spirometry Comment
+                      </h5>
+                      <p className="card-text">{spirometry_comment}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

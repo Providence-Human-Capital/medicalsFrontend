@@ -203,7 +203,7 @@ const PatientDetails = () => {
         console.log("Industry Patient Data: " + JSON.stringify(data));
 
         dispatch(formsActions.setHomeAddress(data.home_address));
-        formsActions.setInjuriesAndIllnesses(data.diseases);
+        dispatch(formsActions.setInjuriesAndIllnesses(data.diseases));
         dispatch(
           formsActions.setOtherPhysicalExamination(
             data.latest_other_physical_exam
@@ -213,22 +213,12 @@ const PatientDetails = () => {
         dispatch(
           formsActions.setOtherCardioVascularCheck(data.cardio_vascular)
         );
-        // dispatch(formsActions.setOtherRespiratoryCheck());
+        dispatch(formsActions.setOtherRespiratoryCheck(data.respiratory));
 
         dispatch(
           formsActions.setOtherCommentsAndRemarks(data.icomments_remarks)
         );
       });
-
-      //   {
-      //     "next_of_kins": [],
-      //     "home_address": null,
-      //     "medical_history": null,
-      //     "cardio_vascular": null,
-      //     "latest_other_physical_exam": null,
-      //     "diseases": [],
-      //     "icomments_remarks": null
-      //   }
     }
 
     calculateDaysLeftForCertificateValidity(patientId).then((data) => {

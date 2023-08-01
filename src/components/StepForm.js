@@ -8,7 +8,10 @@ import {
   faClipboardCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
-const StepForm = ({ currentStep }) => {
+const StepForm = ({ currentStep, setCurrentStep }) => {
+  const handleStepClick = (step) => {
+    setCurrentStep(step);
+  };
   return (
     <Fragment>
       <section className="step-wizard">
@@ -27,7 +30,15 @@ const StepForm = ({ currentStep }) => {
               />
             </span>
 
-            <span className="progress-label">Industry Classification</span>
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(1)}
+            >
+              Industry Classification
+            </span>
           </li>
           <li
             className={`step-wizard-item ${
@@ -43,7 +54,15 @@ const StepForm = ({ currentStep }) => {
               />
             </span>
 
-            <span className="progress-label">Mineral & Dust Exposure</span>
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(2)}
+            >
+              Mineral & Dust Exposure
+            </span>
           </li>
           <li
             className={`step-wizard-item ${
@@ -59,7 +78,15 @@ const StepForm = ({ currentStep }) => {
               />
             </span>
 
-            <span className="progress-label">Control Measures</span>
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(3)}
+            >
+              Control Measures
+            </span>
           </li>
           <li
             className={`step-wizard-item ${
@@ -75,7 +102,15 @@ const StepForm = ({ currentStep }) => {
               />
             </span>
 
-            <span className="progress-label">Additional Patient Details</span>
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(4)}
+            >
+              Additional Patient Details
+            </span>
           </li>
         </ul>
       </section>

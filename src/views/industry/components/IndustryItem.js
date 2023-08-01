@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
-import { formatDate } from "../../../helpers/helpers";
+import { PHYSICAL_EXAM, formatDate } from "../../../helpers/helpers";
 import { handleDeletePatient } from "../../../services/api";
 import { Link } from "react-router-dom";
 import SwabResultDropdown from "../../patients/components/SwabResultDropdown";
@@ -44,9 +44,7 @@ const IndustryItem = ({ patient }) => {
             <strong>{formatDate(patient.last_x_ray)}</strong>
           </td>
         )}
-        <td>
-          <span className="badge badge-danger">PENDING</span>
-        </td>
+        <td>{PHYSICAL_EXAM(patient.certificate_status)}</td>
 
         <td class="text-end">
           <Link

@@ -265,7 +265,10 @@ const PneumoPatientUpdate = () => {
               </Fragment>
             ) : (
               <Fragment>
-                <StepForm currentStep={currentStep} />
+                <StepForm
+                  currentStep={currentStep}
+                  setCurrentStep={setCurrentStep}
+                />
                 {formComponent}
               </Fragment>
             )}
@@ -275,7 +278,7 @@ const PneumoPatientUpdate = () => {
             style={{
               overflowY: "scroll",
               height: "80vh",
-              overflowX: "hidden"
+              overflowX: "hidden",
             }}
           >
             <PatientSideView />

@@ -43,17 +43,17 @@ const FoodPatientUpdate = () => {
   let foodHandlerForm;
   switch (currentStep) {
     case 1:
-      if (fPhysicalExamination.length !== 0) {
-        handleNext();
-      } else {
-        foodHandlerForm = (
-          <PhysicalExamForm handlePrev={handlePrev} handleNext={handleNext} />
-        );
-      }
+      // if (fPhysicalExamination.length !== 0) {
+      //   handleNext();
+      // } else {
+      //   foodHandlerForm = (
+      //     <PhysicalExamForm handlePrev={handlePrev} handleNext={handleNext} />
+      //   );
+      // }
 
-      // foodHandlerForm = (
-      //   <PhysicalExamForm handlePrev={handlePrev} handleNext={handleNext} />
-      // );
+      foodHandlerForm = (
+        <PhysicalExamForm handlePrev={handlePrev} handleNext={handleNext} />
+      );
 
       break;
     case 2:
@@ -68,23 +68,29 @@ const FoodPatientUpdate = () => {
       );
       break;
     case 4:
-      if (patientXray !== null) {
-        handleNext();
-      } else {
-        foodHandlerForm = (
-          <XrayForm handlePrev={handlePrev} handleNext={handleNext} />
-        );
-      }
+      // if (patientXray !== null) {
+      //   handleNext();
+      // } else {
+      //   foodHandlerForm = (
+      //     <XrayForm handlePrev={handlePrev} handleNext={handleNext} />
+      //   );
+      // }
+      foodHandlerForm = (
+        <XrayForm handlePrev={handlePrev} handleNext={handleNext} />
+      );
 
       break;
     case 5:
-      if (patientsRemarks !== null) {
-        navigate(`/patients/${patientId}`);
-      } else {
-        foodHandlerForm = (
-          <ObeservationForm handlePrev={handlePrev} handleNext={handleNext} />
-        );
-      }
+      // if (patientsRemarks !== null) {
+      //   navigate(`/patients/${patientId}`);
+      // } else {
+      //   foodHandlerForm = (
+      //     <ObeservationForm handlePrev={handlePrev} handleNext={handleNext} />
+      //   );
+      // }
+      foodHandlerForm = (
+        <ObeservationForm handlePrev={handlePrev} handleNext={handleNext} />
+      );
 
       break;
     default:
@@ -108,7 +114,10 @@ const FoodPatientUpdate = () => {
       <section className="content">
         <div className="row">
           <div className="col-xl-8 col-12">
-            <FStepNavigation currentStep={currentStep} />
+            <FStepNavigation
+              currentStep={currentStep}
+              setCurrentStep={setCurrentStep}
+            />
             {foodHandlerForm}
           </div>
           <div
