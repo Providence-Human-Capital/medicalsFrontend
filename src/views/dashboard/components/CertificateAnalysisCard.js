@@ -54,7 +54,15 @@ const CertificateAnalysisCard = () => {
     <Fragment>
       <div className="box">
         <div className="box-header no-border">
-          <h4 className="box-title">Certificate Analysis</h4>
+          <h4
+            className="box-title"
+            style={{
+              textTransform: "uppercase",
+              fontWeight: "bold",
+            }}
+          >
+            Certificate Statistics
+          </h4>
         </div>
         <div className="box-body pt-0">
           <div>

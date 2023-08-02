@@ -30,6 +30,8 @@ import { uiActions } from "../redux_store/ui-store";
 import Loading from "../components/loader/Loading";
 import { tobaccoActions } from "../redux_store/tobacco-store";
 import { Link } from "react-router-dom";
+import LatestClientsBox from "../views/dashboard/components/LatestClientsBox";
+import DueMedicalsBox from "../views/dashboard/components/DueMedicalsBox";
 
 const Home = ({}) => {
   const dispatch = useDispatch();
@@ -169,15 +171,15 @@ const Home = ({}) => {
             </div>
 
             <div className="row">
-              <div className="col-xl-6 col-12">
-                {/* <BmiAnalysis /> */}
+              <div className="col-xl-12 col-12">
+                <LatestClientsBox />
               </div>
             </div>
           </div>
 
           <div className="col-xl-4 col-12">
+            <DueMedicalsBox />
             <IllnessAnalysisCard />
-            {/* <SmokingAnalysisCard /> */}
           </div>
         </div>
       </section>

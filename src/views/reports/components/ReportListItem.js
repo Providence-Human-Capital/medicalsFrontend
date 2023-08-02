@@ -6,7 +6,7 @@ const ReportListItem = ({ report }) => {
   return (
     <tr>
       <td class="ps-0 py-8">
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-start">
           <div class="flex-shrink-0 me-20">
             <div class="bg-img h-50 w-50 my-bgg"></div>
           </div>
@@ -21,26 +21,26 @@ const ReportListItem = ({ report }) => {
           </div>
         </div>
       </td>
-      <td>
+      <td className="text-center">
         <span class="text-fade fw-600 d-block fs-16">Pneumoconiosis</span>
         <span class="text-dark fw-600 d-block fs-16">
-          <span class="badge badge-primary-light badge-lg">
+          <span class="badge badge-pill badge-primary-light badge-lg">
             Patients {report.Pneumoconiosis.length}
           </span>
         </span>
       </td>
-      <td>
+      <td className="text-center">
         <span class="text-fade fw-600 d-block fs-16">City Of Harare</span>
         <span class="text-dark fw-600 d-block fs-16">
-          <span class="badge badge-primary-light badge-lg">
+          <span class="badge badge-pill badge-primary-light badge-lg">
             Patients {report["City Of Harare"].length}
           </span>
         </span>
       </td>
-      <td>
+      <td className="text-center">
         <span class="text-fade fw-600 d-block fs-16">Industry & Other</span>
         <span class="text-dark fw-600 d-block fs-16">
-          <span class="badge badge-primary-light badge-lg">
+          <span class="badge badge-pill badge-primary-light badge-lg">
             Patients {report["Industry"].length}
           </span>
         </span>
@@ -49,12 +49,12 @@ const ReportListItem = ({ report }) => {
         <span class="badge badge-primary-light badge-lg">Approved</span>
       </td> */}
       <td class="text-end">
-        <a
+        {/* <a
           href="#"
           class="waves-effect waves-light btn btn-primary btn-circle mx-5"
         >
           <span class="icon-Bookmark"></span>
-        </a>
+        </a> */}
         <Link
           to={`/report/single/${report.day}`}
           class="waves-effect waves-light btn btn-primary btn-circle mx-5"

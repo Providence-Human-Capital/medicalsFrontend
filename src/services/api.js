@@ -663,3 +663,25 @@ export const chechCertificatesStatusUpdate = async (patientId) => {
     console.log(error);
   }
 };
+
+export const getLatestClients = async () => {
+  try {
+    const response = await fetch(`${API}/latest/patients`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData.data;
+    } else {
+      throw new Error("Failed to fetch latest patients");
+    }
+  } catch (error) {
+    console.log(error);
+    throw error; // Rethrow the error to handle it in the calling code
+  }
+};

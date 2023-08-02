@@ -1,9 +1,18 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ReportListItem from "./ReportListItem";
+import ReactPaginate from "react-paginate";
+import { getCurrentPageData } from "../../../helpers/helpers";
 
 const ReportsList = ({ reportsData }) => {
   const patients = useSelector((state) => state.patient.patients) || [];
+
+  const dispatch = useDispatch();
+  const [pageNumber, setPageNumber] = useState(0);
+  const itemsPerPage = 8;
+
+
+  const currentPageData = getCurrentPageData(reportsData, pageNumber, itemsPerPage)
 
   useEffect(() => {}, []);
   return (
@@ -26,13 +35,15 @@ const ReportsList = ({ reportsData }) => {
                     style={{
                       minWidth: "80px",
                     }}
+                   
                   >
-                    <span className="text-dark">Date</span>
+                    <span className="text-dark">Date  Of Entry</span>
                   </th>
                   <th
                     style={{
                       minWidth: "150px",
                     }}
+                    className="text-center"
                   >
                     <span className="text-fade">Pneumoconiosis Stats</span>
                   </th>
@@ -40,6 +51,7 @@ const ReportsList = ({ reportsData }) => {
                     style={{
                       minWidth: "150px",
                     }}
+                    className="text-center"
                   >
                     <span className="text-fade">City Of Harare Stats </span>
                   </th>
@@ -47,6 +59,7 @@ const ReportsList = ({ reportsData }) => {
                     style={{
                       minWidth: "150px",
                     }}
+                    className="text-center"
                   >
                     <span className="text-fade">Industries & Other Stats</span>
                   </th>
@@ -66,11 +79,28 @@ const ReportsList = ({ reportsData }) => {
               </thead>
               <tbody>
                 {reportsData &&
-                  reportsData.map((report) => (
+                  currentPageData.map((report) => (
                     <ReportListItem key={report.id}  report={report} />
                   ))}
               </tbody>
             </table>
+            <div className="table-spacing"></div>
+            <div className="paginate-position">
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              breakLabel={"..."}
+              breakClassName={"break-me"}
+              pageCount={Math.ceil(patients.length / itemsPerPage)}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={(patients) => {
+                setPageNumber(patients.selected);
+              }}
+              containerClassName={"pagination"}
+              activeClassName={"active-paginate"}
+            />
+          </div>
           </div>
         </div>
       </div>

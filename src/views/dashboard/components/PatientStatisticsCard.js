@@ -34,7 +34,15 @@ const PatientStatisticsCard = () => {
     <Fragment>
       <div className="box">
         <div className="box-header no-border">
-          <h4 className="box-title">Patient Statistics</h4>
+          <h4
+            className="box-title"
+            style={{
+              textTransform: "uppercase",
+              fontWeight: "bold",
+            }}
+          >
+            Patient Statistics
+          </h4>
         </div>
         <div className="box-body">
           <Chart
@@ -48,5 +56,4 @@ const PatientStatisticsCard = () => {
     </Fragment>
   );
 };
- export default PatientStatisticsCard;
- 
+export default PatientStatisticsCard;
