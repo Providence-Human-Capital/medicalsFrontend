@@ -11,8 +11,11 @@ const ReportsList = ({ reportsData }) => {
   const [pageNumber, setPageNumber] = useState(0);
   const itemsPerPage = 8;
 
-
-  const currentPageData = getCurrentPageData(reportsData, pageNumber, itemsPerPage)
+  const currentPageData = getCurrentPageData(
+    reportsData,
+    pageNumber,
+    itemsPerPage
+  );
 
   useEffect(() => {}, []);
   return (
@@ -22,85 +25,90 @@ const ReportsList = ({ reportsData }) => {
           <h4 className="box-title align-items-start flex-column">
             Daily Patient Reports
             {patients && (
-              <small className="subtitle">{patients.length} Total Patients</small>
+              <small className="subtitle">
+                {patients.length} Total Patients
+              </small>
             )}
           </h4>
         </div>
         <div className="box-body">
           <div className="table-responsive">
-            <table className="table no-border">
+            <table className="table table-striped table-hover">
               <thead>
-                <tr className="text-uppercase bg-lightest">
+                <tr>
+                  <th
+                    style={{
+                      minWidth: "20px",
+                    }}
+                    className="text-center bb-2"
+                  >
+                    No.
+                  </th>
                   <th
                     style={{
                       minWidth: "80px",
                     }}
-                   
+                    className="px-12 bb-2"
                   >
-                    <span className="text-dark">Date  Of Entry</span>
+                    Date Of Entry
                   </th>
                   <th
                     style={{
                       minWidth: "150px",
                     }}
-                    className="text-center"
+                    className="text-center bb-2"
                   >
-                    <span className="text-fade">Pneumoconiosis Stats</span>
+                    Pneumoconiosis Stats
                   </th>
                   <th
                     style={{
                       minWidth: "150px",
                     }}
-                    className="text-center"
+                    className="text-center bb-2"
                   >
-                    <span className="text-fade">City Of Harare Stats </span>
+                    City Of Harare Stats
                   </th>
                   <th
                     style={{
                       minWidth: "150px",
                     }}
-                    className="text-center"
+                    className="text-center bb-2"
                   >
-                    <span className="text-fade">Industries & Other Stats</span>
+                    Industries & Other Stats
                   </th>
-                  {/* <th
-                    style={{
-                      minWidth: "100px",
-                    }}
-                  >
-                    <span className="text-fade">status</span>
-                  </th> */}
+
                   <th
                     style={{
                       minWidth: "120px",
                     }}
+                    className="text-center bb-2"
                   ></th>
                 </tr>
               </thead>
               <tbody>
                 {reportsData &&
-                  currentPageData.map((report) => (
-                    <ReportListItem key={report.id}  report={report} />
+                  currentPageData.map((report, index) => (
+                    <ReportListItem key={report.id} report={report} index={index} />
                   ))}
               </tbody>
             </table>
             <div className="table-spacing"></div>
             <div className="paginate-position">
-            <ReactPaginate
-              previousLabel={"Previous"}
-              nextLabel={"Next"}
-              breakLabel={"..."}
-              breakClassName={"break-me"}
-              pageCount={Math.ceil(patients.length / itemsPerPage)}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={(patients) => {
-                setPageNumber(patients.selected);
-              }}
-              containerClassName={"pagination"}
-              activeClassName={"active-paginate"}
-            />
-          </div>
+              <ReactPaginate
+                previousLabel={"Previous"}
+                nextLabel={"Next"}
+                breakLabel={"..."}
+                breakClassName={"break-me"}
+                pageCount={Math.ceil(patients.length / itemsPerPage)}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={(patients) => {
+                  setPageNumber(patients.selected);
+                }}
+                containerClassName={"pagination"}
+                activeClassName={"active-paginate"}
+              />
+            </div>
           </div>
         </div>
       </div>

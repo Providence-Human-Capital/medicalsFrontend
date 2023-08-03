@@ -685,3 +685,112 @@ export const getLatestClients = async () => {
     throw error; // Rethrow the error to handle it in the calling code
   }
 };
+
+export const getClientsDueForMedicals = async () => {
+  try {
+    const response = await fetch(`${API}/due/medicals`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData.data;
+    } else {
+      throw new Error("Failed to fetch latest patients");
+    }
+  } catch (error) {
+    console.log(error);
+    throw error; // Rethrow the error to handle it in the calling code
+  }
+};
+export const getCompanyClientsDueForMedicals = async (companyId) => {
+  try {
+    const response = await fetch(`${API}/company/due/medicals/${companyId}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData.data;
+    } else {
+      throw new Error("Failed to fetch latest patients");
+    }
+  } catch (error) {
+    console.log(error);
+    throw error; // Rethrow the error to handle it in the calling code
+  }
+};
+
+export const getCompanyAttendanceStats = async (companyId, year) => {
+  try {
+    const response = await fetch(
+      `${API}/company/${companyId}/clients/stats/${year}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData;
+    } else {
+      throw new Error("Failed to fetch stats");
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const getAllCompanyClients = async (companyId) => {
+  try {
+    const response = await fetch(`${API}/company/${companyId}/clients`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData.data;
+    } else {
+      throw new Error("Failed to fetch stats");
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const getGeneralCompanyStats = async (companyId) => {
+  try {
+    const response = await fetch(`${API}/company/${companyId}/general/stats`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData;
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

@@ -17,6 +17,8 @@ import InjuryBox from "./components/InjuryBox";
 import OtherPhysicalExamination from "./components/OtherPhysicalExamination";
 import CardioBox from "./components/CardioBox";
 import RespiratoryBox from "./components/RespiratoryBox";
+import PhysicalExamForm from "../patients/forms/PhysicalExamForm";
+import Vitals from "../patients/components/Vitals";
 
 const IndustryPatientUpdate = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -28,6 +30,8 @@ const IndustryPatientUpdate = () => {
   const otherMedicalHistoryRecord = useSelector(
     (state) => state.forms.otherMedicalHistory
   );
+  const singlePatient = useSelector((state) => state.patient.singlePatient);
+  const vitals = useSelector((state) => state.forms.fPhysicalExamination);
   const otherPhysicalExaminationRecord = useSelector(
     (state) => state.forms.otherPhysicalExamination
   );
@@ -57,41 +61,57 @@ const IndustryPatientUpdate = () => {
 
   switch (currentStep) {
     case 1:
-      if (homeAddressesRecord) {
-        handleNext();
-      } else {
-        industryFormComponent = (
-          <HomeAddressForm handlePrev={handlePrev} handleNext={handleNext} />
-        );
-      }
+      // if (homeAddressesRecord) {
+      //   handleNext();
+      // } else {
+      //   industryFormComponent = (
+      //     <HomeAddressForm handlePrev={handlePrev} handleNext={handleNext} />
+      //   );
+      // }
+      industryFormComponent = (
+        <PhysicalExamForm handlePrev={handlePrev} handleNext={handleNext} />
+      );
 
       break;
     case 2:
+      // if (homeAddressesRecord) {
+      //   handleNext();
+      // } else {
+      //   industryFormComponent = (
+      //     <HomeAddressForm handlePrev={handlePrev} handleNext={handleNext} />
+      //   );
+      // }
+      industryFormComponent = (
+        <HomeAddressForm handlePrev={handlePrev} handleNext={handleNext} />
+      );
+
+      break;
+    case 3:
       industryFormComponent = (
         <IllnessInjuryForm handlePrev={handlePrev} handleNext={handleNext} />
       );
       break;
-    case 3:
+    case 4:
       industryFormComponent = (
         <MedicalHistoryForm handlePrev={handlePrev} handleNext={handleNext} />
       );
       break;
-    case 4:
+    case 5:
       industryFormComponent = (
         <IPhysicalTestForm handlePrev={handlePrev} handleNext={handleNext} />
       );
       break;
-    case 5:
+    case 6:
       industryFormComponent = (
         <CardioVascularForm handlePrev={handlePrev} handleNext={handleNext} />
       );
       break;
-    case 6:
+    case 7:
       industryFormComponent = (
         <RespiratoryForm handlePrev={handlePrev} handleNext={handleNext} />
       );
       break;
-    case 7:
+    case 8:
       industryFormComponent = (
         <ICommentsRemarksForm handlePrev={handlePrev} handleNext={handleNext} />
       );
@@ -121,10 +141,11 @@ const IndustryPatientUpdate = () => {
           >
             <PatientSideView />
             <HomeAddress homeAddress={homeAddressesRecord} />
-            <OtherPhysicalExamination
+            {/* <OtherPhysicalExamination
               physical={otherPhysicalExaminationRecord}
               vitals={otherCardioVascularCheckRecord}
-            />
+            /> */}
+             <Vitals patient={singlePatient} vitals={vitals} />
             <CardioBox data={otherCardioVascularCheckRecord} />
             <MedicalHistoryBox mHistory={otherMedicalHistoryRecord} />
             <InjuryBox injuries={otherIllnessInjuriesRecord} />

@@ -12,6 +12,7 @@ import { patientActions } from "../../redux_store/patients-store";
 import InfoBox from "./components/InfoBox";
 import TobaccoBox from "./components/TobaccoBox";
 import XRayBox from "./components/XRayBox";
+import { Helmet } from "react-helmet";
 import {
   calculateDaysLeftForCertificateValidity,
   chechCertificatesStatusUpdate,
@@ -241,6 +242,8 @@ const PatientDetails = () => {
         ]);
 
         const physicalExamRecords = await physicalExamRecordsResponse.json();
+
+        console.log("LatestPhysicalExamRecords", physicalExamRecords)
         if (physicalExamRecordsResponse.ok) {
           dispatch(
             formsActions.setPhysicalExamination(physicalExamRecords.data)
@@ -374,6 +377,12 @@ const PatientDetails = () => {
         activeTab={singlePatient.category}
       />
 
+      <Helmet>
+        <title>
+          Client : {singlePatient.attendee.first_name} {singlePatient.attendee.last_name}
+        </title>
+      </Helmet>
+
       {singlePatient && (
         <section className="content">
           <div className="row">
@@ -386,7 +395,6 @@ const PatientDetails = () => {
                     {PHYSICAL_EXAM(singlePatient.certificate_status)}
                   </h4>
                 </div>
-
                 <div className="d-flex">
                   {isLoading ? (
                     <Loading />
@@ -448,10 +456,11 @@ const PatientDetails = () => {
                   }}
                 >
                   <div>
-                    <PhysicalBox
+                    {/* <PhysicalBox
                       patient={singlePatient}
                       physical={pneumoPhysicalTestsRecord}
-                    />
+                    /> */}
+                     <Vitals patient={singlePatient} vitals={vitals} />
                     <IndustryClassificationBox
                       classification={industryClassification}
                     />
@@ -505,10 +514,11 @@ const PatientDetails = () => {
                 >
                   <HomeAddress homeAddress={homeAddressesRecord} />
                   <MedicalHistoryBox mHistory={otherMedicalHistoryRecord} />
-                  <OtherPhysicalExamination
+                  {/* <OtherPhysicalExamination
                     physical={otherPhysicalExaminationRecord}
                     vitals={otherCardioVascularCheckRecord}
-                  />
+                  /> */}
+                  <Vitals patient={singlePatient} vitals={vitals} />
                   <InjuryBox injuries={otherIllnessInjuriesRecord} />
                   <CardioBox data={otherCardioVascularCheckRecord} />
                   <RespiratoryBox data={otherRespiratoryCheckRecord} />

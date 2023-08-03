@@ -91,61 +91,71 @@ const PatientTable = () => {
         <EmptyTable />
       ) : (
         <Fragment>
-          <div className="spacing">
-            {loading ? (
-              <Loading />
-            ) : (
-              <ExportExcelButton onClick={handleExportClick} />
-            )}
+          <div className="d-md-flex align-items-center justify-content-between mb-20">
+            <SearchBox
+              searchTerm={searchTerm}
+              handleSearch={handleSearch}
+              placeholderText={
+                "Search by Company Name, First Name, Or Last name"
+              }
+            />
+
+            <div className="spacing">
+              {loading ? (
+                <Loading />
+              ) : (
+                <ExportExcelButton onClick={handleExportClick} />
+              )}
+            </div>
           </div>
 
-          <SearchBox
-            searchTerm={searchTerm}
-            handleSearch={handleSearch}
-            placeholderText={"Search by Company Name, First Name, Or Last name"}
-          />
+          <div className="table-responsive">
+            <table className="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th
+                    onClick={() => handleSort("id")}
+                    className="pointer-style"
+                  >
+                    ID
+                  </th>
+                  <th
+                    onClick={() => handleSort("first_name")}
+                    className="pointer-style"
+                  >
+                    First Name
+                  </th>
+                  <th
+                    onClick={() => handleSort("last_name")}
+                    className="pointer-style"
+                  >
+                    Last Name
+                  </th>
+                  <th
+                    onClick={() => handleSort("company")}
+                    className="pointer-style"
+                  >
+                    Company
+                  </th>
+                  <th>National_ID</th>
+                  <th>Date Of Birth</th>
+                  <th>Phone Number</th>
+                  <th>Employee Number</th>
+                  <th>Swab Status</th>
+                  <th>Last X-Ray</th>
+                  <th>Certificate Status</th>
+                  <th className="fw-500">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {allPatients &&
+                  currentPageData.map((patient) => (
+                    <PatientItem key={patient.id} patient={patient} />
+                  ))}
+              </tbody>
+            </table>
+          </div>
 
-          <table className="table border-no" id="example1">
-            <thead>
-              <tr>
-                <th onClick={() => handleSort("id")} className="pointer-style">
-                  ID
-                </th>
-                <th
-                  onClick={() => handleSort("first_name")}
-                  className="pointer-style"
-                >
-                  First Name
-                </th>
-                <th
-                  onClick={() => handleSort("last_name")}
-                  className="pointer-style"
-                >
-                  Last Name
-                </th>
-                <th
-                  onClick={() => handleSort("company")}
-                  className="pointer-style"
-                >
-                  Company
-                </th>
-                <th>National_ID</th>
-                <th>Date Of Birth</th>
-                <th>Phone Number</th>
-                <th>Employee Number</th>
-                <th>Swab Status</th>
-                <th>Last X-Ray</th>
-                <th>Certificate Status</th>
-                <th className="fw-500">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {allPatients &&
-                currentPageData.map((patient) => (
-                  <PatientItem key={patient.id} patient={patient} />
-                ))}
-            </tbody>
-          </table>
           <div className="table-spacing"></div>
           <div className="paginate-position">
             <ReactPaginate

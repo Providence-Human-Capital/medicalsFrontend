@@ -106,3 +106,23 @@ body {
 .current-item .progress-count {
   color: #58AD46;
 }
+
+
+.step-wizard-list::-webkit-scrollbar {
+  width: 3px;
+  height: 10px; 
+}
+
+.step-wizard-list::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #f1f1f1; /* Change the background color of the scrollbar track */
+}
+
+.step-wizard-list::-webkit-scrollbar-thumb {
+  background-color: #58ad46; /* Change the color of the scrollbar thumb */
+  border-radius: 10px; /* Adjust the border radius of the scrollbar thumb */
+}
+
+.step-wizard-list::-webkit-scrollbar-thumb:hover {
+  background-color: #54a144; /* Change the color of the scrollbar thumb on hover */
+}

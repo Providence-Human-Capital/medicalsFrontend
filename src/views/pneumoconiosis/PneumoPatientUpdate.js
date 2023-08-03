@@ -29,6 +29,8 @@ import ResultsAndInvestigation from "./components/ResultsAndInvestigation";
 import AdditionalTestsBox from "./components/AdditionalTestsBox";
 import MeasuresBox from "./components/MeasuresBox";
 import { useNavigate, useParams } from "react-router-dom";
+import PhysicalExamForm from "../patients/forms/PhysicalExamForm";
+import Vitals from "../patients/components/Vitals";
 
 const PneumoPatientUpdate = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -73,6 +75,7 @@ const PneumoPatientUpdate = () => {
   );
   const pMeasuresRecord = useSelector((state) => state.forms.pMeasures);
   const singlePatient = useSelector((state) => state.patient.singlePatient);
+  const vitals = useSelector((state) => state.forms.fPhysicalExamination);
 
   const handleNext = (data) => {
     setCurrentStep(currentStep + 1);
@@ -97,45 +100,65 @@ const PneumoPatientUpdate = () => {
   let nextPhaseFormComponent;
   switch (currentStep) {
     case 1:
-      if (industryClassification) {
-        handleNext();
-      } else {
-        formComponent = (
-          <IndustryClassificationForm
-            handlePrev={handlePrev}
-            handleNext={handleNext}
-          />
-        );
-      }
-
+      formComponent = (
+        <PhysicalExamForm handlePrev={handlePrev} handleNext={handleNext} />
+      );
       break;
     case 2:
-      if (pMineralDExposureRecord) {
-        handleNext();
-      } else {
-        formComponent = (
-          <MineralDustExposureForm
-            handlePrev={handlePrev}
-            handleNext={handleNext}
-          />
-        );
-      }
+      // if (industryClassification) {
+      //   handleNext();
+      // } else {
+      //   formComponent = (
+      //     <IndustryClassificationForm
+      //       handlePrev={handlePrev}
+      //       handleNext={handleNext}
+      //     />
+      //   );
+      // }
+      formComponent = (
+        <IndustryClassificationForm
+          handlePrev={handlePrev}
+          handleNext={handleNext}
+        />
+      );
 
       break;
     case 3:
-      if (pMeasuresRecord) {
-        handleNext();
-      } else {
-        formComponent = (
-          <ControlMeasuresForm
-            handlePrev={handlePrev}
-            handleNext={handleNext}
-          />
-        );
-      }
+      // if (pMineralDExposureRecord) {
+      //   handleNext();
+      // } else {
+      //   formComponent = (
+      //     <MineralDustExposureForm
+      //       handlePrev={handlePrev}
+      //       handleNext={handleNext}
+      //     />
+      //   );
+      // }
+      formComponent = (
+        <MineralDustExposureForm
+          handlePrev={handlePrev}
+          handleNext={handleNext}
+        />
+      );
 
       break;
     case 4:
+      // if (pMeasuresRecord) {
+      //   handleNext();
+      // } else {
+      //   formComponent = (
+      //     <ControlMeasuresForm
+      //       handlePrev={handlePrev}
+      //       handleNext={handleNext}
+      //     />
+      //   );
+      // }
+      formComponent = (
+        <ControlMeasuresForm handlePrev={handlePrev} handleNext={handleNext} />
+      );
+
+      break;
+    case 5:
       formComponent = (
         <HealthyQuestionnaireForm
           handlePrev={handlePrev}
@@ -282,10 +305,11 @@ const PneumoPatientUpdate = () => {
             }}
           >
             <PatientSideView />
-            <PhysicalBox
+            {/* <PhysicalBox
               patient={singlePatient}
               physical={pneumoPhysicalTestsRecord}
-            />
+            /> */}
+            <Vitals patient={singlePatient} vitals={vitals} />
             <IndustryClassificationBox
               classification={industryClassification}
             />

@@ -7,17 +7,17 @@ const BreadCrumb = ({ title, activeTab }) => {
       <div className="content-header mb-4">
         <div className="d-flex align-items-center">
           <div className="me-auto">
-            <h4 className="page-title">{ title }</h4>
+            <h4 className="page-title">{title}</h4>
             <div className="d-inline-block align-items-center">
               <nav>
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
                     <Link to={"/"}>
-                      <i className="mdi mdi-home-outline"></i>
+                      <i className="fa fa-folder-o"></i>
                     </Link>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
-                    { activeTab }
+                    <strong>{activeTab}</strong>
                   </li>
                 </ol>
               </nav>

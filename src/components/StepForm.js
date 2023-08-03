@@ -37,7 +37,7 @@ const StepForm = ({ currentStep, setCurrentStep }) => {
               }}
               onClick={() => handleStepClick(1)}
             >
-              Industry Classification
+              Vitals
             </span>
           </li>
           <li
@@ -47,7 +47,7 @@ const StepForm = ({ currentStep, setCurrentStep }) => {
           >
             <span className="progress-count">
               <FontAwesomeIcon
-                icon={faCloud}
+                icon={faIndustry}
                 className={`progress-icon ${
                   currentStep === 2 ? "current-icon" : ""
                 }`}
@@ -61,7 +61,7 @@ const StepForm = ({ currentStep, setCurrentStep }) => {
               }}
               onClick={() => handleStepClick(2)}
             >
-              Mineral & Dust Exposure
+              Industry Classification
             </span>
           </li>
           <li
@@ -71,7 +71,7 @@ const StepForm = ({ currentStep, setCurrentStep }) => {
           >
             <span className="progress-count">
               <FontAwesomeIcon
-                icon={faTools}
+                icon={faCloud}
                 className={`progress-icon ${
                   currentStep === 3 ? "current-icon" : ""
                 }`}
@@ -85,7 +85,7 @@ const StepForm = ({ currentStep, setCurrentStep }) => {
               }}
               onClick={() => handleStepClick(3)}
             >
-              Control Measures
+              Mineral & Dust Exposure
             </span>
           </li>
           <li
@@ -95,7 +95,7 @@ const StepForm = ({ currentStep, setCurrentStep }) => {
           >
             <span className="progress-count">
               <FontAwesomeIcon
-                icon={faClipboardCheck}
+                icon={faTools}
                 className={`progress-icon ${
                   currentStep === 4 ? "current-icon" : ""
                 }`}
@@ -108,6 +108,30 @@ const StepForm = ({ currentStep, setCurrentStep }) => {
                 cursor: "pointer",
               }}
               onClick={() => handleStepClick(4)}
+            >
+              Control Measures
+            </span>
+          </li>
+          <li
+            className={`step-wizard-item ${
+              currentStep === 5 ? "current-item" : ""
+            }`}
+          >
+            <span className="progress-count">
+              <FontAwesomeIcon
+                icon={faClipboardCheck}
+                className={`progress-icon ${
+                  currentStep === 5 ? "current-icon" : ""
+                }`}
+              />
+            </span>
+
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(5)}
             >
               Additional Patient Details
             </span>

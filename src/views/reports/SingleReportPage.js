@@ -42,15 +42,8 @@ const SingleReportPage = () => {
         }}
       ></div>
       <div className="row">
-        <div className="col-xl-7 col-12">
-          <div className="pdf-container">
-            <PDFViewer className="pdf-viewer">
-              <ReportDocument />
-            </PDFViewer>
-          </div>
-        </div>{" "}
         {singleDayReport.length > 0 && (
-          <div className="col-xl-5 col-12">
+          <div className="col-xl-6 col-12">
             <div className="box">
               <div className="box-header no-border">
                 <h4 className="box-title">
@@ -152,6 +145,13 @@ const SingleReportPage = () => {
             </div>
           </div>
         )}
+        <div className="col-xl-6 col-12">
+          <div className="pdf-container">
+            <PDFViewer className="pdf-viewer">
+              <ReportDocument />
+            </PDFViewer>
+          </div>
+        </div>{" "}
       </div>
     </>
   );

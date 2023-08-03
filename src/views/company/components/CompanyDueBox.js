@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from "react";
-import DueClient from "./DueClient";
-import { getClientsDueForMedicals } from "../../../services/api";
+import { getCompanyClientsDueForMedicals } from "../../../services/api";
+import CompanyDueItem from "./CompanyDueItem";
 import UserCardSkeleton from "../../../components/skeletons/UserCardSkeleton";
-
-const DueMedicalsBox = () => {
+const CompanyDueBox = ({ companyId, companyName }) => {
   const [dueClients, setDueClients] = useState([]);
+  const [fetchDue, setFetchDue] = useState(false);
 
-  const [isFetchDueMedicals, setIsFetchDueMedicals] = useState(false);
   useEffect(() => {
     const fetchDueClients = async () => {
-      setIsFetchDueMedicals(true);
+      setFetchDue(true);
       try {
-        const dueMedicalsClients = await getClientsDueForMedicals();
-        setDueClients(dueMedicalsClients);
-        setIsFetchDueMedicals(false);
+        const dueClients = await getCompanyClientsDueForMedicals(companyId);
+        setDueClients(dueClients);
+        setFetchDue(false);
       } catch (error) {
         console.log(error);
-        setIsFetchDueMedicals(false);
+        setFetchDue(false);
       }
     };
 
     fetchDueClients();
   }, []);
+
   return (
     <>
       <div class="box">
@@ -29,22 +29,29 @@ const DueMedicalsBox = () => {
           <h4
             class="box-title"
             style={{
-              textTransform: "uppercase",
+              textTransform: "capitalize",
               fontWeight: "bold",
             }}
           >
+            <span
+              className="badge badge-pill badge-info"
+              style={{
+                fontWeight: "bold",
+              }}
+            >
+              {companyName}
+            </span>{" "}
             Clients Due for MEDICALS
-            <span class="badge">New</span>
           </h4>
         </div>
         <div class="box-body">
-          {isFetchDueMedicals ? (
+          {fetchDue ? (
             <UserCardSkeleton />
           ) : (
             <>
               {dueClients &&
                 dueClients.map((client, index) => (
-                  <DueClient key={client.id} dueClient={client} />
+                  <CompanyDueItem key={client.id} dueClient={client} />
                 ))}
             </>
           )}
@@ -54,4 +61,4 @@ const DueMedicalsBox = () => {
   );
 };
 
-export default DueMedicalsBox;
+export default CompanyDueBox;

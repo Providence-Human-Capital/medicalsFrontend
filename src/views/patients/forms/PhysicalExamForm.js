@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import BreadCrumb from "../../../components/BreadCrumb";
 import PatientSideView from "../components/PatientSideView";
 import { Formik, Field, Form, ErrorMessage } from "formik";
@@ -23,6 +23,7 @@ import { formsActions } from "../../../redux_store/forms-store";
 import FormButton from "../../../components/buttons/FormButton";
 
 const PhysicalExamForm = ({ handlePrev, handleNext }) => {
+  const location = useLocation();
   const { patientId } = useParams();
   const styles = {
     textarea: {
@@ -75,6 +76,21 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
     bp_repeat_sys: yup.number().required("Please Enter Systolic Bp Reading"),
     bp_repeat_dia: yup.number().required("Please Enter Diastolic Bp Reading"),
   });
+
+  const onChangeHeight = (e, setFieldValue) => {
+    const inputValue = e.target.value;
+    let convertedHeight = "";
+
+    if (inputValue.length === 3) {
+      const firstDigit = inputValue.charAt(0);
+      const remainingDigits = inputValue.slice(1);
+      convertedHeight = `${firstDigit}.${remainingDigits}`;
+    } else {
+      convertedHeight = inputValue;
+    }
+
+    setFieldValue("height", convertedHeight);
+  };
 
   const onSubmit = async (formData, { setSubmitting, resetForm }) => {
     dispatch(uiActions.setLoadingSpinner({ isLoading: true }));
@@ -149,9 +165,10 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
     (state) => state.forms.fPhysicalExamination
   );
 
-  
-
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log("Current Location", location);
+    console.log("patientId", patientId);
+  }, []);
   return (
     <Fragment>
       <div className="step-form">
@@ -170,7 +187,12 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                         onSubmit={onSubmit}
                         validationSchema={validationSchema}
                       >
-                        {({ values, isSubmitting, handleSubmit }) => (
+                        {({
+                          values,
+                          isSubmitting,
+                          handleSubmit,
+                          setFieldValue,
+                        }) => (
                           <Form>
                             <div className="row">
                               <div className="form-group col-md-6">
@@ -187,6 +209,9 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                       id="height"
                                       placeholder="Enter height"
                                       name="height"
+                                      onChange={(e) =>
+                                        onChangeHeight(e, setFieldValue)
+                                      }
                                     />
                                     <ErrorMessage
                                       name="height"
@@ -282,7 +307,6 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                     id="left_vision"
                                     placeholder="Enter left vision"
                                     name="left_vision"
-                                    required
                                   />
                                   <div className="input-group-append">
                                     <span className="input-group-text my-upload">
@@ -302,7 +326,6 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                     id="right_vision"
                                     placeholder="Enter right vision"
                                     name="right_vision"
-                                    required
                                   />
                                   <div className="input-group-append">
                                     <span className="input-group-text my-upload">
@@ -434,22 +457,15 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                 marginBottom: "20px",
                               }}
                             >
-                              <button onClick={handlePrev} disabled={true}>
-                                Previous
-                              </button>
-
                               {isLoading ? (
                                 <Loading />
                               ) : (
-                                <button
-                                  disable={isSubmitting}
+                                <FormButton
+                                  text={"Save Reading"}
+                                  direction={"right"}
                                   onClick={handleSubmit}
-                                >
-                                  Next
-                                </button>
+                                />
                               )}
-
-                              {/* <NextButton onClick={handleNext} /> */}
                             </div>
                           </Form>
                         )}

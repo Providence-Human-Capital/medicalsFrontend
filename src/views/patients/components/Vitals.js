@@ -210,7 +210,7 @@ const Vitals = ({ patient, vitals }) => {
                           <span className="fw-500">
                             {" "}
                             <i className="fa fa-clock-o"></i>{" "}
-                            {formatDate(vitals.last_bp_time)}
+                            {vitals.last_bp_time}
                           </span>
                         </span>
                       </div>

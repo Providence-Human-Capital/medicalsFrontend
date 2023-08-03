@@ -72,6 +72,7 @@ import CreateBatchFormPage from "./views/certificates/components/CreateBatchForm
 import BatchListPage from "./views/certificates/BatchListPage";
 import PrintCertificatesPage from "./views/certificates/PrintCertificatesPage";
 import { uiActions } from "./redux_store/ui-store";
+import CompanyDetails from "./views/company/CompanyDetails";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
@@ -163,14 +164,10 @@ const WrapperComponent = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if(isLoading){
-      dispatch(
-        uiActions.setLoadingSpinner(
-          {  isLoading: false}
-        )
-      )
+    if (isLoading) {
+      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
     }
-  }, [])
+  }, []);
 
   return (
     <Fragment>
@@ -237,6 +234,11 @@ const WrapperComponent = () => {
             <Route path="/patients/edit" element={<EditPatient />} />
 
             <Route path="/companies" exact element={<Companies />} />
+            <Route
+              path="/company/:companyId/:companyName"
+              exact
+              element={<CompanyDetails />}
+            />
             <Route path="/companies/add" exact element={<AddCompany />} />
             <Route
               path="/companies/:companyId/edit"
@@ -312,7 +314,10 @@ const WrapperComponent = () => {
               element={<BatchListPage />}
             />
 
-            <Route path="/certificates/print/page/" element={<PrintCertificatesPage />} />
+            <Route
+              path="/certificates/print/page/"
+              element={<PrintCertificatesPage />}
+            />
           </Routes>
         </div>
       </div>

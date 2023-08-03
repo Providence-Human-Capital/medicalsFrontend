@@ -19,7 +19,12 @@ const IStepNavigation = ({ currentStep, setCurrentStep }) => {
   return (
     <Fragment>
       <section className="step-wizard">
-        <ul className="step-wizard-list">
+        <ul
+          className="step-wizard-list"
+          style={{
+            overflowX: "scroll",
+          }}
+        >
           <li
             className={`step-wizard-item ${
               currentStep === 1 ? "current-item" : ""
@@ -41,20 +46,44 @@ const IStepNavigation = ({ currentStep, setCurrentStep }) => {
               }}
               onClick={() => handleStepClick(1)}
             >
-              Additional Details
+              Vitals
             </span>
           </li>
           <li
             className={`step-wizard-item ${
               currentStep === 2 ? "current-item" : ""
             }`}
-            onClick={() => handleStepClick(2)}
+          >
+            <span className="progress-count">
+              <FontAwesomeIcon
+                icon={faSuitcaseMedical}
+                className={`progress-icon ${
+                  currentStep === 2 ? "current-icon" : ""
+                }`}
+              />
+            </span>
+
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(2)}
+            >
+              Additional Details
+            </span>
+          </li>
+          <li
+            className={`step-wizard-item ${
+              currentStep === 3 ? "current-item" : ""
+            }`}
+            onClick={() => handleStepClick(3)}
           >
             <span className="progress-count">
               <FontAwesomeIcon
                 icon={faHospital}
                 className={`progress-icon ${
-                  currentStep === 2 ? "current-icon" : ""
+                  currentStep === 3 ? "current-icon" : ""
                 }`}
               />
             </span>
@@ -71,37 +100,13 @@ const IStepNavigation = ({ currentStep, setCurrentStep }) => {
           </li>
           <li
             className={`step-wizard-item ${
-              currentStep === 3 ? "current-item" : ""
+              currentStep === 4 ? "current-item" : ""
             }`}
-            onClick={() => handleStepClick(3)}
+            onClick={() => handleStepClick(4)}
           >
             <span className="progress-count">
               <FontAwesomeIcon
                 icon={faNotesMedical}
-                className={`progress-icon ${
-                  currentStep === 3 ? "current-icon" : ""
-                }`}
-              />
-            </span>
-
-            <span
-              className="progress-label"
-              style={{
-                cursor: "pointer",
-              }}
-              onClick={() => handleStepClick(3)}
-            >
-              Medical Histories
-            </span>
-          </li>
-          <li
-            className={`step-wizard-item ${
-              currentStep === 4 ? "current-item" : ""
-            }`}
-          >
-            <span className="progress-count">
-              <FontAwesomeIcon
-                icon={faWeight}
                 className={`progress-icon ${
                   currentStep === 4 ? "current-icon" : ""
                 }`}
@@ -115,7 +120,7 @@ const IStepNavigation = ({ currentStep, setCurrentStep }) => {
               }}
               onClick={() => handleStepClick(4)}
             >
-              Physical Examination
+              Medical Histories
             </span>
           </li>
           <li
@@ -125,7 +130,7 @@ const IStepNavigation = ({ currentStep, setCurrentStep }) => {
           >
             <span className="progress-count">
               <FontAwesomeIcon
-                icon={faHeartCircleCheck}
+                icon={faWeight}
                 className={`progress-icon ${
                   currentStep === 5 ? "current-icon" : ""
                 }`}
@@ -139,18 +144,17 @@ const IStepNavigation = ({ currentStep, setCurrentStep }) => {
               }}
               onClick={() => handleStepClick(5)}
             >
-              Cardio Vascular Check
+              Physical Examination
             </span>
           </li>
           <li
             className={`step-wizard-item ${
               currentStep === 6 ? "current-item" : ""
             }`}
-            onClick={() => handleStepClick(6)}
           >
             <span className="progress-count">
               <FontAwesomeIcon
-                icon={faLungs}
+                icon={faHeartCircleCheck}
                 className={`progress-icon ${
                   currentStep === 6 ? "current-icon" : ""
                 }`}
@@ -164,17 +168,18 @@ const IStepNavigation = ({ currentStep, setCurrentStep }) => {
               }}
               onClick={() => handleStepClick(6)}
             >
-              Respiratory Systems Check
+              Cardio Vascular Check
             </span>
           </li>
           <li
             className={`step-wizard-item ${
               currentStep === 7 ? "current-item" : ""
             }`}
+            onClick={() => handleStepClick(7)}
           >
             <span className="progress-count">
               <FontAwesomeIcon
-                icon={faUserDoctor}
+                icon={faLungs}
                 className={`progress-icon ${
                   currentStep === 7 ? "current-icon" : ""
                 }`}
@@ -187,6 +192,30 @@ const IStepNavigation = ({ currentStep, setCurrentStep }) => {
                 cursor: "pointer",
               }}
               onClick={() => handleStepClick(7)}
+            >
+              Respiratory Systems Check
+            </span>
+          </li>
+          <li
+            className={`step-wizard-item ${
+              currentStep === 8 ? "current-item" : ""
+            }`}
+          >
+            <span className="progress-count">
+              <FontAwesomeIcon
+                icon={faUserDoctor}
+                className={`progress-icon ${
+                  currentStep === 8 ? "current-icon" : ""
+                }`}
+              />
+            </span>
+
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(8)}
             >
               Comments & Remarks
             </span>

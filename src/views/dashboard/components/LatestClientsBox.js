@@ -62,7 +62,7 @@ const LatestClientsBox = () => {
                       <td>{client.category}</td>
                       <td>{client.phone_number}</td>
                       <td>
-                        <Moment fromNow >{ client.updated_at}</Moment>
+                        <Moment fromNow >{ client.created_at}</Moment>
                       </td>
                     </tr>
                   ))}

@@ -2,9 +2,17 @@ import React from "react";
 import { convertToDateWord } from "../../../helpers/helpers";
 import { Link } from "react-router-dom";
 
-const ReportListItem = ({ report }) => {
+const ReportListItem = ({ report, index }) => {
   return (
     <tr>
+      <td class="ps-0 py-8">
+        <div class="d-flex align-items-start">
+          <div class="flex-shrink-0 me-20">
+            <div class="bg-img h-50 w-50 my-bgg"></div>
+          </div>
+          <span>{index} </span>
+        </div>
+      </td>
       <td class="ps-0 py-8">
         <div class="d-flex align-items-start">
           <div class="flex-shrink-0 me-20">

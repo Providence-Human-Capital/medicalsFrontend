@@ -9,6 +9,7 @@ import { uiActions } from "../../../redux_store/ui-store";
 import { formsActions } from "../../../redux_store/forms-store";
 import { toast } from "react-toastify";
 import FormButton from "../../../components/buttons/FormButton";
+import PhysicalExamForm from "./PhysicalExamForm";
 
 const HomeAddressForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);

@@ -76,7 +76,6 @@ const CompanyItem = ({ company, index }) => {
             textOverflow: "ellipsis",
             maxHeight: "80px",
             overflowY: "auto",
-            
           }}
         >
           {company.address}
@@ -89,7 +88,7 @@ const CompanyItem = ({ company, index }) => {
         <td>{company.contact_number}</td>
         <td class="text-end">
           <Link
-            to={"/illness"}
+            to={`/company/${company.id}/${company.company_name}`}
             class="waves-effect waves-light btn btn-primary-light btn-circle"
           >
             <span class="icon-Settings-1 fs-18">
