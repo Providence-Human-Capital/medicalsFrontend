@@ -794,3 +794,25 @@ export const getGeneralCompanyStats = async (companyId) => {
     throw error;
   }
 };
+
+export const getClientsCountByExamType = async (companyId, year) => {
+  try {
+    const response = await fetch(
+      `${API}/company/${companyId}/clients/purpose/${year}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData;
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

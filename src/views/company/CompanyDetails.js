@@ -7,6 +7,7 @@ import CompanyAttendanceStats from "./components/CompanyAttendanceStats";
 import { getCompanyAttendanceStats } from "../../services/api";
 import UserCardSkeleton from "../../components/skeletons/UserCardSkeleton";
 import CompanyClientsBox from "./components/CompanyClientsBox";
+import StatsByExamPurpose from "./components/StatsByExamPurpose";
 
 const CompanyDetails = () => {
   const { companyName, companyId } = useParams();
@@ -40,11 +41,11 @@ const CompanyDetails = () => {
               <div className="col-md-12">
                 <CompanyAttendanceStats data={attendanceStats} />
               </div>
-             
             </div>
           </div>
           <div className="col-xl-4 col-12">
             <CompanyDueBox companyId={companyId} companyName={companyName} />
+            <StatsByExamPurpose companyId={companyId} />
           </div>
         </div>
         <div className="row">
