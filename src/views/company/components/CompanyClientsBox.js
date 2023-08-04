@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { getAllCompanyClients } from "../../../services/api";
+import {
+  getAllCompanyClients,
+  handleDeletePatient,
+} from "../../../services/api";
 import { getCurrentPageData } from "../../../helpers/helpers";
 import ReactPaginate from "react-paginate";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 const CompanyClientsBox = ({ companyName, companyId }) => {
   const [isFetchingClients, setIsFetchingClients] = useState(false);
   const [clients, setClients] = useState([]);
-
   const [pageNumber, setPageNumber] = useState(0);
   const itemsPerPage = 7;
+  const dispatch = useDispatch();
 
   const currentPageData = getCurrentPageData(clients, pageNumber, itemsPerPage);
   useEffect(() => {
@@ -25,6 +30,10 @@ const CompanyClientsBox = ({ companyName, companyId }) => {
 
     fetchingClients();
   }, []);
+
+  const onDelete = (clientId) => {
+    handleDeletePatient(clientId, dispatch);
+  };
   return (
     <>
       <div class="box">
@@ -66,7 +75,27 @@ const CompanyClientsBox = ({ companyName, companyId }) => {
                         </span>
                       </td>
                       <td>{client.phone_number}</td>
-                      <td></td>
+                      <td>
+                        <Link
+                          to={`/patients/${client.id}`}
+                          className="waves-effect waves-light btn btn-primary-light btn-circle"
+                        >
+                          <span className="icon-Settings-1 fs-18">
+                            <span className="path1"></span>
+                            <span className="path2"></span>
+                          </span>
+                        </Link>
+
+                        <a
+                          onClick={() => onDelete(client.id)}
+                          className="waves-effect waves-light btn btn-primary-light btn-circle"
+                        >
+                          <span className="icon-Trash1 fs-18">
+                            <span className="path1"></span>
+                            <span className="path2"></span>
+                          </span>
+                        </a>
+                      </td>
                     </tr>
                   ))}
               </tbody>

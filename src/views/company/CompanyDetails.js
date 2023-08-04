@@ -8,6 +8,8 @@ import { getCompanyAttendanceStats } from "../../services/api";
 import UserCardSkeleton from "../../components/skeletons/UserCardSkeleton";
 import CompanyClientsBox from "./components/CompanyClientsBox";
 import StatsByExamPurpose from "./components/StatsByExamPurpose";
+import CompanyBloodPressureStats from "./components/CompanyBloodPressureStats";
+import CompanyBMIStats from "./components/CompanyBMIStats";
 
 const CompanyDetails = () => {
   const { companyName, companyId } = useParams();
@@ -40,12 +42,20 @@ const CompanyDetails = () => {
             <div className="row">
               <div className="col-md-12">
                 <CompanyAttendanceStats data={attendanceStats} />
+                <div className="row">
+                  <div className="col-md-6">
+                    <StatsByExamPurpose companyId={companyId} />
+                  </div>
+                  <div className="col-md-6">
+                    <CompanyBloodPressureStats companyId={companyId} />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div className="col-xl-4 col-12">
             <CompanyDueBox companyId={companyId} companyName={companyName} />
-            <StatsByExamPurpose companyId={companyId} />
+            <CompanyBMIStats companyId={companyId} />
           </div>
         </div>
         <div className="row">

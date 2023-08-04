@@ -816,3 +816,50 @@ export const getClientsCountByExamType = async (companyId, year) => {
     throw error;
   }
 };
+
+export const companyBloodPressureStats = async (companyId, year) => {
+  try {
+    const response = await fetch(
+      `${API}/company/${companyId}/bloodpressure/${year}/stats`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData;
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const companyBMIStats = async (companyId, year) => {
+  try {
+    const response = await fetch(
+      `${API}/company/${companyId}/bmi/${year}/stats`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData;
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+
+
