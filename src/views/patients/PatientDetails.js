@@ -492,6 +492,7 @@ const PatientDetails = () => {
                   style={{
                     overflowY: "scroll",
                     height: "80vh",
+                    overflowX: "hidden",
                   }}
                 >
                   <Vitals patient={singlePatient} vitals={vitals} />
@@ -508,7 +509,7 @@ const PatientDetails = () => {
                   className="col-xl-4 col-12"
                   style={{
                     overflowY: "scroll",
-
+                    overflowX: "hidden",
                     height: "80vh",
                   }}
                 >

@@ -54,6 +54,8 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
     height: "",
     bp_sys: "",
     bp_dia: "",
+    pulse: "",
+    temp: "",
     left_vision: "",
     right_vision: "",
   };
@@ -67,6 +69,8 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
     weight: yup.number().required("Please Patient Weight"),
     height: yup.number().required("Please Patient Height"),
     bp_sys: yup.number().required("Please Patient Systolic Bp Reading"),
+    pulse: yup.number().nullable(),
+    temp: yup.number().nullable(),
     bp_dia: yup
       .number()
       .required("Please Patient Systolic Diastolic Bp Reading"),
@@ -248,89 +252,140 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                             <div className="row">
                               <div className="form-group col-md-6">
                                 <div className="row">
-                                  <div className="col-md-4">
+                                  <div className="col-md-8">
                                     <label for="bp_sys">
                                       <strong>Systolic Blood Pressure</strong>
                                     </label>
                                   </div>
-                                  <div className="col-md-8">
+                                  <div className="col-md-4">
                                     <Field
                                       type="number"
                                       className="form-control my-upload"
                                       id="bp_sys"
-                                      placeholder="Enter systolic blood pressure"
+                                      placeholder="Systolic"
                                       name="bp_sys"
-                                    />
-                                    <ErrorMessage
-                                      name="bp_sys"
-                                      component="div"
-                                      className="text-danger"
                                     />
                                   </div>
+                                  <ErrorMessage
+                                    name="bp_sys"
+                                    component="div"
+                                    className="text-danger"
+                                  />
                                 </div>
                               </div>
 
                               <div className="form-group col-md-6">
                                 <div className="row">
-                                  <div className="col-md-4">
+                                  <div className="col-md-8">
                                     <label for="bp_dia">
                                       <strong>Diastolic Blood Pressure</strong>
                                     </label>
                                   </div>
-                                  <div className="col-md-8">
+                                  <div className="col-md-4">
                                     <Field
                                       type="number"
                                       className="form-control my-upload"
                                       id="bp_dia"
-                                      placeholder="Enter diastolic blood pressure"
+                                      placeholder="Diastolic"
                                       name="bp_dia"
                                       required
                                     />
-                                    <ErrorMessage
-                                      name="bp_dia"
-                                      component="div"
-                                      className="text-danger"
-                                    />
                                   </div>
+                                  <ErrorMessage
+                                    name="bp_dia"
+                                    component="div"
+                                    className="text-danger"
+                                  />
                                 </div>
                               </div>
                             </div>
                             <div className="row">
-                              <div className="form-group col-md-6">
-                                <label for="left_vision">
-                                  Left Vision (out of 6)
-                                </label>
-                                <div className="input-group">
-                                  <Field
-                                    type="number"
-                                    className="form-control my-upload"
-                                    id="left_vision"
-                                    placeholder="Enter left vision"
-                                    name="left_vision"
-                                  />
-                                  <div className="input-group-append">
-                                    <span className="input-group-text my-upload">
-                                      /6
-                                    </span>
+                              <div className="col-md-6">
+                                <div className="row">
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <label for="left_vision">
+                                        <strong>Pulse</strong>
+                                      </label>
+                                      <div className="input-group">
+                                        <Field
+                                          type="number"
+                                          className="form-control my-upload"
+                                          id="pulse"
+                                          placeholder="BP Test Pulse"
+                                          name="pulse"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <label for="left_vision">
+                                        <strong>Temperature</strong>
+                                      </label>
+                                      <div className="input-group">
+                                        <Field
+                                          type="number"
+                                          className="form-control my-upload"
+                                          id="temp"
+                                          placeholder="BP Test Pulse"
+                                          name="temp"
+                                        />
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                              <div className="form-group col-md-6">
-                                <label for="right_vision ">
-                                  Right Vision (out of 6)
-                                </label>
-                                <div className="input-group">
-                                  <Field
-                                    type="number"
-                                    className="form-control my-upload"
-                                    id="right_vision"
-                                    placeholder="Enter right vision"
-                                    name="right_vision"
-                                  />
-                                  <div className="input-group-append">
-                                    <span className="input-group-text my-upload">
-                                      /6
-                                    </span>
+                              <div className="col-md-6">
+                                <div className="row">
+                                  <div className="col-md-6">
+                                    <label for="left_vision">
+                                      <strong>Left Vision (out of 6)</strong>
+                                    </label>
+                                  </div>
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <div className="input-group">
+                                        <Field
+                                          type="number"
+                                          className="form-control my-upload"
+                                          id="left_vision"
+                                          placeholder="Enter left vision"
+                                          name="left_vision"
+                                        />
+                                        <div className="input-group-append">
+                                          <span className="input-group-text my-upload">
+                                            /6
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="row">
+                                  <div className="col-md-6">
+                                    <label for="right_vision ">
+                                      <strong>Right Vision (out of 6)</strong>
+                                    </label>
+                                  </div>
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <div className="input-group">
+                                        <Field
+                                          type="number"
+                                          className="form-control my-upload"
+                                          id="right_vision"
+                                          placeholder="Enter right vision"
+                                          name="right_vision"
+                                        />
+                                        <div className="input-group-append">
+                                          <span className="input-group-text my-upload">
+                                            /6
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>

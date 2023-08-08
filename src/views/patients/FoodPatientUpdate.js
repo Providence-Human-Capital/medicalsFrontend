@@ -125,6 +125,7 @@ const FoodPatientUpdate = () => {
             style={{
               overflowY: "scroll",
               height: "80vh",
+              overflowX:"hidden"
             }}
           >
             <Vitals patient={singlePatient} vitals={vitals} />

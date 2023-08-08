@@ -1,9 +1,33 @@
-import React, { Fragment } from "react";
+import React, { Fragment, forwardRef, useRef, useState } from "react";
 import { formatDate } from "../../../utils/dateConverter";
 import { options } from "../../../utils/dateConverter";
 import { useSelector } from "react-redux";
+import ReactToPrint from "react-to-print";
+import ReferralLetterPrint from "../../../components/prints/ReferralLetterPrint";
+import ReferralCommentModal from "../../../components/modal/ReferralCommentModal";
+
+const PatientReferralLetterPrint = forwardRef(({ vitals, patient }, ref) => {
+  return (
+    <div ref={ref}>
+      <ReferralLetterPrint patient={patient} vitals={vitals} />
+    </div>
+  );
+});
 
 const Vitals = ({ patient, vitals }) => {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const modalAnimationClass = `fade ${showModal ? "show" : ""}`;
+
+  const LetterRef = useRef([]);
   const styles = {
     width: {
       width: "100%",
@@ -205,12 +229,12 @@ const Vitals = ({ patient, vitals }) => {
                     <div className="row pt-5">
                       <div className="col-12">
                         <span className="text-danger">
-                          Blood Pressure Repeat
+                          BP Repeat
                           {/* <span className="fw-500"> {}</span> */}
                           <span className="fw-500">
                             {" "}
                             <i className="fa fa-clock-o"></i>{" "}
-                            {vitals.last_bp_time}
+                            {formatDate(vitals.updated_at, options)}
                           </span>
                         </span>
                       </div>
@@ -287,6 +311,67 @@ const Vitals = ({ patient, vitals }) => {
               </p>
             </div>
           )}
+
+          <div className="row">
+            <div className="box-body pt-0">
+              <div className="row">
+                <a
+                  className="hover-primary"
+                  style={{
+                    marginLeft: "20px",
+                    cursor: "pointer",
+                    textTransform: "uppercase",
+                    fontWeight: "bold",
+                  }}
+                  onClick={handleShowModal}
+                >
+                  Add Referral Comment
+                </a>
+              </div>
+            </div>
+            <div
+              className="col-md-12"
+              style={{
+                margin: "2rem",
+              }}
+            >
+              <div
+                style={{
+                  display: "none",
+                }}
+              >
+                <PatientReferralLetterPrint
+                  patient={patient}
+                  vitals={vitals}
+                  ref={(el) => (LetterRef.current = el)}
+                />
+              </div>
+
+              <ReactToPrint
+                trigger={() => (
+                  <button
+                    className="btn btn-success"
+                    style={{
+                      borderRadius: "20px",
+                      fontWeight: "bold",
+                    }}
+                    disabled={!vitals.referral_comment}
+                  >
+                    Print Referral Letter
+                  </button>
+                )}
+                content={() => LetterRef.current}
+              />
+            </div>
+          </div>
+          <>
+            {/* <button onClick={handleShowModal}>Open Modal</button> */}
+            <ReferralCommentModal
+              show={showModal}
+              handleClose={handleCloseModal}
+              vitalId={vitals.id}
+            />
+          </>
         </div>
       )}
     </Fragment>

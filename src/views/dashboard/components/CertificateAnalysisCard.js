@@ -29,7 +29,7 @@ const CertificateAnalysisCard = () => {
     series: [
       {
         name: "Certificates Dispatched",
-        data: CertificatesData.map((data) => data.certificatesApproved),
+        data: CertificatesData.map((data) => data.certificatesApproved) || [],
         colors: [
           "#58AD46",
           "#ecf0f1",
@@ -43,7 +43,7 @@ const CertificateAnalysisCard = () => {
       },
       {
         name: "Certificates Failed", // New series for Certificates Failed
-        data: CertificatesData.map((data) => data.certificatesFailed), // Dummy data for Certificates Failed
+        data: CertificatesData.map((data) => data.certificatesFailed) || [], // Dummy data for Certificates Failed
         colors: [
           "#FF0000", // Red color for Certificates Failed
         ],

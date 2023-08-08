@@ -156,24 +156,44 @@ const AddAttendee = () => {
     );
   };
 
+  // const handleNationalIdChange = (event, setFieldValue, id_type) => {
+  //   const { value } = event.target;
+  //   let formattedValue = value
+  //     .replace(/[^A-Za-z0-9]/g, "") // Remove non-alphanumeric characters
+  //     .slice(0, 16); // Limit the length to 13 characters
+
+  //   if (id_type !== "international_id") {
+  //     if (formattedValue.length > 2) {
+  //       formattedValue = formattedValue.replace(/(\d{2})/, "$1-");
+  //     }
+  //     if (formattedValue.length > 10) {
+  //       formattedValue = formattedValue.replace(/(\d{4,7})([A-Z])/, "$1-$2-");
+  //     }
+  //     if (formattedValue.length > 13) {
+  //       formattedValue = formattedValue.replace(/([A-Z])(\d{1,2})$/, "$1-$2");
+  //     }
+  //   }
+
+  //   setFieldValue("national_id", formattedValue);
+  // };
   const handleNationalIdChange = (event, setFieldValue, id_type) => {
     const { value } = event.target;
     let formattedValue = value
       .replace(/[^A-Za-z0-9]/g, "") // Remove non-alphanumeric characters
-      .slice(0, 16); // Limit the length to 13 characters
-
+      .slice(0, 16); // Limit the length to 16 characters
+  
     if (id_type !== "international_id") {
       if (formattedValue.length > 2) {
         formattedValue = formattedValue.replace(/(\d{2})/, "$1-");
       }
       if (formattedValue.length > 10) {
-        formattedValue = formattedValue.replace(/(\d{4,7})([A-Z])/, "$1-$2-");
+        formattedValue = formattedValue.replace(/(\d{4,7})([A-Za-z])/, "$1-$2-");
       }
       if (formattedValue.length > 13) {
-        formattedValue = formattedValue.replace(/([A-Z])(\d{1,2})$/, "$1-$2");
+        formattedValue = formattedValue.replace(/([A-Za-z])(\d{1,2})$/, "$1-$2");
       }
     }
-
+  
     setFieldValue("national_id", formattedValue);
   };
 

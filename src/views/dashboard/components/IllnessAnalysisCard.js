@@ -3,7 +3,7 @@ import Chart from "react-apexcharts";
 import { IllnessData } from "../DummyData";
 import { useSelector } from "react-redux";
 const IllnessAnalysisCard = () => {
-  const illnessStats = useSelector((state) => state.patient.patientsPerIllness);
+  const illnessStats = useSelector((state) => state.patient.patientsPerIllness) || [];
   const [illnessesData, setIllnessesData] = useState({
     options: {
       chart: {

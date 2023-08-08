@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 const PatientStatisticsCard = () => {
   const patientStatistics = useSelector(
     (state) => state.patient.patientStatistics
-  );
+  ) || [];
   const [patientsData, setPatientsData] = useState({
     options: {
       chart: {

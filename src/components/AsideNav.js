@@ -140,6 +140,12 @@ const AsideNav = ({}) => {
                 </li>
 
                 <li id="aside-bar">
+                  <NavLink to={"/companies"}>
+                    <i data-feather="grid"></i>
+                    <span>Companies</span>
+                  </NavLink>
+                </li>
+                <li id="aside-bar">
                   <NavLink to={"/patients"}>
                     <i data-feather="user-check"></i>
                     <span>Patients</span>
