@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getLatestClients } from "../../../services/api";
-import Moment from 'react-moment';
+import Moment from "react-moment";
+import { Link } from "react-router-dom";
 
 const LatestClientsBox = () => {
   const [latestClients, setLatestClients] = useState([]);
@@ -44,6 +45,7 @@ const LatestClientsBox = () => {
                   <th className="bb-2">Category</th>
                   <th className="bb-2">Phone Number</th>
                   <th className="bb-2">Date Of Entry</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -62,7 +64,18 @@ const LatestClientsBox = () => {
                       <td>{client.category}</td>
                       <td>{client.phone_number}</td>
                       <td>
-                        <Moment fromNow >{ client.created_at}</Moment>
+                        <Moment fromNow>{client.created_at}</Moment>
+                      </td>
+                      <td>
+                        <Link
+                          to={`/patients/${client.id}`}
+                          className="waves-effect waves-light btn btn-primary-light btn-circle"
+                        >
+                          <span className="icon-Settings-1 fs-18">
+                            <span className="path1"></span>
+                            <span className="path2"></span>
+                          </span>
+                        </Link>
                       </td>
                     </tr>
                   ))}

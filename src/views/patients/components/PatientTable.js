@@ -42,7 +42,7 @@ const PatientTable = () => {
   const [selectedCompany, setSelectedCompany] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState("id");
-  const [isSortAscending, setIsSortAscending] = useState(true);
+  const [isSortAscending, setIsSortAscending] = useState(false);
 
   useEffect(() => {
     const fetchAllPatients = async () => {
@@ -116,6 +116,9 @@ const PatientTable = () => {
                   <th
                     onClick={() => handleSort("id")}
                     className="pointer-style"
+                    style={{
+                      cursor: "pointer"
+                    }}
                   >
                     ID
                   </th>
@@ -149,8 +152,8 @@ const PatientTable = () => {
               </thead>
               <tbody>
                 {allPatients &&
-                  currentPageData.map((patient) => (
-                    <PatientItem key={patient.id} patient={patient} />
+                  currentPageData.map((patient, index) => (
+                    <PatientItem key={patient.id} patient={patient} index={index} />
                   ))}
               </tbody>
             </table>

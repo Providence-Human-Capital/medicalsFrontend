@@ -470,3 +470,7 @@ button {
 .modal.fade.show {
   opacity: 1;
 }
+
+.textareaH{
+  min-height: 200px !important;
+}

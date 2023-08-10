@@ -7,7 +7,11 @@ const BreadCrumb = ({ title, activeTab }) => {
       <div className="content-header mb-4">
         <div className="d-flex align-items-center">
           <div className="me-auto">
-            <h4 className="page-title">{title}</h4>
+            <h4 className="page-title"
+            style={{
+              cursor: 'pointer'
+            }}
+            >{title}</h4>
             <div className="d-inline-block align-items-center">
               <nav>
                 <ol className="breadcrumb">

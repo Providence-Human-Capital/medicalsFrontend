@@ -84,6 +84,12 @@ const CertificatePrintTable = () => {
   const handleCheckboxChange = (event) => {
     setSelectedCheckbox(event.target.value);
   };
+
+  const [selectType, setSelectedType] = useState("professional");
+  const handleSelectType = (event) => {
+    setSelectedType(event.target.value);
+  };
+
   const generatedDocuments =
     useSelector((state) => state.forms.generatedDocuments) || [];
 
@@ -175,7 +181,7 @@ const CertificatePrintTable = () => {
                     checked={selectedCheckbox === "certificate1"}
                   />
                   <label className="form-check-label" htmlFor="checkbox1">
-                    Certificate Print
+                    <strong> On Site Certificate Print </strong>
                   </label>
                 </div>
 
@@ -189,7 +195,7 @@ const CertificatePrintTable = () => {
                     checked={selectedCheckbox === "certificate2"}
                   />
                   <label className="form-check-label" htmlFor="checkbox2">
-                    Certificate Documents
+                    <strong>Editable Certificate Documents</strong>
                   </label>
                 </div>
               </div>
@@ -297,21 +303,68 @@ const CertificatePrintTable = () => {
       <div className="col-12">
         <div className="box">
           <div className="box-body">
+            <div
+              className="d-flex"
+              style={{
+                marginBottom: "20px",
+              }}
+            >
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  value="professional"
+                  id="checkbox3"
+                  onChange={handleSelectType}
+                  checked={selectType === "professional"}
+                />
+                <label className="form-check-label" htmlFor="checkbox3">
+                  <strong>Professional Certificate </strong>
+                </label>
+              </div>
+
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  value="local"
+                  id="checkbox4"
+                  onChange={handleSelectType}
+                  checked={selectType === "local"}
+                />
+                <label className="form-check-label" htmlFor="checkbox4">
+                  <strong>Local Certificate</strong>
+                </label>
+              </div>
+            </div>
             <h4 className="box-title">
               <strong>
                 List Of Certificates Ready Printing{" "}
                 <span>
-                  <button
-                    className="btn btn-success-light"
-                    // onClick={handlePrintAll}
-                    onClick={handlePrintProfessionalAll}
-                    style={{
-                      fontWeight: "bold",
-                    }}
-                    disabled={!medicalDoctor}
-                  >
-                    Print All
-                  </button>
+                  {selectType === "local" ? (
+                    <button
+                      className="btn btn-success-light"
+                      onClick={handlePrintAll}
+                      // onClick={handlePrintProfessionalAll}
+                      style={{
+                        fontWeight: "bold",
+                      }}
+                      disabled={!medicalDoctor}
+                    >
+                      Print All (InHouse)
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-success-light"
+                      onClick={handlePrintProfessionalAll}
+                      style={{
+                        fontWeight: "bold",
+                      }}
+                      disabled={!medicalDoctor}
+                    >
+                      Print All (Professional)
+                    </button>
+                  )}
                 </span>
               </strong>
             </h4>
@@ -338,14 +391,12 @@ const CertificatePrintTable = () => {
                         certificateItem={certificateItem}
                         doctor={medicalDoctor}
                         company={batchCompany}
+                        certificateType={selectType}
                       />
                     ))}
                 </tbody>
               </table>
             </div>
-            {/* <p>{JSON.stringify(medicalDoctor)}</p>
-            <p>{JSON.stringify(batchCompany)}</p>
-            <p>{JSON.stringify(batch[0].patient)}</p> */}
           </div>
         </div>
       </div>

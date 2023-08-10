@@ -86,7 +86,7 @@ const CompanyItem = ({ company, index }) => {
         <td>{company.province}</td>
         <td>{company.designation}</td>
         <td>{company.contact_number}</td>
-        <td class="text-end">
+        <td >
           <Link
             to={`/company/${company.id}/${company.company_name}`}
             class="waves-effect waves-light btn btn-primary-light btn-circle"

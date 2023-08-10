@@ -1,17 +1,42 @@
 import React, { Fragment, forwardRef, useRef } from "react";
 import ReactToPrint from "react-to-print";
 import InHouseCertificatePrint from "../certificates-print/InHouseCertificatePrint";
+import ProfessionalCertificatePrint from "../certificates-print/ProfessionalCertificatePrint";
 
-const SingleInHouseCertificate = forwardRef(({ certificateItem, doctor }, ref) => {
-  return (
-    <div ref={ref}>
-      <InHouseCertificatePrint person={certificateItem} doctor={doctor} />
-    </div>
-  );
-});
+const SingleInHouseCertificate = forwardRef(
+  ({ certificateItem, doctor }, ref) => {
+    return (
+      <div ref={ref}>
+        <InHouseCertificatePrint person={certificateItem} doctor={doctor} />
+      </div>
+    );
+  }
+);
 
-const CertificatePrintItem = ({ certificateItem, index, handlePrint, doctor, company }) => {
+const SingleProfessionalCertificate = forwardRef(
+  ({ certificateItem, doctor, company }, ref) => {
+    return (
+      <div ref={ref}>
+        <ProfessionalCertificatePrint
+          person={certificateItem}
+          doctor={doctor}
+          company={company}
+        />
+      </div>
+    );
+  }
+);
+
+const CertificatePrintItem = ({
+  certificateItem,
+  index,
+  handlePrint,
+  doctor,
+  certificateType,
+  company,
+}) => {
   const inHouseRefs = useRef([]);
+  const professionalCertificateRef = useRef([]);
   return (
     <Fragment>
       <tr>
@@ -40,25 +65,52 @@ const CertificatePrintItem = ({ certificateItem, index, handlePrint, doctor, com
                   ref={(el) => (inHouseRefs.current[index] = el)}
                   doctor={doctor}
                 />
+
+                <SingleProfessionalCertificate
+                  certificateItem={certificateItem}
+                  ref={(el) => (professionalCertificateRef.current[index] = el)}
+                  doctor={doctor}
+                  company={company}
+                />
               </div>
-              <ReactToPrint
-                trigger={() => (
-                  <button
-                    className="btn btn-success-light"
-                    style={{
-                      width: "fit-content",
-                      margin: "20px",
-                      fontWeight: "bold",
-                    }}
-                    disabled={!doctor}
-                  >
-                    Print
-                  </button>
-                )}
-                content={() => inHouseRefs.current[index]}
-                onAfterPrint={handlePrint}
-                
-              />
+
+              {certificateType === "local" ? (
+                <ReactToPrint
+                  trigger={() => (
+                    <button
+                      className="btn btn-success-light"
+                      style={{
+                        width: "fit-content",
+                        margin: "20px",
+                        fontWeight: "bold",
+                      }}
+                      disabled={!doctor}
+                    >
+                      Print
+                    </button>
+                  )}
+                  content={() => inHouseRefs.current[index]}
+                  onAfterPrint={handlePrint}
+                />
+              ) : (
+                <ReactToPrint
+                  trigger={() => (
+                    <button
+                      className="btn btn-success-light"
+                      style={{
+                        width: "fit-content",
+                        margin: "20px",
+                        fontWeight: "bold",
+                      }}
+                      disabled={!doctor}
+                    >
+                      Print
+                    </button>
+                  )}
+                  content={() => professionalCertificateRef.current[index]}
+                  onAfterPrint={handlePrint}
+                />
+              )}
             </div>
           </span>
         </td>

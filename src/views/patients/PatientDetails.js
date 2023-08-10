@@ -16,6 +16,7 @@ import { Helmet } from "react-helmet";
 import {
   calculateDaysLeftForCertificateValidity,
   chechCertificatesStatusUpdate,
+  createCertificateBatch,
   foodHandlerPatientDetail,
   getCurrentPatientRemarks,
   getFoodHandlerPatientDetails,
@@ -129,10 +130,9 @@ const PatientDetails = () => {
   );
 
   useEffect(() => {
-    chechCertificatesStatusUpdate(patientId).then((data) => {
-      console.log("From Certificates Update", data);
-    });
-
+    // chechCertificatesStatusUpdate(patientId).then((data) => {
+    //   console.log("From Certificates Update", data);
+    // });
     getCurrentPatientRemarks(patientId).then((remarks) => {
       dispatch(formsActions.setFoodHandlerRemarks(remarks));
     });
@@ -141,15 +141,25 @@ const PatientDetails = () => {
       dispatch(formsActions.setPatientsXray(xray));
     });
 
-    getFoodHandlerPatientDetails(patientId).then((data) => {
-      dispatch(formsActions.setCertificateState(data.certificate));
-      dispatch(formsActions.setPatientsIllness(data.illnesses));
-      dispatch(formsActions.setPatientsXray(data.xrays));
-      dispatch(formsActions.setPatientsTobaccos(data.tobaccoUses));
-      dispatch(formsActions.setPhysicalExamination(data.physical_exam));
-      const remarksObjects = Object.assign({}, ...data.fremarks);
-      dispatch(formsActions.setFoodHandlerRemarks(remarksObjects));
-    });
+    getFoodHandlerPatientDetails(patientId)
+      .then((data) => {
+        dispatch(formsActions.setCertificateState(data.certificate));
+        dispatch(formsActions.setPatientsIllness(data.illnesses));
+        dispatch(formsActions.setPatientsXray(data.xrays));
+        dispatch(formsActions.setPatientsTobaccos(data.tobaccoUses));
+        dispatch(formsActions.setPhysicalExamination(data.physical_exam));
+        if (typeof data.fremarks === "object" && data.fremarks !== null) {
+          const remarksObjects = Object.assign({}, ...data.fremarks);
+          dispatch(formsActions.setFoodHandlerRemarks(remarksObjects));
+        } else {
+          // Handle the case where data.fremarks is not iterable
+          console.error("Invalid data received for fremarks:", data.fremarks);
+        }
+      })
+      .catch((error) => {
+        // Handle any errors that occur during the API call
+        console.error("Error fetching food handler patient details:", error);
+      });
 
     if (singlePatient && singlePatient.category === "Pneumoconiosis") {
       getPneumoPatientDetails(patientId).then((data) => {
@@ -243,7 +253,7 @@ const PatientDetails = () => {
 
         const physicalExamRecords = await physicalExamRecordsResponse.json();
 
-        console.log("LatestPhysicalExamRecords", physicalExamRecords)
+        console.log("LatestPhysicalExamRecords", physicalExamRecords);
         if (physicalExamRecordsResponse.ok) {
           dispatch(
             formsActions.setPhysicalExamination(physicalExamRecords.data)
@@ -261,7 +271,7 @@ const PatientDetails = () => {
     };
 
     fetchPatientData();
-  }, [dispatch, patientId]);
+  }, [patientId]);
 
   const singlePatient = useSelector((state) => state.patient.singlePatient);
 
@@ -339,6 +349,12 @@ const PatientDetails = () => {
     const company = filterCompany(singlePatient.attendee.company.company_name);
     console.log("On click", company.certificate_batches);
 
+    if (company.certificate_batches.length === 0) {
+      createCertificateBatch(company.id).then((data) => {
+        console.log("Created certificate batch", data);
+      });
+    }
+
     if (company) {
       Swal.fire({
         title: "Select Certificate Batch",
@@ -370,16 +386,19 @@ const PatientDetails = () => {
     }
   };
 
+  const category = singlePatient.category || 'Medical Patient';
+
   return (
     <Fragment>
       <BreadCrumb
         title={"Patient Details"}
-        activeTab={singlePatient.category}
+        activeTab={category}
       />
 
       <Helmet>
         <title>
-          Client : {singlePatient.attendee.first_name} {singlePatient.attendee.last_name}
+          Client : {singlePatient.attendee.first_name}{" "}
+          {singlePatient.attendee.last_name}
         </title>
       </Helmet>
 
@@ -460,7 +479,7 @@ const PatientDetails = () => {
                       patient={singlePatient}
                       physical={pneumoPhysicalTestsRecord}
                     /> */}
-                     <Vitals patient={singlePatient} vitals={vitals} />
+                    <Vitals patient={singlePatient} vitals={vitals} />
                     <IndustryClassificationBox
                       classification={industryClassification}
                     />

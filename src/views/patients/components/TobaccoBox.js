@@ -82,7 +82,7 @@ const TobaccoBox = ({ patientId }) => {
         ) : (
           <>
             {patientTobaccos.map((tobacco, index) => (
-              <div className="col-md-6">
+              <div className="col-md-6" key={tobacco.id}>
                 <div className="card">
                   <div className="card-body">
                     <div className="row">

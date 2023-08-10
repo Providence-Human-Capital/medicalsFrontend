@@ -14,7 +14,7 @@ import AdditionalTests from "./forms/AdditionalTests";
 import HomeAddressForm from "../patients/forms/HomeAddressForm";
 import MedicalHistoryForm from "../industry/forms/MedicalHistoryForm";
 import PatientSideView from "../patients/components/PatientSideView";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import NextPhaseStep from "../../components/NextPhaseStep";
 import SmokingHistoryForm from "./forms/SmokingHistoryForm";
 import IndustryClassificationBox from "./components/IndustryClassificationBox";
@@ -28,15 +28,19 @@ import SystemsCheckBox from "./components/SystemsCheckBox";
 import ResultsAndInvestigation from "./components/ResultsAndInvestigation";
 import AdditionalTestsBox from "./components/AdditionalTestsBox";
 import MeasuresBox from "./components/MeasuresBox";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import PhysicalExamForm from "../patients/forms/PhysicalExamForm";
 import Vitals from "../patients/components/Vitals";
+import { formsActions } from "../../redux_store/forms-store";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 const PneumoPatientUpdate = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [nextPhaseCurrent, setNextPhaseCurrent] = useState(1);
   const navigate = useNavigate();
   const { patientId } = useParams();
+  const dispatch = useDispatch();
 
   const nextPneumoPhase = useSelector((state) => state.forms.pneumoNextPhase);
   const industryClassification = useSelector(
@@ -75,7 +79,14 @@ const PneumoPatientUpdate = () => {
   );
   const pMeasuresRecord = useSelector((state) => state.forms.pMeasures);
   const singlePatient = useSelector((state) => state.patient.singlePatient);
+  const pneumoNextPhaseState = useSelector(
+    (state) => state.forms.pneumoNextPhase
+  );
   const vitals = useSelector((state) => state.forms.fPhysicalExamination);
+
+  const togglePhase = () => {
+    dispatch(formsActions.togglePneumoNextPhase());
+  };
 
   const handleNext = (data) => {
     setCurrentStep(currentStep + 1);
@@ -277,13 +288,43 @@ const PneumoPatientUpdate = () => {
 
   return (
     <Fragment>
-      <BreadCrumb activeTab={"Pneumoconiosis"} title={"Patient"} />
+      <div className="d-flex align-items-center">
+        <Link to={`/patients/${patientId}`} style={{
+          marginLeft: "40px",
+        }}>
+          <FontAwesomeIcon icon={faHome} />{" "}
+          <span style={{
+            fontWeight: "bold",
+          }}>
+            {singlePatient && singlePatient.attendee.first_name}{" "}
+            {singlePatient && singlePatient.attendee.last_name}
+          </span>
+        </Link>
+        <BreadCrumb activeTab={"Pneumoconiosis"} title={"Patient"} />
+      </div>
+
       <section className="content">
         <div className="row">
           <div className="col-xl-8 col-12">
+            <button
+              className="btn btn-primary"
+              style={{
+                borderRadius: "10px",
+                marginBottom: `10px`,
+                fontWeight: "bold",
+              }}
+              onClick={togglePhase}
+            >
+              {pneumoNextPhaseState
+                ? "TO -> PHYSICAL EXAMINATION"
+                : "TO -> HEALTH QUESTIONNAIRE"}
+            </button>
             {nextPneumoPhase ? (
               <Fragment>
-                <NextPhaseStep nextPhaseCurrent={nextPhaseCurrent} />
+                <NextPhaseStep
+                  nextPhaseCurrent={nextPhaseCurrent}
+                  setCurrentStepOnPhase={setNextPhaseCurrent}
+                />
                 {nextPhaseFormComponent}
               </Fragment>
             ) : (

@@ -18,7 +18,7 @@ const formatDate = (dateString) => {
   return `${month.toUpperCase()} ${year}`;
 };
 
-const PatientItem = ({ patient }) => {
+const PatientItem = ({ patient, index }) => {
   const dispatch = useDispatch();
 
   const handleDelete = async (id) => {
@@ -73,7 +73,7 @@ const PatientItem = ({ patient }) => {
   return (
     <Fragment>
       <tr className="hover-primary">
-        <td>{patient.id}</td>
+        <td>{ index + 1}</td>
         <td>{patient.first_name}</td>
         <td>{patient.last_name}</td>
         <td>{patient.company}</td>

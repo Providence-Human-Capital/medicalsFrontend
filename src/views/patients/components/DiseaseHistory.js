@@ -73,7 +73,9 @@ const DiseaseHistory = ({ patientId }) => {
         ) : (
           <Fragment>
             {patientIllnesses.map((illness, index) => (
-              <div className="col-md-6">
+              <div className="col-md-6"
+              key={illness.id}
+              >
                 <div className="card">
                   <div className="card-body">
                     <div className="row">

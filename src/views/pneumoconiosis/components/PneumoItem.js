@@ -9,7 +9,7 @@ import SwabResultDropdown from "../../patients/components/SwabResultDropdown";
 import { PHYSICAL_EXAM, formatDate } from "../../../helpers/helpers";
 import { handleDeletePatient } from "../../../services/api";
 
-const PneumoItem = ({ patient }) => {
+const PneumoItem = ({ patient, index }) => {
   const dispatch = useDispatch();
   const { certificate_status } = patient;
 
@@ -20,7 +20,7 @@ const PneumoItem = ({ patient }) => {
   return (
     <Fragment>
       <tr className="hover-primary">
-        <td>{patient.id}</td>
+        <td>{index + 1}</td>
         <td>{patient.first_name}</td>
         <td>{patient.last_name}</td>
         <td>{patient.company}</td>

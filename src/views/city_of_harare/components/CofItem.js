@@ -6,7 +6,7 @@ import { handleDeletePatient } from "../../../services/api";
 import SwabResultDropdown from "../../patients/components/SwabResultDropdown";
 import { Link } from "react-router-dom";
 
-const CofItem = ({ patient }) => {
+const CofItem = ({ patient, index }) => {
   const dispatch = useDispatch();
   const onDelete = () => {
     handleDeletePatient(patient.id, dispatch);
@@ -18,7 +18,7 @@ const CofItem = ({ patient }) => {
   return (
     <Fragment>
       <tr className="hover-primary">
-        <td>{patient.id}</td>
+        <td>{index + 1}</td>
         <td>{patient.first_name}</td>
         <td>{patient.last_name}</td>
         <td>{patient.company}</td>

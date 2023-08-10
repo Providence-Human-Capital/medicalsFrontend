@@ -83,11 +83,21 @@ const CertificatesPage = () => {
   );
 
   useEffect(() => {
-    companiesWithCertificateBatches().then((data) => {
-      setCompaniesWBatches(data.companies);
-      console.log(data.companies);
-      dispatch(companyActions.setCompaniesWithBatches(data.companies));
-    });
+    companiesWithCertificateBatches()
+      .then((data) => {
+        if (data && data.companies) {
+          setCompaniesWBatches(data.companies);
+          console.log(data.companies);
+          dispatch(companyActions.setCompaniesWithBatches(data.companies));
+        } else {
+          // Handle the case where data is undefined or does not have the companies property
+          console.error("Invalid data received:", data);
+        }
+      })
+      .catch((error) => {
+        // Handle any errors that occur during the API call
+        console.error("Error fetching companies with batches:", error);
+      });
     searchAndSortCompanies();
   }, [searchQuery, sortBy, sortOrder, sortedAndFilteredCompanies]);
 

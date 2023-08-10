@@ -118,7 +118,7 @@ const ReferralLetterPrint = ({ patient, vitals }) => {
             <span
               style={{ display: "inline-block", fontWeight: "bold" }}
             ></span>
-            REFERAL NOTE
+            REFERRAL NOTE
           </p>
         </div>
         <p style={{ lineHeight: "115%", fontSize: "11pt" }}>

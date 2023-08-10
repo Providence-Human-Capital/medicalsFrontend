@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import BreadCrumb from "../../../components/BreadCrumb";
@@ -13,10 +13,12 @@ import { uiActions } from "../../../redux_store/ui-store";
 import { formsActions } from "../../../redux_store/forms-store";
 import Loading from "../../../components/loader/Loading";
 import FormButton from "../../../components/buttons/FormButton";
+import { chechCertificatesStatusUpdate } from "../../../services/api";
 
 const ObeservationForm = ({ handlePrev, handleNext }) => {
   const dispatch = useDispatch();
   const { patientId } = useParams();
+  const [updateStatus, setUpdateStatus] = useState(false);
   const singlePatient = useSelector((state) => state.patient.singlePatient);
   const navigate = useNavigate();
   const patientPhysicalExamRecord = useSelector(
@@ -70,6 +72,9 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
       const responseData = await response.json();
       console.log("Response from server" + responseData);
       dispatch(formsActions.setFoodHandlerRemarks(responseData.data));
+      chechCertificatesStatusUpdate(patientId).then((data) => {
+        console.log("From Certificates Update", data);
+      });
       navigate(`/patients/${patientId}`);
 
       dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
@@ -78,6 +83,8 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
       dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
     }
   };
+
+  useEffect(() => {}, [updateStatus]);
 
   return (
     <Fragment>

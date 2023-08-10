@@ -23,7 +23,7 @@ const CofTable = () => {
   const cofPatients = useSelector((state) => state.patient.cofPatients);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState("id");
-  const [isSortAscending, setIsSortAscending] = useState(true);
+  const [isSortAscending, setIsSortAscending] = useState(false);
 
   useEffect(() => {
     const fetchCofHPatients = async () => {
@@ -126,7 +126,7 @@ const CofTable = () => {
               <tbody>
                 {cofPatients &&
                   currentPageData.map((patient, index) => (
-                    <CofItem key={patient.id} patient={patient} />
+                    <CofItem key={patient.id} patient={patient} index={index} />
                   ))}
               </tbody>
             </table>

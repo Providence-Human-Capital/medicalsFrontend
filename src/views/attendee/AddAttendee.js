@@ -70,7 +70,7 @@ const AddAttendee = () => {
       is: "zimbabwean_id",
       then: yup
         .string()
-        .matches(/^(\d{2}-\d{7}-[A-Z]-\d{2})$/, "Invalid Zimbabwean ID")
+        
         .required("Zimbabwean ID is required"),
       otherwise: yup.string().notRequired(),
     }),

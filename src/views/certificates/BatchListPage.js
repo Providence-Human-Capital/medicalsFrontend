@@ -18,6 +18,7 @@ const BatchListPage = () => {
   const navigate = useNavigate();
   const [certificateDispatched, setCertificateDispatched] = useState(false);
 
+
   const clearBatchItems = async () => {
     try {
       dispatch(
@@ -105,6 +106,8 @@ const BatchListPage = () => {
           text: responseData.message,
           icon: "success",
         });
+
+        navigate("/certificates/print/page/")
       }
     } catch (error) {
       console.log(error);
@@ -175,11 +178,11 @@ const BatchListPage = () => {
             <Fragment>
               <div className="row">
                 <div className="col-md-6 mb-5">
-                  <Link to={"/certificates/print/page/"}>
+                  {/* <Link to={"/certificates/print/page/"}>
                     <a className="btn btn-success-light mb-5">
                       Certificates Printing Page
                     </a>
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <CertificatesTable name={batchName} batch={batchList} />

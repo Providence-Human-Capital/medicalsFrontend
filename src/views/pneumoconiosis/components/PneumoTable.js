@@ -25,7 +25,7 @@ const PneumoTable = () => {
     useSelector((state) => state.patient.pneumoPatients) || [];
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState("id");
-  const [isSortAscending, setIsSortAscending] = useState(true);
+  const [isSortAscending, setIsSortAscending] = useState(false);
 
   useEffect(() => {
     const fetchPneumoPatients = async () => {
@@ -128,8 +128,8 @@ const PneumoTable = () => {
               </thead>
               <tbody>
                 {pneumoPatients &&
-                  currentPageData.map((patient) => (
-                    <PneumoItem key={patient.id} patient={patient} />
+                  currentPageData.map((patient, index) => (
+                    <PneumoItem key={patient.id} patient={patient} index={index} />
                   ))}
               </tbody>
             </table>

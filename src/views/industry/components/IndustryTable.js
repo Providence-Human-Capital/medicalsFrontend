@@ -25,7 +25,7 @@ const IndustryTable = () => {
   );
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState("id");
-  const [isSortAscending, setIsSortAscending] = useState(true);
+  const [isSortAscending, setIsSortAscending] = useState(false);
 
   useEffect(() => {
     const fetchIndustryPatients = async () => {
@@ -130,7 +130,7 @@ const IndustryTable = () => {
               <tbody>
                 {industryPatients &&
                   currentPageData.map((patient, index) => (
-                    <IndustryItem key={patient.id} patient={patient} />
+                    <IndustryItem key={patient.id} patient={patient} index={index} />
                   ))}
               </tbody>
             </table>

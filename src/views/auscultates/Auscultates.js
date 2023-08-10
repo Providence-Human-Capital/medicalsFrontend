@@ -10,7 +10,7 @@ const Auscultates = () => {
       <BreadCrumb title={"Auscultates"} activeTab={"Auscultates List"} />
       <section className="content">
         <div className="row">
-          <div className="col-xl-8 col-12">
+          <div className="col-xl-12 col-12">
             <div className="box">
               <div className="box-body">
                 <div className="d-md-flex align-items-center justify-content-between mb-20">
@@ -27,7 +27,6 @@ const Auscultates = () => {
               </div>
             </div>
           </div>
-          <div className="col-xl-4 col-12">{/* <IllnessAnalysisCard /> */}</div>
         </div>
       </section>
     </Fragment>

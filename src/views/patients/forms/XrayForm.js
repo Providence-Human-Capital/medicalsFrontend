@@ -179,8 +179,8 @@ const XrayForm = ({ handlePrev, handleNext }) => {
                                     name="status"
                                     className="form-control my-upload"
                                   >
-                                    <option value="NEGATIVE">GOOD</option>
-                                    <option value="POSITIVE">BAD</option>
+                                    <option value="NEGATIVE">POSITIVE RESULT</option>
+                                    <option value="POSITIVE">NEGATIVE RESULT</option>
                                   </Field>
                                   <ErrorMessage
                                     name="status"
@@ -198,7 +198,7 @@ const XrayForm = ({ handlePrev, handleNext }) => {
                                       as="textarea"
                                       rows="4"
                                       name="result"
-                                      className={`form-control my-upload ${
+                                      className={`form-control my-upload textareaH ${
                                         touched.result && errors.result
                                           ? "error-input"
                                           : ""

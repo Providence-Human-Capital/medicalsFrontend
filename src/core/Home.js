@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import Layout from "./Layout";
 import SmallCard from "../components/cards/SmallCard";
 import CertificateAnalysisCard from "../views/dashboard/components/CertificateAnalysisCard";
@@ -37,63 +37,138 @@ const Home = ({}) => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.ui.isLoading);
 
+  const fetchData = useCallback(async () => {
+    // Your async data fetching logic here
+    const attendees = await getAllAttendees();
+    dispatch(attendeeActions.setAttendees({ attendees: [...attendees] }));
+
+    const companies = await getCompanies();
+    dispatch(
+      companyActions.setCompanies({
+        companies: [...companies],
+      })
+    );
+
+    const tobaccos = await getAllTobaccos();
+    dispatch(
+      tobaccoActions.setTobaccos({
+        tobaccos: [...tobaccos],
+      })
+    );
+
+    const patients = await getAllPatients();
+    dispatch(patientActions.setPatients({ patients: [...patients] }));
+
+    const pneumoPatients = await getPneumoPatients();
+    dispatch(patientActions.setPneumoPatients({ pneumoPatients }));
+
+    const industryPatients = await getCofHPatients();
+    dispatch(patientActions.setIndustryPatients({ industryPatients }));
+
+    const skinConditions = await getSkinConditions();
+    dispatch(
+      illnessActions.setSkinConditions({ skin_conditions: skinConditions })
+    );
+
+    const diseases = await getDiseases();
+    dispatch(illnessActions.setDiseases({ diseases }));
+
+    const auscultates = await getAuscultates();
+    dispatch(illnessActions.setAuscultates({ auscultates }));
+
+    const illnesses = await getIllnesses();
+    dispatch(illnessActions.setIllnesses({ illnesses: [...illnesses] }));
+
+    const certificates = await companiesWithCertificateBatches();
+    const data = certificates.companies;
+    dispatch(companyActions.setCompaniesWithBatches(data));
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     dispatch(
+  //       uiActions.setLoadingSpinner({
+  //         isLoading: true,
+  //       })
+  //     );
+  //     try {
+  //       const attendees = await getAllAttendees();
+  //       dispatch(attendeeActions.setAttendees({ attendees: [...attendees] }));
+
+  //       const companies = await getCompanies();
+  //       dispatch(
+  //         companyActions.setCompanies({
+  //           companies: [...companies],
+  //         })
+  //       );
+
+  //       const tobaccos = await getAllTobaccos();
+  //       dispatch(
+  //         tobaccoActions.setTobaccos({
+  //           tobaccos: [...tobaccos],
+  //         })
+  //       );
+
+  //       const patients = await getAllPatients();
+  //       dispatch(patientActions.setPatients({ patients: [...patients] }));
+
+  //       const pneumoPatients = await getPneumoPatients();
+  //       dispatch(patientActions.setPneumoPatients({ pneumoPatients }));
+
+  //       const industryPatients = await getCofHPatients();
+  //       dispatch(patientActions.setIndustryPatients({ industryPatients }));
+
+  //       const skinConditions = await getSkinConditions();
+  //       dispatch(
+  //         illnessActions.setSkinConditions({ skin_conditions: skinConditions })
+  //       );
+
+  //       const diseases = await getDiseases();
+  //       dispatch(illnessActions.setDiseases({ diseases }));
+
+  //       const auscultates = await getAuscultates();
+  //       dispatch(illnessActions.setAuscultates({ auscultates }));
+
+  //       const illnesses = await getIllnesses();
+  //       dispatch(illnessActions.setIllnesses({ illnesses: [...illnesses] }));
+
+  //       const certificates = await companiesWithCertificateBatches();
+  //       const data = certificates.companies;
+  //       dispatch(companyActions.setCompaniesWithBatches(data));
+
+  //       dispatch(
+  //         uiActions.setLoadingSpinner({
+  //           isLoading: false,
+  //         })
+  //       ); // Set loading state to false when all data is fetched
+  //     } catch (error) {
+  //       console.error(error);
+  //       dispatch(
+  //         uiActions.setLoadingSpinner({
+  //           isLoading: true,
+  //         })
+  //       );
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDataAndSetLoading = async () => {
       dispatch(
         uiActions.setLoadingSpinner({
           isLoading: true,
         })
       );
+
       try {
-        const attendees = await getAllAttendees();
-        dispatch(attendeeActions.setAttendees({ attendees: [...attendees] }));
-
-        const companies = await getCompanies();
-        dispatch(
-          companyActions.setCompanies({
-            companies: [...companies],
-          })
-        );
-
-        const tobaccos = await getAllTobaccos();
-        dispatch(
-          tobaccoActions.setTobaccos({
-            tobaccos: [...tobaccos],
-          })
-        );
-
-        const patients = await getAllPatients();
-        dispatch(patientActions.setPatients({ patients: [...patients] }));
-
-        const pneumoPatients = await getPneumoPatients();
-        dispatch(patientActions.setPneumoPatients({ pneumoPatients }));
-
-        const industryPatients = await getCofHPatients();
-        dispatch(patientActions.setIndustryPatients({ industryPatients }));
-
-        const skinConditions = await getSkinConditions();
-        dispatch(
-          illnessActions.setSkinConditions({ skin_conditions: skinConditions })
-        );
-
-        const diseases = await getDiseases();
-        dispatch(illnessActions.setDiseases({ diseases }));
-
-        const auscultates = await getAuscultates();
-        dispatch(illnessActions.setAuscultates({ auscultates }));
-
-        const illnesses = await getIllnesses();
-        dispatch(illnessActions.setIllnesses({ illnesses: [...illnesses] }));
-
-        const certificates = await companiesWithCertificateBatches();
-        const data = certificates.companies;
-        dispatch(companyActions.setCompaniesWithBatches(data));
+        await fetchData();
 
         dispatch(
           uiActions.setLoadingSpinner({
             isLoading: false,
           })
-        ); // Set loading state to false when all data is fetched
+        );
       } catch (error) {
         console.error(error);
         dispatch(
@@ -104,8 +179,8 @@ const Home = ({}) => {
       }
     };
 
-    fetchData();
-  }, []);
+    fetchDataAndSetLoading();
+  }, [fetchData, dispatch]);
 
   const totalPatients = useSelector((state) => state.patient.patients.length);
 

@@ -11,7 +11,7 @@ const Tobacco = () => {
       <BreadCrumb title={"Tobacco Usage"} activeTab={"Tobacco Usage List"} />
       <section className="content">
         <div className="row">
-          <div className="col-xl-8 col-12">
+          <div className="col-xl-12 col-12">
             <div className="box">
               <div className="box-body">
                 <div className="d-md-flex align-items-center justify-content-between mb-20">
@@ -26,9 +26,7 @@ const Tobacco = () => {
             </div>
           </div>
 
-          <div className="col-xl-4 col-12">
-            {/* <SmokingAnalysisCard /> */}
-          </div>
+         
         </div>
       </section>
     </Fragment>

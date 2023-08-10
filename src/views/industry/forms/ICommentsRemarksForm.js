@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import ErrorBox from "../../../components/ErrorBox";
 import Loading from "../../../components/loader/Loading";
 import FormButton from "../../../components/buttons/FormButton";
+import { chechCertificatesStatusUpdate } from "../../../services/api";
 
 const ICommentsRemarksForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -17,9 +18,11 @@ const ICommentsRemarksForm = ({ handlePrev, handleNext }) => {
   const { patientId } = useParams();
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [updateStatus, setUpdateStatus] = useState(false)
 
   const validationSchema = Yup.object().shape({
     doctors_comments: Yup.string().nullable(),
+    fit_to_work: Yup.boolean().nullable(),
   });
 
   const handleSubmit = async (values) => {
@@ -42,6 +45,9 @@ const ICommentsRemarksForm = ({ handlePrev, handleNext }) => {
       dispatch(formsActions.setOtherCommentsAndRemarks(responseData.data));
       toast.dark("Doctors Comments and Remarks Successfully Added");
       navigate(`/patients/${patientId}`);
+      chechCertificatesStatusUpdate(patientId).then((data) => {
+        console.log("From Certificates Update", data);
+      });
     } catch (error) {
       console.log("Error", error);
       setError(error);
@@ -50,8 +56,10 @@ const ICommentsRemarksForm = ({ handlePrev, handleNext }) => {
   };
 
   useEffect(() => {
-    dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
-  }, []);
+    chechCertificatesStatusUpdate(patientId).then((data) => {
+      console.log("From Certificates Update", data);
+    });
+  }, [updateStatus]);
   return (
     <div className="step-form">
       {/* {error && <ErrorBox error={error} />} */}
@@ -70,6 +78,7 @@ const ICommentsRemarksForm = ({ handlePrev, handleNext }) => {
               <Formik
                 initialValues={{
                   doctors_comments: "",
+                  fit_to_work: false,
                 }}
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
@@ -91,12 +100,39 @@ const ICommentsRemarksForm = ({ handlePrev, handleNext }) => {
                         }
                         id="doctors_comments"
                         name="doctors_comments"
+                        style={{
+                          minHeight: "300px",
+                        }}
                       />
                       <ErrorMessage
                         name="doctors_comments"
                         component="div"
                         className="invalid-feedback"
                       />
+                    </div>
+
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label
+                          htmlFor="fit_to_work"
+                          style={{
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          <strong>Fit to Work</strong>
+                        </label>
+                        <Field
+                          as="select"
+                          id="fit_to_work"
+                          name="fit_to_work"
+                          className="form-control my-upload"
+                        >
+                          <option value="">Select (Yes / No)</option>
+                          <option value="1">Yes</option>
+                          <option value="0">No</option>
+                        </Field>
+                        <ErrorMessage name="fit_to_work" />
+                      </div>
                     </div>
 
                     <div

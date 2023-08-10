@@ -8,10 +8,14 @@ import {
   faHospitalUser,
 } from "@fortawesome/free-solid-svg-icons";
 
-const NextPhaseStep = ({ nextPhaseCurrent }) => {
+const NextPhaseStep = ({ nextPhaseCurrent, setCurrentStepOnPhase }) => {
+  const handleStepClick = (step) => {
+    setCurrentStepOnPhase(step);
+  };
   return (
     <Fragment>
       <section className="step-wizard">
+       
         <ul
           className="step-wizard-list"
           style={{
@@ -32,7 +36,15 @@ const NextPhaseStep = ({ nextPhaseCurrent }) => {
               />
             </span>
 
-            <span className="progress-label">Symptoms Test</span>
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(1)}
+            >
+              Symptoms Test
+            </span>
           </li>
           <li
             className={`step-wizard-item ${
@@ -48,7 +60,15 @@ const NextPhaseStep = ({ nextPhaseCurrent }) => {
               />
             </span>
 
-            <span className="progress-label">Medical Conditions Test</span>
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(2)}
+            >
+              Medical Conditions Test
+            </span>
           </li>
           <li
             className={`step-wizard-item ${
@@ -64,7 +84,15 @@ const NextPhaseStep = ({ nextPhaseCurrent }) => {
               />
             </span>
 
-            <span className="progress-label">Smoking History</span>
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(3)}
+            >
+              Smoking History
+            </span>
           </li>
           <li
             className={`step-wizard-item ${
@@ -80,7 +108,15 @@ const NextPhaseStep = ({ nextPhaseCurrent }) => {
               />
             </span>
 
-            <span className="progress-label">Physical Examination</span>
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(4)}
+            >
+              Physical Examination
+            </span>
           </li>
           <li
             className={`step-wizard-item ${
@@ -96,7 +132,15 @@ const NextPhaseStep = ({ nextPhaseCurrent }) => {
               />
             </span>
 
-            <span className="progress-label">Systems Test </span>
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(5)}
+            >
+              Systems Test{" "}
+            </span>
           </li>
           <li
             className={`step-wizard-item ${
@@ -112,7 +156,15 @@ const NextPhaseStep = ({ nextPhaseCurrent }) => {
               />
             </span>
 
-            <span className="progress-label">Results and Investigation</span>
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(6)}
+            >
+              Results and Investigation
+            </span>
           </li>
           <li
             className={`step-wizard-item ${
@@ -128,7 +180,15 @@ const NextPhaseStep = ({ nextPhaseCurrent }) => {
               />
             </span>
 
-            <span className="progress-label">Additional Test</span>
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(7)}
+            >
+              Additional Test
+            </span>
           </li>
         </ul>
       </section>

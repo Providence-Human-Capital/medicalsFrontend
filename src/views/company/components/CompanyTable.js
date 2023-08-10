@@ -49,32 +49,35 @@ const CompanyTable = () => {
         <EmptyTable />
       ) : (
         <Fragment>
-          <table className="table border-no" id="example1">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Company Name</th>
-                <th>Address</th>
-                <th>Site Telephone</th>
-                <th>Company Email</th>
-                <th>Contact Person</th>
-                <th>Province</th>
-                <th>Designation</th>
-                <th>Contact Number</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {allcompanies &&
-                getCurrentPageData().map((company, index) => (
-                  <CompanyItem
-                    key={company.id}
-                    company={company}
-                    index={index}
-                  />
-                ))}
-            </tbody>
-          </table>
+          <div className="table-responsive">
+            <table className="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th className="bb-2">ID</th>
+                  <th className="bb-2">Company Name</th>
+                  <th className="bb-2">Address</th>
+                  <th className="bb-2">Site Telephone</th>
+                  <th className="bb-2">Company Email</th>
+                  <th className="bb-2">Contact Person</th>
+                  <th className="bb-2">Province</th>
+                  <th className="bb-2">Designation</th>
+                  <th className="bb-2">Contact Number</th>
+                  <th className="bb-2"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {allcompanies &&
+                  getCurrentPageData().map((company, index) => (
+                    <CompanyItem
+                      key={company.id}
+                      company={company}
+                      index={index}
+                    />
+                  ))}
+              </tbody>
+            </table>
+          </div>
+
           <div className="table-spacing"></div>
           <div className="paginate-position">
             <ReactPaginate

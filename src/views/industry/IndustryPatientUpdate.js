@@ -19,9 +19,13 @@ import CardioBox from "./components/CardioBox";
 import RespiratoryBox from "./components/RespiratoryBox";
 import PhysicalExamForm from "../patients/forms/PhysicalExamForm";
 import Vitals from "../patients/components/Vitals";
+import { Link, useParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 const IndustryPatientUpdate = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const { patientId } = useParams();
 
   const homeAddressesRecord = useSelector((state) => state.forms.homeAddresses);
   const otherIllnessInjuriesRecord = useSelector(
@@ -122,7 +126,25 @@ const IndustryPatientUpdate = () => {
 
   return (
     <Fragment>
-      <BreadCrumb activeTab={"Industry"} title={"Patient"} />
+      <div className="d-flex align-items-center">
+        <Link
+          to={`/patients/${patientId}`}
+          style={{
+            marginLeft: "40px",
+          }}
+        >
+          <FontAwesomeIcon icon={faHome} />{" "}
+          <span
+            style={{
+              fontWeight: "bold",
+            }}
+          >
+            {singlePatient && singlePatient.attendee.first_name}{" "}
+            {singlePatient && singlePatient.attendee.last_name}
+          </span>
+        </Link>
+        <BreadCrumb activeTab={"Pneumoconiosis"} title={"Patient"} />
+      </div>
       <section className="content">
         <div className="row">
           <div className="col-xl-8 col-12">
@@ -137,6 +159,7 @@ const IndustryPatientUpdate = () => {
             style={{
               overflowY: "scroll",
               height: "80vh",
+              overflowX: "hidden",
             }}
           >
             <PatientSideView />
@@ -145,7 +168,7 @@ const IndustryPatientUpdate = () => {
               physical={otherPhysicalExaminationRecord}
               vitals={otherCardioVascularCheckRecord}
             /> */}
-             <Vitals patient={singlePatient} vitals={vitals} />
+            <Vitals patient={singlePatient} vitals={vitals} />
             <CardioBox data={otherCardioVascularCheckRecord} />
             <MedicalHistoryBox mHistory={otherMedicalHistoryRecord} />
             <InjuryBox injuries={otherIllnessInjuriesRecord} />

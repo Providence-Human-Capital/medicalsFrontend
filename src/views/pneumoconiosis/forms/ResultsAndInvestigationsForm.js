@@ -9,6 +9,7 @@ import { formsActions } from "../../../redux_store/forms-store";
 import { toast } from "react-toastify";
 import Loading from "../../../components/loader/Loading";
 import FormButton from "../../../components/buttons/FormButton";
+import { chechCertificatesStatusUpdate } from "../../../services/api";
 
 const ResultsAndInvestigationsForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -87,6 +88,9 @@ const ResultsAndInvestigationsForm = ({ handlePrev, handleNext }) => {
       const responseData = await response.json();
       dispatch(formsActions.setPneumoResultsRemarks(responseData.data));
       dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
+      chechCertificatesStatusUpdate(patientId).then((data) => {
+        console.log("From Certificates Update", data);
+      });
       toast.dark("Physical Tests Successfully Added");
       handleNext();
     } catch (error) {

@@ -12,7 +12,7 @@ import Vitals from "../components/Vitals";
 import { patientActions } from "../../../redux_store/patients-store";
 import Alert from "../../../components/notifications/Alert";
 import PButtons from "../components/PButtons";
-import { getPatient } from "../../../services/api";
+import { chechCertificatesStatusUpdate, getPatient } from "../../../services/api";
 import SaveButton from "../../../components/buttons/SaveButton";
 import ToggleButton from "../../../components/buttons/ToggleButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -42,6 +42,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.ui.isLoading);
   const [showForm, setShowForm] = useState(false);
+  const [updateStatus, setUpdateStatus] = useState(false)
   const handleButtonClick = () => {
     setShowForm(!showForm);
   };
@@ -153,6 +154,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
         patientActions.setLatestPhysicalExam({ latestPhysicalExam: data.data })
       );
       dispatch(uiActions.setAlert({ setAlert: true }));
+      setUpdateStatus(true)
     } catch (error) {
       console.log("Error", error);
     } finally {
@@ -170,9 +172,10 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
   );
 
   useEffect(() => {
-    console.log("Current Location", location);
-    console.log("patientId", patientId);
-  }, []);
+    chechCertificatesStatusUpdate(patientId).then((data) => {
+      console.log("From Certificates Update", data);
+    });
+  }, [updateStatus ]);
   return (
     <Fragment>
       <div className="step-form">
@@ -328,7 +331,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                           type="number"
                                           className="form-control my-upload"
                                           id="temp"
-                                          placeholder="BP Test Pulse"
+                                          placeholder="Temperature"
                                           name="temp"
                                         />
                                       </div>

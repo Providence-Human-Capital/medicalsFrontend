@@ -73,6 +73,7 @@ import BatchListPage from "./views/certificates/BatchListPage";
 import PrintCertificatesPage from "./views/certificates/PrintCertificatesPage";
 import { uiActions } from "./redux_store/ui-store";
 import CompanyDetails from "./views/company/CompanyDetails";
+import Unauthorized from "./views/error/Unauthorized";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
@@ -318,6 +319,8 @@ const WrapperComponent = () => {
               path="/certificates/print/page/"
               element={<PrintCertificatesPage />}
             />
+
+            <Route path="/unauthorized" element={<Unauthorized />} />
           </Routes>
         </div>
       </div>
