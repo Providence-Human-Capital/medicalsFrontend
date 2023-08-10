@@ -18,6 +18,8 @@ const initialState = {
   patientsPerTobacco: [],
   patientsPerDisease: [],
 
+  searchResults: [],
+
   activityByDay: [],
   reportByDay: [],
 };
@@ -42,6 +44,14 @@ const patientSlice = createSlice({
       state.isLoading = false;
     },
 
+    setSearchResult: (state, action) => {
+      state.searchResults = action.payload.searchResults;
+    },
+
+    resetSearchResult: (state, action) => {
+      state.searchResults = [];
+    },
+
     setPneumoPatients: (state, action) => {
       state.pneumoPatients = action.payload.pneumoPatients;
       state.isLoading = false;
@@ -59,7 +69,7 @@ const patientSlice = createSlice({
       state.isLoading = false;
       state.error = "";
     },
-    
+
     setStatistics: (state, action) => {
       state.patientStatistics = action.payload.patientStatistics;
       state.isLoading = false;

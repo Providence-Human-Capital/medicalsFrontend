@@ -19,6 +19,7 @@ import {
 } from "../../../helpers/helpers";
 import ExportExcelButton from "../../../components/buttons/ExportExcelButton";
 import Loading from "../../../components/loader/Loading";
+import AdvancedSearchBox from "../../../components/AdvancedSearchBox";
 
 const exportToExcel = (data, filename) => {
   const worksheet = XLSX.utils.json_to_sheet(data);
@@ -117,7 +118,7 @@ const PatientTable = () => {
                     onClick={() => handleSort("id")}
                     className="pointer-style"
                     style={{
-                      cursor: "pointer"
+                      cursor: "pointer",
                     }}
                   >
                     ID
@@ -153,7 +154,11 @@ const PatientTable = () => {
               <tbody>
                 {allPatients &&
                   currentPageData.map((patient, index) => (
-                    <PatientItem key={patient.id} patient={patient} index={index} />
+                    <PatientItem
+                      key={patient.id}
+                      patient={patient}
+                      index={index}
+                    />
                   ))}
               </tbody>
             </table>

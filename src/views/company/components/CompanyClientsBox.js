@@ -3,7 +3,7 @@ import {
   getAllCompanyClients,
   handleDeletePatient,
 } from "../../../services/api";
-import { getCurrentPageData } from "../../../helpers/helpers";
+import { PHYSICAL_EXAM, getCurrentPageData } from "../../../helpers/helpers";
 import ReactPaginate from "react-paginate";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -59,6 +59,7 @@ const CompanyClientsBox = ({ companyName, companyId }) => {
                   <th className=" bb-2">Last Name</th>
                   <th className=" bb-2">National ID</th>
                   <th className=" bb-2">Phone Number</th>
+                  <th className="bb-2">Certificate </th>
                   <th className=" bb-2">Actions</th>
                 </tr>
               </thead>
@@ -75,6 +76,7 @@ const CompanyClientsBox = ({ companyName, companyId }) => {
                         </span>
                       </td>
                       <td>{client.phone_number}</td>
+                      <td>{PHYSICAL_EXAM(client.certificates[0].status)}</td>
                       <td>
                         <Link
                           to={`/patients/${client.id}`}

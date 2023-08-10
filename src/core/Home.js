@@ -32,6 +32,8 @@ import { tobaccoActions } from "../redux_store/tobacco-store";
 import { Link } from "react-router-dom";
 import LatestClientsBox from "../views/dashboard/components/LatestClientsBox";
 import DueMedicalsBox from "../views/dashboard/components/DueMedicalsBox";
+import AdvancedSearchBox from "../components/AdvancedSearchBox";
+import SearchedClientsBox from "../views/dashboard/components/SearchedClientsBox";
 
 const Home = ({}) => {
   const dispatch = useDispatch();
@@ -233,6 +235,18 @@ const Home = ({}) => {
                     <strong>Add New Client</strong>
                   </button>
                 </Link>
+              </div>
+              <div
+                style={{
+                  marginTop: "3rem",
+                }}
+              >
+                <AdvancedSearchBox />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-xl-12 col-12">
+                <SearchedClientsBox />
               </div>
             </div>
 
