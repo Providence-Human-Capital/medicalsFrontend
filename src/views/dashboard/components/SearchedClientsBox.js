@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { CSVLink } from "react-csv";
 import { PHYSICAL_EXAM } from "../../../helpers/helpers";
 import { Link } from "react-router-dom";
+import DownloadButton from "../../../components/buttons/DownloadButton";
 
 const SearchedClientsBox = () => {
   const searchedClients =
@@ -61,9 +62,29 @@ const SearchedClientsBox = () => {
             </div>
           </div>
         </div>
-        {/* <CSVLink filename={"MedicalsClients.csv"} data={searchedClients}>
-          Download CSV
-        </CSVLink> */}
+
+        <div
+          style={{
+            margin: "2rem",
+          }}
+        >
+          <button
+            className="cssbuttons-io-button"
+            style={{
+              width: "fit-content",
+            }}
+          >
+            <CSVLink filename={"MedicalsClients.csv"} data={searchedClients}>
+              <span
+                style={{
+                  color: "#fff",
+                }}
+              >
+                Download CSV
+              </span>
+            </CSVLink>
+          </button>
+        </div>
       </div>
     </>
   );

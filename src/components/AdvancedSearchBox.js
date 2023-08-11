@@ -108,11 +108,12 @@ const AdvancedSearchBox = () => {
                   <Loading />
                 ) : (
                   <button
-                    className="btn btn-secondary btn-block"
+                    className="btn btn-primary btn-block"
                     onClick={handleSearchResults}
                     style={{
                       textTransform: "uppercase",
                       fontWeight: "bold",
+                      borderRadius: "20px"
                     }}
                   >
                     Search Results

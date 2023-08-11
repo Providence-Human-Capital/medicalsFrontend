@@ -24,7 +24,6 @@ const Header = ({}) => {
   const navigate = useNavigate();
 
   const signOut = () => {
-    
     dispatch(authActions.setLogout());
     dispatch(formsActions.clearFormsOnLogOut());
     dispatch(attendeeActions.clearAttendeesOnLogout());
@@ -114,6 +113,17 @@ const Header = ({}) => {
               </li>
               <li className="btn-group d-lg-inline-flex d-none">
                 <NavButton to={"/industry"} text={"Industries & Other"} />
+              </li>
+              <li>
+                <button
+                  className="btn btn-secondary"
+                  style={{
+                    borderRadius: "20px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  <Link to={"certificates/print/csv"}>Print Through Csv</Link>
+                </button>
               </li>
             </ul>
           </div>

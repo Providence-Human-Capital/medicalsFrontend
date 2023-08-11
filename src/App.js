@@ -74,6 +74,7 @@ import PrintCertificatesPage from "./views/certificates/PrintCertificatesPage";
 import { uiActions } from "./redux_store/ui-store";
 import CompanyDetails from "./views/company/CompanyDetails";
 import Unauthorized from "./views/error/Unauthorized";
+import CsvPrintPage from "./views/certificates/CsvPrintPage";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
@@ -319,6 +320,8 @@ const WrapperComponent = () => {
               path="/certificates/print/page/"
               element={<PrintCertificatesPage />}
             />
+
+            <Route path="/certificates/print/csv/" element={<CsvPrintPage />} />
 
             <Route path="/unauthorized" element={<Unauthorized />} />
           </Routes>
