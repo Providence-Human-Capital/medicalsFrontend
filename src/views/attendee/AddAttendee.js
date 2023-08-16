@@ -227,7 +227,10 @@ const AddAttendee = () => {
               <div className="">
                 <div className="box-body">
                   <div className="">
-                    <h2>Enter New Client</h2>
+                    <h4 style={{
+                      textTransform: "uppercase",
+                      fontWeight: "bold"
+                    }}>Enter New Client</h4>
                     <Formik
                       initialValues={initialValues}
                       onSubmit={onSubmit}

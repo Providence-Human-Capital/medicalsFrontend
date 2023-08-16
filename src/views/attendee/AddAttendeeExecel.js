@@ -142,26 +142,29 @@ const AddAttendeeExecel = () => {
   return (
     <Fragment>
       <div className="row">
-        <div className="col-xl-8 col-12">
-          <div className="box">
+        <div className="col-xl-12 col-12">
+          <div className="card">
             <div className="">
               <div className="box-body">
-                <div className="container">
+                <div className="">
                   <h4 className="mb-4">
                     <strong>Add Client Through Excel</strong>
                   </h4>
                   <form>
-                    <div className="form-group">
+                    <div className="form-floating">
                       <div className="col-xl-6 col-12">
+                        <label
+                          htmlFor="fileInput"
+                          className="form-label form-label"
+                          style={{
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          Upload Excel File
+                        </label>
                         <div className="mb-3">
-                          <label
-                            htmlFor="fileInput"
-                            className="form-label form-label"
-                          >
-                            Upload Excel File
-                          </label>
                           <input
-                            className="form-control my-upload"
+                            className="form-control"
                             type="file"
                             id="fileInput"
                             onChange={handleFileUpload}
@@ -169,14 +172,12 @@ const AddAttendeeExecel = () => {
                         </div>
                       </div>
                     </div>
+                    <div className="separation-div"></div>
                     <div className="row">
                       <div className="col-md-4">
-                        <div className="form-group">
-                          <label htmlFor="companySelect" className="form-label">
-                            Company
-                          </label>
+                        <div className="form-floating">
                           <select
-                            className="form-control my-upload "
+                            className="form-select"
                             id="companySelect"
                             value={company}
                             onChange={(e) => setCompany(e.target.value)}
@@ -188,18 +189,15 @@ const AddAttendeeExecel = () => {
                               </option>
                             ))}
                           </select>
+                          <label htmlFor="companySelect" className="form-label">
+                            COMPANY
+                          </label>
                         </div>
                       </div>
                       <div className="col-md-4">
-                        <div className="form-group">
-                          <label
-                            htmlFor="examPurposeSelect"
-                            className="form-label"
-                          >
-                            Exam Purpose
-                          </label>
+                        <div className="form-floating">
                           <select
-                            className="form-control my-upload "
+                            className="form-select"
                             id="examPurposeSelect"
                             value={examPurpose}
                             onChange={(event) =>
@@ -216,18 +214,18 @@ const AddAttendeeExecel = () => {
                               Post(Employment Employment Follow Up)
                             </option>
                           </select>
+                          <label
+                            htmlFor="examPurposeSelect"
+                            className="form-label"
+                          >
+                            EXAM PURPOSE
+                          </label>
                         </div>
                       </div>
                       <div className="col-md-4">
-                        <div className="form-group">
-                          <label
-                            htmlFor="categorySelect"
-                            className="form-label"
-                          >
-                            Category
-                          </label>
+                        <div className="form-floating">
                           <select
-                            className="form-control my-upload"
+                            className="form-select"
                             id="categorySelect"
                             value={category}
                             onChange={(event) =>
@@ -239,9 +237,17 @@ const AddAttendeeExecel = () => {
                             <option value="2">Pneumoconiosis</option>
                             <option value="3">Industry/Security</option>
                           </select>
+                          <label
+                            htmlFor="categorySelect"
+                            className="form-label"
+                          >
+                            CATEGORY
+                          </label>
                         </div>
                       </div>
                     </div>
+                    <div className="separation-div"></div>
+                    <div className="separation-div"></div>
                     <div className="row">
                       <div className="col-md-6"></div>
                       <div className="col-md-6"></div>
