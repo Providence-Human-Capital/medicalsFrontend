@@ -78,7 +78,7 @@ const AdvancedSearchBox = () => {
                 fontWeight: "bold",
               }}
             >
-              An Easier way to find Client
+              An Easier way to find a Client
             </h4>
             <div className="row g-3 mt-2">
               <div className="col-md-3">
@@ -87,10 +87,11 @@ const AdvancedSearchBox = () => {
                   value={status}
                   onChange={handleStatusChange}
                 >
-                  <option value="">Any Status</option>
+                  <option value="">ANY STATUS</option>
                   <option value="PENDING">PENDING</option>
                   <option value="READY">READY</option>
                   <option value="MONITORING">MONITORING</option>
+                  <option value="FAILED">FAILED</option>
                   <option value="RELEASED">RELEASED</option>
                 </select>
               </div>
