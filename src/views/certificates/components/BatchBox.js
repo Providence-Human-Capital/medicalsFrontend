@@ -2,9 +2,13 @@ import React, { useEffect, useState } from "react";
 import BatchItem from "./BatchItem";
 import { batch, useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { createCertificateBatch } from "../../../services/api";
+import {
+  companiesWithCertificateBatches,
+  createCertificateBatch,
+} from "../../../services/api";
 import Loading from "../../../components/loader/Loading";
 import { uiActions } from "../../../redux_store/ui-store";
+import { companyActions } from "../../../redux_store/company-store";
 
 const BatchBox = ({ company }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -18,6 +22,13 @@ const BatchBox = ({ company }) => {
       .then((data) => {
         console.log(data);
         if (data) {
+          companiesWithCertificateBatches().then((dataBatches) => {
+            if (dataBatches && dataBatches.companies) {
+              dispatch(
+                companyActions.setCompaniesWithBatches(dataBatches.companies)
+              );
+            }
+          });
         }
       })
       .catch((err) => {

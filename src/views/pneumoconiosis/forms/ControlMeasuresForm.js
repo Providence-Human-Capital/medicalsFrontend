@@ -89,68 +89,137 @@ const ControlMeasuresForm = ({ handlePrev, handleNext }) => {
                     <div className="row">
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label htmlFor="wet_method">Wet Method</label>
-                          <Field
-                            as="select"
-                            name="wet_method"
-                            value={values.wet_method}
-                            onChange={handleChange}
-                            className="form-control my-upload"
+                          <label
+                            htmlFor="wet_method"
+                            style={{
+                              textTransform: "uppercase",
+                              fontWeight: "bold",
+                            }}
                           >
-                            <option value={false}>No</option>
-                            <option value={true}>Yes</option>
-                          </Field>
+                            Wet Method
+                          </label>
+                          <div className="form-floating">
+                            <Field
+                              as="select"
+                              name="wet_method"
+                              value={values.wet_method}
+                              onChange={handleChange}
+                              className="form-select"
+                            >
+                              <option value={false}>NO</option>
+                              <option value={true}>YES</option>
+                            </Field>
+                            <label
+                              htmlFor="wet_method"
+                              style={{
+                                textTransform: "uppercase",
+                              }}
+                            >
+                              Wet Method (YES/NO)
+                            </label>
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-6">
+                        <label
+                          htmlFor="contain_and_vent"
+                          style={{
+                            textTransform: "uppercase",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          <strong>Containment and Ventilation</strong>
+                        </label>
                         <div className="form-group">
-                          <label htmlFor="contain_and_vent">
-                            <strong>Containment and Ventilation</strong>
-                          </label>
-                          <Field
-                            as="select"
-                            name="contain_and_vent"
-                            value={values.contain_and_vent}
-                            onChange={handleChange}
-                            className="form-control my-upload"
-                          >
-                            <option value="">Select</option>
-                            <option value={true}>Yes</option>
-                            <option value={false}>No</option>
-                          </Field>
+                          <div className="form-floating">
+                            <Field
+                              as="select"
+                              name="contain_and_vent"
+                              value={values.contain_and_vent}
+                              onChange={handleChange}
+                              className="form-select"
+                            >
+                              <option value="">Select</option>
+                              <option value={true}>YES</option>
+                              <option value={false}>NO</option>
+                            </Field>
+                            <label
+                              htmlFor="contain_and_vent"
+                              style={{
+                                textTransform: "uppercase",
+                              }}
+                            >
+                              <strong>Containment and Ventilation</strong>
+                            </label>
+                          </div>
                         </div>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-md-6">
+                        <label
+                          htmlFor="monitoring"
+                          style={{
+                            textTransform: "uppercase",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Monitoring
+                        </label>
                         <div className="form-group">
-                          <label htmlFor="monitoring">Monitoring</label>
-                          <Field
-                            as="select"
-                            name="monitoring"
-                            value={values.monitoring}
-                            onChange={handleChange}
-                            className="form-control my-upload"
-                          >
-                            <option value={false}>No</option>
-                            <option value={true}>Yes</option>
-                          </Field>
+                          <div className="form-floating">
+                            <Field
+                              as="select"
+                              name="monitoring"
+                              value={values.monitoring}
+                              onChange={handleChange}
+                              className="form-select"
+                            >
+                              <option value={false}>NO</option>
+                              <option value={true}>YES</option>
+                            </Field>
+                            <label
+                              htmlFor="monitoring"
+                              style={{
+                                textTransform: "uppercase",
+                              }}
+                            >
+                              Monitoring
+                            </label>
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label htmlFor="ppe">PPE</label>
-                          <Field
-                            as="select"
-                            name="ppe"
-                            value={values.ppe}
-                            onChange={handleChange}
-                            className="form-control my-upload"
+                          <label
+                            htmlFor="ppe"
+                            style={{
+                              textTransform: "uppercase",
+                              fontWeight: "bold",
+                            }}
                           >
-                            <option value="">Select(Yes/No)</option>
-                            <option value="No">No</option>
-                            <option value="Yes">Yes</option>
-                          </Field>
+                            PPE
+                          </label>
+                          <div className="form-floating">
+                            <Field
+                              as="select"
+                              name="ppe"
+                              value={values.ppe}
+                              onChange={handleChange}
+                              className="form-select"
+                            >
+                              <option value={false}>NO</option>
+                              <option value={true}>YES</option>
+                            </Field>
+                            <label
+                              htmlFor="ppe"
+                              style={{
+                                textTransform: "uppercase",
+                              }}
+                            >
+                              PERSONAL PROTECTIVE EQUIPMENT
+                            </label>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -158,44 +227,65 @@ const ControlMeasuresForm = ({ handlePrev, handleNext }) => {
                     {values.ppe === "Yes" && (
                       <div className="form-group">
                         <label htmlFor="ppe_details">PPE Details</label>
-                        <Field
-                          type="text"
-                          name="ppe_details"
-                          className="form-control my-upload"
-                          value={values.ppe_details}
-                          onChange={handleChange}
-                        />
-                        <ErrorMessage
-                          name="ppe_details"
-                          component="div"
-                          className="text-danger"
-                        />
+                        <div className="form-floating">
+                          <Field
+                            type="text"
+                            name="ppe_details"
+                            className="form-control"
+                            value={values.ppe_details}
+                            onChange={handleChange}
+                          />
+                          <ErrorMessage
+                            name="ppe_details"
+                            component="div"
+                            className="text-danger"
+                          />
+                          <label htmlFor="ppe_details">
+                            DETAILS OF PERSONAL PROTECTIVE EQUIPMENT
+                          </label>
+                        </div>
                       </div>
                     )}
                     <div className="form-group">
-                      <label htmlFor="other">Other</label>
-                      <Field
-                        as="select"
-                        name="other"
-                        value={values.other}
-                        onChange={handleChange}
-                        className="form-control my-upload"
-                      >
-                        <option value="">Select an option</option>
-                        <option value={true}>Yes</option>
-                        <option value={false}>No</option>
-                      </Field>
+                      <label htmlFor="other"
+                      style={{
+                        textTransform: "uppercase"
+                      }}
+                      >Other</label>
+                      <div className="form-floating">
+                        <Field
+                          as="select"
+                          name="other"
+                          value={values.other}
+                          onChange={handleChange}
+                          className="form-select"
+                        >
+                          <option value="">Select an option</option>
+                          <option value={true}>YES</option>
+                          <option value={false}>NO</option>
+                        </Field>
+                        <label htmlFor="other">
+                          SELECT OTHER PROTECTIVE MEASURES
+                        </label>
+                      </div>
                     </div>
                     {values.other === "true" && (
                       <div className="form-group">
-                        <label htmlFor="other_details">Other Details</label>
-                        <Field
-                          type="text"
-                          name="other_details"
-                          className="form-control my-upload"
-                          value={values.other_details}
-                          onChange={handleChange}
-                        />
+                        <label htmlFor="other_details">
+                          DETAILS ON OTHER PROTECTIVE MEASURES
+                        </label>
+                        <div className="form-floating">
+                          <Field
+                            type="text"
+                            name="other_details"
+                            className="form-control"
+                            value={values.other_details}
+                            onChange={handleChange}
+                          />
+                          <label htmlFor="other_details">
+                            DETAILS ON OTHER PROTECTIVE MEASURES
+                          </label>
+                        </div>
                       </div>
                     )}
                     <div

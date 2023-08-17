@@ -73,7 +73,10 @@ const IndustryClassificationForm = ({ handlePrev, handleNext }) => {
         <div className="custom-form">
           <div className="box-body">
             <div className="container">
-              <h4>Industry Classification</h4>
+              <h4 style={{
+                textTransform: "uppercase",
+                fontWeight: "bold"
+              }}>Industry Classification</h4>
               <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -89,26 +92,29 @@ const IndustryClassificationForm = ({ handlePrev, handleNext }) => {
                         Industry
                       </label>
                       <div className="col-sm-10">
-                        <Field
-                          as="select"
-                          name="industry"
-                          className="form-control my-upload"
-                          value={values.industry}
-                          onChange={handleChange}
-                        >
-                          <option value="">Select an industry</option>
-                          <option value="Mining">Mining</option>
-                          <option value="Quarrying">Quarrying</option>
-                          <option value="Manufacturing">Manufacturing</option>
-                          <option value="Construction">Construction</option>
-                          <option value="Agriculture">Agriculture</option>
-                          <option value="Other">Other</option>
-                        </Field>
-                        <ErrorMessage
-                          name="industry"
-                          component="div"
-                          className="text-danger"
-                        />
+                        <div className="form-floating">
+                          <Field
+                            as="select"
+                            name="industry"
+                            className="form-select"
+                            value={values.industry}
+                            onChange={handleChange}
+                          >
+                            <option value="">Select an industry</option>
+                            <option value="Mining">Mining</option>
+                            <option value="Quarrying">Quarrying</option>
+                            <option value="Manufacturing">Manufacturing</option>
+                            <option value="Construction">Construction</option>
+                            <option value="Agriculture">Agriculture</option>
+                            <option value="Other">Other</option>
+                          </Field>
+                          <label>SELECT INDUSTRY WHICH CLIENT BELONG TO</label>
+                          <ErrorMessage
+                            name="industry"
+                            component="div"
+                            className="error-message"
+                          />
+                        </div>
                       </div>
                     </div>
 

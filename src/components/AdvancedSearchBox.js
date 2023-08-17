@@ -82,27 +82,33 @@ const AdvancedSearchBox = () => {
             </h4>
             <div className="row g-3 mt-2">
               <div className="col-md-3">
-                <select
-                  className="form-control my-upload"
-                  value={status}
-                  onChange={handleStatusChange}
-                >
-                  <option value="">ANY STATUS</option>
-                  <option value="PENDING">PENDING</option>
-                  <option value="READY">READY</option>
-                  <option value="MONITORING">MONITORING</option>
-                  <option value="FAILED">FAILED</option>
-                  <option value="RELEASED">RELEASED</option>
-                </select>
+                <div className="form-floating">
+                  <select
+                    className="form-select"
+                    value={status}
+                    onChange={handleStatusChange}
+                  >
+                    <option value="">ANY STATUS</option>
+                    <option value="PENDING">PENDING</option>
+                    <option value="READY">READY</option>
+                    <option value="MONITORING">MONITORING</option>
+                    <option value="FAILED">FAILED</option>
+                    <option value="RELEASED">RELEASED</option>
+                  </select>
+                  <label>SELECT STATUS</label>
+                </div>
               </div>
               <div className="col-md-6">
-                <input
-                  type="text"
-                  className="form-control my-upload"
-                  placeholder="Enter First Name or Last Name or National ID"
-                  value={searchText}
-                  onChange={handleSearchTextChange}
-                />
+                <div className="form-floating">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter First Name or Last Name or National ID"
+                    value={searchText}
+                    onChange={handleSearchTextChange}
+                  />
+                  <label>Enter First Name or Last Name or National ID</label>
+                </div>
               </div>
               <div className="col-md-3">
                 {searchLoading ? (
@@ -114,7 +120,7 @@ const AdvancedSearchBox = () => {
                     style={{
                       textTransform: "uppercase",
                       fontWeight: "bold",
-                      borderRadius: "20px"
+                      borderRadius: "20px",
                     }}
                   >
                     Search Results
@@ -140,48 +146,60 @@ const AdvancedSearchBox = () => {
                 <div className="card card-body">
                   <div className="row">
                     <div className="col-md-4">
-                      <select
-                        className="form-control my-upload"
-                        value={category}
-                        onChange={handleCategoryChange}
-                      >
-                        <option value="">Select Category</option>
-                        <option value="City Of Harare">City Of Harare</option>
-                        <option value="Local">Local</option>
-                        <option value="Pneumoconiosis">Pneumoconiosis</option>
-                        <option value="Industry">Industry</option>
-                      </select>
+                      <div className="form-floating">
+                        <select
+                          className="form-select"
+                          value={category}
+                          onChange={handleCategoryChange}
+                        >
+                          <option value="">Select Category</option>
+                          <option value="City Of Harare">City Of Harare</option>
+                          <option value="Local">Local</option>
+                          <option value="Pneumoconiosis">Pneumoconiosis</option>
+                          <option value="Industry">Industry</option>
+                        </select>
+                        <label>SELECT CATEGORY</label>
+                      </div>
                     </div>
                     <div className="col-md-4">
-                      <select
-                        className="form-control my-upload"
-                        value={company}
-                        onChange={handleCompanyChange}
-                      >
-                        <option value="">Select Company</option>
-                        {companies.map((company) => (
-                          <option key={company.id} value={company.company_name}>
-                            {company.company_name}
+                      <div className="form-floating">
+                        <select
+                          className="form-select"
+                          value={company}
+                          onChange={handleCompanyChange}
+                        >
+                          <option value="">Select Company</option>
+                          {companies.map((company) => (
+                            <option
+                              key={company.id}
+                              value={company.company_name}
+                            >
+                              {company.company_name}
+                            </option>
+                          ))}
+                        </select>
+                        <label>SELECT COMPANY</label>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-floating">
+                        <select
+                          className="form-select"
+                          value={purpose}
+                          onChange={handlePurposeChange}
+                        >
+                          <option value="">Select Purpose of Exam</option>
+                          <option value="Pre-Placement">Pre-Placement</option>
+                          <option value="Periodical">Periodical</option>
+                          <option value="Exit(Employment Termination)">
+                            Exit(Employment Termination)
                           </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="col-md-4">
-                      <select
-                        className="form-control my-upload"
-                        value={purpose}
-                        onChange={handlePurposeChange}
-                      >
-                        <option value="">Select Purpose of Exam</option>
-                        <option value="Pre-Placement">Pre-Placement</option>
-                        <option value="Periodical">Periodical</option>
-                        <option value="Exit(Employment Termination)">
-                          Exit(Employment Termination)
-                        </option>
-                        <option value="Post(Employment Employment Follow Up)">
-                          Post(Employment Employment Follow Up)
-                        </option>
-                      </select>
+                          <option value="Post(Employment Employment Follow Up)">
+                            Post(Employment Employment Follow Up)
+                          </option>
+                        </select>
+                        <label>SELECT EXAM PURPOSE</label>
+                      </div>
                     </div>
                   </div>
                 </div>

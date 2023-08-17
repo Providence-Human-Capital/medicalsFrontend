@@ -72,6 +72,11 @@ const AttendeeItem = ({ attendee }) => {
     setShowPopup(false);
   };
 
+  const timeOfEntry = attendee.time_of_entry;
+  const formattedTime = new Date(timeOfEntry).toLocaleTimeString([], {
+    timeStyle: "short",
+  });
+
   return (
     <Fragment>
       <tr className="hover-primary">
@@ -91,7 +96,7 @@ const AttendeeItem = ({ attendee }) => {
             </span>
           )}
         </td>
-        <td>{attendee.time_of_entry}</td>
+        <td> {formattedTime}</td>
 
         <td>{attendee.age}</td>
         <td>{attendee.gender}</td>

@@ -81,94 +81,140 @@ const HomeAddressForm = ({ handlePrev, handleNext }) => {
                 {({ errors, touched }) => (
                   <Form>
                     <div className="form-group">
-                      <label htmlFor="street">Street</label>
-                      <Field
-                        type="text"
-                        className={`form-control my-upload ${
-                          errors.street && touched.street ? "is-invalid" : ""
-                        }`}
-                        name="street"
-                      />
-                      <ErrorMessage
-                        name="street"
-                        component="div"
-                        className="invalid-feedback"
-                      />
+                      <label
+                        htmlFor="street"
+                        style={{
+                          textTransform: "uppercase",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Street
+                      </label>
+                      <div className="form-floating">
+                        <Field
+                          type="text"
+                          className={`form-control ${
+                            errors.street && touched.street ? "is-invalid" : ""
+                          }`}
+                          name="street"
+                        />
+                        <label htmlFor="street">ENTER THE STREET NAME</label>
+                        <ErrorMessage
+                          name="street"
+                          component="div"
+                          className="invalid-feedback"
+                        />
+                      </div>
                     </div>
                     <div className="form-group">
-                      <label htmlFor="address">Address</label>
-                      <Field
-                        type="text"
-                        className={`form-control my-upload ${
-                          errors.address && touched.address ? "is-invalid" : ""
-                        }`}
-                        name="address"
-                      />
-                      <ErrorMessage
-                        name="address"
-                        component="div"
-                        className="invalid-feedback"
-                      />
+                      <label
+                        htmlFor="address"
+                        style={{
+                          textTransform: "uppercase",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Address
+                      </label>
+                      <div className="form-floating">
+                        <Field
+                          type="text"
+                          className={`form-control ${
+                            errors.address && touched.address
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          name="address"
+                        />
+                        <label htmlFor="street">ENTER THE ADDRESS</label>
+                        <ErrorMessage
+                          name="address"
+                          component="div"
+                          className="invalid-feedback"
+                        />
+                      </div>
                     </div>
                     <div className="row">
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label htmlFor="city">City</label>
-                          <Field
-                            type="text"
-                            className={`form-control my-upload${
-                              errors.city && touched.city ? "is-invalid" : ""
-                            }`}
-                            name="city"
-                          />
-                          <ErrorMessage
-                            name="city"
-                            component="div"
-                            className="invalid-feedback"
-                          />
+                          <label
+                            htmlFor="province"
+                            style={{
+                              textTransform: "uppercase",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            City
+                          </label>
+                          <div className="form-floating">
+                            <Field
+                              type="text"
+                              className={`form-control ${
+                                errors.city && touched.city ? "is-invalid" : ""
+                              }`}
+                              name="city"
+                            />
+                            <label htmlFor="city">ENTER THE CITY</label>
+                            <ErrorMessage
+                              name="city"
+                              component="div"
+                              className="invalid-feedback"
+                            />
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label htmlFor="province">Province</label>
-                          <Field
-                            as="select"
-                            className={`form-control my-upload ${
-                              errors.province && touched.province
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            name="province"
-                            placeholder="Select A Province"
+                          <label
+                            htmlFor="province"
+                            style={{
+                              textTransform: "uppercase",
+                              fontWeight: "bold",
+                            }}
                           >
-                            <option value="Choose province">
-                              Choose province
-                            </option>
-                            <option value="Harare">Harare</option>
-                            <option value="Bulawayo">Bulawayo</option>
-                            <option value="Manicaland">Manicaland</option>
-                            <option value="Mashonaland Central">
-                              Mashonaland Central
-                            </option>
-                            <option value="Mashonaland East">
-                              Mashonaland East
-                            </option>
-                            <option value="Mashonaland West">
-                              Mashonaland West
-                            </option>
-                            <option value="Masvingo">Masvingo</option>
-                            <option value="Matebeleland North">
-                              Matebeleland North
-                            </option>
-                            <option value="Matebeleland South">
-                              Matebeleland South
-                            </option>
-                          </Field>
-                          <ErrorMessage
-                            name="province"
-                            component="div"
-                            className="invalid-feedback"
-                          />
+                            Province
+                          </label>
+                          <div className="form-floating">
+                            <Field
+                              as="select"
+                              className={`form-select ${
+                                errors.province && touched.province
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              name="province"
+                              placeholder="Select A Province"
+                            >
+                              <option value="Choose province">
+                                Choose province
+                              </option>
+                              <option value="Harare">Harare</option>
+                              <option value="Bulawayo">Bulawayo</option>
+                              <option value="Manicaland">Manicaland</option>
+                              <option value="Mashonaland Central">
+                                Mashonaland Central
+                              </option>
+                              <option value="Mashonaland East">
+                                Mashonaland East
+                              </option>
+                              <option value="Mashonaland West">
+                                Mashonaland West
+                              </option>
+                              <option value="Masvingo">Masvingo</option>
+                              <option value="Matebeleland North">
+                                Matebeleland North
+                              </option>
+                              <option value="Matebeleland South">
+                                Matebeleland South
+                              </option>
+                            </Field>
+                            <label htmlFor="province">SELECT PROVINCE</label>
+                            <ErrorMessage
+                              name="province"
+                              component="div"
+                              className="invalid-feedback"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>

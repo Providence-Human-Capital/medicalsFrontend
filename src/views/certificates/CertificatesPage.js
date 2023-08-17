@@ -62,7 +62,7 @@ const CertificatesPage = () => {
           return b.company_name.localeCompare(a.company_name);
         }
       } else if (sortBy === "certificate_batches") {
-        if (sortOrder === "asc") {
+        if (sortOrder === "desc") {
           return a.certificate_batches.length - b.certificate_batches.length;
         } else {
           return b.certificate_batches.length - a.certificate_batches.length;
@@ -82,6 +82,13 @@ const CertificatesPage = () => {
     offset + itemsPerPage
   );
 
+  useEffect(() => {}, [
+    searchQuery,
+    sortBy,
+    sortOrder,
+    sortedAndFilteredCompanies,
+  ]);
+
   useEffect(() => {
     companiesWithCertificateBatches()
       .then((data) => {
@@ -99,7 +106,7 @@ const CertificatesPage = () => {
         console.error("Error fetching companies with batches:", error);
       });
     searchAndSortCompanies();
-  }, [searchQuery, sortBy, sortOrder, sortedAndFilteredCompanies]);
+  }, []);
 
   return (
     <>

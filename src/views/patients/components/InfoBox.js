@@ -1,22 +1,62 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { formatDate } from "../../../utils/dateConverter";
 import styles from "../patient-css/styles.module.css";
-
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as yup from "yup";
 import { options } from "../../../utils/dateConverter";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import "./InfoBox.css";
+import { API } from "../../../config";
+import Loading from "../../../components/loader/Loading";
 
 const InfoBox = ({ patient }) => {
   const patientsRemarks = useSelector((state) => state.forms.fPatientRemarks);
-
+  const [updating, setUpdating] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     setSelectedImage(URL.createObjectURL(file));
   };
+
+  const initialValues = {
+    department: "",
+    sub_company: "",
+  };
+
+  const validationSchema = yup.object().shape({
+    department: yup.string().nullable(),
+    sub_company: yup.string().nullable(),
+  });
+
+  const patientId = patient.id;
+
+  const onSubmit = async (formData) => {
+    console.log("FormData", formData);
+    try {
+      setUpdating(true);
+      const response = await fetch(
+        `${API}/patient/update/department/${patientId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (response.ok) {
+        setUpdating(false);
+      }
+    } catch (error) {
+      console.error("Error Messsage", error);
+      setUpdating(false);
+    }
+  };
+
   return (
     <Fragment>
       <div className="box bg-bubbles-white">
@@ -108,6 +148,98 @@ const InfoBox = ({ patient }) => {
             </h5>
           </div>
         </div>
+        <div className="container">
+          <div className="mt-3">
+            <a
+              data-toggle="collapse"
+              href="#collapseExample"
+              role="button"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+              className="advanced"
+              style={{
+                fontWeight: "bold",
+              }}
+            >
+              ADD DEPARTMENT OR SUB COMPANY <i className="fa fa-angle-down"></i>
+            </a>
+            <div className="separation-div"></div>
+            <div className="collapse" id="collapseExample">
+              <div className="card card-body">
+                <Formik
+                  initialValues={initialValues}
+                  onSubmit={onSubmit}
+                  validationSchema={validationSchema}
+                >
+                  {({
+                    values,
+                    isSubmitting,
+                    handleSubmit,
+                    touched,
+                    errors,
+                    setFieldValue,
+                  }) => (
+                    <Form>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <div className="form-floating">
+                            <Field
+                              type="text"
+                              className={`form-control ${
+                                touched.department && errors.department
+                                  ? "error-input"
+                                  : ""
+                              }`}
+                              id="department"
+                              placeholder="Enter department"
+                              name="department"
+                            />
+                            <label htmlFor="department">DEPARTMENT</label>
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="form-floating">
+                            <Field
+                              type="text"
+                              className={`form-control ${
+                                touched.sub_company && errors.sub_company
+                                  ? "error-input"
+                                  : ""
+                              }`}
+                              id="sub_company"
+                              placeholder="Enter SUB COMPANY"
+                              name="sub_company"
+                            />
+                            <label htmlFor="sub_company">SUB COMPANY</label>
+                          </div>
+                        </div>
+                        <div className="separation-div"></div>
+                        {updating ? (
+                          <Loading />
+                        ) : (
+                          <button
+                            className="btn btn-success"
+                            style={{
+                              width: "fit-content",
+                              textTransform: "uppercase",
+                              fontWeight: "bold",
+                              borderRadius: "10px",
+                            }}
+                            type="submit"
+                            onClick={onSubmit}
+                          >
+                            Save
+                          </button>
+                        )}
+                      </div>
+                    </Form>
+                  )}
+                </Formik>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {patientsRemarks && (
           <Fragment>
             <div className="box-body pt-0">

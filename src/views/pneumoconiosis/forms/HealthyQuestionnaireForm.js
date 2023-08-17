@@ -90,20 +90,25 @@ const HealthyQuestionnaireForm = ({ handlePrev, handleNext }) => {
                       <label htmlFor="dusty_occupation">
                         Any Previous Work History in Dusty Occupation?
                       </label>
-                      <Field
-                        as="select"
-                        name="dusty_occupation"
-                        value={values.dusty_occupation}
-                        onChange={handleChange}
-                        className="form-control my-upload"
-                      >
-                        <option value="">
-                          Select
-                          <strong>(Yes/No)</strong>
-                        </option>
-                        <option value={false}>No</option>
-                        <option value={true}>Yes</option>
-                      </Field>
+                      <div className="form-floating">
+                        <Field
+                          as="select"
+                          name="dusty_occupation"
+                          value={values.dusty_occupation}
+                          onChange={handleChange}
+                          className="form-select"
+                        >
+                          <option value="">
+                            Select
+                            <strong>(Yes/No)</strong>
+                          </option>
+                          <option value={false}>NO</option>
+                          <option value={true}>YES</option>
+                        </Field>
+                        <label htmlFor="dusty_occupation">
+                          SELECT IF YOU'VE WORKED IN DUSTY ENVIRONMENTS
+                        </label>
+                      </div>
                     </div>
 
                     {values.dusty_occupation && (
@@ -113,50 +118,63 @@ const HealthyQuestionnaireForm = ({ handlePrev, handleNext }) => {
                             Occupation Details{" "}
                             <strong>(Describe What You Did)</strong>
                           </label>
-                          <Field
-                            type="text"
-                            name="occupation_details"
-                            className="form-control my-upload"
-                            value={values.occupation_details}
-                            onChange={handleChange}
-                          />
-                          <ErrorMessage
-                            name="occupation_details"
-                            component="div"
-                            className="text-danger"
-                          />
+                          <div className="form-floating">
+                            <Field
+                              type="text"
+                              name="occupation_details"
+                              className="form-control"
+                              value={values.occupation_details}
+                              onChange={handleChange}
+                            />
+                            <ErrorMessage
+                              name="occupation_details"
+                              component="div"
+                              className="text-danger"
+                            />
+                            <label htmlFor="occupation_details">
+                              OCCUPATION DETAILS
+                            </label>
+                          </div>
                         </div>
 
                         <div className="form-group">
                           <label htmlFor="years_worked">Years Worked</label>
-                          <Field
-                            type="text"
-                            name="years_worked"
-                            className="form-control my-upload"
-                            value={values.years_worked}
-                            onChange={handleChange}
-                          />
-                          <ErrorMessage
-                            name="years_worked"
-                            component="div"
-                            className="text-danger"
-                          />
+                          <div className="form-floating">
+                            <Field
+                              type="text"
+                              name="years_worked"
+                              className="form-control"
+                              value={values.years_worked}
+                              onChange={handleChange}
+                            />
+                            <ErrorMessage
+                              name="years_worked"
+                              component="div"
+                              className="text-danger"
+                            />
+                            <label htmlFor="occupation_details">
+                              YEARS WORKED
+                            </label>
+                          </div>
                         </div>
 
                         <div className="form-group">
                           <label htmlFor="exposure">Exposure</label>
-                          <Field
-                            type="text"
-                            name="exposure"
-                            className="form-control my-upload"
-                            value={values.exposure}
-                            onChange={handleChange}
-                          />
-                          <ErrorMessage
-                            name="exposure"
-                            component="div"
-                            className="text-danger"
-                          />
+                          <div className="form-floating">
+                            <Field
+                              type="text"
+                              name="exposure"
+                              className="form-control"
+                              value={values.exposure}
+                              onChange={handleChange}
+                            />
+                            <ErrorMessage
+                              name="exposure"
+                              component="div"
+                              className="text-danger"
+                            />
+                            <label htmlFor="occupation_details">EXPOSURE</label>
+                          </div>
                         </div>
                       </>
                     )}

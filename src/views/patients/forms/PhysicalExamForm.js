@@ -12,7 +12,10 @@ import Vitals from "../components/Vitals";
 import { patientActions } from "../../../redux_store/patients-store";
 import Alert from "../../../components/notifications/Alert";
 import PButtons from "../components/PButtons";
-import { chechCertificatesStatusUpdate, getPatient } from "../../../services/api";
+import {
+  chechCertificatesStatusUpdate,
+  getPatient,
+} from "../../../services/api";
 import SaveButton from "../../../components/buttons/SaveButton";
 import ToggleButton from "../../../components/buttons/ToggleButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -42,7 +45,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.ui.isLoading);
   const [showForm, setShowForm] = useState(false);
-  const [updateStatus, setUpdateStatus] = useState(false)
+  const [updateStatus, setUpdateStatus] = useState(false);
   const handleButtonClick = () => {
     setShowForm(!showForm);
   };
@@ -154,7 +157,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
         patientActions.setLatestPhysicalExam({ latestPhysicalExam: data.data })
       );
       dispatch(uiActions.setAlert({ setAlert: true }));
-      setUpdateStatus(true)
+      setUpdateStatus(true);
     } catch (error) {
       console.log("Error", error);
     } finally {
@@ -175,7 +178,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
     chechCertificatesStatusUpdate(patientId).then((data) => {
       console.log("From Certificates Update", data);
     });
-  }, [updateStatus ]);
+  }, [updateStatus]);
   return (
     <Fragment>
       <div className="step-form">
@@ -205,49 +208,61 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                               <div className="form-group col-md-6">
                                 <div className="row">
                                   <div className="col-md-4">
-                                    <label for="height">
+                                    <label htmlFor="height">
                                       <strong>Height (in m)</strong>
                                     </label>
                                   </div>
                                   <div className="col-md-8">
-                                    <Field
-                                      type="number"
-                                      className="form-control my-upload"
-                                      id="height"
-                                      placeholder="Enter height"
-                                      name="height"
-                                      onChange={(e) =>
-                                        onChangeHeight(e, setFieldValue)
-                                      }
-                                    />
-                                    <ErrorMessage
-                                      name="height"
-                                      component="div"
-                                      className="text-danger"
-                                    />
+                                    <div className="form-floating">
+                                      <Field
+                                        type="number"
+                                        className="form-control"
+                                        id="height"
+                                        placeholder="Enter height"
+                                        name="height"
+                                        onChange={(e) =>
+                                          onChangeHeight(e, setFieldValue)
+                                        }
+                                      />
+                                      <ErrorMessage
+                                        name="height"
+                                        component="div"
+                                        className="error-message"
+                                      />
+                                      <label htmlFor="height">
+                                        <strong>ENTER CLIENT HEIGHT (m)</strong>
+                                      </label>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                               <div className="form-group col-md-6">
                                 <div className="row">
                                   <div className="col-md-4">
-                                    <label for="weight">
+                                    <label htmlFor="weight">
                                       <strong>Weight (in kg)</strong>
                                     </label>
                                   </div>
                                   <div className="col-md-8">
-                                    <Field
-                                      type="number"
-                                      className="form-control my-upload"
-                                      id="weight"
-                                      placeholder="Enter weight"
-                                      name="weight"
-                                    />
-                                    <ErrorMessage
-                                      name="weight"
-                                      component="div"
-                                      className="text-danger"
-                                    />
+                                    <div className="form-floating">
+                                      <Field
+                                        type="number"
+                                        className="form-control"
+                                        id="weight"
+                                        placeholder="Enter weight"
+                                        name="weight"
+                                      />
+                                      <ErrorMessage
+                                        name="weight"
+                                        component="div"
+                                        className="error-message"
+                                      />
+                                      <label htmlFor="weight">
+                                        <strong>
+                                          ENTER CLIENT WEIGHT (kg)
+                                        </strong>
+                                      </label>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -255,50 +270,62 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                             <div className="row">
                               <div className="form-group col-md-6">
                                 <div className="row">
-                                  <div className="col-md-8">
-                                    <label for="bp_sys">
+                                  <div className="col-md-5">
+                                    <label htmlFor="bp_sys">
                                       <strong>Systolic Blood Pressure</strong>
                                     </label>
                                   </div>
-                                  <div className="col-md-4">
-                                    <Field
-                                      type="number"
-                                      className="form-control my-upload"
-                                      id="bp_sys"
-                                      placeholder="Systolic"
-                                      name="bp_sys"
-                                    />
+                                  <div className="col-md-7">
+                                    <div className="form-floating">
+                                      <Field
+                                        type="number"
+                                        className="form-control"
+                                        id="bp_sys"
+                                        placeholder="Systolic"
+                                        name="bp_sys"
+                                      />
+                                      <ErrorMessage
+                                        name="bp_sys"
+                                        component="div"
+                                        className="error-message"
+                                      />
+                                      <label htmlFor="bp_sys">
+                                        <strong>SYSTOLIC BLOOD PRESSURE</strong>
+                                      </label>
+                                    </div>
                                   </div>
-                                  <ErrorMessage
-                                    name="bp_sys"
-                                    component="div"
-                                    className="text-danger"
-                                  />
                                 </div>
                               </div>
 
                               <div className="form-group col-md-6">
                                 <div className="row">
-                                  <div className="col-md-8">
-                                    <label for="bp_dia">
+                                  <div className="col-md-5">
+                                    <label htmlFor="bp_dia">
                                       <strong>Diastolic Blood Pressure</strong>
                                     </label>
                                   </div>
-                                  <div className="col-md-4">
-                                    <Field
-                                      type="number"
-                                      className="form-control my-upload"
-                                      id="bp_dia"
-                                      placeholder="Diastolic"
-                                      name="bp_dia"
-                                      required
-                                    />
+                                  <div className="col-md-7">
+                                    <div className="form-floating">
+                                      <Field
+                                        type="number"
+                                        className="form-control"
+                                        id="bp_dia"
+                                        placeholder="Diastolic"
+                                        name="bp_dia"
+                                        required
+                                      />
+                                      <ErrorMessage
+                                        name="bp_dia"
+                                        component="div"
+                                        className="error-message"
+                                      />
+                                      <label htmlFor="bp_dia">
+                                        <strong>
+                                          DIASTOLIC BLOOD PRESSURE
+                                        </strong>
+                                      </label>
+                                    </div>
                                   </div>
-                                  <ErrorMessage
-                                    name="bp_dia"
-                                    component="div"
-                                    className="text-danger"
-                                  />
                                 </div>
                               </div>
                             </div>
@@ -307,33 +334,43 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                 <div className="row">
                                   <div className="col-md-6">
                                     <div className="form-group">
-                                      <label for="left_vision">
+                                      {/* <label htmlFor="left_vision">
                                         <strong>Pulse</strong>
-                                      </label>
+                                      </label> */}
                                       <div className="input-group">
-                                        <Field
-                                          type="number"
-                                          className="form-control my-upload"
-                                          id="pulse"
-                                          placeholder="BP Test Pulse"
-                                          name="pulse"
-                                        />
+                                        <div className="form-floating">
+                                          <Field
+                                            type="number"
+                                            className="form-control"
+                                            id="pulse"
+                                            placeholder="BP Test Pulse"
+                                            name="pulse"
+                                          />
+                                          <label htmlFor="pulse">
+                                            <strong>PULSE</strong>
+                                          </label>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
                                   <div className="col-md-6">
                                     <div className="form-group">
-                                      <label for="left_vision">
+                                      {/* <label htmlFor="left_vision">
                                         <strong>Temperature</strong>
-                                      </label>
+                                      </label> */}
                                       <div className="input-group">
-                                        <Field
-                                          type="number"
-                                          className="form-control my-upload"
-                                          id="temp"
-                                          placeholder="Temperature"
-                                          name="temp"
-                                        />
+                                        <div className="form-floating">
+                                          <Field
+                                            type="number"
+                                            className="form-control"
+                                            id="temp"
+                                            placeholder="Temperature"
+                                            name="temp"
+                                          />
+                                          <label htmlFor="temp">
+                                            <strong>TEMPERATURE</strong>
+                                          </label>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
@@ -342,7 +379,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                               <div className="col-md-6">
                                 <div className="row">
                                   <div className="col-md-6">
-                                    <label for="left_vision">
+                                    <label htmlFor="left_vision">
                                       <strong>Left Vision (out of 6)</strong>
                                     </label>
                                   </div>
@@ -351,13 +388,16 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                       <div className="input-group">
                                         <Field
                                           type="number"
-                                          className="form-control my-upload"
+                                          className="form-control"
                                           id="left_vision"
                                           placeholder="Enter left vision"
                                           name="left_vision"
+                                          style={{
+                                            height: "60px"
+                                          }}
                                         />
                                         <div className="input-group-append">
-                                          <span className="input-group-text my-upload">
+                                          <span className="input-group-text">
                                             /6
                                           </span>
                                         </div>
@@ -368,7 +408,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
 
                                 <div className="row">
                                   <div className="col-md-6">
-                                    <label for="right_vision ">
+                                    <label htmlFor="right_vision ">
                                       <strong>Right Vision (out of 6)</strong>
                                     </label>
                                   </div>
@@ -377,13 +417,16 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                       <div className="input-group">
                                         <Field
                                           type="number"
-                                          className="form-control my-upload"
+                                          className="form-control"
                                           id="right_vision"
                                           placeholder="Enter right vision"
                                           name="right_vision"
+                                          style={{
+                                            height: "60px"
+                                          }}
                                         />
                                         <div className="input-group-append">
-                                          <span className="input-group-text my-upload">
+                                          <span className="input-group-text">
                                             /6
                                           </span>
                                         </div>
@@ -459,7 +502,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                               <div className="form-group col-md-6">
                                 <div className="row">
                                   <div className="col-md-4">
-                                    <label for="bp_repeat_sys">
+                                    <label htmlFor="bp_repeat_sys">
                                       <strong>Systolic Blood Pressure</strong>
                                     </label>
                                   </div>
@@ -475,7 +518,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                     <ErrorMessage
                                       name="bp_repeat_sys"
                                       component="div"
-                                      className="text-danger"
+                                      className="error-message"
                                     />
                                   </div>
                                 </div>
@@ -483,7 +526,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                               <div className="form-group col-md-6">
                                 <div className="row">
                                   <div className="col-md-4">
-                                    <label for="bp_repeat_dia">
+                                    <label htmlFor="bp_repeat_dia">
                                       <strong>Diastolic Blood Pressure</strong>
                                     </label>
                                   </div>
@@ -499,7 +542,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                     <ErrorMessage
                                       name="bp_repeat_dia"
                                       component="div"
-                                      className="text-danger"
+                                      className="error-message"
                                     />
                                   </div>
                                 </div>

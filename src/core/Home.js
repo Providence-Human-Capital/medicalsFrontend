@@ -34,10 +34,19 @@ import LatestClientsBox from "../views/dashboard/components/LatestClientsBox";
 import DueMedicalsBox from "../views/dashboard/components/DueMedicalsBox";
 import AdvancedSearchBox from "../components/AdvancedSearchBox";
 import SearchedClientsBox from "../views/dashboard/components/SearchedClientsBox";
+import { API } from "../config";
+import NotificationModal from "../components/modal/NotificationModal";
 
 const Home = ({}) => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.ui.isLoading);
+  const [overallStats, setOverallStats] = useState({});
+  const [notifications, setNotifications] = useState([]);
+
+  // const handleShowNotification = (message, type) => {
+  //   const newNotification = { message, type };
+  //   setNotifications([...notifications, newNotification]);
+  // };
 
   const fetchData = useCallback(async () => {
     // Your async data fetching logic here
@@ -86,75 +95,6 @@ const Home = ({}) => {
     dispatch(companyActions.setCompaniesWithBatches(data));
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     dispatch(
-  //       uiActions.setLoadingSpinner({
-  //         isLoading: true,
-  //       })
-  //     );
-  //     try {
-  //       const attendees = await getAllAttendees();
-  //       dispatch(attendeeActions.setAttendees({ attendees: [...attendees] }));
-
-  //       const companies = await getCompanies();
-  //       dispatch(
-  //         companyActions.setCompanies({
-  //           companies: [...companies],
-  //         })
-  //       );
-
-  //       const tobaccos = await getAllTobaccos();
-  //       dispatch(
-  //         tobaccoActions.setTobaccos({
-  //           tobaccos: [...tobaccos],
-  //         })
-  //       );
-
-  //       const patients = await getAllPatients();
-  //       dispatch(patientActions.setPatients({ patients: [...patients] }));
-
-  //       const pneumoPatients = await getPneumoPatients();
-  //       dispatch(patientActions.setPneumoPatients({ pneumoPatients }));
-
-  //       const industryPatients = await getCofHPatients();
-  //       dispatch(patientActions.setIndustryPatients({ industryPatients }));
-
-  //       const skinConditions = await getSkinConditions();
-  //       dispatch(
-  //         illnessActions.setSkinConditions({ skin_conditions: skinConditions })
-  //       );
-
-  //       const diseases = await getDiseases();
-  //       dispatch(illnessActions.setDiseases({ diseases }));
-
-  //       const auscultates = await getAuscultates();
-  //       dispatch(illnessActions.setAuscultates({ auscultates }));
-
-  //       const illnesses = await getIllnesses();
-  //       dispatch(illnessActions.setIllnesses({ illnesses: [...illnesses] }));
-
-  //       const certificates = await companiesWithCertificateBatches();
-  //       const data = certificates.companies;
-  //       dispatch(companyActions.setCompaniesWithBatches(data));
-
-  //       dispatch(
-  //         uiActions.setLoadingSpinner({
-  //           isLoading: false,
-  //         })
-  //       ); // Set loading state to false when all data is fetched
-  //     } catch (error) {
-  //       console.error(error);
-  //       dispatch(
-  //         uiActions.setLoadingSpinner({
-  //           isLoading: true,
-  //         })
-  //       );
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
   useEffect(() => {
     const fetchDataAndSetLoading = async () => {
       dispatch(
@@ -180,8 +120,28 @@ const Home = ({}) => {
         );
       }
     };
+    const fetchOverallStatsData = async () => {
+      try {
+        const response = await fetch(`${API}/patient/overall/stats`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
+
+        const responseData = await response.json();
+
+        if (response.ok) {
+          setOverallStats(responseData);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
     fetchDataAndSetLoading();
+    fetchOverallStatsData();
   }, [fetchData, dispatch]);
 
   const totalPatients = useSelector((state) => state.patient.patients.length);
@@ -193,33 +153,34 @@ const Home = ({}) => {
         <div className="row">
           <div className="col-xl-8 col-12">
             <div className="row">
+              {/* { JSON.stringify(overallStats)} */}
               <SmallCard
                 svgLink={
                   "https://rhythm-admin-template.multipurposethemes.com/images/svg-icon/medical/icon-2.svg"
                 }
                 Label={"Total Patients"}
-                Number={totalPatients}
+                Number={totalPatients || 0}
               />
               <SmallCard
                 Label={"To 81 Baines"}
                 svgLink={
                   "https://rhythm-admin-template.multipurposethemes.com/images/svg-icon/medical/icon-1.svg"
                 }
-                Number={78}
+                Number={overallStats.referralPatients || 0}
               />
               <SmallCard
                 svgLink={
                   "https://rhythm-admin-template.multipurposethemes.com/images/svg-icon/medical/icon-4.svg"
                 }
                 Label={"Certificates Passed"}
-                Number={342}
+                Number={overallStats.releasedCertificates || 0}
               />
               <SmallCard
                 svgLink={
                   "https://rhythm-admin-template.multipurposethemes.com/images/svg-icon/medical/icon-3.svg"
                 }
                 Label={"Certificates Failed"}
-                Number={200}
+                Number={overallStats.failedCertificates || 0}
               />
             </div>
 

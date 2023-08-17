@@ -38,6 +38,9 @@ const DueMedicalsBox = () => {
           </h4>
         </div>
         <div class="box-body">
+          {dueClients.length <= 0 && !isFetchDueMedicals && (
+            <p>No Clients Due for Medicals as of yet!</p>
+          )}
           {isFetchDueMedicals ? (
             <UserCardSkeleton />
           ) : (

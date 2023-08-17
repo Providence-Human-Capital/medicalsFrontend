@@ -84,25 +84,36 @@ const MineralDustExposureForm = ({ handlePrev, handleNext }) => {
                         Mineral Dust Exposure
                       </label>
                       <div className="col-sm-10">
-                        <Field
-                          as="select"
-                          name="mineral_dust_exposure"
-                          className="form-control my-upload "
-                          value={values.mineral_dust_exposure}
-                          onChange={handleChange}
-                        >
-                          <option value="">Select mineral dust exposure</option>
-                          {mineralDustExposureOptions.map((option) => (
-                            <option key={option.value} value={option.value}>
-                              {option.label}
+                        <div className="form-floating">
+                          <Field
+                            as="select"
+                            name="mineral_dust_exposure"
+                            className="form-select"
+                            value={values.mineral_dust_exposure}
+                            onChange={handleChange}
+                          >
+                            <option value="">
+                              Select mineral dust exposure
                             </option>
-                          ))}
-                        </Field>
-                        <ErrorMessage
-                          name="mineral_dust_exposure"
-                          component="div"
-                          className="text-danger"
-                        />
+                            {mineralDustExposureOptions.map((option) => (
+                              <option key={option.value} value={option.value}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </Field>
+                          <label
+                            style={{
+                              textTransform: "uppercase",
+                            }}
+                          >
+                            Mineral Dust Exposure
+                          </label>
+                          <ErrorMessage
+                            name="mineral_dust_exposure"
+                            component="div"
+                            className="text-danger"
+                          />
+                        </div>
                       </div>
                     </div>
                     {values.mineral_dust_exposure === "Other" && (
@@ -114,18 +125,21 @@ const MineralDustExposureForm = ({ handlePrev, handleNext }) => {
                           Other Details
                         </label>
                         <div className="col-sm-10">
-                          <Field
-                            type="text"
-                            name="other_details"
-                            className="form-control my-upload "
-                            value={values.other_details}
-                            onChange={handleChange}
-                          />
-                          <ErrorMessage
-                            name="other_details"
-                            component="div"
-                            className="text-danger"
-                          />
+                          <div className="form-floating">
+                            <Field
+                              type="text"
+                              name="other_details"
+                              className="form-control"
+                              value={values.other_details}
+                              onChange={handleChange}
+                            />
+                            <label>DETAILS ON OTHER EXPOSURES</label>
+                            <ErrorMessage
+                              name="other_details"
+                              component="div"
+                              className="text-danger"
+                            />
+                          </div>
                         </div>
                       </div>
                     )}

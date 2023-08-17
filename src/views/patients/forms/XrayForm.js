@@ -10,6 +10,7 @@ import { uiActions } from "../../../redux_store/ui-store";
 import { formsActions } from "../../../redux_store/forms-store";
 import Loading from "../../../components/loader/Loading";
 
+
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PatientSideView from "../components/PatientSideView";
@@ -19,6 +20,7 @@ import FormButton from "../../../components/buttons/FormButton";
 const XrayForm = ({ handlePrev, handleNext }) => {
   const [previewImage, setPreviewImage] = useState(null);
   const isLoading = useSelector((state) => state.ui.isLoading);
+  const user = useSelector((state) => state.auth.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -114,13 +116,14 @@ const XrayForm = ({ handlePrev, handleNext }) => {
               <div className="custom-form">
                 <div className="box-body">
                   <div className="container">
-                    <h3
+                    <h4
                       style={{
                         textTransform: "uppercase",
+                        fontWeight: "bold",
                       }}
                     >
                       Upload Patient's Xray Image
-                    </h3>
+                    </h4>
                     <Formik
                       initialValues={initialValues}
                       validationSchema={validationSchema}
@@ -137,17 +140,19 @@ const XrayForm = ({ handlePrev, handleNext }) => {
                           <div className="form-group">
                             <div className="col-xl-6 col-12">
                               <div class="mb-3">
-                                <label htmlFor="formFile" class="form-label">
-                                  (Select) Upload X-Ray Image
-                                </label>
-                                <input
-                                  class="form-control"
-                                  type="file"
-                                  name="image"
-                                  onChange={(event) =>
-                                    handleImageChange(event, setFieldValue)
-                                  }
-                                />
+                                <div className="form-floating">
+                                  <input
+                                    class="form-control"
+                                    type="file"
+                                    name="image"
+                                    onChange={(event) =>
+                                      handleImageChange(event, setFieldValue)
+                                    }
+                                  />
+                                  <label htmlFor="formFile" class="form-label">
+                                    SELECT UPLOAD XRAY
+                                  </label>
+                                </div>
                               </div>
                             </div>
 
@@ -174,19 +179,31 @@ const XrayForm = ({ handlePrev, handleNext }) => {
                               <div className="col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="status">Status</label>
-                                  <Field
-                                    as="select"
-                                    name="status"
-                                    className="form-control my-upload"
-                                  >
-                                    <option value="NEGATIVE">POSITIVE RESULT</option>
-                                    <option value="POSITIVE">NEGATIVE RESULT</option>
-                                  </Field>
-                                  <ErrorMessage
-                                    name="status"
-                                    component="div"
-                                    className="text-danger"
-                                  />
+                                  <div className="form-floating">
+                                    <Field
+                                      as="select"
+                                      name="status"
+                                      className="form-select"
+                                      disabled={user.role !== "admin"}
+                                    >
+                                      <option value="NEGATIVE">
+                                        POSITIVE RESULT
+                                      </option>
+                                      <option value="POSITIVE">
+                                        NEGATIVE RESULT
+                                      </option>
+                                    </Field>
+                                    <ErrorMessage
+                                      name="status"
+                                      component="div"
+                                      className="error-message"
+                                    />
+                                    <label htmlFor="status">
+                                      COMMENT ON XRAY
+                                    </label>
+
+                                    
+                                  </div>
                                 </div>
 
                                 {values.status === "POSITIVE" && (
@@ -194,21 +211,27 @@ const XrayForm = ({ handlePrev, handleNext }) => {
                                     <label htmlFor="result">
                                       Result Comment
                                     </label>
-                                    <Field
-                                      as="textarea"
-                                      rows="4"
-                                      name="result"
-                                      className={`form-control my-upload textareaH ${
-                                        touched.result && errors.result
-                                          ? "error-input"
-                                          : ""
-                                      }`}
-                                    />
-                                    <ErrorMessage
-                                      name="result"
-                                      component="div"
-                                      className="text-danger"
-                                    />
+                                    <div className="form-floating">
+                                      <Field
+                                        as="textarea"
+                                        rows="4"
+                                        name="result"
+                                        className={`form-control  textareaH ${
+                                          touched.result && errors.result
+                                            ? "error-input"
+                                            : ""
+                                        }`}
+                                        disabled={user.role !== "admin"}
+                                      />
+                                      <ErrorMessage
+                                        name="result"
+                                        component="div"
+                                        className="error-message"
+                                      />
+                                      <label htmlFor="result">
+                                        COMMENT ON THE XRAY
+                                      </label>
+                                    </div>
                                   </div>
                                 )}
                               </div>

@@ -204,14 +204,17 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
                                 <h2>{disease.illness_name}</h2>
                                 <div className="form-group">
                                   <label>Treated for this disease?</label>
-                                  <select
-                                    className="form-control my-upload"
-                                    value={treatedForDisease ? "yes" : "no"}
-                                    onChange={handleTreatedForDisease}
-                                  >
-                                    <option value="no">No</option>
-                                    <option value="yes">Yes</option>
-                                  </select>
+                                  <div className="form-floating">
+                                    <select
+                                      className="form-select"
+                                      value={treatedForDisease ? "yes" : "no"}
+                                      onChange={handleTreatedForDisease}
+                                    >
+                                      <option value="no">No</option>
+                                      <option value="yes">Yes</option>
+                                    </select>
+                                    <label>Treated for this disease? (YES/NO)</label>
+                                  </div>
                                 </div>
                                 {treatedForDisease && (
                                   <div className="form-group">
@@ -250,7 +253,7 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
                                     className="btn btn-primary m-2"
                                     onClick={handleNextDisease}
                                     style={{
-                                      borderRadius: "20px !important"
+                                      borderRadius: "20px !important",
                                     }}
                                   >
                                     Save
@@ -263,10 +266,10 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
                                       currentDisease === diseases.length - 1
                                     }
                                     style={{
-                                      borderRadius: "20px !important"
+                                      borderRadius: "20px !important",
                                     }}
                                   >
-                                    Save 
+                                    Save
                                   </button>
                                 )}
                               </div>

@@ -133,6 +133,7 @@ const PatientDetails = () => {
     // chechCertificatesStatusUpdate(patientId).then((data) => {
     //   console.log("From Certificates Update", data);
     // });
+
     getCurrentPatientRemarks(patientId).then((remarks) => {
       dispatch(formsActions.setFoodHandlerRemarks(remarks));
     });
@@ -386,14 +387,13 @@ const PatientDetails = () => {
     }
   };
 
-  const category = singlePatient.category || 'Medical Patient';
+  const category = singlePatient.category || "Medical Patient";
 
   return (
     <Fragment>
-      <BreadCrumb
-        title={"Patient Details"}
-        activeTab={category}
-      />
+      {category && (
+        <BreadCrumb title={"Patient Details"} activeTab={category} />
+      )}
 
       <Helmet>
         <title>

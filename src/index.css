@@ -51,6 +51,7 @@
 
 .error-message {
   font-weight: bold;
+  color: red !important;
 }
 
 .close-btn {

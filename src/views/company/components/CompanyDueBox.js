@@ -45,6 +45,9 @@ const CompanyDueBox = ({ companyId, companyName }) => {
           </h4>
         </div>
         <div class="box-body">
+          {dueClients.length <= 0 && !fetchDue && (
+            <p>No Due Medicals for Clients of this Company</p>
+          )}
           {fetchDue ? (
             <UserCardSkeleton />
           ) : (

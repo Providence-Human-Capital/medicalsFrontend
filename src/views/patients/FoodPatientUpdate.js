@@ -79,10 +79,9 @@ const FoodPatientUpdate = () => {
 
       break;
     case 5:
-      // if (user.role !== "medical_staff" || 'admin') {
-      //   navigate("/unauthorized");
-      // }
-
+      if (user.role !== "admin") {
+        navigate("/unauthorized");
+      }
       foodHandlerForm = (
         <ObeservationForm handlePrev={handlePrev} handleNext={handleNext} />
       );
@@ -106,13 +105,18 @@ const FoodPatientUpdate = () => {
   return (
     <Fragment>
       <div className="d-flex align-items-center">
-        <Link to={`/patients/${patientId}`} style={{
-          marginLeft: "40px",
-        }}>
+        <Link
+          to={`/patients/${patientId}`}
+          style={{
+            marginLeft: "40px",
+          }}
+        >
           <FontAwesomeIcon icon={faHome} />{" "}
-          <span style={{
-            fontWeight: "bold",
-          }}>
+          <span
+            style={{
+              fontWeight: "bold",
+            }}
+          >
             {singlePatient && singlePatient.attendee.first_name}{" "}
             {singlePatient && singlePatient.attendee.last_name}
           </span>

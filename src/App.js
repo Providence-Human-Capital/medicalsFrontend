@@ -59,6 +59,17 @@ import {
   getPatientsIllnessStatistics,
   getPatientsTobaccouseStatistics,
   getPatientStatistics,
+  getAllAttendees,
+  getCompanies,
+  getAllTobaccos,
+  getAllPatients,
+  getPneumoPatients,
+  getCofHPatients,
+  getSkinConditions,
+  getDiseases,
+  getAuscultates,
+  getIllnesses,
+  companiesWithCertificateBatches,
 } from "./services/api";
 import Reports from "./views/reports/Reports";
 import Appointments from "./views/appointments/Appointments";
@@ -75,6 +86,10 @@ import { uiActions } from "./redux_store/ui-store";
 import CompanyDetails from "./views/company/CompanyDetails";
 import Unauthorized from "./views/error/Unauthorized";
 import CsvPrintPage from "./views/certificates/CsvPrintPage";
+import { attendeeActions } from "./redux_store/attendee-store";
+import { companyActions } from "./redux_store/company-store";
+import { tobaccoActions } from "./redux_store/tobacco-store";
+import { illnessActions } from "./redux_store/illness-store";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
@@ -95,6 +110,28 @@ const WrapperComponent = () => {
   const isLoading = useSelector((state) => state.ui.isLoading);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const body = document.body;
+    if (isSidebarCollapsed) {
+      body.classList.add(
+        "light-skin",
+        "sidebar-mini",
+        "theme-success",
+        "fixed",
+        "sidebar-collapse"
+      );
+    } else {
+      body.classList.add(
+        "light-skin",
+        "sidebar-mini",
+        "theme-success",
+        "fixed"
+      );
+    }
+  }, [isSidebarCollapsed]);
+
+  const location = useLocation();
 
   useEffect(() => {
     const currentYear = new Date().getFullYear();
@@ -138,37 +175,57 @@ const WrapperComponent = () => {
             patientsPerDisease: diseaseData,
           })
         );
+
+        const attendees = await getAllAttendees();
+        dispatch(attendeeActions.setAttendees({ attendees: [...attendees] }));
+
+        const companies = await getCompanies();
+        dispatch(
+          companyActions.setCompanies({
+            companies: [...companies],
+          })
+        );
+
+        const tobaccos = await getAllTobaccos();
+        dispatch(
+          tobaccoActions.setTobaccos({
+            tobaccos: [...tobaccos],
+          })
+        );
+
+        const patients = await getAllPatients();
+        dispatch(patientActions.setPatients({ patients: [...patients] }));
+
+        const pneumoPatients = await getPneumoPatients();
+        dispatch(patientActions.setPneumoPatients({ pneumoPatients }));
+
+        const industryPatients = await getCofHPatients();
+        dispatch(patientActions.setIndustryPatients({ industryPatients }));
+
+        const skinConditions = await getSkinConditions();
+        dispatch(
+          illnessActions.setSkinConditions({ skin_conditions: skinConditions })
+        );
+
+        const diseases = await getDiseases();
+        dispatch(illnessActions.setDiseases({ diseases }));
+
+        const auscultates = await getAuscultates();
+        dispatch(illnessActions.setAuscultates({ auscultates }));
+
+        const illnesses = await getIllnesses();
+        dispatch(illnessActions.setIllnesses({ illnesses: [...illnesses] }));
+
+        const certificates = await companiesWithCertificateBatches();
+        const data = certificates.companies;
+        dispatch(companyActions.setCompaniesWithBatches(data));
+        
       } catch (error) {
         console.log("There was an error while fetching stats ", error);
       }
     };
 
     fetchStatsData();
-    const body = document.body;
-    if (isSidebarCollapsed) {
-      body.classList.add(
-        "light-skin",
-        "sidebar-mini",
-        "theme-success",
-        "fixed",
-        "sidebar-collapse"
-      );
-    } else {
-      body.classList.add(
-        "light-skin",
-        "sidebar-mini",
-        "theme-success",
-        "fixed"
-      );
-    }
-  }, [isSidebarCollapsed]);
-
-  const location = useLocation();
-
-  useEffect(() => {
-    if (isLoading) {
-      dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
-    }
   }, []);
 
   return (

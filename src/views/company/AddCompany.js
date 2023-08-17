@@ -77,12 +77,19 @@ const AddCompany = () => {
       <BreadCrumb title={"Add Companies"} activeTab={"Add Companies"} />
 
       <div className="row">
-        <div className="col-xl-9 col-12">
-          <div className="box">
+        <div className="col-xl-12 col-12">
+          <div className="card">
             <div className="custom-form">
               <div className="box-body">
-                <div className="container">
-                  <h2>Enter New Company</h2>
+                <div className="">
+                  <h3
+                    style={{
+                      textTransform: "uppercase",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Enter New Company
+                  </h3>
 
                   <Formik
                     initialValues={initialValues}
@@ -98,192 +105,219 @@ const AddCompany = () => {
                     }) => (
                       <Form>
                         <div className="row">
-                          <div className="form-group col-md-6">
-                            <label htmlFor="company_name">Company Name</label>
-                            <Field
-                              type="text"
-                              id="company_name"
-                              name="company_name"
-                              className={`form-control my-upload ${
-                                touched.company_name && errors.company_name
-                                  ? "error-input"
-                                  : ""
-                              }`}
-                              placeholder="Enter company name"
-                            />
-                            <ErrorMessage
-                              name="company_name"
-                              component="div"
-                              className="text-danger"
-                            />
+                          <div className="col-md-6">
+                            <div className="form-floating">
+                              <Field
+                                type="text"
+                                id="company_name"
+                                name="company_name"
+                                className={`form-control ${
+                                  touched.company_name && errors.company_name
+                                    ? "error-input"
+                                    : ""
+                                }`}
+                                placeholder="Enter company name"
+                              />
+                              <label htmlFor="company_name">COMPANY NAME</label>
+
+                              <ErrorMessage
+                                name="company_name"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
                           </div>
-                          <div className="form-group col-md-6">
-                            <label htmlFor="address">Address</label>
-                            <Field
-                              type="text"
-                              id="address"
-                              name="address"
-                              className={`form-control my-upload ${
-                                touched.address && errors.address
-                                  ? "error-input"
-                                  : ""
-                              }`}
-                              placeholder="Enter address"
-                            />
-                            <ErrorMessage
-                              name="address"
-                              component="div"
-                              className="text-danger"
-                            />
+                          <div className="col-md-6">
+                            <div className="form-floating">
+                              <Field
+                                type="text"
+                                id="address"
+                                name="address"
+                                className={`form-control ${
+                                  touched.address && errors.address
+                                    ? "error-input"
+                                    : ""
+                                }`}
+                                placeholder="Enter address"
+                              />
+                              <label htmlFor="address">ADDRESS</label>
+                              <ErrorMessage
+                                name="address"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="separation-div"></div>
+                        <div className="row">
+                          <div className="col-md-6">
+                            <div className="form-floating">
+                              <Field
+                                type="text"
+                                className={`form-control ${
+                                  touched.site_telephone &&
+                                  errors.site_telephone
+                                    ? "error-input"
+                                    : ""
+                                }`}
+                                id="site_telephone"
+                                name="site_telephone"
+                                placeholder="Enter site telephone"
+                              />
+                              <label htmlFor="site_telephone">
+                                SITE TELEPHONE
+                              </label>
+                              <ErrorMessage
+                                name="site_telephone"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
+                          </div>
+                          <div className="col-md-6">
+                            <div className="form-floating">
+                              <Field
+                                type="email"
+                                className={`form-control ${
+                                  touched.company_email && errors.company_email
+                                    ? "error-input"
+                                    : ""
+                                }`}
+                                id="company_email"
+                                name="company_email"
+                                placeholder="Enter company email"
+                              />
+                              <label htmlFor="company_email">
+                                COMPANY EMAIL
+                              </label>
+
+                              <ErrorMessage
+                                name="company_email"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
                           </div>
                         </div>
                         <div className="row">
-                          <div className="form-group col-md-6">
-                            <label htmlFor="site_telephone">
-                              Site Telephone
-                            </label>
-                            <Field
-                              type="text"
-                              className={`form-control my-upload ${
-                                touched.site_telephone && errors.site_telephone
-                                  ? "error-input"
-                                  : ""
-                              }`}
-                              id="site_telephone"
-                              name="site_telephone"
-                              placeholder="Enter site telephone"
-                            />
-                            <ErrorMessage
-                              name="site_telephone"
-                              component="div"
-                              className="text-danger"
-                            />
+                          <div className="col-md-4">
+                            <div className="form-floating">
+                              <Field
+                                type="text"
+                                className={`form-control ${
+                                  touched.designation && errors.designation
+                                    ? "error-input"
+                                    : ""
+                                }`}
+                                id="designation"
+                                name="designation"
+                                placeholder="Enter Designation"
+                              />
+                              <label htmlFor="designation">DESIGNATION</label>
+
+                              <ErrorMessage
+                                name="designation"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
                           </div>
-                          <div className="form-group col-md-6">
-                            <label htmlFor="company_email">Company Email</label>
-                            <Field
-                              type="email"
-                              className={`form-control my-upload ${
-                                touched.company_email && errors.company_email
-                                  ? "error-input"
-                                  : ""
-                              }`}
-                              id="company_email"
-                              name="company_email"
-                              placeholder="Enter company email"
-                            />
-                            <ErrorMessage
-                              name="company_email"
-                              component="div"
-                              className="text-danger"
-                            />
+                          <div className="col-md-4">
+                            <div className="form-floating">
+                              <Field
+                                type="text"
+                                className={`form-control  ${
+                                  touched.contact_person &&
+                                  errors.contact_person
+                                    ? "error-input"
+                                    : ""
+                                }`}
+                                id="contact_person"
+                                name="contact_person"
+                                placeholder="Name of contact person"
+                              />
+                              <label htmlFor="contact_person">
+                                CONTACT PERSON
+                              </label>
+                              <ErrorMessage
+                                name="contact_person"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
                           </div>
-                        </div>
-                        <div className="row">
-                          <div className="form-group col-md-4">
-                            <label htmlFor="designation">Designation</label>
-                            <Field
-                              type="text"
-                              className={`form-control my-upload ${
-                                touched.designation && errors.designation
-                                  ? "error-input"
-                                  : ""
-                              }`}
-                              id="designation"
-                              name="designation"
-                              placeholder="Enter Designation"
-                            />
-                            <ErrorMessage
-                              name="designation"
-                              component="div"
-                              className="text-danger"
-                            />
-                          </div>
-                          <div className="form-group col-md-4">
-                            <label htmlFor="contact_person">
-                              Contact Person
-                            </label>
-                            <Field
-                              type="text"
-                              className={`form-control my-upload ${
-                                touched.contact_person && errors.contact_person
-                                  ? "error-input"
-                                  : ""
-                              }`}
-                              id="contact_person"
-                              name="contact_person"
-                              placeholder="Name of contact person"
-                            />
-                            <ErrorMessage
-                              name="contact_person"
-                              component="div"
-                              className="text-danger"
-                            />
-                          </div>
-                          <div className="form-group col-md-4">
-                            <label htmlFor="contact_number">
-                              Contact Number
-                            </label>
-                            <Field
-                              type="text"
-                              className={`form-control my-upload ${
-                                touched.contact_number && errors.contact_number
-                                  ? "error-input"
-                                  : ""
-                              }`}
-                              id="contact_number"
-                              name="contact_number"
-                              placeholder="Enter Contact Number"
-                            />
-                            <ErrorMessage
-                              name="contact_number"
-                              component="div"
-                              className="text-danger"
-                            />
+                          <div className="col-md-4">
+                            <div className="form-floating">
+                              <Field
+                                type="text"
+                                className={`form-control ${
+                                  touched.contact_number &&
+                                  errors.contact_number
+                                    ? "error-input"
+                                    : ""
+                                }`}
+                                id="contact_number"
+                                name="contact_number"
+                                placeholder="Enter Contact Number"
+                              />
+                              <label htmlFor="contact_number">
+                                CONTACT NUMBER
+                              </label>
+                              <ErrorMessage
+                                name="contact_number"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
                           </div>
                         </div>
+                        <div className="separation-div"></div>
                         <div className="row">
-                          <div className="form-group col-md-6">
-                            <label htmlFor="province">Province</label>
-                            <Field
-                              as="select"
-                              className={`form-control my-upload ${
-                                touched.province && errors.province
-                                  ? "error-input"
-                                  : ""
-                              }`}
-                              id="province"
-                              name="province"
-                              placeholder="Select A Province"
-                            >
-                              <option value="Choose province">
-                                Choose province
-                              </option>
-                              <option value="Harare">Harare</option>
-                              <option value="Bulawayo">Bulawayo</option>
-                              <option value="Manicaland">Manicaland</option>
-                              <option value="Mashonaland Central">
-                                Mashonaland Central
-                              </option>
-                              <option value="Mashonaland East">
-                                Mashonaland East
-                              </option>
-                              <option value="Mashonaland West">
-                                Mashonaland West
-                              </option>
-                              <option value="Masvingo">Masvingo</option>
-                              <option value="Matebeleland North">
-                                Matebeleland North
-                              </option>
-                              <option value="Matebeleland South">
-                                Matebeleland South
-                              </option>
-                            </Field>
-                            <ErrorMessage
-                              name="province"
-                              component="div"
-                              className="text-danger"
-                            />
+                          <div className="col-md-6">
+                            <div className="form-floating">
+                              <Field
+                                as="select"
+                                className={`form-select ${
+                                  touched.province && errors.province
+                                    ? "error-input"
+                                    : ""
+                                }`}
+                                id="province"
+                                name="province"
+                                placeholder="Select A Province"
+                              >
+                                <option value="Choose province">
+                                  Choose province
+                                </option>
+                                <option value="Harare">Harare</option>
+                                <option value="Bulawayo">Bulawayo</option>
+                                <option value="Manicaland">Manicaland</option>
+                                <option value="Mashonaland Central">
+                                  Mashonaland Central
+                                </option>
+                                <option value="Mashonaland East">
+                                  Mashonaland East
+                                </option>
+                                <option value="Mashonaland West">
+                                  Mashonaland West
+                                </option>
+                                <option value="Masvingo">Masvingo</option>
+                                <option value="Matebeleland North">
+                                  Matebeleland North
+                                </option>
+                                <option value="Matebeleland South">
+                                  Matebeleland South
+                                </option>
+                              </Field>
+                              <label htmlFor="province">PROVIDENCE</label>
+
+                              <ErrorMessage
+                                name="province"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
                           </div>
                         </div>
                         {loading ? (

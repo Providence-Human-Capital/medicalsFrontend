@@ -18,7 +18,7 @@ const ICommentsRemarksForm = ({ handlePrev, handleNext }) => {
   const { patientId } = useParams();
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const [updateStatus, setUpdateStatus] = useState(false)
+  const [updateStatus, setUpdateStatus] = useState(false);
 
   const validationSchema = Yup.object().shape({
     doctors_comments: Yup.string().nullable(),
@@ -86,32 +86,43 @@ const ICommentsRemarksForm = ({ handlePrev, handleNext }) => {
                 {({ errors, touched }) => (
                   <Form>
                     <div className="form-group">
-                      <label htmlFor="doctors_comments">
+                      <label
+                        htmlFor="doctors_comments"
+                        style={{
+                          textTransform: "uppercase",
+                          fontWeight: "bold",
+                        }}
+                      >
                         Doctor's Comments
                       </label>
-                      <Field
-                        as="textarea"
-                        rows={5}
-                        className={
-                          "form-control my-upload" +
-                          (errors.doctors_comments && touched.doctors_comments
-                            ? " is-invalid"
-                            : "")
-                        }
-                        id="doctors_comments"
-                        name="doctors_comments"
-                        style={{
-                          minHeight: "300px",
-                        }}
-                      />
-                      <ErrorMessage
-                        name="doctors_comments"
-                        component="div"
-                        className="invalid-feedback"
-                      />
+                      <div className="form-floating">
+                        <Field
+                          as="textarea"
+                          rows={5}
+                          className={
+                            "form-control" +
+                            (errors.doctors_comments && touched.doctors_comments
+                              ? " is-invalid"
+                              : "")
+                          }
+                          id="doctors_comments"
+                          name="doctors_comments"
+                          style={{
+                            minHeight: "300px",
+                          }}
+                        />
+                        <ErrorMessage
+                          name="doctors_comments"
+                          component="div"
+                          className="invalid-feedback"
+                        />
+                        <label htmlFor="doctors_comments">
+                          DOCTOR'S COMMENTS AND REMARKS
+                        </label>
+                      </div>
                     </div>
 
-                    <div className="col-md-4">
+                    <div className="col-md-6">
                       <div className="form-group">
                         <label
                           htmlFor="fit_to_work"
@@ -121,17 +132,31 @@ const ICommentsRemarksForm = ({ handlePrev, handleNext }) => {
                         >
                           <strong>Fit to Work</strong>
                         </label>
-                        <Field
-                          as="select"
-                          id="fit_to_work"
-                          name="fit_to_work"
-                          className="form-control my-upload"
-                        >
-                          <option value="">Select (Yes / No)</option>
-                          <option value="1">Yes</option>
-                          <option value="0">No</option>
-                        </Field>
-                        <ErrorMessage name="fit_to_work" />
+                        <div className="form-floating">
+                          <Field
+                            as="select"
+                            id="fit_to_work"
+                            name="fit_to_work"
+                            className="form-select"
+                          >
+                            <option value="">Select (Yes / No)</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                          </Field>
+                          <label
+                            htmlFor="fit_to_work"
+                            style={{
+                              textTransform: "uppercase",
+                            }}
+                          >
+                            IS CLIENT FIT TO WORK
+                          </label>
+                          <ErrorMessage
+                            name="fit_to_work"
+                            component="div"
+                            className="error-message"
+                          />
+                        </div>
                       </div>
                     </div>
 

@@ -14,6 +14,7 @@ import { formsActions } from "../../../redux_store/forms-store";
 import Loading from "../../../components/loader/Loading";
 import FormButton from "../../../components/buttons/FormButton";
 import { chechCertificatesStatusUpdate } from "../../../services/api";
+import { Tooltip } from "react-bootstrap";
 
 const ObeservationForm = ({ handlePrev, handleNext }) => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
   const [updateStatus, setUpdateStatus] = useState(false);
   const singlePatient = useSelector((state) => state.patient.singlePatient);
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
   const patientPhysicalExamRecord = useSelector(
     (state) => state.patient.latestPhysicalExam
   );
@@ -29,7 +31,7 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
 
   const styles = {
     textarea: {
-      height: "80px",
+      height: "100px",
     },
     seperation: {
       height: "20px",
@@ -124,13 +126,33 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                                 <label htmlFor="previous_health_issues">
                                   Previous Health Issues
                                 </label>
-                                <Field
-                                  type="text"
-                                  id="previous_health_issues"
-                                  name="previous_health_issues"
-                                  className="form-control my-upload"
-                                />
-                                <ErrorMessage name="previous_health_issues" />
+                                <div className="form-floating">
+                                  <Field
+                                    type="text"
+                                    id="previous_health_issues"
+                                    name="previous_health_issues"
+                                    className="form-control"
+                                    disabled={user.role !== "admin"}
+                                  />
+                                  <label htmlFor="previous_health_issues">
+                                    ANY PREVIOUS HEALTH ISSUES
+                                  </label>
+                                  <ErrorMessage
+                                    name="previous_health_issues"
+                                    htmlFor="previous_health_issues"
+                                    className="error-message"
+                                  />
+                                  {user.role !== "admin" && (
+                                      <Tooltip
+                                        placement="top"
+                                        title="Only a doctor or nurse is allowed to comment on xray"
+                                      >
+                                        <span className="disabled-field-tooltip">
+                                          ℹ
+                                        </span>
+                                      </Tooltip>
+                                    )}
+                                </div>
                               </div>
                             </div>
                             <div className="col-md-4">
@@ -138,28 +160,45 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                                 <label htmlFor="year_of_diagnosis">
                                   Year of Diagnosis
                                 </label>
-                                <Field
-                                  type="text"
-                                  id="year_of_diagnosis"
-                                  name="year_of_diagnosis"
-                                  className="form-control my-upload"
-                                />
-                                <ErrorMessage name="year_of_diagnosis" />
+                                <div className="form-floating">
+                                  <Field
+                                    type="text"
+                                    id="year_of_diagnosis"
+                                    name="year_of_diagnosis"
+                                    className="form-control"
+                                    disabled={user.role !== "admin"}
+                                  />
+                                  <label htmlFor="year_of_diagnosis">
+                                    YEAR OF DIAGNOSIS
+                                  </label>
+                                  <ErrorMessage
+                                    name="year_of_diagnosis"
+                                    htmlFor="year_of_diagnosis"
+                                    className="error-message"
+                                  />
+                                </div>
                               </div>
                             </div>
                           </div>
 
                           <div className="form-group">
                             <label htmlFor="comment">Comment</label>
-                            <Field
-                              as="textarea"
-                              id="comment"
-                              name="comment"
-                              rows="4"
-                              className="form-control my-upload"
-                              style={styles.textarea}
-                            />
-                            <ErrorMessage name="comment" />
+                            <div className="form-floating">
+                              <Field
+                                as="textarea"
+                                id="comment"
+                                name="comment"
+                                rows="4"
+                                className="form-control"
+                                style={styles.textarea}
+                                disabled={user.role !== "admin"}
+                              />
+                              <label htmlFor="comment">GENERAL COMMENT</label>
+                              <ErrorMessage
+                                name="comment"
+                                className="error-message"
+                              />
+                            </div>
                           </div>
 
                           <div className="form-group">
@@ -178,6 +217,7 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                                 value="1"
                                 id="chestXRayYes"
                                 name="chest_x_ray"
+                                disabled={user.role !== "admin"}
                               />
                               <label
                                 className="form-check-label"
@@ -193,6 +233,7 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                                 value="0"
                                 id="chestXRayNo"
                                 name="chest_x_ray"
+                                disabled={user.role !== "admin"}
                               />
                               <label
                                 className="form-check-label"
@@ -208,34 +249,60 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                             <label htmlFor="remarks">
                               <strong>Remarks</strong>
                             </label>
-                            <Field
-                              as="textarea"
-                              id="remarks"
-                              name="remarks"
-                              rows="3"
-                              className="form-control my-upload"
-                              style={styles.textarea}
-                            />
-                            <ErrorMessage name="remarks" />
+                            <div className="form-floating">
+                              <Field
+                                as="textarea"
+                                id="remarks"
+                                name="remarks"
+                                rows="3"
+                                className="form-control"
+                                style={styles.textarea}
+                                disabled={user.role !== "admin"}
+                              />
+                              <label htmlFor="remarks">GENERAL REMARKS</label>
+                              <ErrorMessage
+                                name="remarks"
+                                className="error-message"
+                              />
+                            </div>
                           </div>
 
                           <div className="row">
                             <div className="col-md-6">
                               <div className="form-group">
-                                <label htmlFor="swab_result">Swab Result</label>
-                                <Field
-                                  type="text"
-                                  id="swab_result"
-                                  name="swab_result"
-                                  className="form-control my-upload"
-                                />
-                                <ErrorMessage name="swab_result" />
+                                <label
+                                  htmlFor="swab_result"
+                                  style={{
+                                    textTransform: "uppercase",
+                                    fontWeight: "bold",
+                                  }}
+                                >
+                                  Swab Result
+                                </label>
+                                <div className="form-floating">
+                                  <Field
+                                    type="text"
+                                    id="swab_result"
+                                    name="swab_result"
+                                    className="form-control"
+                                    disabled={user.role !== "admin"}
+                                  />
+                                  <ErrorMessage
+                                    name="swab_result"
+                                    className="error-message"
+                                  />
+                                </div>
                               </div>
                             </div>
                             <div className="col-md-6">
                               <div className="row">
                                 <div className="col-md-8">
-                                  <label htmlFor="fit_to_work">
+                                  <label
+                                    htmlFor="fit_to_work"
+                                    style={{
+                                      textTransform: "uppercase",
+                                    }}
+                                  >
                                     <strong>Fit to Work</strong>
                                   </label>
                                   <p>
@@ -245,49 +312,61 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                                 </div>
                                 <div className="col-md-4">
                                   <div className="form-group">
-                                    <Field
-                                      as="select"
-                                      id="fit_to_work"
-                                      name="fit_to_work"
-                                      className="form-control my-upload"
-                                    >
-                                      <option value="">Select</option>
-                                      <option value="1">Yes</option>
-                                      <option value="0">No</option>
-                                    </Field>
-                                    <ErrorMessage name="fit_to_work" />
+                                    <div className="form-floating">
+                                      <Field
+                                        as="select"
+                                        id="fit_to_work"
+                                        name="fit_to_work"
+                                        className="form-select"
+                                        disabled={user.role !== "admin"}
+                                      >
+                                        <option value="">Select</option>
+                                        <option value="1">YES</option>
+                                        <option value="0">NO</option>
+                                      </Field>
+                                      <label>FIT TO WORK?</label>
+                                      <ErrorMessage name="fit_to_work" />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
 
-                          <div
-                            className="d-flex"
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              marginTop: "20px",
-                              marginBottom: "20px",
-                            }}
-                          >
+                          {user.role !== "admin" ? (
                             <FormButton
                               text={"Previous"}
                               direction={"left"}
                               onClick={handlePrev}
                             />
-
-                            {isLoading ? (
-                              <Loading />
-                            ) : (
+                          ) : (
+                            <div
+                              className="d-flex"
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                marginTop: "20px",
+                                marginBottom: "20px",
+                              }}
+                            >
                               <FormButton
-                                text={"Save Obeservation"}
-                                direction={"right"}
-                                onClick={onSubmit}
+                                text={"Previous"}
+                                direction={"left"}
+                                onClick={handlePrev}
                               />
-                            )}
-                          </div>
+
+                              {isLoading ? (
+                                <Loading />
+                              ) : (
+                                <FormButton
+                                  text={"Save Obeservation"}
+                                  direction={"right"}
+                                  onClick={onSubmit}
+                                />
+                              )}
+                            </div>
+                          )}
                         </Form>
                       )}
                     </Formik>

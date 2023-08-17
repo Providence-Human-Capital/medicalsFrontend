@@ -121,7 +121,7 @@ const IndustryTable = () => {
                   <th className="bb-2">Date Of Birth</th>
                   <th className="bb-2">Phone Number</th>
                   <th className="bb-2">Employee Number</th>
-                  <th className="bb-2">Swab Status</th>
+                  {/* <th className="bb-2">Swab Status</th> */}
                   <th className="bb-2">Last X-Ray</th>
                   <th className="bb-2">Certificate Status</th>
                   <th className="bb-2">Actions</th>

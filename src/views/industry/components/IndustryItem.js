@@ -8,6 +8,7 @@ import SwabResultDropdown from "../../patients/components/SwabResultDropdown";
 
 const IndustryItem = ({ patient, index  }) => {
   const dispatch = useDispatch();
+  
   const onDelete = () => {
     handleDeletePatient(patient.id, dispatch);
   };
@@ -23,7 +24,7 @@ const IndustryItem = ({ patient, index  }) => {
         <td>{patient.phone_number}</td>
         <td>{patient.employee_number}</td>
 
-        <td>
+        {/* <td>
           {patient.swabs.length !== 0 ? (
             <SwabResultDropdown
               patientId={patient.id}
@@ -35,7 +36,7 @@ const IndustryItem = ({ patient, index  }) => {
               initialSwabResult={"PENDING"}
             />
           )}
-        </td>
+        </td> */}
 
         {(patient.last_x_ray === "N/A") | (patient.last_x_ray === null) ? (
           <td>N/A</td>

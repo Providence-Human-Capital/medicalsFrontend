@@ -78,7 +78,7 @@ const AddAttendee = () => {
     phone_number: yup.string().required("Please enter the Phone Number"),
     x_ray_status: yup.string().required("Please select the X ray Status"),
     exam_purpose: yup.string().required("Please select the Exam Purpose"),
-    employee_number: yup.string().required("Employee Number is Required!"),
+    employee_number: yup.string().nullable(),
     category: yup.string().required("Please Category is Required!"),
     last_x_ray: yup
       .string()
@@ -227,10 +227,14 @@ const AddAttendee = () => {
               <div className="">
                 <div className="box-body">
                   <div className="">
-                    <h4 style={{
-                      textTransform: "uppercase",
-                      fontWeight: "bold"
-                    }}>Enter New Client</h4>
+                    <h4
+                      style={{
+                        textTransform: "uppercase",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Enter New Client
+                    </h4>
                     <Formik
                       initialValues={initialValues}
                       onSubmit={onSubmit}
@@ -563,9 +567,16 @@ const AddAttendee = () => {
                                   name="category"
                                 >
                                   <option value="">Select Category</option>
-                                  <option value="1">City Of Harare</option>
-                                  <option value="2">Pneumoconiosis</option>
-                                  <option value="3">Industry/Security</option>
+                                  <option value="City Of Harare">
+                                    City Of Harare
+                                  </option>
+                                  <option value="Pneumoconiosis">
+                                    Pneumoconiosis
+                                  </option>
+                                  <option value="Industry">
+                                    Industry/Security
+                                  </option>
+                                  <option value="Local">Local</option>
                                 </Field>
                                 <label htmlFor="date_of_birth">Category:</label>
                                 <ErrorMessage

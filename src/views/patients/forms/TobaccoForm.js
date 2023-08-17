@@ -187,24 +187,32 @@ const TobaccoForm = ({ handlePrev, handleNext }) => {
                                 <h2>{tobacco.name}</h2>
                                 <div className="form-group">
                                   <label>Do you Smoke?</label>
-                                  <select
-                                    className="form-control my-upload"
-                                    value={smokeTobacco ? "yes" : "no"}
-                                    onChange={handleSmokeTobacco}
-                                  >
-                                    <option value="no">No</option>
-                                    <option value="yes">Yes</option>
-                                  </select>
+                                  <div className="form-floating">
+                                    <select
+                                      className="form-select"
+                                      value={smokeTobacco ? "yes" : "no"}
+                                      onChange={handleSmokeTobacco}
+                                    >
+                                      <option value="no">No</option>
+                                      <option value="yes">Yes</option>
+                                    </select>
+                                    <label>Do you Smoke? (YES/NO)</label>
+                                  </div>
                                 </div>
                                 {smokeTobacco && (
                                   <div className="form-group">
                                     <label>How Many Per Day:</label>
-                                    <input
-                                      type="number"
-                                      className="form-control my-upload"
-                                      value={howManyPerDay}
-                                      onChange={handleHowManyPerDay}
-                                    />
+                                    <div className="form-floating">
+                                      <input
+                                        type="number"
+                                        className="form-control"
+                                        value={howManyPerDay}
+                                        onChange={handleHowManyPerDay}
+                                      />
+                                      <label>
+                                        How Many Per Day(Number Per Day)
+                                      </label>
+                                    </div>
                                   </div>
                                 )}
                               </div>
