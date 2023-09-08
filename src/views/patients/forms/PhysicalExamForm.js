@@ -113,15 +113,9 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      console.log("Physical Submission Successful");
       const data = await response.json();
-      console.log("Physical Submission Successful", data);
-      // dispatch(
-      //   patientActions.setLatestPhysicalExam({ latestPhysicalExam: data.data })
-      // );
       dispatch(uiActions.setAlert({ setAlert: true }));
       const patientData = await getPatient();
-      // dispatch(patientActions.setSinglePatient({ singlePatient: patientData }));
       dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
       dispatch(formsActions.setPhysicalExamination(data.data));
       handleNext();
@@ -169,15 +163,14 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
     }
   };
 
-  const singlePatient = useSelector((state) => state.patient.singlePatient);
   const patientPhysicalExamRecord = useSelector(
     (state) => state.forms.fPhysicalExamination
   );
 
   useEffect(() => {
-    chechCertificatesStatusUpdate(patientId).then((data) => {
-      console.log("From Certificates Update", data);
-    });
+    // chechCertificatesStatusUpdate(patientId).then((data) => {
+    //   console.log("From Certificates Update", data);
+    // });
   }, [updateStatus]);
   return (
     <Fragment>

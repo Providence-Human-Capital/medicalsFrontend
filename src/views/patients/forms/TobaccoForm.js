@@ -126,7 +126,7 @@ const TobaccoForm = ({ handlePrev, handleNext }) => {
         <div className="row">
           <div className="col-xl-12 col-12">
             {/* <PButtons routeId={patientId} /> */}
-            <div className="box">
+            <div className="card">
               <div className="custom-form">
                 <div className="box-body">
                   <div className="container">

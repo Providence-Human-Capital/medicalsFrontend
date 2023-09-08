@@ -11,17 +11,20 @@ import { uiActions } from "../../../redux_store/ui-store";
 import { companyActions } from "../../../redux_store/company-store";
 
 const BatchBox = ({ company }) => {
-  const isLoading = useSelector((state) => state.ui.isLoading);
+  // const isLoading = useSelector((state) => state.ui.isLoading);
+  const [ loadingBatches, setLoadingBatches] = useState(false);
   const dispatch = useDispatch();
   const [error, setError] = useState("");
   const [loadingCompanyId, setLoadingCompanyId] = useState(null);
 
   const handleCreateBatch = async (companyId) => {
     setLoadingCompanyId(companyId);
+    setLoadingBatches(true)
     createCertificateBatch(companyId)
       .then((data) => {
         console.log(data);
         if (data) {
+          setLoadingBatches(false)
           companiesWithCertificateBatches().then((dataBatches) => {
             if (dataBatches && dataBatches.companies) {
               dispatch(
@@ -33,6 +36,7 @@ const BatchBox = ({ company }) => {
       })
       .catch((err) => {
         console.log(err);
+        setLoadingBatches(false)
         if (err) {
         }
         setError(err);
@@ -60,7 +64,7 @@ const BatchBox = ({ company }) => {
             </h4>
             <ul class="box-controls pull-right d-md-flex d-none">
               <li class="dropdown">
-                {isLoading || loadingCompanyId === company.id ? (
+                {loadingBatches || loadingCompanyId === company.id ? (
                   <Loading />
                 ) : (
                   <div>

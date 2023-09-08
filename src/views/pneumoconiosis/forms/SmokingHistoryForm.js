@@ -89,17 +89,20 @@ const SmokingHistoryForm = ({ handlePrev, handleNext }) => {
                               </label>
                             </div>
                             <div className="col-md-6">
-                              <Field
-                                as="select"
-                                name="do_smoke"
-                                value={values.do_smoke}
-                                onChange={handleChange}
-                                className="form-control my-upload"
-                              >
-                                <option value="">Select (Yes/No)</option>
-                                <option value={true}>Yes</option>
-                                <option value={false}>No</option>
-                              </Field>
+                              <div className="form-floating">
+                                <Field
+                                  as="select"
+                                  name="do_smoke"
+                                  value={values.do_smoke}
+                                  onChange={handleChange}
+                                  className="form-select"
+                                >
+                                  <option value="">Select (Yes/No)</option>
+                                  <option value={true}>YES</option>
+                                  <option value={false}>NO</option>
+                                </Field>
+                                <label htmlFor="do_smoke">DO YOU SMOKE</label>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -116,20 +119,20 @@ const SmokingHistoryForm = ({ handlePrev, handleNext }) => {
                                       fontWeight: "200",
                                     }}
                                   >
-                                    <strong>
-                                      How Many Per Day?
-                                    </strong>
+                                    <strong>How Many Per Day?</strong>
                                   </label>
                                   <p></p>
                                 </div>
                                 <div className="col-md-4">
-                                  <Field
-                                    type="number"
-                                    name="how_many_per_day"
-                                    className="form-control my-upload"
-                                    value={values.how_many_per_day}
-                                    onChange={handleChange}
-                                  />
+                                  <div className="form-floating">
+                                    <Field
+                                      type="number"
+                                      name="how_many_per_day"
+                                      className="form-control"
+                                      value={values.how_many_per_day}
+                                      onChange={handleChange}
+                                    />
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -149,13 +152,18 @@ const SmokingHistoryForm = ({ handlePrev, handleNext }) => {
                                   </label>
                                 </div>
                                 <div className="col-md-6">
-                                  <Field
-                                    type="text"
-                                    name="how_long"
-                                    className="form-control my-upload"
-                                    value={values.how_long}
-                                    onChange={handleChange}
-                                  />
+                                  <div className="form-floating">
+                                    <Field
+                                      type="text"
+                                      name="how_long"
+                                      className="form-control"
+                                      value={values.how_long}
+                                      onChange={handleChange}
+                                    />
+                                    <label htmlFor="how_long">
+                                      FOR HOW LONG
+                                    </label>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -177,17 +185,20 @@ const SmokingHistoryForm = ({ handlePrev, handleNext }) => {
                               </label>
                             </div>
                             <div className="col-md-6">
-                              <Field
-                                as="select"
-                                name="past_smoker"
-                                value={values.past_smoker}
-                                onChange={handleChange}
-                                className="form-control my-upload"
-                              >
-                                <option value="">Select (Yes / No)</option>
-                                <option value={true}>Yes</option>
-                                <option value={false}>No</option>
-                              </Field>
+                              <div className="form-floating">
+                                <Field
+                                  as="select"
+                                  name="past_smoker"
+                                  value={values.past_smoker}
+                                  onChange={handleChange}
+                                  className="form-select"
+                                >
+                                  <option value="">Select (Yes / No)</option>
+                                  <option value={true}>YES</option>
+                                  <option value={false}>NO</option>
+                                </Field>
+                                <label htmlFor="past_smoker">PAST SMOKER</label>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -209,13 +220,15 @@ const SmokingHistoryForm = ({ handlePrev, handleNext }) => {
                                 </label>
                               </div>
                               <div className="col-md-4">
-                                <Field
-                                  type="text"
-                                  name="for_how_long"
-                                  className="form-control my-upload"
-                                  value={values.for_how_long}
-                                  onChange={handleChange}
-                                />
+                                <div className="form-floating">
+                                  <Field
+                                    type="text"
+                                    name="for_how_long"
+                                    className="form-control"
+                                    value={values.for_how_long}
+                                    onChange={handleChange}
+                                  />
+                                </div>
                               </div>
                             </div>
                           </div>

@@ -13,7 +13,6 @@ import Vitals from "./components/Vitals";
 import DiseaseHistory from "./components/DiseaseHistory";
 import TobaccoBox from "./components/TobaccoBox";
 import XRayBox from "./components/XRayBox";
-import MedicalStaffMiddleware from "../../middlewares/MedicalStaffMiddleware";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 
@@ -22,9 +21,6 @@ const FoodPatientUpdate = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const singlePatient = useSelector((state) => state.patient.singlePatient);
   const vitals = useSelector((state) => state.forms.fPhysicalExamination);
-  const patientIllnesses = useSelector(
-    (state) => state.forms.patientsIllnesses
-  );
 
   const user = useSelector((state) => state.auth.user);
 
@@ -39,23 +35,9 @@ const FoodPatientUpdate = () => {
     setCurrentStep(currentStep - 1);
   };
 
-  const fPhysicalExamination = useSelector(
-    (state) => state.forms.fPhysicalExamination
-  );
-  const patientXray = useSelector((state) => state.forms.patientsXray) || null;
-  const patientsRemarks = useSelector((state) => state.forms.fPatientRemarks);
-
   let foodHandlerForm;
   switch (currentStep) {
     case 1:
-      // if (fPhysicalExamination.length !== 0) {
-      //   handleNext();
-      // } else {
-      //   foodHandlerForm = (
-      //     <PhysicalExamForm handlePrev={handlePrev} handleNext={handleNext} />
-      //   );
-      // }
-
       foodHandlerForm = (
         <PhysicalExamForm handlePrev={handlePrev} handleNext={handleNext} />
       );
@@ -121,7 +103,7 @@ const FoodPatientUpdate = () => {
             {singlePatient && singlePatient.attendee.last_name}
           </span>
         </Link>
-        <BreadCrumb activeTab={"Pneumoconiosis"} title={"Patient"} />
+        <BreadCrumb activeTab={"Food Handler (IN HOUSE / CITY OF HARARE)"} title={"Patient"} />
       </div>
       <section className="content">
         <div className="row">

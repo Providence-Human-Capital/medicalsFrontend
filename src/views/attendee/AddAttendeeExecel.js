@@ -233,9 +233,10 @@ const AddAttendeeExecel = () => {
                             }
                           >
                             <option value="">Select Category</option>
-                            <option value="1">City Of Harare</option>
-                            <option value="2">Pneumoconiosis</option>
-                            <option value="3">Industry/Security</option>
+                            <option value="City Of Harare">City Of Harare</option>
+                            <option value="Pneumoconiosis">Pneumoconiosis</option>
+                            <option value="Industry">Industry/Security</option>
+                            <option value="In House">In House</option>
                           </select>
                           <label
                             htmlFor="categorySelect"

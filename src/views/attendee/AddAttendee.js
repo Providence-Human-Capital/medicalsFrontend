@@ -43,7 +43,7 @@ const AddAttendee = () => {
     phone_number: "",
     x_ray_status: "PENDING",
     exam_purpose: "",
-    employee_number: "",
+    employee_number: "N/A",
     country_code: "+263",
     last_x_ray: "N/A",
     category: "",
@@ -576,7 +576,7 @@ const AddAttendee = () => {
                                   <option value="Industry">
                                     Industry/Security
                                   </option>
-                                  <option value="Local">Local</option>
+                                  <option value="In House">In House</option>
                                 </Field>
                                 <label htmlFor="date_of_birth">Category:</label>
                                 <ErrorMessage
@@ -651,14 +651,7 @@ const AddAttendee = () => {
                           {loading ? (
                             <Loading />
                           ) : (
-                            // <button
-                            //   type="submit"
-                            //   className="btn btn-primary mt-2"
-                            //   disabled={isSubmitting}
-                            //   onClick={handleSubmit}
-                            // >
-                            //   Save Attendee
-                            // </button>
+                          
                             <SaveButton
                               text={"Save Attendee"}
                               onClick={handleSubmit}

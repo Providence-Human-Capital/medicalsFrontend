@@ -105,7 +105,7 @@ const Header = ({}) => {
                 </Link>
               </li>
               <li className="btn-group d-lg-inline-flex d-none">
-                <NavButton to={"/foodhandlers"} text={"Food Handlers"} />
+                <NavButton to={"/foodhandlers"} text={"COH & In House"} />
               </li>
 
               <li className="btn-group d-lg-inline-flex d-none">

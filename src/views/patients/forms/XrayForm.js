@@ -2,15 +2,14 @@ import React, { useState, Fragment } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import BreadCrumb from "../../../components/BreadCrumb";
-import { API } from "../../../config";
+import { API, IMAGE_URL } from "../../../config";
 import PButtons from "../components/PButtons";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "../../../redux_store/ui-store";
 import { formsActions } from "../../../redux_store/forms-store";
 import Loading from "../../../components/loader/Loading";
-
-
+import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PatientSideView from "../components/PatientSideView";
@@ -21,6 +20,7 @@ const XrayForm = ({ handlePrev, handleNext }) => {
   const [previewImage, setPreviewImage] = useState(null);
   const isLoading = useSelector((state) => state.ui.isLoading);
   const user = useSelector((state) => state.auth.user);
+  const xray = useSelector((state) => state.forms.patientsXray) || null;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -65,7 +65,7 @@ const XrayForm = ({ handlePrev, handleNext }) => {
         body: formData,
       });
       const data = await response.json();
-      if (response.status === 200) {
+      if (response.status === 200 ) {
         dispatch(
           uiActions.setLoadingSpinner({
             isLoading: false,
@@ -107,6 +107,21 @@ const XrayForm = ({ handlePrev, handleNext }) => {
 
   const { patientId } = useParams();
 
+  const handleUploadNewXray = () => {
+    Swal.fire({
+      title: "Upload New Xray",
+      text: "Are you sure you want to upload a new xray?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(formsActions.setPatientsXray(null));
+      }
+    });
+  };
+
   return (
     <Fragment>
       <div className="step-form">
@@ -122,7 +137,18 @@ const XrayForm = ({ handlePrev, handleNext }) => {
                         fontWeight: "bold",
                       }}
                     >
-                      Upload Patient's Xray Image
+                      Upload Patient's Xray Image {"  "}{" "}
+                      <button
+                        className="btn btn-success"
+                        style={{
+                          borderRadius: "10px",
+                          textTransform: "uppercase",
+                          fontWeight: "bold",
+                        }}
+                        onClick={handleUploadNewXray}
+                      >
+                        New XRay
+                      </button>
                     </h4>
                     <Formik
                       initialValues={initialValues}
@@ -139,43 +165,65 @@ const XrayForm = ({ handlePrev, handleNext }) => {
                         <Form>
                           <div className="form-group">
                             <div className="col-xl-6 col-12">
-                              <div class="mb-3">
-                                <div className="form-floating">
-                                  <input
-                                    class="form-control"
-                                    type="file"
-                                    name="image"
-                                    onChange={(event) =>
-                                      handleImageChange(event, setFieldValue)
-                                    }
-                                  />
-                                  <label htmlFor="formFile" class="form-label">
-                                    SELECT UPLOAD XRAY
-                                  </label>
+                              {!xray && (
+                                <div class="mb-3">
+                                  <div className="form-floating">
+                                    <input
+                                      class="form-control"
+                                      type="file"
+                                      name="image"
+                                      onChange={(event) =>
+                                        handleImageChange(event, setFieldValue)
+                                      }
+                                    />
+                                    <label
+                                      htmlFor="formFile"
+                                      class="form-label"
+                                    >
+                                      SELECT UPLOAD XRAY
+                                    </label>
+                                  </div>
                                 </div>
-                              </div>
+                              )}
                             </div>
 
                             <div className="row">
-                              <div className="col-md-6">
-                                {previewImage && (
+                              {!xray && (
+                                <div className="col-md-6">
+                                  {previewImage && (
+                                    <div className="preview-images-container">
+                                      <div className="preview-image-wrapper">
+                                        <img
+                                          src={previewImage}
+                                          alt="Preview"
+                                          className="mt-2 preview-image"
+                                          style={{ maxWidth: "100%" }}
+                                        />
+                                      </div>
+                                    </div>
+                                  )}
+                                  <ErrorMessage
+                                    name="image"
+                                    component="div"
+                                    className="text-danger"
+                                  />
+                                </div>
+                              )}
+                              {xray && (
+                                <div className="col-md-6">
                                   <div className="preview-images-container">
                                     <div className="preview-image-wrapper">
                                       <img
-                                        src={previewImage}
+                                        src={`${IMAGE_URL}/${xray.image}`}
                                         alt="Preview"
                                         className="mt-2 preview-image"
                                         style={{ maxWidth: "100%" }}
                                       />
                                     </div>
                                   </div>
-                                )}
-                                <ErrorMessage
-                                  name="image"
-                                  component="div"
-                                  className="text-danger"
-                                />
-                              </div>
+                                </div>
+                              )}
+
                               <div className="col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="status">Status</label>
@@ -201,8 +249,6 @@ const XrayForm = ({ handlePrev, handleNext }) => {
                                     <label htmlFor="status">
                                       COMMENT ON XRAY
                                     </label>
-
-                                    
                                   </div>
                                 </div>
 

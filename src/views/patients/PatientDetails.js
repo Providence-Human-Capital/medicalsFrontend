@@ -46,7 +46,6 @@ import ResultsAndInvestigation from "../pneumoconiosis/components/ResultsAndInve
 import AdditionalTestsBox from "../pneumoconiosis/components/AdditionalTestsBox";
 import ConditionsTestBox from "../pneumoconiosis/components/ConditionsTestBox";
 import InjuryBox from "../industry/components/InjuryBox";
-// import { getPatientPhysicalExamResults } from "../../services/api";
 import { PHYSICAL_EXAM } from "../../utils/global";
 import BpPlot from "./components/BpPlot";
 import BmiPlot from "./components/BmiPlot";
@@ -61,9 +60,9 @@ const PatientDetails = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [dayLeftData, setDayLeftData] = useState(null);
-  const [selectedBatch, setSelectedBatch] = useState("");
-  const [certifcateId, setCertifcateId] = useState(null);
   const isLoading = useSelector((state) => state.ui.isLoading);
+
+  const [addingToBatch, setAddingToBatch] = useState(false);
 
   //Pneumo  Records from state
   const industryClassification = useSelector(
@@ -130,18 +129,12 @@ const PatientDetails = () => {
   );
 
   useEffect(() => {
-    // chechCertificatesStatusUpdate(patientId).then((data) => {
-    //   console.log("From Certificates Update", data);
-    // });
-
     getCurrentPatientRemarks(patientId).then((remarks) => {
       dispatch(formsActions.setFoodHandlerRemarks(remarks));
     });
-
     getLatestPatientXray(patientId).then((xray) => {
       dispatch(formsActions.setPatientsXray(xray));
     });
-
     getFoodHandlerPatientDetails(patientId)
       .then((data) => {
         dispatch(formsActions.setCertificateState(data.certificate));
@@ -161,7 +154,6 @@ const PatientDetails = () => {
         // Handle any errors that occur during the API call
         console.error("Error fetching food handler patient details:", error);
       });
-
     if (singlePatient && singlePatient.category === "Pneumoconiosis") {
       getPneumoPatientDetails(patientId).then((data) => {
         console.log("All Dataa", data);
@@ -209,7 +201,6 @@ const PatientDetails = () => {
         }
       });
     }
-
     if (singlePatient && singlePatient.category === "Industry") {
       getIndustryPatientDetails(patientId).then((data) => {
         console.log("Industry Patient Data: " + JSON.stringify(data));
@@ -232,9 +223,7 @@ const PatientDetails = () => {
         );
       });
     }
-
     calculateDaysLeftForCertificateValidity(patientId).then((data) => {
-      // console.log("Number of days: " + data);
       setDayLeftData(data);
     });
     const fetchPatientData = async () => {
@@ -270,18 +259,10 @@ const PatientDetails = () => {
         setLoading(false);
       }
     };
-
     fetchPatientData();
   }, [patientId]);
 
   const singlePatient = useSelector((state) => state.patient.singlePatient);
-
-  const isAvailable = useSelector(
-    (state) => state.patient.physicalExamAvailable
-  );
-  const patientXray = useSelector((state) => state.forms.patientsXray) || {};
-
-  const patientUpdated = useSelector((state) => state.patient.patientUpdated);
   const vitals = useSelector((state) => state.forms.fPhysicalExamination);
   if (loading) {
     return <PatientSkeleton />;
@@ -297,11 +278,7 @@ const PatientDetails = () => {
   const handleAddToBatch = async (selectedValue, certificateId) => {
     console.log(selectedValue);
     try {
-      dispatch(
-        uiActions.setLoadingSpinner({
-          isLoading: true,
-        })
-      );
+      setAddingToBatch(true);
       const response = await fetch(
         `${API}/certificate/batch/${selectedValue}/${certificateId}/add`,
         {
@@ -315,30 +292,16 @@ const PatientDetails = () => {
 
       const responseData = await response.json();
       if (response.status === 200) {
-        dispatch(
-          uiActions.setLoadingSpinner({
-            isLoading: false,
-          })
-        );
-
+        setAddingToBatch(false);
         console.log(responseData);
-
         Swal.fire("Success!", "Adding to Batch successfully.", "success");
       } else {
-        dispatch(
-          uiActions.setLoadingSpinner({
-            isLoading: false,
-          })
-        );
+        setAddingToBatch(false);
         throw new Error(`${responseData.message}`);
       }
     } catch (error) {
       Swal.fire("Something went wrong!", error.message, "error");
-      dispatch(
-        uiActions.setLoadingSpinner({
-          isLoading: false,
-        })
-      );
+      setAddingToBatch(false);
     }
   };
 
@@ -350,7 +313,14 @@ const PatientDetails = () => {
     const company = filterCompany(singlePatient.attendee.company.company_name);
     console.log("On click", company.certificate_batches);
 
-    if (company.certificate_batches.length === 0) {
+    const valid_batches = company.certificate_batches.filter(
+      (batch) => batch.invalidate !== 1
+    );
+
+
+    console.log("Valid batches", valid_batches)
+
+    if (valid_batches.length === 0) {
       createCertificateBatch(company.id).then((data) => {
         console.log("Created certificate batch", data);
       });
@@ -362,7 +332,7 @@ const PatientDetails = () => {
         html: `
         <select id="status-select" class="form-select"> 
         <option value="">Select Batch</option> 
-        ${company.certificate_batches
+        ${valid_batches
           .map((batch) => `<option value="${batch.id}">${batch.name}</option>`)
           .join("")} 
         `,
@@ -387,7 +357,9 @@ const PatientDetails = () => {
     }
   };
 
-  const category = singlePatient.category || "Medical Patient";
+  const category = singlePatient?.category ?? "Medical Patient";
+
+ 
 
   return (
     <Fragment>
@@ -397,8 +369,8 @@ const PatientDetails = () => {
 
       <Helmet>
         <title>
-          Client : {singlePatient.attendee.first_name}{" "}
-          {singlePatient.attendee.last_name}
+          Client : {singlePatient?.attendee?.first_name ?? "Unknown"}{" "}
+          {singlePatient?.attendee?.last_name ?? "Unknown"}
         </title>
       </Helmet>
 
@@ -415,7 +387,7 @@ const PatientDetails = () => {
                   </h4>
                 </div>
                 <div className="d-flex">
-                  {isLoading ? (
+                  {addingToBatch ? (
                     <Loading />
                   ) : (
                     <div>
@@ -521,6 +493,26 @@ const PatientDetails = () => {
                 </div>
               </Fragment>
             )}
+
+            {singlePatient.category === "In House" && (
+              <Fragment>
+                <div
+                  className="col-xl-4 col-12"
+                  style={{
+                    overflowY: "scroll",
+                    height: "80vh",
+                    overflowX: "hidden",
+                  }}
+                >
+                  <Vitals patient={singlePatient} vitals={vitals} />
+                  <DiseaseHistory patientId={patientId} />
+                  <TobaccoBox patientId={patientId} />
+                  <XRayBox patientId={patientId} />
+                </div>
+              </Fragment>
+            )}
+
+            {/* In House */}
 
             {singlePatient.category === "Industry" && (
               <Fragment>

@@ -861,5 +861,165 @@ export const companyBMIStats = async (companyId, year) => {
   }
 };
 
+export const getCityOfHarareDNote = async () => {
+  try {
+    const response = await fetch(`${API}/latest/cofh/dnote`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData;
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 
+export const getAllDnotes = async () => {
+  try {
+    const response = await fetch(`${API}/dnotes/get/all`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
 
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData.data;
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const getCityOfHarareDnoteNoneDispatched = async () => {
+  try {
+    const response = await fetch(`${API}/dnotes/non/dispatch/coh`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData.data;
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const getTexasDnoteNonDispatched = async () => {
+  try {
+    const response = await fetch(`${API}/dnotes/non/dispatch/texas`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData.data;
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const getSimbisaNonDispatchedDnote = async () => {
+  try {
+    const response = await fetch(`${API}/dnotes/non/dispatch/simbisa`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData.data;
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const automaticallyAddCertificatesToDnoteAPI = async (
+  dnoteName,
+  certificateIds
+) => {
+  const requestData = {
+    certificate_ids: certificateIds,
+  };
+  try {
+    const response = await fetch(`${API}/dnote/${dnoteName}/add/certificates`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestData),
+    });
+
+    const responseData = await response.json();
+    if (response.ok) {
+      console.log(responseData);
+      Swal.fire("Success!", "Adding to Dnote successfully.", "success");
+    }
+  } catch (error) {
+    console.log(error);
+    Swal.fire("Something went wrong!", error.message, "error");
+  }
+};
+
+export const doctorManualCertificateUpdate = async (
+  certificateId,
+  selectedValue,
+  reason,
+  password,
+  token
+) => {
+  const requestBody = {
+    status: selectedValue,
+    password: password,
+    update_reason: reason,
+  };
+  try {
+    const response = await fetch(
+      `${API}/certificates/${certificateId}/update`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Replace 'token' with your actual token value
+        },
+        body: JSON.stringify(requestBody),
+      }
+    );
+    const responseData = await response.json();
+    if (response.ok) {
+      Swal.fire("Success!", responseData.message, "success");
+      getAllPatients();
+    } else {
+      Swal.fire("Error!", responseData.message, "error");
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

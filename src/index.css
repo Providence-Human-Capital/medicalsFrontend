@@ -21,6 +21,18 @@
   width: 50%;
 }
 
+.update-reason{
+  width: 100% !important;
+  /* border: 1px solid red; */
+  height: 90px !important;
+}
+
+.sep{
+  margin-top: 2rem !important;
+}
+
+/* Add this CSS in your stylesheet or style tag */
+
 .navigation_button {
   background-color: #ffffff !important;
   color: #5c607b !important;
@@ -455,8 +467,7 @@ button {
   font-weight: bold !important;
 }
 
-
-.medical-text{
+.medical-text {
   color: #000;
 }
 
@@ -472,6 +483,31 @@ button {
   opacity: 1;
 }
 
-.textareaH{
+.textareaH {
   min-height: 200px !important;
+}
+
+.dnote > tbody > tr > td,
+.table > tbody > tr > th {
+  padding: 5px !important;
+  vertical-align: middle;
+  border: 1px solid #000 !important;
+}
+
+.dnote-head > tr > th {
+  padding: 5px !important;
+  vertical-align: middle;
+  border: 1px solid #000;
+}
+
+.table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
+  border: 1px solid #000 !important;
+  /* border-bottom-width: 2px; */
+}
+
+
+.checky-input{
+  opacity: 1 !important;
+  position: absolute;
+  left: 70px !important;
 }

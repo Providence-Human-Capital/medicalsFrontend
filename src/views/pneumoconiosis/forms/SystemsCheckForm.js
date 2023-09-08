@@ -89,16 +89,19 @@ const SystemsCheckForm = ({ handlePrev, handleNext }) => {
                             </label>
                           </div>
                           <div className="col-md-6">
-                            <Field
-                              as="select"
-                              name="respiratory"
-                              value={values.respiratory}
-                              onChange={handleChange}
-                              className="form-control my-upload"
-                            >
-                              <option value={true}>Normal</option>
-                              <option value={false}>Abnormal</option>
-                            </Field>
+                            <div className="form-floating">
+                              <Field
+                                as="select"
+                                name="respiratory"
+                                value={values.respiratory}
+                                onChange={handleChange}
+                                className="form-select"
+                              >
+                                <option value={true}>Normal</option>
+                                <option value={false}>Abnormal</option>
+                              </Field>
+                              <label htmlFor="respiratory">RESPIRATORY</label>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -110,16 +113,19 @@ const SystemsCheckForm = ({ handlePrev, handleNext }) => {
                             </label>
                           </div>
                           <div className="col-md-6">
-                            <Field
-                              as="select"
-                              name="cvs"
-                              value={values.cvs}
-                              onChange={handleChange}
-                              className="form-control my-upload"
-                            >
-                              <option value={true}>Normal</option>
-                              <option value={false}>Abnormal</option>
-                            </Field>
+                            <div className="form-floating">
+                              <Field
+                                as="select"
+                                name="cvs"
+                                value={values.cvs}
+                                onChange={handleChange}
+                                className="form-select"
+                              >
+                                <option value={true}>Normal</option>
+                                <option value={false}>Abnormal</option>
+                              </Field>
+                              <label htmlFor="cvs">CARDIOVASCULAR</label>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -133,16 +139,21 @@ const SystemsCheckForm = ({ handlePrev, handleNext }) => {
                             </label>
                           </div>
                           <div className="col-md-6">
-                            <Field
-                              as="select"
-                              name="musculoskeletal"
-                              value={values.musculoskeletal}
-                              onChange={handleChange}
-                              className="form-control my-upload"
-                            >
-                              <option value={true}>Normal</option>
-                              <option value={false}>Abnormal</option>
-                            </Field>
+                            <div className="form-floating">
+                              <Field
+                                as="select"
+                                name="musculoskeletal"
+                                value={values.musculoskeletal}
+                                onChange={handleChange}
+                                className="form-select"
+                              >
+                                <option value={true}>Normal</option>
+                                <option value={false}>Abnormal</option>
+                              </Field>
+                              <label htmlFor="musculoskeletal">
+                                MUSCULOSKELETAL
+                              </label>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -154,16 +165,21 @@ const SystemsCheckForm = ({ handlePrev, handleNext }) => {
                             </label>
                           </div>
                           <div className="col-md-6">
-                            <Field
-                              as="select"
-                              name="cns"
-                              value={values.cns}
-                              onChange={handleChange}
-                              className="form-control my-upload"
-                            >
-                              <option value={true}>Normal</option>
-                              <option value={false}>Abnormal</option>
-                            </Field>
+                            <div className="form-floating">
+                              <Field
+                                as="select"
+                                name="cns"
+                                value={values.cns}
+                                onChange={handleChange}
+                                className="form-select"
+                              >
+                                <option value={true}>Normal</option>
+                                <option value={false}>Abnormal</option>
+                              </Field>
+                              <label htmlFor="cns">
+                                CENTRAL NERVOUS SYSTEM
+                              </label>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -177,16 +193,19 @@ const SystemsCheckForm = ({ handlePrev, handleNext }) => {
                           </label>
                         </div>
                         <div className="col-md-6">
-                          <Field
-                            as="select"
-                            name="skin"
-                            value={values.skin}
-                            onChange={handleChange}
-                            className="form-control my-upload"
-                          >
-                            <option value={true}>Normal</option>
-                            <option value={false}>Abnormal</option>
-                          </Field>
+                          <div className="form-floating">
+                            <Field
+                              as="select"
+                              name="skin"
+                              value={values.skin}
+                              onChange={handleChange}
+                              className="form-select"
+                            >
+                              <option value={true}>Normal</option>
+                              <option value={false}>Abnormal</option>
+                            </Field>
+                            <label htmlFor="skin">SKIN ARBNOMALITIES</label>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -196,21 +215,21 @@ const SystemsCheckForm = ({ handlePrev, handleNext }) => {
                           Summary of abnormal findings or disability if any:
                         </strong>
                       </label>
-                      <Field
-                        as="textarea"
-                        rows="5"
-                        name="systems_summary"
-                        value={values.systems_summary}
-                        onChange={handleChange}
-                        className="form-control my-upload"
-                      />
+                      <div className="form-floating">
+                        <Field
+                          as="textarea"
+                          style={{
+                            height: "200px",
+                          }}
+                          name="systems_summary"
+                          value={values.systems_summary}
+                          onChange={handleChange}
+                          className="form-control"
+                        />
+                        <label htmlFor="systems_summary">SYSTEMS SUMMARY</label>
+                      </div>
                     </div>
 
-                    {/* {isLoading ? (
-                      <Loading />
-                    ) : (
-                      <button type="submit">Save (Submit) </button>
-                    )} */}
                     <div
                       className="d-flex"
                       style={{

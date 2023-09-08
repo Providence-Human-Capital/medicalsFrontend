@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { API } from "../../../config";
 import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -46,6 +46,10 @@ const CertificateItem = ({ item }) => {
       }
     });
   };
+
+  useEffect(() => {
+    console.log("ITEM STATUS: " + JSON.stringify(item))
+  }, []);
   return (
     <Fragment>
       <tr>

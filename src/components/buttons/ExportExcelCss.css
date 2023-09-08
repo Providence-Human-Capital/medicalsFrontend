@@ -12,7 +12,9 @@ button {
     justify-content: center;
     align-items: center;
     color: #fff;
-    font-weight: 600;
+    font-weight: 400;
+    font-family: 'Calibri';
+  
   }
   
   button:hover {

@@ -173,6 +173,12 @@ export const PHYSICAL_EXAM = (certificate_status) => {
         <strong>{certificate_status}</strong>
       </span>
     );
+  } else if (certificate_status === "FAILED") {
+    return (
+      <span className="badge badge-pill badge-danger">
+        <strong>{certificate_status}</strong>
+      </span>
+    );
   } else {
     return (
       <span className="badge badge-pill badge-success">

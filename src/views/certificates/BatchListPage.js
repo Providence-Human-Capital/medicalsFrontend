@@ -19,6 +19,8 @@ const BatchListPage = () => {
   const [certificateDispatched, setCertificateDispatched] = useState(false);
 
 
+  
+
   const clearBatchItems = async () => {
     try {
       dispatch(
@@ -164,9 +166,11 @@ const BatchListPage = () => {
   };
 
   useEffect(() => {
-    console.log("Hello World!");
     getCertificateBatch(batchId);
   }, [batchId, batchName]);
+
+
+  
   return (
     <Fragment>
       <BreadCrumb title={"Certificate List"} activeTab={batchName} />

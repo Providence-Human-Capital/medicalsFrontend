@@ -13,6 +13,8 @@ import {
   getAllPatients,
   getAllTobaccos,
   getAuscultates,
+  getCityOfHarareDnoteNoneDispatched,
+  getSimbisaNonDispatchedDnote,
   getCofHPatients,
   getCompanies,
   getDiseases,
@@ -20,6 +22,7 @@ import {
   getIndustryPatients,
   getPneumoPatients,
   getSkinConditions,
+  getTexasDnoteNonDispatched,
 } from "../services/api";
 import { attendeeActions } from "../redux_store/attendee-store";
 import { patientActions } from "../redux_store/patients-store";
@@ -36,17 +39,14 @@ import AdvancedSearchBox from "../components/AdvancedSearchBox";
 import SearchedClientsBox from "../views/dashboard/components/SearchedClientsBox";
 import { API } from "../config";
 import NotificationModal from "../components/modal/NotificationModal";
+import { certificateActions } from "../redux_store/certificates-store";
 
 const Home = ({}) => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.ui.isLoading);
   const [overallStats, setOverallStats] = useState({});
   const [notifications, setNotifications] = useState([]);
-
-  // const handleShowNotification = (message, type) => {
-  //   const newNotification = { message, type };
-  //   setNotifications([...notifications, newNotification]);
-  // };
+  const [isCreatingDnote, setIsCreatingDnote] = useState(false);
 
   const fetchData = useCallback(async () => {
     // Your async data fetching logic here
@@ -140,11 +140,47 @@ const Home = ({}) => {
       }
     };
 
+    getCityOfHarareDnoteNoneDispatched().then((cityDnote) => {
+      dispatch(certificateActions.setCityOfHarareDnotes([...cityDnote]));
+    });
+
+    getSimbisaNonDispatchedDnote().then((simbisaDnote) => {
+      dispatch(certificateActions.setSimbisaDnote([...simbisaDnote]));
+    });
+
+    getTexasDnoteNonDispatched().then((texasDnotes) => {
+      dispatch(certificateActions.setTexasDnotes([...texasDnotes]));
+    });
+
     fetchDataAndSetLoading();
     fetchOverallStatsData();
   }, [fetchData, dispatch]);
 
   const totalPatients = useSelector((state) => state.patient.patients.length);
+
+  const createDnote = async (type) => {
+    const currentDate = new Date().toLocaleDateString().split("/").join("-");
+    const dnotNameRequest = {
+      name: `${type}-(${currentDate})`,
+    };
+    try {
+      setIsCreatingDnote(true);
+      const response = await fetch(`${API}/dnote/create`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dnotNameRequest),
+      });
+      if (response.ok) {
+        setIsCreatingDnote(false);
+      }
+    } catch (error) {
+      console.log(error);
+      setIsCreatingDnote(false);
+    }
+  };
 
   return (
     <Fragment>
@@ -188,7 +224,7 @@ const Home = ({}) => {
               <div className="d-flex">
                 <Link to={"/attendees/add"}>
                   <button
-                    className="btn btn-success"
+                    className="btn btn-success me-4"
                     style={{
                       borderRadius: "20px",
                     }}
@@ -196,6 +232,36 @@ const Home = ({}) => {
                     <strong>Add New Client</strong>
                   </button>
                 </Link>
+
+                {!isCreatingDnote && (
+                  <>
+                    <a
+                      className="btn btn-success-light me-4"
+                      onClick={() => createDnote("City Of Harare")}
+                    >
+                     CREATE CITY OF HARARE D-NOTE 
+                    </a>
+
+                    <a
+                      className="btn btn-success-light me-4"
+                      onClick={() => createDnote("Simbisa")}
+                    >
+                    CREATE SIMBISA DNOTE 
+                    </a>
+                    <a
+                      className="btn btn-success-light me-4"
+                      onClick={() => createDnote("Texas")}
+                    >
+                    CREATE TEXAS DNOTE 
+                    </a>
+                  </>
+                )}
+
+                {isCreatingDnote && (
+                  <span>
+                    <Loading />
+                  </span>
+                )}
               </div>
               <div
                 style={{

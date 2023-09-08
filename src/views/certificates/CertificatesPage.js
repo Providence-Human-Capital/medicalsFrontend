@@ -1,13 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 import BreadCrumb from "../../components/BreadCrumb";
 import BatchBox from "./components/BatchBox";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
-import { companiesWithCertificateBatches } from "../../services/api";
+import {
+  companiesWithCertificateBatches,
+  getCityOfHarareDNote,
+} from "../../services/api";
 import { companyActions } from "../../redux_store/company-store";
 import ReactPaginate from "react-paginate";
 import TableSkeleton from "../../components/skeletons/TableSkeleton";
+import { ref } from "yup";
+import CityOHDnotePrint from "./d-note/CityOHDnotePrint";
+import SimbisaDnotePrint from "./d-note/SimbisaDnotePrint";
+import TexasDnotePrint from "./d-note/TexasDnotePrint";
+import { useReactToPrint } from "react-to-print";
+
+
 
 const CertificatesPage = () => {
   const companies = useSelector((state) => state.company.companiesWithBatches);
@@ -16,6 +26,7 @@ const CertificatesPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("created_at");
   const [sortOrder, setSortOrder] = useState("asc");
+  const [dnoteData, setDnoteData] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 6;
@@ -90,6 +101,11 @@ const CertificatesPage = () => {
   ]);
 
   useEffect(() => {
+   
+
+    searchAndSortCompanies();
+    // getCityOfHarareDNote();
+    
     companiesWithCertificateBatches()
       .then((data) => {
         if (data && data.companies) {
@@ -105,8 +121,10 @@ const CertificatesPage = () => {
         // Handle any errors that occur during the API call
         console.error("Error fetching companies with batches:", error);
       });
-    searchAndSortCompanies();
+   
   }, []);
+
+ 
 
   return (
     <>
@@ -176,6 +194,7 @@ const CertificatesPage = () => {
                 </div>
               </div>
             </div>
+            
           </div>
         </div>
         <div className="row">

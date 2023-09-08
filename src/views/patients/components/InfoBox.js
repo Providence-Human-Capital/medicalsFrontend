@@ -10,6 +10,8 @@ import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import "./InfoBox.css";
 import { API } from "../../../config";
 import Loading from "../../../components/loader/Loading";
+import HygieneForm from "../forms/HygieneForm";
+import SwabForm from "../forms/SwabForm";
 
 const InfoBox = ({ patient }) => {
   const patientsRemarks = useSelector((state) => state.forms.fPatientRemarks);
@@ -59,6 +61,75 @@ const InfoBox = ({ patient }) => {
 
   return (
     <Fragment>
+      <div className="box">
+        <div className="container">
+          <div
+            className="mt-3"
+            style={{
+              margin: "2rem",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <a
+                data-toggle="collapse"
+                href="#collapseExample"
+                role="button"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+                className="advanced"
+                style={{
+                  fontWeight: "bold",
+                }}
+              >
+                ADD HYGIENE DETAILS <i className="fa fa-angle-down"></i>
+              </a>
+              {patient?.category === "City Of Harare" && (
+                <a
+                  data-toggle="collapse"
+                  href="#collapseSwab"
+                  role="button"
+                  aria-expanded="false"
+                  aria-controls="collapseSwab"
+                  className="advanced"
+                  style={{ fontWeight: "bold" }}
+                >
+                  ADD SWAB DETAILS <i className="fa fa-angle-down"></i>
+                </a>
+              )}
+
+              {patient?.category === "In House" && (
+                <a
+                  data-toggle="collapse"
+                  href="#collapseSwab"
+                  role="button"
+                  aria-expanded="false"
+                  aria-controls="collapseSwab"
+                  className="advanced"
+                  style={{ fontWeight: "bold" }}
+                >
+                  ADD SWAB DETAILS <i className="fa fa-angle-down"></i>
+                </a>
+              )}
+            </div>
+            <div className="separation-div"></div>
+            <div className="collapse" id="collapseExample">
+              <div className="">
+                <HygieneForm />
+              </div>
+            </div>
+            <div className="collapse" id="collapseSwab">
+              <div className="">
+                <SwabForm />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="box bg-bubbles-white">
         <div
           className={`box-body text-end min-h-150 ${styles["my-component"]}`}

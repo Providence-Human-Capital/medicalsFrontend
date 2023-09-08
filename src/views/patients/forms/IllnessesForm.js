@@ -213,25 +213,30 @@ const IllnessesForm = ({ handlePrev, handleNext }) => {
                                       <option value="no">No</option>
                                       <option value="yes">Yes</option>
                                     </select>
-                                    <label>Treated for this disease? (YES/NO)</label>
+                                    <label>
+                                      Treated for this disease? (YES/NO)
+                                    </label>
                                   </div>
                                 </div>
                                 {treatedForDisease && (
                                   <div className="form-group">
                                     <label>Year of treatment:</label>
-                                    <input
-                                      type="text"
-                                      className={`form-control my-upload${
-                                        error ? "is-invalid" : ""
-                                      }`}
-                                      value={yearOfTreatment}
-                                      onChange={handleYearOfTreatment}
-                                    />
-                                    {error && (
-                                      <div className="invalid-feedback">
-                                        {error}
-                                      </div>
-                                    )}
+                                    <div className="form-floating">
+                                      <input
+                                        type="text"
+                                        className={`form-control  ${
+                                          error ? "is-invalid" : ""
+                                        }`}
+                                        value={yearOfTreatment}
+                                        onChange={handleYearOfTreatment}
+                                      />
+                                      <label>ENTER YEAR OF TREATMENT</label>
+                                      {error && (
+                                        <div className="invalid-feedback">
+                                          {error}
+                                        </div>
+                                      )}
+                                    </div>
                                   </div>
                                 )}
                               </div>

@@ -4,6 +4,11 @@ const initialState = {
   certifificateBatch: [],
   medicalDoctor: {},
   batchCompany: {},
+  cityOfHarareDnotes: [],
+  allDnotes: [],
+  simbisaDnotes: [],
+  companyDnote: [],
+  texasDnotes: [],
 };
 
 const certificateSlice = createSlice({
@@ -39,6 +44,31 @@ const certificateSlice = createSlice({
     resetCompanyBatch: (state) => ({
       ...state,
       batchCompany: initialState.batchCompany,
+    }),
+
+    setCityOfHarareDnotes: (state, action) => ({
+      ...state,
+      cityOfHarareDnotes: action.payload,
+    }),
+
+    setAllDnotes: (state, action) => ({
+      ...state,
+      allDnotes: action.payload,
+    }),
+
+    setSimbisaDnote: (state, action) => ({
+      ...state,
+      simbisaDnotes: action.payload,
+    }),
+
+    setCompanyDnote: (state, action) => ({
+      ...state,
+      companyDnote: action.payload,
+    }),
+
+    setTexasDnotes: (state, action) => ({
+      ...state,
+      texasDnotes: action.payload,
     }),
   },
 });

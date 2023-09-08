@@ -34,16 +34,19 @@ const BPRepeatForm = () => {
             </label>
           </div>
           <div className="col-md-6">
-            <Field
-              className="form-control my-upload"
-              type="number"
-              name="bp_repeat_sys"
-            />
-            <ErrorMessage
-              name="bp_repeat_sys"
-              component="div"
-              className="text-danger"
-            />
+            <div className="form-floating">
+              <Field
+                className="form-control"
+                type="number"
+                name="bp_repeat_sys"
+              />
+              <label htmlFor="bp_repeat_sys">SYSTOLIC BLOOD PRESSURE</label>
+              <ErrorMessage
+                name="bp_repeat_sys"
+                component="div"
+                className="text-danger"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -55,16 +58,19 @@ const BPRepeatForm = () => {
             </label>
           </div>
           <div className="col-md-6">
-            <Field
-              className="form-control my-upload"
-              type="number"
-              name="bp_repeat_dia"
-            />
-            <ErrorMessage
-              name="bp_repeat_dia"
-              component="div"
-              className="text-danger"
-            />
+            <div className="form-floating">
+              <Field
+                className="form-control"
+                type="number"
+                name="bp_repeat_dia"
+              />
+              <label htmlFor="bp_repeat_dia">DIASTOLIC BLOOD PRESSURE</label>
+              <ErrorMessage
+                name="bp_repeat_dia"
+                component="div"
+                className="text-danger"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -167,16 +173,19 @@ const PhysicalTestForm = ({ handlePrev, handleNext }) => {
                             </label>
                           </div>
                           <div className="col-md-6">
-                            <Field
-                              className="form-control my-upload"
-                              type="number"
-                              name="weight"
-                            />
-                            <ErrorMessage
-                              name="weight"
-                              component="div"
-                              className="text-danger"
-                            />
+                            <div className="form-floating">
+                              <Field
+                                className="form-control"
+                                type="number"
+                                name="weight"
+                              />
+                              <label htmlFor="weight">WEIGHT</label>
+                              <ErrorMessage
+                                name="weight"
+                                component="div"
+                                className="error-message"
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -188,16 +197,19 @@ const PhysicalTestForm = ({ handlePrev, handleNext }) => {
                             </label>
                           </div>
                           <div className="col-md-6">
-                            <Field
-                              className="form-control my-upload"
-                              type="number"
-                              name="height"
-                            />
-                            <ErrorMessage
-                              name="height"
-                              component="div"
-                              className="text-danger"
-                            />
+                            <div className="form-floating">
+                              <Field
+                                className="form-control"
+                                type="number"
+                                name="height"
+                              />
+                              <label htmlFor="height">HEIGHT</label>
+                              <ErrorMessage
+                                name="height"
+                                component="div"
+                                className="error-message"
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -211,16 +223,19 @@ const PhysicalTestForm = ({ handlePrev, handleNext }) => {
                             </label>
                           </div>
                           <div className="col-md-6">
-                            <Field
-                              className="form-control my-upload"
-                              type="number"
-                              name="bp_sys"
-                            />
-                            <ErrorMessage
-                              name="bp_sys"
-                              component="div"
-                              className="text-danger"
-                            />
+                            <div className="form-floating">
+                              <Field
+                                className="form-control"
+                                type="number"
+                                name="bp_sys"
+                              />
+                              <label htmlFor="bp_sys">SYSTOLIC BP</label>
+                              <ErrorMessage
+                                name="bp_sys"
+                                component="div"
+                                className="error-message"
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -232,16 +247,19 @@ const PhysicalTestForm = ({ handlePrev, handleNext }) => {
                             </label>
                           </div>
                           <div className="col-md-6">
-                            <Field
-                              className="form-control my-upload"
-                              type="number"
-                              name="bp_dia"
-                            />
-                            <ErrorMessage
-                              name="bp_dia"
-                              component="div"
-                              className="text-danger"
-                            />
+                            <div className="form-floating">
+                              <Field
+                                className="form-control"
+                                type="number"
+                                name="bp_dia"
+                              />
+                              <label htmlFor="bp_dia">DIASTOLIC BP</label>
+                              <ErrorMessage
+                                name="bp_dia"
+                                component="div"
+                                className="error-message"
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -249,29 +267,35 @@ const PhysicalTestForm = ({ handlePrev, handleNext }) => {
                     <div className="row">
                       <div className="form-group col-md-6">
                         <label htmlFor="pulse">Pulse</label>
-                        <Field
-                          className="form-control my-upload"
-                          type="text"
-                          name="pulse"
-                        />
-                        <ErrorMessage
-                          name="pulse"
-                          component="div"
-                          className="text-danger"
-                        />
+                        <div className="form-floating">
+                          <Field
+                            className="form-control"
+                            type="text"
+                            name="pulse"
+                          />
+                          <label htmlFor="pulse">PULSE</label>
+                          <ErrorMessage
+                            name="pulse"
+                            component="div"
+                            className="error-message"
+                          />
+                        </div>
                       </div>
                       <div className="form-group col-md-6">
                         <label htmlFor="rhythm">Rhythm</label>
-                        <Field
-                          className="form-control my-upload"
-                          type="text"
-                          name="rhythm"
-                        />
-                        <ErrorMessage
-                          name="rhythm"
-                          component="div"
-                          className="text-danger"
-                        />
+                        <div className="form-floating">
+                          <Field
+                            className="form-control"
+                            type="text"
+                            name="rhythm"
+                          />
+                          <label htmlFor="rhythm">RHYTHM</label>
+                          <ErrorMessage
+                            name="rhythm"
+                            component="div"
+                            className="error-message"
+                          />
+                        </div>
                       </div>
                     </div>
                     <div className="form-group">
@@ -289,14 +313,19 @@ const PhysicalTestForm = ({ handlePrev, handleNext }) => {
                           </label>
                         </div>
                         <div className="col-md-6">
-                          <Field
-                            className="form-control my-upload"
-                            as="select"
-                            name="general_exam"
-                          >
-                            <option value={true}>Normal</option>
-                            <option value={false}>Abnormal</option>
-                          </Field>
+                          <div className="form-floating">
+                            <Field
+                              className="form-select"
+                              as="select"
+                              name="general_exam"
+                            >
+                              <option value={true}>Normal</option>
+                              <option value={false}>Abnormal</option>
+                            </Field>
+                            <label htmlFor="general_exam">
+                              NORMAL / ABNORMAL
+                            </label>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -304,16 +333,18 @@ const PhysicalTestForm = ({ handlePrev, handleNext }) => {
                       <label htmlFor="abnormal_details">
                         <strong>Specify (if abnormal)</strong>
                       </label>
-                      <Field
-                        className="form-control my-upload"
-                        type="text"
-                        name="abnormal_details"
-                      />
-                      <ErrorMessage
-                        name="abnormal_details"
-                        component="div"
-                        className="text-danger"
-                      />
+                      <div className="form-floating">
+                        <Field
+                          className="form-control"
+                          type="text"
+                          name="abnormal_details"
+                        />
+                        <ErrorMessage
+                          name="abnormal_details"
+                          component="div"
+                          className="text-danger"
+                        />
+                      </div>
                     </div>
                     <div className="form-group">
                       <button

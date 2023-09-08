@@ -39,6 +39,9 @@ const PButtons = ({ routeId, patient }) => {
               text={`Update Patient Information`}
               icon={faStethoscope}
               toLink={`/patient/industry/${routeId}`}
+              disabled={
+                patient.certificate_status === "RELEASED" ? true : false
+              }
             />
           </Fragment>
         )}
@@ -49,16 +52,36 @@ const PButtons = ({ routeId, patient }) => {
               text={`Update Patient Information`}
               icon={faStethoscope}
               toLink={`/patient/pneumo/${routeId}`}
+              disabled={
+                patient.certificate_status === "RELEASED" ? true : false
+              
+              }
             />
           </Fragment>
         )}
 
-        {patient.category && patient.category === "City Of Harare" && (
+        {patient.category && patient.category === "City Of Harare"  && (
           <Fragment>
             <StepButton
               text={`Update Patient Information`}
               icon={faStethoscope}
               toLink={`/patient/foodhandler/${routeId}`}
+              disabled={
+                patient.certificate_status === "RELEASED" ? true : false
+              }
+            />
+          </Fragment>
+        )}
+
+        {patient.category && patient.category === "In House"  && (
+          <Fragment>
+            <StepButton
+              text={`Update Patient Information`}
+              icon={faStethoscope}
+              toLink={`/patient/foodhandler/${routeId}`}
+              disabled={
+                patient.certificate_status === "RELEASED" ? true : false
+              }
             />
           </Fragment>
         )}

@@ -143,7 +143,7 @@ const IndustryPatientUpdate = () => {
             {singlePatient && singlePatient.attendee.last_name}
           </span>
         </Link>
-        <BreadCrumb activeTab={"Pneumoconiosis"} title={"Patient"} />
+        <BreadCrumb activeTab={"Industry & Other (SECURITY, NATPAK etc)"} title={"Patient"} />
       </div>
       <section className="content">
         <div className="row">

@@ -90,6 +90,8 @@ import { attendeeActions } from "./redux_store/attendee-store";
 import { companyActions } from "./redux_store/company-store";
 import { tobaccoActions } from "./redux_store/tobacco-store";
 import { illnessActions } from "./redux_store/illness-store";
+import DnotesPage from "./views/d_notes/DnotesPage";
+import DnoteEditPage from "./views/d_notes/DnoteEditPage";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
@@ -195,6 +197,7 @@ const WrapperComponent = () => {
 
         const patients = await getAllPatients();
         dispatch(patientActions.setPatients({ patients: [...patients] }));
+        
 
         const pneumoPatients = await getPneumoPatients();
         dispatch(patientActions.setPneumoPatients({ pneumoPatients }));
@@ -219,13 +222,18 @@ const WrapperComponent = () => {
         const certificates = await companiesWithCertificateBatches();
         const data = certificates.companies;
         dispatch(companyActions.setCompaniesWithBatches(data));
-        
       } catch (error) {
         console.log("There was an error while fetching stats ", error);
       }
     };
 
     fetchStatsData();
+
+    dispatch(
+      uiActions.setLoadingSpinner({
+        isLoading: false,
+      })
+    );
   }, []);
 
   return (
@@ -381,6 +389,11 @@ const WrapperComponent = () => {
             <Route path="/certificates/print/csv/" element={<CsvPrintPage />} />
 
             <Route path="/unauthorized" element={<Unauthorized />} />
+            <Route path="/dnotes" element={<DnotesPage />} />
+            <Route
+              path="/dnote/certificate/update/:dnoteId/:dnoteName"
+              element={<DnoteEditPage />}
+            />
           </Routes>
         </div>
       </div>

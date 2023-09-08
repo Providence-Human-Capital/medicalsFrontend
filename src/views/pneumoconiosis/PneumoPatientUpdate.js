@@ -116,16 +116,6 @@ const PneumoPatientUpdate = () => {
       );
       break;
     case 2:
-      // if (industryClassification) {
-      //   handleNext();
-      // } else {
-      //   formComponent = (
-      //     <IndustryClassificationForm
-      //       handlePrev={handlePrev}
-      //       handleNext={handleNext}
-      //     />
-      //   );
-      // }
       formComponent = (
         <IndustryClassificationForm
           handlePrev={handlePrev}
@@ -135,16 +125,6 @@ const PneumoPatientUpdate = () => {
 
       break;
     case 3:
-      // if (pMineralDExposureRecord) {
-      //   handleNext();
-      // } else {
-      //   formComponent = (
-      //     <MineralDustExposureForm
-      //       handlePrev={handlePrev}
-      //       handleNext={handleNext}
-      //     />
-      //   );
-      // }
       formComponent = (
         <MineralDustExposureForm
           handlePrev={handlePrev}
@@ -154,16 +134,6 @@ const PneumoPatientUpdate = () => {
 
       break;
     case 4:
-      // if (pMeasuresRecord) {
-      //   handleNext();
-      // } else {
-      //   formComponent = (
-      //     <ControlMeasuresForm
-      //       handlePrev={handlePrev}
-      //       handleNext={handleNext}
-      //     />
-      //   );
-      // }
       formComponent = (
         <ControlMeasuresForm handlePrev={handlePrev} handleNext={handleNext} />
       );

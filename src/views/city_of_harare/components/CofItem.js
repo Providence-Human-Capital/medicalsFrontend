@@ -1,12 +1,20 @@
-import React, { Fragment } from "react";
-import { useDispatch } from "react-redux";
+import React, { Fragment, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { PHYSICAL_EXAM, formatDate } from "../../../helpers/helpers";
-import { handleDeletePatient } from "../../../services/api";
+import {
+  automaticallyAddCertificatesToDnoteAPI,
+  getCityOfHarareDnoteNoneDispatched,
+  handleDeletePatient,
+} from "../../../services/api";
 import SwabResultDropdown from "../../patients/components/SwabResultDropdown";
 import { Link } from "react-router-dom";
+import { API } from "../../../config";
+import { certificateActions } from "../../../redux_store/certificates-store";
 
 const CofItem = ({ patient, index }) => {
+  const cityDnote =
+    useSelector((state) => state.certificate.cityOfHarareDnotes) || [];
   const dispatch = useDispatch();
   const onDelete = () => {
     handleDeletePatient(patient.id, dispatch);
@@ -14,7 +22,56 @@ const CofItem = ({ patient, index }) => {
 
   const { certificate_status } = patient;
 
-  
+  const addItemToDNote = async (certificateId) => {
+    const certificateIDArray = Array.isArray(certificateId)
+      ? certificateId
+      : [certificateId];
+
+    if (cityDnote) {
+      Swal.fire({
+        title: "Select D-Note",
+        html: `
+        <select id="status-select" class="form-select"> 
+        <option value="">Select D NOTE</option> 
+        ${cityDnote
+          .map(
+            (dnote) => `<option value="${dnote.name}">${dnote.name}</option>`
+          )
+          .join("")} 
+        `,
+        showCancelButton: true,
+        confirmButtonText: "Save",
+        cancelButtonText: "Cancel",
+        focusConfirm: false,
+        preConfirm: () => {
+          const selectElement = document.getElementById("status-select");
+          const selectedValue =
+            selectElement.options[selectElement.selectedIndex].value;
+          return selectedValue;
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const selectedValue = result.value;
+          automaticallyAddCertificatesToDnoteAPI(
+            selectedValue,
+            certificateIDArray
+          );
+        } else {
+          handleCancel();
+        }
+      });
+    }
+  };
+
+  const handleCancel = () => {
+    Swal.close();
+  };
+  useEffect(() => {
+    getCityOfHarareDnoteNoneDispatched().then((cityDnote) => {
+      dispatch(certificateActions.setCityOfHarareDnotes([...cityDnote]));
+    });
+  }, []);
+
   return (
     <Fragment>
       <tr className="hover-primary">
@@ -48,7 +105,18 @@ const CofItem = ({ patient, index }) => {
             <strong>{formatDate(patient.last_x_ray)}</strong>
           </td>
         )}
-        <td>{PHYSICAL_EXAM(certificate_status)}</td>
+        <td>
+          {patient.certificates && (
+            <span
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => addItemToDNote(patient.certificates[0].id)}
+            >
+              {PHYSICAL_EXAM(certificate_status)}
+            </span>
+          )}
+        </td>
 
         <td className="text-end">
           <Link

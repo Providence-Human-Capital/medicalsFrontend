@@ -133,16 +133,21 @@ const ResultsAndInvestigationsForm = ({ handlePrev, handleNext }) => {
                           <p>
                             <strong>(Normal / Abnormal)</strong>
                           </p>
-                          <Field
-                            as="select"
-                            name="chest_x_ray"
-                            value={values.chest_x_ray}
-                            onChange={handleChange}
-                            className="form-control my-upload"
-                          >
-                            <option value={true}>Abnormal</option>
-                            <option value={false}>Normal</option>
-                          </Field>
+                          <div className="form-floating">
+                            <Field
+                              as="select"
+                              name="chest_x_ray"
+                              value={values.chest_x_ray}
+                              onChange={handleChange}
+                              className="form-select"
+                            >
+                              <option value={true}>Abnormal</option>
+                              <option value={false}>Normal</option>
+                            </Field>
+                            <label htmlFor="chest_x_ray">
+                              CHEST XRAY NORMAL/ARBNORMAL
+                            </label>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -151,68 +156,87 @@ const ResultsAndInvestigationsForm = ({ handlePrev, handleNext }) => {
                         <label htmlFor="x_ray_comments">
                           <strong>Please describe any abnormalities</strong>
                         </label>
-                        <Field
-                          type="text"
-                          name="x_ray_comments"
-                          value={values.x_ray_comments}
-                          onChange={handleChange}
-                          className="form-control my-upload"
-                        />
+                        <div className="form-floating">
+                          <Field
+                            type="text"
+                            name="x_ray_comments"
+                            value={values.x_ray_comments}
+                            onChange={handleChange}
+                            className="form-control"
+                          />
+                          <label htmlFor="x_ray_comments">
+                            COMMENT ON ABRNORMALITIES
+                          </label>
+                        </div>
                       </div>
                     )}
                     <div className="row">
                       <div className="col-md-4">
                         <div className="form-group">
                           <label htmlFor="fev1">FEV1</label>
-                          <Field
-                            type="text"
-                            name="fev1"
-                            value={values.fev1}
-                            onChange={handleChange}
-                            className="form-control my-upload"
-                          />
+                          <div className="form-floating">
+                            <Field
+                              type="text"
+                              name="fev1"
+                              value={values.fev1}
+                              onChange={handleChange}
+                              className="form-control"
+                            />
+                            <label htmlFor="fev1">FEV1</label>
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-4">
                         <div className="form-group">
                           <label htmlFor="fev1_fvc">FEV1/FVC</label>
-                          <Field
-                            type="text"
-                            name="fev1_fvc"
-                            value={values.fev1_fvc}
-                            onChange={handleChange}
-                            className="form-control my-upload"
-                          />
+                          <div className="form-floating">
+                            <Field
+                              type="text"
+                              name="fev1_fvc"
+                              value={values.fev1_fvc}
+                              onChange={handleChange}
+                              className="form-control"
+                            />
+                            <label htmlFor="fev1_fvc">FEV1/FVC</label>
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-4">
                         <div className="form-group">
                           <label htmlFor="fvc">FVC</label>
-                          <Field
-                            type="text"
-                            name="fvc"
-                            value={values.fvc}
-                            onChange={handleChange}
-                            className="form-control my-upload"
-                          />
+                          <div className="form-floating">
+                            <Field
+                              type="text"
+                              name="fvc"
+                              value={values.fvc}
+                              onChange={handleChange}
+                              className="form-control"
+                            />
+                            <label htmlFor="fvc">FVC</label>
+                          </div>
                         </div>
                       </div>
                     </div>
 
                     <div className="form-group">
                       <label htmlFor="conclusion">Conclusion</label>
-                      <Field
-                        as="select"
-                        name="conclusion"
-                        value={values.conclusion}
-                        onChange={handleChange}
-                        className="form-control my-upload"
-                      >
-                        <option value="Normal">Normal</option>
-                        <option value="Restrictive">Restrictive</option>
-                        <option value="Obstructive">Obstructive</option>
-                        <option value="Obstructive">Mixed</option>
-                      </Field>
+                      <div className="form-floating">
+                        <Field
+                          as="select"
+                          name="conclusion"
+                          value={values.conclusion}
+                          onChange={handleChange}
+                          className="form-select"
+                        >
+                          <option value="Normal">Normal</option>
+                          <option value="Restrictive">Restrictive</option>
+                          <option value="Obstructive">Obstructive</option>
+                          <option value="Obstructive">Mixed</option>
+                        </Field>
+                        <label htmlFor="conclusion">
+                          Normal/Restrictive/Obstructive/Mixed
+                        </label>
+                      </div>
                     </div>
                     <div className="row">
                       <div className="col-md-6">
@@ -220,16 +244,21 @@ const ResultsAndInvestigationsForm = ({ handlePrev, handleNext }) => {
                           <label htmlFor="suitable_for_dusty">
                             Suitable for Dusty Environment
                           </label>
-                          <Field
-                            as="select"
-                            name="suitable_for_dusty"
-                            value={values.suitable_for_dusty}
-                            onChange={handleChange}
-                            className="form-control my-upload"
-                          >
-                            <option value={true}>Yes</option>
-                            <option value={false}>No</option>
-                          </Field>
+                          <div className="form-floating">
+                            <Field
+                              as="select"
+                              name="suitable_for_dusty"
+                              value={values.suitable_for_dusty}
+                              onChange={handleChange}
+                              className="form-select"
+                            >
+                              <option value={true}>YES</option>
+                              <option value={false}>NO</option>
+                            </Field>
+                            <label htmlFor="suitable_for_dusty">
+                              SUITABLE FOR DUSTY ENVIRONMENTS
+                            </label>
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -237,17 +266,22 @@ const ResultsAndInvestigationsForm = ({ handlePrev, handleNext }) => {
                           <label htmlFor="other_medical_conditions">
                             Other Medical Conditions
                           </label>
-                          <Field
-                            as="select"
-                            name="other_medical_conditions"
-                            value={values.other_medical_conditions}
-                            onChange={handleChange}
-                            className="form-control my-upload"
-                          >
-                            <option value={null}>Select an option</option>
-                            <option value={true}>Yes</option>
-                            <option value={false}>No</option>
-                          </Field>
+                          <div className="form-floating">
+                            <Field
+                              as="select"
+                              name="other_medical_conditions"
+                              value={values.other_medical_conditions}
+                              onChange={handleChange}
+                              className="form-select"
+                            >
+                              <option value={null}>Select an option</option>
+                              <option value={true}>YES</option>
+                              <option value={false}>NO</option>
+                            </Field>
+                            <label htmlFor="other_medical_conditions">
+                              OTHER MEDICAL CONDITIONS
+                            </label>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -255,13 +289,23 @@ const ResultsAndInvestigationsForm = ({ handlePrev, handleNext }) => {
                     {values.suitable_for_dusty && (
                       <div className="form-group">
                         <label htmlFor="sfde_comment">SFDE Comment</label>
-                        <Field
-                          type="text"
-                          name="sfde_comment"
-                          value={values.sfde_comment}
-                          onChange={handleChange}
-                          className="form-control my-upload"
-                        />
+                        <div className="form-floating">
+                          <Field
+                            type="text"
+                            name="sfde_comment"
+                            value={values.sfde_comment}
+                            onChange={handleChange}
+                            className="form-control"
+                          />
+                          <label
+                            htmlFor="sfde_comment"
+                            style={{
+                              textTransform: "uppercase",
+                            }}
+                          >
+                            SFDE Comment
+                          </label>
+                        </div>
                       </div>
                     )}
 
@@ -270,13 +314,15 @@ const ResultsAndInvestigationsForm = ({ handlePrev, handleNext }) => {
                         <label htmlFor="conditions_details">
                           Medical Condition Details
                         </label>
-                        <Field
-                          type="text"
-                          name="conditions_details"
-                          value={values.conditions_details}
-                          onChange={handleChange}
-                          className="form-control my-upload"
-                        />
+                        <div className="form-floating">
+                          <Field
+                            type="text"
+                            name="conditions_details"
+                            value={values.conditions_details}
+                            onChange={handleChange}
+                            className="form-control"
+                          />
+                        </div>
                       </div>
                     )}
                     <h5>
@@ -289,16 +335,19 @@ const ResultsAndInvestigationsForm = ({ handlePrev, handleNext }) => {
                           <label htmlFor="tb_free">
                             <strong>Free from TB </strong>
                           </label>
-                          <Field
-                            as="select"
-                            name="tb_free"
-                            value={values.tb_free}
-                            onChange={handleChange}
-                            className="form-control my-upload"
-                          >
-                            <option value={true}>Yes</option>
-                            <option value={false}>No</option>
-                          </Field>
+                          <div className="form-floating">
+                            <Field
+                              as="select"
+                              name="tb_free"
+                              value={values.tb_free}
+                              onChange={handleChange}
+                              className="form-select"
+                            >
+                              <option value={true}>YES</option>
+                              <option value={false}>NO</option>
+                            </Field>
+                            <label htmlFor="tb_free">FREE FROM TB</label>
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-4">

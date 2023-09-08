@@ -1,11 +1,11 @@
-.modal {
+.notification-modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100px; /* Adjust the height as needed */
-  z-index: 100000;
   background-color: #fff;
+  z-index: 10;
   animation: dropDown 0.5s ease;
 }
 
