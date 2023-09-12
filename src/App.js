@@ -197,7 +197,6 @@ const WrapperComponent = () => {
 
         const patients = await getAllPatients();
         dispatch(patientActions.setPatients({ patients: [...patients] }));
-        
 
         const pneumoPatients = await getPneumoPatients();
         dispatch(patientActions.setPneumoPatients({ pneumoPatients }));

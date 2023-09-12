@@ -62,14 +62,15 @@ const AttendeeTable = () => {
   const filteredAttendees = sortedAttendees.filter((attendee) => {
     const regex = new RegExp(searchTerm, "gi");
     return (
-      attendee.swab_number.toString().match(regex) ||
+      (attendee.swab_number && attendee.swab_number.toString().match(regex)) ||
       attendee.first_name.match(regex) ||
       attendee.last_name.match(regex) ||
       attendee.x_ray_status.match(regex) ||
       attendee.company.company_name.match(regex) ||
-      attendee.age.toString().match(regex)
+      (attendee.age && attendee.age.toString().match(regex))
     );
   });
+  
 
   function getCurrentPageData() {
     const startIndex = pageNumber * itemsPerPage;

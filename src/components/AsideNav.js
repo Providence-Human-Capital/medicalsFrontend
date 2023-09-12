@@ -132,6 +132,26 @@ const AsideNav = ({}) => {
                           Tobacco Use
                         </NavLink>
                       </li>
+                      <li id="aside-bar-tree" className="mt-1">
+                        {" "}
+                        <NavLink to={"/tobacco"}>
+                          <i className="icon-Commit">
+                            <span className="path1"></span>
+                            <span className="path2"></span>
+                          </i>
+                          ExamPurpose
+                        </NavLink>
+                      </li>
+                      <li id="aside-bar-tree" className="mt-1">
+                        {" "}
+                        <NavLink to={"/tobacco"}>
+                          <i className="icon-Commit">
+                            <span className="path1"></span>
+                            <span className="path2"></span>
+                          </i>
+                          Service
+                        </NavLink>
+                      </li>
                     </ul>
                   </li>
                 )}
@@ -181,7 +201,7 @@ const AsideNav = ({}) => {
                 <li className="treeview">
                   <a href="#" className="mb-1">
                     <i data-feather="archive"></i>
-                    <span>COH & In House</span>
+                    <span>Food Handlers</span>
                     <span className="pull-right-container">
                       <i className="fa fa-angle-right pull-right"></i>
                     </span>
@@ -194,7 +214,7 @@ const AsideNav = ({}) => {
                           <span className="path1"></span>
                           <span className="path2"></span>
                         </i>
-                        COH & In House
+                        Food Handlers
                       </NavLink>
                     </li>
                   </ul>

@@ -182,7 +182,7 @@ const AddAttendeeExecel = () => {
                             value={company}
                             onChange={(e) => setCompany(e.target.value)}
                           >
-                            <option value="">Select a company</option>
+                            <option value=""></option>
                             {companies.map((company) => (
                               <option key={company.id} value={company.id}>
                                 {company.company_name}
@@ -204,14 +204,14 @@ const AddAttendeeExecel = () => {
                               setExamPurpose(event.target.value)
                             }
                           >
-                            <option value="">Select Purpose of Exam</option>
+                            <option value=""></option>
                             <option value="1">Pre-Placement</option>
                             <option value="2">Periodical</option>
                             <option value="3">
                               Exit(Employment Termination)
                             </option>
                             <option value="4">
-                              Post(Employment Employment Follow Up)
+                              Post(Employment Follow Up)
                             </option>
                           </select>
                           <label
@@ -232,7 +232,7 @@ const AddAttendeeExecel = () => {
                               setCategory(event.target.value)
                             }
                           >
-                            <option value="">Select Category</option>
+                            <option value=""></option>
                             <option value="City Of Harare">City Of Harare</option>
                             <option value="Pneumoconiosis">Pneumoconiosis</option>
                             <option value="Industry">Industry/Security</option>

@@ -43,7 +43,7 @@ const AddAttendee = () => {
     phone_number: "",
     x_ray_status: "PENDING",
     exam_purpose: "",
-    employee_number: "N/A",
+    employee_number: "",
     country_code: "+263",
     last_x_ray: "N/A",
     category: "",
@@ -332,7 +332,7 @@ const AddAttendee = () => {
                                   id="company_id"
                                   name="company_id"
                                 >
-                                  <option value="">Select a company</option>
+                                  <option value=""></option>
                                   {companies.map((company) => (
                                     <option key={company.id} value={company.id}>
                                       {company.company_name}
@@ -359,9 +359,9 @@ const AddAttendee = () => {
                                   id="gender"
                                   name="gender"
                                 >
-                                  <option value="">Select Gender</option>
-                                  <option value="MALE">Male</option>
-                                  <option value="FEMALE">Female</option>
+                                  <option value=""></option>
+                                  <option value="MALE">MALE</option>
+                                  <option value="FEMALE">FEMALE</option>
                                 </Field>
                                 <label htmlFor="gender">GENDER</label>
                                 <ErrorMessage
@@ -407,10 +407,10 @@ const AddAttendee = () => {
                                   name="id_type"
                                 >
                                   <option value="zimbabwean_id">
-                                    Zimbabwean ID
+                                    ZIMBABWEAN ID
                                   </option>
                                   <option value="international_id">
-                                    International ID
+                                    INTERNATIONAL ID
                                   </option>
                                 </Field>
                                 <label htmlFor="id_type">ID TYPE</label>
@@ -507,16 +507,14 @@ const AddAttendee = () => {
                                   id="exam_purpose"
                                   name="exam_purpose"
                                 >
-                                  <option value="">
-                                    Select Purpose of Exam
-                                  </option>
+                                  <option value=""></option>
                                   <option value="1">Pre-Placement</option>
                                   <option value="2">Periodical</option>
                                   <option value="3">
                                     Exit(Employment Termination)
                                   </option>
                                   <option value="4">
-                                    Post(Employment Employment Follow Up)
+                                    Post(Employment Follow Up)
                                   </option>
                                 </Field>
                                 <label htmlFor="exam_purpose">
@@ -566,7 +564,7 @@ const AddAttendee = () => {
                                   id="category"
                                   name="category"
                                 >
-                                  <option value="">Select Category</option>
+                                  <option value=""></option>
                                   <option value="City Of Harare">
                                     City Of Harare
                                   </option>
@@ -651,7 +649,6 @@ const AddAttendee = () => {
                           {loading ? (
                             <Loading />
                           ) : (
-                          
                             <SaveButton
                               text={"Save Attendee"}
                               onClick={handleSubmit}

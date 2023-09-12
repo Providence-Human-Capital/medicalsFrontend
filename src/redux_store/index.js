@@ -21,6 +21,7 @@ import outReachSlice from "./outreach-store";
 import uiSlice from "./ui-store";
 import formsSlice from "./forms-store";
 import certificateSlice from "./certificates-store";
+import centralSlice from "./central-store";
 
 const persistConfig = {
   key: "root",
@@ -38,6 +39,7 @@ const rootReducer = combineReducers({
   ui: uiSlice.reducer,
   forms: formsSlice.reducer,
   certificate: certificateSlice.reducer,
+  central: centralSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

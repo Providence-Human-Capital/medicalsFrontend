@@ -40,6 +40,7 @@ import SearchedClientsBox from "../views/dashboard/components/SearchedClientsBox
 import { API } from "../config";
 import NotificationModal from "../components/modal/NotificationModal";
 import { certificateActions } from "../redux_store/certificates-store";
+import { centralActions } from "../redux_store/central-store";
 
 const Home = ({}) => {
   const dispatch = useDispatch();
@@ -47,6 +48,9 @@ const Home = ({}) => {
   const [overallStats, setOverallStats] = useState({});
   const [notifications, setNotifications] = useState([]);
   const [isCreatingDnote, setIsCreatingDnote] = useState(false);
+
+
+  const epurposes = useSelector((state) => state.central.examPurposes)
 
   const fetchData = useCallback(async () => {
     // Your async data fetching logic here
@@ -140,6 +144,27 @@ const Home = ({}) => {
       }
     };
 
+    const fetchAllExamPurposes = async () => {
+      try {
+        const response = await fetch(`${API}/exam/purpose/get`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
+
+        const responseData = await response.json();
+        dispatch(
+          centralActions.setExamPurposesWithServices({
+            examPurposes: [...responseData],
+          })
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     getCityOfHarareDnoteNoneDispatched().then((cityDnote) => {
       dispatch(certificateActions.setCityOfHarareDnotes([...cityDnote]));
     });
@@ -153,6 +178,7 @@ const Home = ({}) => {
     });
 
     fetchDataAndSetLoading();
+    fetchAllExamPurposes();
     fetchOverallStatsData();
   }, [fetchData, dispatch]);
 
@@ -239,20 +265,20 @@ const Home = ({}) => {
                       className="btn btn-success-light me-4"
                       onClick={() => createDnote("City Of Harare")}
                     >
-                     CREATE CITY OF HARARE D-NOTE 
+                      CREATE CITY OF HARARE D-NOTE
                     </a>
 
                     <a
                       className="btn btn-success-light me-4"
                       onClick={() => createDnote("Simbisa")}
                     >
-                    CREATE SIMBISA DNOTE 
+                      CREATE SIMBISA DNOTE
                     </a>
                     <a
                       className="btn btn-success-light me-4"
                       onClick={() => createDnote("Texas")}
                     >
-                    CREATE TEXAS DNOTE 
+                      CREATE TEXAS DNOTE
                     </a>
                   </>
                 )}

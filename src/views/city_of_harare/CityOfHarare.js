@@ -12,7 +12,7 @@ const CityOfHarare = () => {
   };
   return (
     <Fragment>
-      <BreadCrumb title={"City Of Patients"} activeTab={"City Of Patients"} />
+      <BreadCrumb title={"Food Handlers"} activeTab={"Food Handlers"} />
       <section className="content">
         <div className="row">
           <div className="col-12">
