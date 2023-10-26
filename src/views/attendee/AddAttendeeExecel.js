@@ -27,6 +27,8 @@ const AddAttendeeExecel = () => {
   const companies = useSelector((state) => state.company.companies);
   const isLoading = useSelector((state) => state.ui.isLoading);
 
+  const epurposes = useSelector((state) => state.central.examPurposes);
+
   const dispatch = useDispatch();
 
   const handleFileUpload = (event) => {
@@ -233,8 +235,12 @@ const AddAttendeeExecel = () => {
                             }
                           >
                             <option value=""></option>
-                            <option value="City Of Harare">City Of Harare</option>
-                            <option value="Pneumoconiosis">Pneumoconiosis</option>
+                            <option value="City Of Harare">
+                              City Of Harare
+                            </option>
+                            <option value="Pneumoconiosis">
+                              Pneumoconiosis
+                            </option>
                             <option value="Industry">Industry/Security</option>
                             <option value="In House">In House</option>
                           </select>
@@ -261,13 +267,6 @@ const AddAttendeeExecel = () => {
                         onClick={saveDataToDatabase}
                         text={"Save To Database"}
                       />
-                      // <button
-                      //   type="button"
-                      //   className="btn btn-success"
-                      //   onClick={saveDataToDatabase}
-                      // >
-                      //   SAVE TO DATABASE
-                      // </button>
                     )}
                   </form>
                 </div>

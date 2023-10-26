@@ -4,7 +4,7 @@ import { API } from "../../config";
 import { useDispatch } from "react-redux";
 import Loading from "../../components/loader/Loading";
 import ErrorNotification from "../../components/notifications/ErrorNotification";
-import './Auth.css'
+import "./Auth.css";
 
 const Register = () => {
   const styles = {
@@ -113,9 +113,14 @@ const Register = () => {
   return (
     <Fragment>
       <div className="container h-p100">
-        <div className="row align-items-center justify-content-md-center h-p100">
+        <div
+          className="row align-items-center justify-content-md-center h-p100"
+          style={{
+            marginTop: "12rem",
+          }}
+        >
           <div className="col-12">
-            <div className="row justify-content-center g-0 adjust-position">
+            <div className="row justify-content-center g-0 ">
               <div className="col-lg-5 col-md-5 col-12">
                 <div className="bg-white rounded10 shadow-lg">
                   <div className="content-top-agile p-20 pb-0">

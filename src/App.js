@@ -92,6 +92,8 @@ import { tobaccoActions } from "./redux_store/tobacco-store";
 import { illnessActions } from "./redux_store/illness-store";
 import DnotesPage from "./views/d_notes/DnotesPage";
 import DnoteEditPage from "./views/d_notes/DnoteEditPage";
+import Dashboard from "./core/Home";
+import HomeInit from "./HomeInit";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
@@ -237,12 +239,163 @@ const WrapperComponent = () => {
 
   return (
     <Fragment>
-      <Header
+      <Routes>
+        <Route
+          exact
+          path="/"
+          element={
+            isAuthenticated ? (
+              <Navigate to="/dashboard" />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        <Route exact path="/" element={<HomeInit />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/attendees" exact element={<Attendees />} />
+          <Route path="/attendees/add" exact element={<AddAttendee />} />
+          <Route path="/attendees/add/excel" element={<ExcelAddPage />} />
+          <Route
+            path="/attendees/:attendeeId"
+            exact
+            element={<PatientDetails />}
+          />
+          <Route path="/attendees/edit" exact element={<EditAttendee />} />
+
+          <Route path="/patients" element={<Patients />} />
+          <Route path="/patients/add" element={<AddPatient />} />
+          <Route path="/patients/:patientId" element={<PatientDetails />} />
+          <Route
+            path="/patients/:patientId/observation"
+            element={<ObeservationForm />}
+          />
+          <Route
+            path="/patients/:patientId/physical"
+            element={<PhysicalExamForm />}
+          />
+
+          <Route
+            path="/patients/:patientId/illnesses"
+            element={<IllnessesForm />}
+          />
+
+          <Route
+            path="/patients/:patientId/tobacco"
+            element={<TobaccoForm />}
+          />
+
+          <Route path="/patients/:patientId/xray/add" element={<XrayForm />} />
+
+          <Route path="/patients/edit" element={<EditPatient />} />
+
+          <Route path="/companies" exact element={<Companies />} />
+          <Route
+            path="/company/:companyId/:companyName"
+            exact
+            element={<CompanyDetails />}
+          />
+          <Route path="/companies/add" exact element={<AddCompany />} />
+          <Route
+            path="/companies/:companyId/edit"
+            exact
+            element={<EditCompany />}
+          />
+
+          <Route path="/illnesses" exact element={<Illnesses />} />
+          <Route path="/illnesses/add" exact element={<AddIllness />} />
+          <Route
+            path="/illnesses/:illnessId/edit"
+            exact
+            element={<EditIllness />}
+          />
+
+          <Route path="/tobacco" exact element={<Tobacco />} />
+          <Route path="/tobacco/add" exact element={<AddTobacco />} />
+          <Route
+            path="/tobacco/:tobaccoId/edit"
+            exact
+            element={<EditTobacco />}
+          />
+
+          <Route path="/skin/conditions" exact element={<SkinConditions />} />
+          <Route
+            path="/skin/conditions/add"
+            exact
+            element={<SkinConditions />}
+          />
+
+          <Route path="/auscultates" exact element={<Auscultates />} />
+          <Route path="/auscultates/add" exact element={<Auscultates />} />
+          <Route path="/diseases" exact element={<Diseases />} />
+          <Route path="/diseases/add" exact element={<Diseases />} />
+
+          <Route path="/outreach" exact element={<Outreach />} />
+          <Route path="/outreach/add" exact element={<AddOutreach />} />
+          <Route path="/outreach/:id/edit" exact element={<EditOutreach />} />
+
+          <Route path="/pneumo" exact element={<Pneumo />} />
+          <Route path="/foodhandlers" exact element={<CityOfHarare />} />
+          <Route path="/industry" exact element={<Industry />} />
+
+          <Route path="/reports" exact element={<Reports />} />
+          <Route
+            path="/report/single/:day"
+            exact
+            element={<SingleReportPage />}
+          />
+          <Route path="/appointments" exact element={<Appointments />} />
+          <Route path="/certificates" exact element={<CertificatesPage />} />
+
+          <Route
+            path="/patient/industry/:patientId"
+            element={<IndustryPatientUpdate />}
+          />
+          <Route
+            path="/patient/pneumo/:patientId"
+            element={<PneumoPatientUpdate />}
+          />
+
+          <Route
+            path="/patient/foodhandler/:patientId"
+            element={<FoodPatientUpdate />}
+          />
+
+          <Route
+            path="/batch/create/:companyId/:companyName"
+            element={<CreateBatchFormPage />}
+          />
+          <Route
+            path="/batch/list/:batchId/:batchName"
+            element={<BatchListPage />}
+          />
+
+          <Route
+            path="/certificates/print/page/"
+            element={<PrintCertificatesPage />}
+          />
+
+          <Route path="/certificates/print/csv/" element={<CsvPrintPage />} />
+
+          <Route path="/unauthorized" element={<Unauthorized />} />
+          <Route path="/dnotes" element={<DnotesPage />} />
+          <Route
+            path="/dnote/certificate/update/:dnoteId/:dnoteName"
+            element={<DnoteEditPage />}
+          />
+        </Route>
+
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+      {/* <Header
         isSidebarCollapsed={isSidebarCollapsed}
         setSidebarCollapsed={setSidebarCollapsed}
       />
-      <AsideNav />
-      <div className="content-wrapper">
+      <AsideNav /> */}
+
+      {/* <div className="content-wrapper">
         <div className="container-full">
           <ScrollToTop />
           <Routes location={location}>
@@ -395,7 +548,7 @@ const WrapperComponent = () => {
             />
           </Routes>
         </div>
-      </div>
+      </div> */}
     </Fragment>
   );
 };

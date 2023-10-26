@@ -42,15 +42,12 @@ import NotificationModal from "../components/modal/NotificationModal";
 import { certificateActions } from "../redux_store/certificates-store";
 import { centralActions } from "../redux_store/central-store";
 
-const Home = ({}) => {
+const Dashboard = ({}) => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.ui.isLoading);
   const [overallStats, setOverallStats] = useState({});
   const [notifications, setNotifications] = useState([]);
   const [isCreatingDnote, setIsCreatingDnote] = useState(false);
-
-
-  const epurposes = useSelector((state) => state.central.examPurposes)
 
   const fetchData = useCallback(async () => {
     // Your async data fetching logic here
@@ -98,6 +95,8 @@ const Home = ({}) => {
     const data = certificates.companies;
     dispatch(companyActions.setCompaniesWithBatches(data));
   }, [dispatch]);
+
+  
 
   useEffect(() => {
     const fetchDataAndSetLoading = async () => {
@@ -208,10 +207,16 @@ const Home = ({}) => {
     }
   };
 
+
+
+
+
+
   return (
     <Fragment>
       <section className="content">
         {/* <DashboardSkeleton /> */}
+
         <div className="row">
           <div className="col-xl-8 col-12">
             <div className="row">
@@ -329,4 +334,4 @@ const Home = ({}) => {
   );
 };
 
-export default Home;
+export default Dashboard;

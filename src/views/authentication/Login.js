@@ -64,6 +64,9 @@ const Login = () => {
 
     userSignin(data).then((data) => {
       console.log("Response, data:", data);
+      if (data.message === "Too Many Attempts.") {
+        setError("TooManyAttempts when trying to login, Cooldown");
+      }
       if (data.message === "Invalid Credentials") {
         setSigninValues({
           ...setSigninValues,
@@ -111,9 +114,11 @@ const Login = () => {
 
           console.log(err);
           if (err.message === "Failed to fetch") {
-            toast.error("🚫🚫 Server is offline. Please try again later.");
+            // toast.error("🚫🚫 Server is offline. Please try again later.");
+            setError("🚫🚫 Server is offline. Please try again later.");
           } else {
-            toast.error(" 🚫🚫 There was an error. Please try again.");
+            // toast.error("🚫🚫 There was an error. Please try again.");
+            setError(" 🚫🚫 There was an error. Please try again.");
           }
         });
     }
@@ -129,10 +134,16 @@ const Login = () => {
 
   return (
     <Fragment>
+      
       <div className="container h-p100">
-        <div className="row align-items-center justify-content-md-center h-p100">
+        <div
+          className="row align-items-center justify-content-md-center h-p100"
+          style={{
+            marginTop: "12rem",
+          }}
+        >
           <div className="col-12">
-            <div className="row justify-content-center g-0  adjust-position">
+            <div className="row justify-content-center g-0">
               <div className="col-lg-5 col-md-5 col-12">
                 <div className="bg-white rounded10 shadow-lg">
                   <div className="content-top-agile p-20 pb-0">
@@ -149,17 +160,18 @@ const Login = () => {
                   </div>
 
                   {error && <ErrorNotification message={error} />}
+
                   <div className="p-40">
                     <form onSubmit={handleSubmit}>
                       <div className="form-group">
                         <div className="input-group mb-3">
-                          <span className="input-group-text bg-transparent adjust-height">
+                          <span className="input-group-text bg-transparent ">
                             <i className="ti-user"></i>
                           </span>
                           <input
                             type="email"
                             name="email"
-                            className={`form-control ps-15 bg-transparent adjust-height ${
+                            className={`form-control ps-15 bg-transparent ${
                               errors.email ? "error-input" : ""
                             }`}
                             placeholder="User Email"

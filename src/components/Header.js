@@ -132,7 +132,6 @@ const Header = ({}) => {
             <ul className="nav navbar-nav">
               <li className="btn-group nav-item d-lg-inline-flex d-none">
                 <Link
-                  href="#"
                   data-provide="fullscreen"
                   className="waves-effect waves-light nav-link full-screen btn-warning-light"
                   title="Full Screen"
@@ -143,7 +142,6 @@ const Header = ({}) => {
               {/* <!-- Notifications --> */}
               <li className="dropdown notifications-menu">
                 <Link
-                  href="#"
                   className="waves-effect waves-light dropdown-toggle btn-info-light"
                   data-bs-toggle="dropdown"
                   title="Notifications"
@@ -186,7 +184,6 @@ const Header = ({}) => {
               {/* <!-- User Account--> */}
               <li className="dropdown user user-menu">
                 <Link
-                  href="#"
                   className="waves-effect waves-light dropdown-toggle w-auto l-h-12 bg-transparent py-0 no-shadow"
                   data-bs-toggle="dropdown"
                   title="User"

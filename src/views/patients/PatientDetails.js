@@ -317,8 +317,7 @@ const PatientDetails = () => {
       (batch) => batch.invalidate !== 1
     );
 
-
-    console.log("Valid batches", valid_batches)
+    console.log("Valid batches", valid_batches);
 
     if (valid_batches.length === 0) {
       createCertificateBatch(company.id).then((data) => {
@@ -358,8 +357,6 @@ const PatientDetails = () => {
   };
 
   const category = singlePatient?.category ?? "Medical Patient";
-
- 
 
   return (
     <Fragment>
@@ -413,7 +410,9 @@ const PatientDetails = () => {
                     </div>
                   )}
 
-                  <PButtons routeId={patientId} patient={singlePatient} />
+                  {singlePatient.certificate_status !== "READY" && (
+                    <PButtons routeId={patientId} patient={singlePatient} />
+                  )}
                 </div>
               </div>
 
