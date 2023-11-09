@@ -86,7 +86,7 @@ function ProfessionalCertificatePrint({ company, doctor, person }) {
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
               &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;
             </span>
           </strong>
           <strong>
@@ -97,7 +97,7 @@ function ProfessionalCertificatePrint({ company, doctor, person }) {
           <strong>
             <span
               style={{
-                width: "47.56pt",
+                width: "17.56pt",
                 fontFamily: '"Cooper Black"',
                 display: "inline-block",
               }}

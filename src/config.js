@@ -1,6 +1,6 @@
-export const API = "http://192.168.109.75:8080/public/api"
+export const API = "http://192.168.100.21:8080/api"
 
-export const IMAGE_URL = "http://192.168.109.75:8080/public/images"
+export const IMAGE_URL = "http://192.168.100.21:8080/public/images"
 
 
 

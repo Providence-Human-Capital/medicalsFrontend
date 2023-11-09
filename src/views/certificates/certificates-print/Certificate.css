@@ -1,3 +1,122 @@
 p {
-    margin: 0pt 0pt 9pt !important
+  font-family: "Cooper Black";
+  text-transform: uppercase;
+}
+
+.user_name_details {
+  margin-left: 3rem;
+}
+
+.overall_date {
+  margin-left: 7.5rem;
+}
+
+.year_month {
+  margin-left: 2.5rem;
+}
+
+/* Sections Edit */
+
+.first_section {
+  /* margin-top: 20rem; */
+}
+
+/* Second section edit */
+
+.second_section {
+  margin-top: 4.5rem;
+}
+.ss_user_detaile {
+  margin-left: 14rem;
+}
+
+.ss_company {
+  margin-left: 5rem;
+}
+.ss_company_add {
+  margin-left: 2.5rem;
+}
+.ss_doc {
+  margin-left: 7rem;
+}
+.ss_qualif {
+  margin-left: 3.5rem;
+}
+.ss_exam_date {
+  margin-left: 25rem;
+}
+
+/* End of Second section edit */
+
+/* Third Section */
+.third_section{
+    margin-top: 16.3rem;
+}
+.ts_user_detaile {
+  margin-left: 14rem;
+}
+.ts_company {
+  margin-left: 5rem;
+}
+.ts_company_add {
+  margin-left: 2.5rem;
+}
+.ts_doc {
+  margin-left: 7rem;
+}
+.ts_qualif {
+  margin-left: 3.5rem;
+}
+.ts_exam_date {
+  margin-left: 25rem;
+}
+
+/* End of Third Section */
+
+
+
+
+/* CSS for the row and columns */
+.ss_container {
+  display: flex;
+}
+
+.ss_element {
+  width: 50%;
+  box-sizing: border-box;
+}
+
+.boder{
+  /* border: 1px solid #ccc; */
+  margin-bottom: -11px !important;
+  
+}
+
+
+
+/* Second section margin bottoms */
+
+.boder_company{
+  margin-bottom: -5px !important;
+}
+
+.boder_company_add{
+  margin-bottom: -7px !important;
+}
+.boder_examiner{
+  margin-bottom: -5px !important;
+}
+
+.boder_qualif{
+  margin-bottom: -12px !important;
+}
+
+
+/* Third section Section edit */
+.ts_boder_address{
+  margin-bottom: -7px !important;
+}
+
+.ts_border_cn{
+margin-bottom: 7px;
 }

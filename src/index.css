@@ -511,3 +511,8 @@ button {
   position: absolute;
   left: 70px !important;
 }
+
+
+.second-section-container{
+  margin-top: 2rem !important;
+}

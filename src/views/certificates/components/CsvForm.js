@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import Papa from "papaparse";
 import ProfessionalCertificatePrintCsv from "../certificates-print/ProfessionalCertificatePrintCsv";
 import ReactToPrint, { useReactToPrint } from "react-to-print";
+import InHouseCertificatePrintCsv from "../certificates-print/InHouseCertificatePrintCsv";
 
 const ProfessionalCertificatePrintAll = forwardRef(
   ({ company, clients, examData }, ref) => {
@@ -25,6 +26,30 @@ const ProfessionalCertificatePrintAll = forwardRef(
             }}
           >
             <ProfessionalCertificatePrintCsv
+              company={company}
+              examData={examData}
+              client={client}
+              index={index}
+            />
+          </div>
+        ))}
+      </div>
+    );
+  }
+);
+
+const InHouseCertificatePrintAll = forwardRef(
+  ({ company, clients, examData }, ref) => {
+    return (
+      <div ref={ref}>
+        {clients.map((client, index) => (
+          <div
+            key={index}
+            style={{
+              paddingTop: index === 0 ? 0 : "10px",
+            }}
+          >
+            <InHouseCertificatePrintCsv
               company={company}
               examData={examData}
               client={client}
@@ -93,7 +118,11 @@ const CsvForm = () => {
     // Process the form submission
     setIsPrinting(false);
     setSubmitting(false);
-    handlePrintProfessionalAll();
+    if (selectedOption === "professional") {
+      handlePrintProfessionalAll();
+    } else if (selectedOption === "inhouse") {
+      handlePrintAllInHouseCertificates();
+    }
   };
 
   const professionalCertificatePrintAllRef = useRef();
@@ -102,12 +131,18 @@ const CsvForm = () => {
     content: () => professionalCertificatePrintAllRef.current,
   });
 
+  const inHouseCertificatesPrintAllRef = useRef();
+
+  const handlePrintAllInHouseCertificates = useReactToPrint({
+    content: () => inHouseCertificatesPrintAllRef.current,
+  });
+
   return (
     <>
       <div
         className="row"
         style={{
-          display: "none",
+          display: "block",
         }}
       >
         <ProfessionalCertificatePrintAll
@@ -117,10 +152,24 @@ const CsvForm = () => {
           clients={csvData}
         />
       </div>
+
+      <div
+        className="row"
+        style={{
+          display: "none",
+        }}
+      >
+        <InHouseCertificatePrintAll
+          ref={inHouseCertificatesPrintAllRef}
+          company={selectedCompany}
+          examData={examData}
+          clients={csvData}
+        />
+      </div>
       <Formik
         initialValues={{
-          examinerName: "DR M.A RUMHIZHA",
-          qualifications: "MD PHD",
+          examinerName: "DR F MUSHAMBI",
+          qualifications: "MD (UNIVERSITY OF ALGIERS)",
           exam_date: "",
           company_name: "",
           fileInput: null,
