@@ -14,6 +14,8 @@ import "react-toastify/dist/ReactToastify.css";
 import AddAttendeeExecel from "./AddAttendeeExecel";
 import "./component-css/CustomCss.css";
 import SaveButton from "../../components/buttons/SaveButton";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 const AddAttendee = () => {
   const [loading, setLoading] = useState(false);
@@ -109,7 +111,13 @@ const AddAttendee = () => {
 
       setRedirectBack(true);
       if ((response.status === 200) | (response.status === 201)) {
-        toast("Attendee added successfully");
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "New Client Successfully Added",
+          timer: 4000,
+          confirmButtonColor: "#007a41",
+        });
         if (redirectToPatients) {
           navigate("/patients");
         } else if (continueAddingAttendees) {

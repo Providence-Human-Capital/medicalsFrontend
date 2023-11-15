@@ -34,7 +34,6 @@ const AsideNav = ({}) => {
 
   return (
     <Fragment>
-      
       <aside className="main-sidebar">
         <section className="sidebar position-relative">
           <div className="help-bt">
@@ -43,7 +42,12 @@ const AsideNav = ({}) => {
                 className="rounded10 h-50 w-50 l-h-50 text-center me-15"
                 style={styles.color}
               >
-                <i data-feather="mic"></i>
+                <i
+                  className="ti-microphone"
+                  style={{
+                    fontSize: "20px",
+                  }}
+                ></i>
               </div>
               <h4 className="mb-0">
                 Emergency
@@ -55,247 +59,373 @@ const AsideNav = ({}) => {
           <div className="multinav">
             <div className="multinav-scroll" style={styles.pageHeight}>
               {/* <!-- sidebar menu--> */}
-              <ul className="sidebar-menu" data-widget="tree">
-                <li id="aside-bar">
-                  <NavLink to={"/dashboard"}>
-                    <i data-feather="monitor"></i>
-                    <span>Dashboard</span>
-                  </NavLink>
-                </li>
 
-                {user && user.role === "admin" && (
+              {user && user.type === "medicals" && (
+                <ul className="sidebar-menu" data-widget="tree">
+                  <li id="aside-bar">
+                    <NavLink to={"/dashboard"}>
+                      <i
+                        className="ti-pie-chart"
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+                      <span>Dashboard</span>
+                    </NavLink>
+                  </li>
+
+                  {user && user.role === "admin" && (
+                    <li className="treeview">
+                      <a className="mb-1">
+                        <i
+                          className="ti-view-grid"
+                          style={{
+                            fontSize: "20px",
+                          }}
+                        ></i>
+                        <span>Admin Operations</span>
+                        <span className="pull-right-container">
+                          <i className="ti-arrow-circle-right"></i>
+                        </span>
+                      </a>
+                      <ul className="treeview-menu">
+                        <li id="aside-bar-tree" className="mt-1">
+                          {" "}
+                          <NavLink to={"/companies"}>
+                            <i className="icon-Commit">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                            </i>
+                            Companies
+                          </NavLink>
+                        </li>
+                        <li id="aside-bar-tree" className="mt-1">
+                          {" "}
+                          <NavLink to={"/illnesses"}>
+                            <i className="icon-Commit">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                            </i>
+                            Illnesses (Food Handlers)
+                          </NavLink>
+                        </li>
+                        <li id="aside-bar-tree" className="mt-1">
+                          {" "}
+                          <NavLink to={"/diseases"}>
+                            <i className="icon-Commit">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                            </i>
+                            Diseases (Natpak)
+                          </NavLink>
+                        </li>
+                        <li id="aside-bar-tree" className="mt-1">
+                          {" "}
+                          <NavLink to={"/skin/conditions"}>
+                            <i className="icon-Commit">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                            </i>
+                            Skin Conditions
+                          </NavLink>
+                        </li>
+                        <li id="aside-bar-tree" className="mt-1">
+                          {" "}
+                          <NavLink to={"/auscultates"}>
+                            <i className="icon-Commit">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                            </i>
+                            Auscultates
+                          </NavLink>
+                        </li>
+                        <li id="aside-bar-tree" className="mt-1">
+                          {" "}
+                          <NavLink to={"/tobacco"}>
+                            <i className="icon-Commit">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                            </i>
+                            Tobacco Use
+                          </NavLink>
+                        </li>
+                        <li id="aside-bar-tree" className="mt-1">
+                          {" "}
+                          <NavLink to={"/tobacco"}>
+                            <i className="icon-Commit">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                            </i>
+                            ExamPurpose
+                          </NavLink>
+                        </li>
+                        <li id="aside-bar-tree" className="mt-1">
+                          {" "}
+                          <NavLink to={"/tobacco"}>
+                            <i className="icon-Commit">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                            </i>
+                            Service
+                          </NavLink>
+                        </li>
+                      </ul>
+                    </li>
+                  )}
+
+                  <li id="aside-bar">
+                    <NavLink to={"/attendees"}>
+                      <i
+                        className="ti-id-badge"
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+                      <span>Attendees</span>
+                    </NavLink>
+                  </li>
+
+                  <li id="aside-bar">
+                    <NavLink to={"/companies"}>
+                      <i
+                        className="ti-map-alt"
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+                      <span>Companies</span>
+                    </NavLink>
+                  </li>
+                  <li id="aside-bar">
+                    <NavLink to={"/patients"}>
+                      <i
+                        className="ti-user"
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+                      <span>Patients</span>
+                    </NavLink>
+                  </li>
+
                   <li className="treeview">
-                    <a href="#" className="mb-1">
-                      <i data-feather="grid"></i>
-                      <span>Admin Operations</span>
+                    <a className="mb-1">
+                      <i
+                        className="ti-support"
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+                      <span>Pneumoconiosis</span>
                       <span className="pull-right-container">
-                        <i className="fa fa-angle-right pull-right"></i>
+                        <i className="ti-arrow-circle-right"></i>
                       </span>
                     </a>
                     <ul className="treeview-menu">
                       <li id="aside-bar-tree" className="mt-1">
                         {" "}
-                        <NavLink to={"/companies"}>
+                        <NavLink to={"/pneumo"}>
                           <i className="icon-Commit">
                             <span className="path1"></span>
                             <span className="path2"></span>
                           </i>
-                          Companies
-                        </NavLink>
-                      </li>
-                      <li id="aside-bar-tree" className="mt-1">
-                        {" "}
-                        <NavLink to={"/illnesses"}>
-                          <i className="icon-Commit">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                          </i>
-                          Illnesses (Food Handlers)
-                        </NavLink>
-                      </li>
-                      <li id="aside-bar-tree" className="mt-1">
-                        {" "}
-                        <NavLink to={"/diseases"}>
-                          <i className="icon-Commit">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                          </i>
-                          Diseases (Natpak)
-                        </NavLink>
-                      </li>
-                      <li id="aside-bar-tree" className="mt-1">
-                        {" "}
-                        <NavLink to={"/skin/conditions"}>
-                          <i className="icon-Commit">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                          </i>
-                          Skin Conditions
-                        </NavLink>
-                      </li>
-                      <li id="aside-bar-tree" className="mt-1">
-                        {" "}
-                        <NavLink to={"/auscultates"}>
-                          <i className="icon-Commit">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                          </i>
-                          Auscultates
-                        </NavLink>
-                      </li>
-                      <li id="aside-bar-tree" className="mt-1">
-                        {" "}
-                        <NavLink to={"/tobacco"}>
-                          <i className="icon-Commit">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                          </i>
-                          Tobacco Use
-                        </NavLink>
-                      </li>
-                      <li id="aside-bar-tree" className="mt-1">
-                        {" "}
-                        <NavLink to={"/tobacco"}>
-                          <i className="icon-Commit">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                          </i>
-                          ExamPurpose
-                        </NavLink>
-                      </li>
-                      <li id="aside-bar-tree" className="mt-1">
-                        {" "}
-                        <NavLink to={"/tobacco"}>
-                          <i className="icon-Commit">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                          </i>
-                          Service
+                          Pneumoconiosis
                         </NavLink>
                       </li>
                     </ul>
                   </li>
-                )}
 
-                <li id="aside-bar">
-                  <NavLink to={"/attendees"}>
-                    <i data-feather="users"></i>
-                    <span>Attendees</span>
-                  </NavLink>
-                </li>
+                  <li className="treeview">
+                    <a className="mb-1">
+                      <i
+                        className="ti-support"
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+                      <span>Food Handlers</span>
+                      <span className="pull-right-container">
+                        <i className="ti-arrow-circle-right"></i>
+                      </span>
+                    </a>
+                    <ul className="treeview-menu">
+                      <li id="aside-bar-tree" className="mt-1">
+                        {" "}
+                        <NavLink to={"/foodhandlers"}>
+                          <i className="icon-Commit">
+                            <span className="path1"></span>
+                            <span className="path2"></span>
+                          </i>
+                          Food Handlers
+                        </NavLink>
+                      </li>
+                    </ul>
+                  </li>
+                  <li className="treeview">
+                    <a className="mb-1">
+                      <i
+                        className="ti-support"
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+                      <span>Industry</span>
+                      <span className="pull-right-container">
+                        <i className="ti-arrow-circle-right"></i>
+                      </span>
+                    </a>
+                    <ul className="treeview-menu">
+                      <li id="aside-bar-tree" className="mt-1">
+                        {" "}
+                        <NavLink to={"/industry"}>
+                          <i className="icon-Commit">
+                            <span className="path1"></span>
+                            <span className="path2"></span>
+                          </i>
+                          Industries & Other
+                        </NavLink>
+                      </li>
+                    </ul>
+                  </li>
 
-                <li id="aside-bar">
-                  <NavLink to={"/companies"}>
-                    <i data-feather="grid"></i>
-                    <span>Companies</span>
-                  </NavLink>
-                </li>
-                <li id="aside-bar">
-                  <NavLink to={"/patients"}>
-                    <i data-feather="user-check"></i>
-                    <span>Patients</span>
-                  </NavLink>
-                </li>
+                  <li id="aside-bar">
+                    <NavLink to={"/outreach"}>
+                      <i
+                        className="ti-clipboard"
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+                      <span>OutReach</span>
+                    </NavLink>
+                  </li>
 
-                <li className="treeview">
-                  <a href="#" className="mb-1">
-                    <i data-feather="activity"></i>
-                    <span>Pneumoconiosis</span>
-                    <span className="pull-right-container">
-                      <i className="fa fa-angle-right pull-right"></i>
-                    </span>
-                  </a>
-                  <ul className="treeview-menu">
-                    <li id="aside-bar-tree" className="mt-1">
-                      {" "}
-                      <NavLink to={"/pneumo"}>
-                        <i className="icon-Commit">
-                          <span className="path1"></span>
-                          <span className="path2"></span>
-                        </i>
-                        Pneumoconiosis
-                      </NavLink>
-                    </li>
-                  </ul>
-                </li>
+                  <li className="treeview">
+                    <a className="mb-1">
+                      <i
+                        className="ti-folder"
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+                      <span>Inventory Management</span>
+                      <span className="pull-right-container">
+                        <i className="ti-arrow-circle-right"></i>
+                      </span>
+                    </a>
+                    <ul className="treeview-menu">
+                      <li id="aside-bar-tree" className="mt-1">
+                        {" "}
+                        <NavLink>
+                          <i className="icon-Commit">
+                            <span className="path1"></span>
+                            <span className="path2"></span>
+                          </i>
+                          Inventory
+                        </NavLink>
+                      </li>
+                    </ul>
+                  </li>
 
-                <li className="treeview">
-                  <a href="#" className="mb-1">
-                    <i data-feather="archive"></i>
-                    <span>Food Handlers</span>
-                    <span className="pull-right-container">
-                      <i className="fa fa-angle-right pull-right"></i>
-                    </span>
-                  </a>
-                  <ul className="treeview-menu">
-                    <li id="aside-bar-tree" className="mt-1">
-                      {" "}
-                      <NavLink to={"/foodhandlers"}>
-                        <i className="icon-Commit">
-                          <span className="path1"></span>
-                          <span className="path2"></span>
-                        </i>
-                        Food Handlers
-                      </NavLink>
-                    </li>
-                  </ul>
-                </li>
-                <li className="treeview">
-                  <a href="#" className="mb-1">
-                    <i data-feather="archive"></i>
-                    <span>Industry</span>
-                    <span className="pull-right-container">
-                      <i className="fa fa-angle-right pull-right"></i>
-                    </span>
-                  </a>
-                  <ul className="treeview-menu">
-                    <li id="aside-bar-tree" className="mt-1">
-                      {" "}
-                      <NavLink to={"/industry"}>
-                        <i className="icon-Commit">
-                          <span className="path1"></span>
-                          <span className="path2"></span>
-                        </i>
-                        Industries & Other
-                      </NavLink>
-                    </li>
-                  </ul>
-                </li>
+                  <li id="aside-bar">
+                    <NavLink to={"/certificates"} activeclassname="active">
+                      <i
+                        className="ti-write"
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+                      <span>Certificates (Batches)</span>
+                    </NavLink>
+                  </li>
+                  <li id="aside-bar">
+                    <NavLink to={"/reports"} activeclassname="active">
+                      <i
+                        className="ti-pencil-alt"
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+                      <span className="aside_label">Reports</span>
+                    </NavLink>
+                  </li>
+                  <li id="aside-bar">
+                    <NavLink to={"/dnotes"} activeclassname="active">
+                      <i
+                        className="ti-pencil-alt"
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+                      <span className="aside_label">D Notes</span>
+                    </NavLink>
+                  </li>
+                  <li id="aside-bar">
+                    <NavLink to={"/appointments"} activeclassname="active">
+                      <i
+                        className="ti-calendar"
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+                      <span className="aside_label">Appointments</span>
+                    </NavLink>
+                  </li>
+                </ul>
+              )}
+              {user && user.type === "clinic" && (
+                <ul className="sidebar-menu" data-widget="tree">
+                  <li id="aside-bar">
+                    <NavLink to={"/dashboard/clinic"}>
+                      <i
+                        className="ti-pie-chart"
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+                      <span>Dashboard</span>
+                    </NavLink>
+                  </li>
 
-                <li id="aside-bar">
-                  <NavLink to={"/outreach"}>
-                    <i data-feather="circle"></i>
-                    <span>OutReach</span>
-                  </NavLink>
-                </li>
+                  <li id="aside-bar">
+                    <NavLink to={"/hms/patients"}>
+                      <i
+                        className="ti-user"
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+                      <span>Patients</span>
+                    </NavLink>
+                  </li>
 
-                <li className="treeview">
-                  <a href="#" className="mb-1">
-                    <i data-feather="folder"></i>
-                    <span>Inventory Management</span>
-                    <span className="pull-right-container">
-                      <i className="fa fa-angle-right pull-right"></i>
-                    </span>
-                  </a>
-                  <ul className="treeview-menu">
-                    <li id="aside-bar-tree" className="mt-1">
-                      {" "}
-                      <NavLink>
-                        <i className="icon-Commit">
-                          <span className="path1"></span>
-                          <span className="path2"></span>
-                        </i>
-                        Inventory
-                      </NavLink>
-                    </li>
-                  </ul>
-                </li>
+                  <li id="aside-bar">
+                    <NavLink to={"/hms/doctors"}>
+                      <i
+                        className="ti-id-badge"
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+                      <span>Doctors</span>
+                    </NavLink>
+                  </li>
 
-                <li id="aside-bar">
-                  <NavLink to={"/certificates"} activeclassname="active">
-                    <i data-feather="file-text"></i>
-                    <span>Certificates (Batches)</span>
-                  </NavLink>
-                </li>
-                <li id="aside-bar">
-                  <NavLink to={"/reports"} activeclassname="active">
-                    <i data-feather="square"></i>
-                    <span>Reports</span>
-                  </NavLink>
-                </li>
-                <li id="aside-bar">
-                  <NavLink to={"/dnotes"} activeclassname="active">
-                    <i data-feather="square"></i>
-                    <span>D Notes</span>
-                  </NavLink>
-                </li>
-                <li id="aside-bar">
-                  <NavLink to={"/appointments"} activeclassname="active">
-                    <i data-feather="calendar"></i>
-                    <span>Appointments</span>
-                  </NavLink>
-                </li>
-              </ul>
+                  <li id="aside-bar">
+                    <NavLink to={"/hms/stock"}>
+                      <i
+                        className="ti-folder"
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+                      <span>Stock Management</span>
+                    </NavLink>
+                  </li>
+
+                  
+                </ul>
+              )}
 
               <div className="sidebar-widgets">
                 <div className="mx-25 mb-30 pb-20 side-bx bg-primary-light rounded20">

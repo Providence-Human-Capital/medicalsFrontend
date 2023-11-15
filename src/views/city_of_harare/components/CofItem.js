@@ -66,6 +66,8 @@ const CofItem = ({ patient, index }) => {
   const handleCancel = () => {
     Swal.close();
   };
+
+  
   useEffect(() => {
     getCityOfHarareDnoteNoneDispatched().then((cityDnote) => {
       dispatch(certificateActions.setCityOfHarareDnotes([...cityDnote]));

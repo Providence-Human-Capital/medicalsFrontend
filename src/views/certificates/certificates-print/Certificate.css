@@ -1,8 +1,8 @@
-p {
+
+.p_text {
   font-family: "Cooper Black";
   text-transform: uppercase;
 }
-
 .user_name_details {
   margin-left: 3rem;
 }
@@ -49,8 +49,8 @@ p {
 /* End of Second section edit */
 
 /* Third Section */
-.third_section{
-    margin-top: 16.3rem;
+.third_section {
+  margin-top: 16.3rem;
 }
 .ts_user_detaile {
   margin-left: 14rem;
@@ -73,9 +73,6 @@ p {
 
 /* End of Third Section */
 
-
-
-
 /* CSS for the row and columns */
 .ss_container {
   display: flex;
@@ -86,37 +83,33 @@ p {
   box-sizing: border-box;
 }
 
-.boder{
+.boder {
   /* border: 1px solid #ccc; */
   margin-bottom: -11px !important;
-  
 }
-
-
 
 /* Second section margin bottoms */
 
-.boder_company{
+.boder_company {
   margin-bottom: -5px !important;
 }
 
-.boder_company_add{
+.boder_company_add {
   margin-bottom: -7px !important;
 }
-.boder_examiner{
+.boder_examiner {
   margin-bottom: -5px !important;
 }
 
-.boder_qualif{
+.boder_qualif {
   margin-bottom: -12px !important;
 }
 
-
 /* Third section Section edit */
-.ts_boder_address{
+.ts_boder_address {
   margin-bottom: -7px !important;
 }
 
-.ts_border_cn{
-margin-bottom: 7px;
+.ts_border_cn {
+  margin-bottom: 7px;
 }

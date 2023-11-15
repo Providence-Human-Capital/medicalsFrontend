@@ -142,7 +142,7 @@ const CsvForm = () => {
       <div
         className="row"
         style={{
-          display: "block",
+          display: "none",
         }}
       >
         <ProfessionalCertificatePrintAll

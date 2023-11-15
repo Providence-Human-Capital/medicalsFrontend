@@ -89,42 +89,92 @@ const Header = ({}) => {
             </div>
           </Link>
         </div>
+
         {/* <!-- Header Navbar --> */}
         <nav className="navbar navbar-static-top">
           {/* <!-- Sidebar toggle button--> */}
+
           <div className="app-menu">
             <ul className="header-megamenu nav">
-              <li className="btn-group nav-item">
+              <li
+                className="btn-group nav-item"
+                style={{
+                  marginTop: user.type === "clinic" ? "15px" : "",
+                }}
+              >
                 <Link
                   onClick={handleToggleSidebar}
                   className="waves-effect waves-light nav-link push-btn btn-primary-light"
                   data-toggle="push-menu"
                   role="button"
                 >
-                  <i data-feather="align-left"></i>
+                  <i
+                    className="ti-align-left"
+                    style={{
+                      fontSize: "20px",
+                    }}
+                  ></i>
                 </Link>
               </li>
-              <li className="btn-group d-lg-inline-flex d-none">
-                <NavButton to={"/foodhandlers"} text={"Food Handlers"} />
-              </li>
 
-              <li className="btn-group d-lg-inline-flex d-none">
-                <NavButton to={"/pneumo"} text={"Pneumoconiosis"} />
-              </li>
-              <li className="btn-group d-lg-inline-flex d-none">
-                <NavButton to={"/industry"} text={"Industries & Other"} />
-              </li>
-              <li>
-                <button
-                  className="btn btn-secondary"
-                  style={{
-                    borderRadius: "20px",
-                    fontWeight: "bold",
-                  }}
-                >
-                  <Link to={"certificates/print/csv"}>Print Through Csv</Link>
-                </button>
-              </li>
+              {user && user.type === "medicals" ? (
+                <>
+                  <li className="btn-group d-lg-inline-flex d-none">
+                    <Link
+                      to={"/foodhandlers"}
+                      className="btn btn-primary"
+                      style={{
+                        borderRadius: "10px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Food Handler Patients
+                    </Link>
+                  </li>
+
+                  <li className="btn-group d-lg-inline-flex d-none">
+                    <Link
+                      to={"/pneumo"}
+                      className="btn btn-primary"
+                      style={{
+                        borderRadius: "10px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Pneumoconiosis Patients
+                    </Link>
+                  </li>
+                  <li className="btn-group d-lg-inline-flex d-none">
+                    <Link
+                      to={"/industry"}
+                      className="btn btn-primary"
+                      style={{
+                        borderRadius: "10px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Industries & Other Patients
+                    </Link>
+                  </li>
+                  <li>
+                    <button
+                      className="btn btn-secondary"
+                      style={{
+                        borderRadius: "20px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      <Link to={"certificates/print/csv"}>
+                        Print Certificates Using Csv File
+                      </Link>
+                    </button>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <h1></h1>
+                </>
+              )}
             </ul>
           </div>
 
@@ -136,7 +186,12 @@ const Header = ({}) => {
                   className="waves-effect waves-light nav-link full-screen btn-warning-light"
                   title="Full Screen"
                 >
-                  <i data-feather="maximize"></i>
+                  <i
+                    className="ti-fullscreen"
+                    style={{
+                      fontSize: "20px",
+                    }}
+                  ></i>
                 </Link>
               </li>
               {/* <!-- Notifications --> */}
@@ -146,7 +201,12 @@ const Header = ({}) => {
                   data-bs-toggle="dropdown"
                   title="Notifications"
                 >
-                  <i data-feather="bell"></i>
+                  <i
+                    className="ti-bell"
+                    style={{
+                      fontSize: "20px",
+                    }}
+                  ></i>
                 </Link>
                 <ul className="dropdown-menu animated bounceIn">
                   <li className="header">

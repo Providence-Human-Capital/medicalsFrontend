@@ -94,6 +94,12 @@ import DnotesPage from "./views/d_notes/DnotesPage";
 import DnoteEditPage from "./views/d_notes/DnoteEditPage";
 import Dashboard from "./core/Home";
 import HomeInit from "./HomeInit";
+import HospitalManagementDashboard from "./hms/hms_dashboard";
+import HmsPatientsList from "./hms/hmspatients/hms_patients_list";
+import StockManagement from "./hms/stock_management/stock_management";
+import DoctorsList from "./hms/hmsdoctors/doctors_list";
+import AddDoctor from "./hms/hmsdoctors/add_doctor";
+import AddHmsPatient from "./hms/hmspatients/add_hms_patient";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
@@ -112,6 +118,7 @@ const WrapperComponent = () => {
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
   const isAuthenticated = useSelector((state) => state.auth.isAuth);
   const isLoading = useSelector((state) => state.ui.isLoading);
+  const userType = useSelector((state) => state.auth.user?.type);
 
   const dispatch = useDispatch();
 
@@ -138,6 +145,10 @@ const WrapperComponent = () => {
   const location = useLocation();
 
   useEffect(() => {
+    //This piece of code is so so important in terms of the project outlook
+    document.body.style.zoom = "0.67";
+    //The above piece of code is so so important in terms of the project outlook
+
     const currentYear = new Date().getFullYear();
     getPatientStatistics(currentYear);
 
@@ -237,23 +248,50 @@ const WrapperComponent = () => {
     );
   }, []);
 
+  const ProtectedRoute = ({ isAuthenticated, userType }) => {
+    if (isAuthenticated) {
+      if (userType === "clinic") {
+        return <Navigate to="/dashboard/clinic" />;
+      } else {
+        return <Navigate to="/dashboard" />;
+      }
+    } else {
+      // Redirect to the login page if the user is not authenticated
+      return <Navigate to="/login" />;
+    }
+  };
+
   return (
     <Fragment>
       <Routes>
         <Route
-          exact
-          path="/"
           element={
-            isAuthenticated ? (
-              <Navigate to="/dashboard" />
-            ) : (
-              <Navigate to="/login" />
-            )
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}
+              userType={userType}
+            />
           }
         />
 
         <Route exact path="/" element={<HomeInit />}>
+          <Route
+            path="/dashboard/clinic"
+            element={<HospitalManagementDashboard />}
+          />
           <Route path="/dashboard" element={<Dashboard />} />
+
+          {/* HMS ROUTES */}
+
+          <Route path="/hms/patients" element={<HmsPatientsList />} />
+          <Route path="/hms/add/patient" element={<AddHmsPatient />} />
+
+          <Route path="/hms/stock" element={<StockManagement />} />
+          <Route path="/hms/doctors" element={<DoctorsList />} />
+          
+          <Route path="/hms/add/doctor" element={<AddDoctor />} />
+
+          {/* HMS ROUTES */}
+
           <Route path="/attendees" exact element={<Attendees />} />
           <Route path="/attendees/add" exact element={<AddAttendee />} />
           <Route path="/attendees/add/excel" element={<ExcelAddPage />} />
@@ -387,168 +425,11 @@ const WrapperComponent = () => {
         </Route>
 
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/create_medicals_user_providence_human_capital"
+          element={<Register />}
+        />
       </Routes>
-      {/* <Header
-        isSidebarCollapsed={isSidebarCollapsed}
-        setSidebarCollapsed={setSidebarCollapsed}
-      />
-      <AsideNav /> */}
-
-      {/* <div className="content-wrapper">
-        <div className="container-full">
-          <ScrollToTop />
-          <Routes location={location}>
-            <Route
-              path="/"
-              element={
-                isAuthenticated ? (
-                  <Navigate to="/dashboard" />
-                ) : (
-                  <Navigate to="/login" />
-                )
-              }
-            />
-            <Route path="/dashboard" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-
-            <Route path="/attendees" exact element={<Attendees />} />
-            <Route path="/attendees/add" exact element={<AddAttendee />} />
-            <Route path="/attendees/add/excel" element={<ExcelAddPage />} />
-            <Route
-              path="/attendees/:attendeeId"
-              exact
-              element={<PatientDetails />}
-            />
-            <Route path="/attendees/edit" exact element={<EditAttendee />} />
-
-            <Route path="/patients" element={<Patients />} />
-            <Route path="/patients/add" element={<AddPatient />} />
-            <Route path="/patients/:patientId" element={<PatientDetails />} />
-            <Route
-              path="/patients/:patientId/observation"
-              element={<ObeservationForm />}
-            />
-            <Route
-              path="/patients/:patientId/physical"
-              element={<PhysicalExamForm />}
-            />
-
-            <Route
-              path="/patients/:patientId/illnesses"
-              element={<IllnessesForm />}
-            />
-
-            <Route
-              path="/patients/:patientId/tobacco"
-              element={<TobaccoForm />}
-            />
-
-            <Route
-              path="/patients/:patientId/xray/add"
-              element={<XrayForm />}
-            />
-
-            <Route path="/patients/edit" element={<EditPatient />} />
-
-            <Route path="/companies" exact element={<Companies />} />
-            <Route
-              path="/company/:companyId/:companyName"
-              exact
-              element={<CompanyDetails />}
-            />
-            <Route path="/companies/add" exact element={<AddCompany />} />
-            <Route
-              path="/companies/:companyId/edit"
-              exact
-              element={<EditCompany />}
-            />
-
-            <Route path="/illnesses" exact element={<Illnesses />} />
-            <Route path="/illnesses/add" exact element={<AddIllness />} />
-            <Route
-              path="/illnesses/:illnessId/edit"
-              exact
-              element={<EditIllness />}
-            />
-
-            <Route path="/tobacco" exact element={<Tobacco />} />
-            <Route path="/tobacco/add" exact element={<AddTobacco />} />
-            <Route
-              path="/tobacco/:tobaccoId/edit"
-              exact
-              element={<EditTobacco />}
-            />
-
-            <Route path="/skin/conditions" exact element={<SkinConditions />} />
-            <Route
-              path="/skin/conditions/add"
-              exact
-              element={<SkinConditions />}
-            />
-
-            <Route path="/auscultates" exact element={<Auscultates />} />
-            <Route path="/auscultates/add" exact element={<Auscultates />} />
-            <Route path="/diseases" exact element={<Diseases />} />
-            <Route path="/diseases/add" exact element={<Diseases />} />
-
-            <Route path="/outreach" exact element={<Outreach />} />
-            <Route path="/outreach/add" exact element={<AddOutreach />} />
-            <Route path="/outreach/:id/edit" exact element={<EditOutreach />} />
-
-            <Route path="/pneumo" exact element={<Pneumo />} />
-            <Route path="/foodhandlers" exact element={<CityOfHarare />} />
-            <Route path="/industry" exact element={<Industry />} />
-
-            <Route path="/reports" exact element={<Reports />} />
-            <Route
-              path="/report/single/:day"
-              exact
-              element={<SingleReportPage />}
-            />
-            <Route path="/appointments" exact element={<Appointments />} />
-            <Route path="/certificates" exact element={<CertificatesPage />} />
-
-            <Route
-              path="/patient/industry/:patientId"
-              element={<IndustryPatientUpdate />}
-            />
-            <Route
-              path="/patient/pneumo/:patientId"
-              element={<PneumoPatientUpdate />}
-            />
-
-            <Route
-              path="/patient/foodhandler/:patientId"
-              element={<FoodPatientUpdate />}
-            />
-
-            <Route
-              path="/batch/create/:companyId/:companyName"
-              element={<CreateBatchFormPage />}
-            />
-            <Route
-              path="/batch/list/:batchId/:batchName"
-              element={<BatchListPage />}
-            />
-
-            <Route
-              path="/certificates/print/page/"
-              element={<PrintCertificatesPage />}
-            />
-
-            <Route path="/certificates/print/csv/" element={<CsvPrintPage />} />
-
-            <Route path="/unauthorized" element={<Unauthorized />} />
-            <Route path="/dnotes" element={<DnotesPage />} />
-            <Route
-              path="/dnote/certificate/update/:dnoteId/:dnoteName"
-              element={<DnoteEditPage />}
-            />
-          </Routes>
-        </div>
-      </div> */}
     </Fragment>
   );
 };

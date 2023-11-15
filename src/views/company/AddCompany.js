@@ -8,6 +8,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { companyActions } from "../../redux_store/company-store";
 import SaveButton from "../../components/buttons/SaveButton";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 const AddCompany = () => {
   const [loading, setLoading] = useState(false);
@@ -56,6 +58,13 @@ const AddCompany = () => {
 
       resetForm();
       setRedirectBack(true);
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "New Company successfully Added",
+        timer: 4000,
+        confirmButtonColor: "#007a41",
+      });
     } catch (error) {
       console.error(error);
     } finally {
@@ -127,7 +136,7 @@ const AddCompany = () => {
                               />
                             </div>
                           </div>
-                          <div className="col-md-6">
+                          <div className="col-md-6 mt-2">
                             <div className="form-floating">
                               <Field
                                 type="text"
@@ -200,6 +209,7 @@ const AddCompany = () => {
                             </div>
                           </div>
                         </div>
+                        <div className="separation-div"></div>
                         <div className="row">
                           <div className="col-md-4">
                             <div className="form-floating">
@@ -320,6 +330,7 @@ const AddCompany = () => {
                             </div>
                           </div>
                         </div>
+                        <div className="separation-div"></div>
                         {loading ? (
                           <Loading />
                         ) : (

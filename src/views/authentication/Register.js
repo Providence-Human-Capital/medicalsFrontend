@@ -120,9 +120,9 @@ const Register = () => {
           }}
         >
           <div className="col-12">
-            <div className="row justify-content-center g-0 ">
+            <div className="row justify-content-center g-0 " >
               <div className="col-lg-5 col-md-5 col-12">
-                <div className="bg-white rounded10 shadow-lg">
+                <div className="bg-white rounded10 shadow-lg" >
                   <div className="content-top-agile p-20 pb-0">
                     <div className="logo-lg">
                       <span className="light-logo">
@@ -153,7 +153,7 @@ const Register = () => {
                             }`}
                             id="name"
                             name="name"
-                            placeholder="Full Name"
+                            placeholder="Username"
                             value={formData.name}
                             onChange={handleFormChange}
                           />
@@ -234,7 +234,7 @@ const Register = () => {
                         )}
                       </div>
                       <div className="row">
-                        <div className="col-4">
+                        <div className="col-3">
                           <div className="checkbox">
                             <input
                               type="checkbox"
@@ -245,11 +245,11 @@ const Register = () => {
                               }
                             />
                             <label htmlFor="basic_checkbox_1">
-                              Receptionist
+                              Recep
                             </label>
                           </div>
                         </div>
-                        <div className="col-4">
+                        <div className="col-3">
                           <div className="checkbox">
                             <input
                               type="checkbox"
@@ -264,7 +264,7 @@ const Register = () => {
                             </label>
                           </div>
                         </div>
-                        <div className="col-4">
+                        <div className="col-3">
                           <div className="checkbox">
                             <input
                               type="checkbox"
@@ -273,6 +273,17 @@ const Register = () => {
                               onChange={() => handleCheckboxChange("admin")}
                             />
                             <label htmlFor="basic_checkbox_3">Admin</label>
+                          </div>
+                        </div>
+                        <div className="col-3">
+                          <div className="checkbox">
+                            <input
+                              type="checkbox"
+                              id="basic_checkbox_4"
+                              checked={selectedValue === "doctor"}
+                              onChange={() => handleCheckboxChange("doctor")}
+                            />
+                            <label htmlFor="basic_checkbox_3">Doctor</label>
                           </div>
                         </div>
                         {errors.role && (
@@ -306,30 +317,6 @@ const Register = () => {
                       )}
                     </div>
                   </div>
-                </div>
-
-                <div className="text-center">
-                  <p className="mt-20 text-white">- Register With -</p>
-                  <p className="gap-items-2 mb-20">
-                    <Link
-                      className="btn btn-social-icon btn-round btn-facebook"
-                      href="#"
-                    >
-                      <i className="fa fa-facebook"></i>
-                    </Link>
-                    <Link
-                      className="btn btn-social-icon btn-round btn-twitter"
-                      href="#"
-                    >
-                      <i className="fa fa-twitter"></i>
-                    </Link>
-                    <Link
-                      className="btn btn-social-icon btn-round btn-instagram"
-                      href="#"
-                    >
-                      <i className="fa fa-instagram"></i>
-                    </Link>
-                  </p>
                 </div>
               </div>
             </div>

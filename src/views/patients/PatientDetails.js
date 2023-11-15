@@ -481,7 +481,7 @@ const PatientDetails = () => {
                   className="col-xl-4 col-12"
                   style={{
                     overflowY: "scroll",
-                    height: "80vh",
+                    height: "90vh",
                     overflowX: "hidden",
                   }}
                 >

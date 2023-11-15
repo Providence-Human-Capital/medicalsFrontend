@@ -8,6 +8,7 @@ const initialState = {
   isLoading: false,
   token: null,
   role: null,
+  type: null
 };
 
 const authSlice = createSlice({
@@ -21,6 +22,7 @@ const authSlice = createSlice({
       state.isAuth = action.payload.isAuth;
       state.role = action.payload.user.role;
       state.userId = action.payload.user.id;
+      state.type = action.payload.user.type;
     },
 
     setLogout: (state) => {
@@ -29,6 +31,7 @@ const authSlice = createSlice({
       state.isAuth = false;
       state.isLoading = false;
       state.role = null;
+      state.type = null;
     },
   },
 });
