@@ -308,7 +308,7 @@ const AsideNav = ({}) => {
                           fontSize: "20px",
                         }}
                       ></i>
-                      <span>Inventory Management</span>
+                      <span>Stock Management</span>
                       <span className="pull-right-container">
                         <i className="ti-arrow-circle-right"></i>
                       </span>

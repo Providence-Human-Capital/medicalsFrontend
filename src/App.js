@@ -249,28 +249,22 @@ const WrapperComponent = () => {
     );
   }, []);
 
-  const ProtectedRoute = ({ isAuthenticated, userType }) => {
-    if (isAuthenticated) {
-      if (userType === "clinic") {
-        return <Navigate to="/dashboard/clinic" />;
-      } else {
-        return <Navigate to="/dashboard" />;
-      }
-    } else {
-      // Redirect to the login page if the user is not authenticated
-      return <Navigate to="/login" />;
-    }
-  };
-
   return (
     <Fragment>
       <Routes>
         <Route
+          exact
+          path="/"
           element={
-            <ProtectedRoute
-              isAuthenticated={isAuthenticated}
-              userType={userType}
-            />
+            isAuthenticated ? (
+              userType === "clinic" ? (
+                <Navigate to="/dashboard/clinic" />
+              ) : (
+                <Navigate to="/dashboard" />
+              )
+            ) : (
+              <Navigate to="/login" />
+            )
           }
         />
 
