@@ -99,7 +99,7 @@ const Header = ({}) => {
               <li
                 className="btn-group nav-item"
                 style={{
-                  marginTop: user.type === "clinic" ? "15px" : "",
+                  marginTop: user && user?.type === "clinic" ? "15px" : "",
                 }}
               >
                 <Link
@@ -117,7 +117,7 @@ const Header = ({}) => {
                 </Link>
               </li>
 
-              {user && user.type === "medicals" ? (
+              {user && user?.type === "medicals" ? (
                 <>
                   <li className="btn-group d-lg-inline-flex d-none">
                     <Link

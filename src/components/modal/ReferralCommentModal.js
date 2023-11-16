@@ -61,13 +61,13 @@ const ReferralCommentModal = ({ show, handleClose, vitalId }) => {
       <div
         className="modal-dialog modal-dialog-centered modal-lg"
         role="document"
-        style={{ height: "50vh" }}
+        style={{ minHeight: "50vh" }}
       >
         <div
           className="modal-content"
           style={{
             borderRadius: "10px",
-            height: "50vh",
+            minHeight: "50vh",
           }}
         >
           <div className="modal-header">
@@ -119,13 +119,13 @@ const ReferralCommentModal = ({ show, handleClose, vitalId }) => {
               ) : (
                 <button
                   type="submit"
-                  className="btn btn-success"
+                  className="btn btn-primary"
                   style={{
-                    borderRadius: "20px",
+                    borderRadius: "10px",
                     fontWeight: "bold",
                   }}
                 >
-                  Submit
+                  Submit Referral Comment & Print
                 </button>
               )}
             </form>

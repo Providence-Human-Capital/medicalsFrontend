@@ -8,6 +8,7 @@ import {
   redirect,
   useNavigate,
   useLocation,
+  HashRouter,
 } from "react-router-dom";
 import ScrollToTop from "./hooks/ScrollToTop";
 import Home from "./core/Home";
@@ -108,9 +109,9 @@ if (typeof window !== "undefined") {
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <WrapperComponent />
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
@@ -287,7 +288,7 @@ const WrapperComponent = () => {
 
           <Route path="/hms/stock" element={<StockManagement />} />
           <Route path="/hms/doctors" element={<DoctorsList />} />
-          
+
           <Route path="/hms/add/doctor" element={<AddDoctor />} />
 
           {/* HMS ROUTES */}

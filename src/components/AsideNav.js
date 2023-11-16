@@ -423,6 +423,18 @@ const AsideNav = ({}) => {
                     </NavLink>
                   </li>
 
+                  <li id="aside-bar">
+                    <NavLink to={"/hms/reports"}>
+                      <i
+                        className="ti-folder"
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+                      <span>Reports</span>
+                    </NavLink>
+                  </li>
+
                   
                 </ul>
               )}
