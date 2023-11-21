@@ -101,6 +101,10 @@ import StockManagement from "./hms/stock_management/stock_management";
 import DoctorsList from "./hms/hmsdoctors/doctors_list";
 import AddDoctor from "./hms/hmsdoctors/add_doctor";
 import AddHmsPatient from "./hms/hmspatients/add_hms_patient";
+import UserAssignment from "./hms/views/admin/admin_user_assignmet";
+import ClinicPatientDetailsPage from "./hms/hmspatients/hms_patient_detail";
+import ConsultationPage from "./hms/hmspatients/consultation_page";
+import PatientsAttendance from "./hms/patients_attendance";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
@@ -279,11 +283,23 @@ const WrapperComponent = () => {
 
           <Route path="/hms/patients" element={<HmsPatientsList />} />
           <Route path="/hms/add/patient" element={<AddHmsPatient />} />
+          <Route
+            path="/hms/patient/:patientId"
+            element={<ClinicPatientDetailsPage />}
+          />
+          <Route
+            path="/hms/patient/:patientId/consultation"
+            element={<ConsultationPage />}
+          />
+
+          <Route path="/hms/patient/search" element={<PatientsAttendance />} />
 
           <Route path="/hms/stock" element={<StockManagement />} />
           <Route path="/hms/doctors" element={<DoctorsList />} />
 
           <Route path="/hms/add/doctor" element={<AddDoctor />} />
+
+          <Route path="/hms/user/assignment" element={<UserAssignment />} />
 
           {/* HMS ROUTES */}
 

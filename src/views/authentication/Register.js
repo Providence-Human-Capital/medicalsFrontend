@@ -27,6 +27,7 @@ const Register = () => {
     email: "",
     password: "",
     password_confirmation: "",
+    type: "clinic",
   });
   const [error, setError] = useState("");
   const [errors, setErrors] = useState({});

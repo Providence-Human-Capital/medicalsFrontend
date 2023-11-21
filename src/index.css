@@ -734,3 +734,8 @@ button {
   border-spacing: 0;
   
 }
+
+.details_text {
+  font-family: 'Cooper Black', monospace !important;
+  font-size: 20px;
+}

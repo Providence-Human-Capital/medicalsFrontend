@@ -76,7 +76,12 @@ const AsideNav = ({}) => {
 
                   {user && user.role === "admin" && (
                     <li className="treeview">
-                      <a className="mb-1">
+                      <a
+                        className="mb-1"
+                        style={{
+                          cursor: "pointer",
+                        }}
+                      >
                         <i
                           className="ti-view-grid"
                           style={{
@@ -209,7 +214,12 @@ const AsideNav = ({}) => {
                   </li>
 
                   <li className="treeview">
-                    <a className="mb-1">
+                    <a
+                      className="mb-1"
+                      style={{
+                        cursor: "pointer",
+                      }}
+                    >
                       <i
                         className="ti-support"
                         style={{
@@ -236,7 +246,12 @@ const AsideNav = ({}) => {
                   </li>
 
                   <li className="treeview">
-                    <a className="mb-1">
+                    <a
+                      className="mb-1"
+                      style={{
+                        cursor: "pointer",
+                      }}
+                    >
                       <i
                         className="ti-support"
                         style={{
@@ -262,7 +277,12 @@ const AsideNav = ({}) => {
                     </ul>
                   </li>
                   <li className="treeview">
-                    <a className="mb-1">
+                    <a
+                      className="mb-1"
+                      style={{
+                        cursor: "pointer",
+                      }}
+                    >
                       <i
                         className="ti-support"
                         style={{
@@ -301,7 +321,12 @@ const AsideNav = ({}) => {
                   </li>
 
                   <li className="treeview">
-                    <a className="mb-1">
+                    <a
+                      className="mb-1"
+                      style={{
+                        cursor: "pointer",
+                      }}
+                    >
                       <i
                         className="ti-folder"
                         style={{
@@ -373,71 +398,96 @@ const AsideNav = ({}) => {
                   </li>
                 </ul>
               )}
-              {user && user.type === "clinic" && (
-                <ul className="sidebar-menu" data-widget="tree">
-                  <li id="aside-bar">
-                    <NavLink to={"/dashboard/clinic"}>
-                      <i
-                        className="ti-pie-chart"
-                        style={{
-                          fontSize: "20px",
-                        }}
-                      ></i>
-                      <span>Dashboard</span>
-                    </NavLink>
-                  </li>
+              {(user && user.type === "clinic") ||
+                (user.type === "admin" && (
+                  <ul className="sidebar-menu" data-widget="tree">
+                    <li id="aside-bar">
+                      <NavLink to={"/dashboard/clinic"}>
+                        <i
+                          className="ti-pie-chart"
+                          style={{
+                            fontSize: "20px",
+                          }}
+                        ></i>
+                        <span>Dashboard</span>
+                      </NavLink>
+                    </li>
 
-                  <li id="aside-bar">
-                    <NavLink to={"/hms/patients"}>
-                      <i
-                        className="ti-user"
-                        style={{
-                          fontSize: "20px",
-                        }}
-                      ></i>
-                      <span>Patients</span>
-                    </NavLink>
-                  </li>
+                    {/* hms/patient/search */}
 
-                  <li id="aside-bar">
-                    <NavLink to={"/hms/doctors"}>
-                      <i
-                        className="ti-id-badge"
-                        style={{
-                          fontSize: "20px",
-                        }}
-                      ></i>
-                      <span>Doctors</span>
-                    </NavLink>
-                  </li>
+                    <li id="aside-bar">
+                      <NavLink to={"/hms/patient/search"}>
+                        <i
+                          className="ti-search"
+                          style={{
+                            fontSize: "20px",
+                          }}
+                        ></i>
+                        <span>Patient's Search</span>
+                      </NavLink>
+                    </li>
 
-                  <li id="aside-bar">
-                    <NavLink to={"/hms/stock"}>
-                      <i
-                        className="ti-folder"
-                        style={{
-                          fontSize: "20px",
-                        }}
-                      ></i>
-                      <span>Stock Management</span>
-                    </NavLink>
-                  </li>
+                    <li id="aside-bar">
+                      <NavLink to={"/hms/patients"}>
+                        <i
+                          className="ti-user"
+                          style={{
+                            fontSize: "20px",
+                          }}
+                        ></i>
+                        <span>Patients</span>
+                      </NavLink>
+                    </li>
 
-                  <li id="aside-bar">
-                    <NavLink to={"/hms/reports"}>
-                      <i
-                        className="ti-folder"
-                        style={{
-                          fontSize: "20px",
-                        }}
-                      ></i>
-                      <span>Reports</span>
-                    </NavLink>
-                  </li>
+                    <li id="aside-bar">
+                      <NavLink to={"/hms/doctors"}>
+                        <i
+                          className="ti-id-badge"
+                          style={{
+                            fontSize: "20px",
+                          }}
+                        ></i>
+                        <span>Doctors</span>
+                      </NavLink>
+                    </li>
 
-                  
-                </ul>
-              )}
+                    <li id="aside-bar">
+                      <NavLink to={"/companies"}>
+                        <i
+                          className="ti-map-alt"
+                          style={{
+                            fontSize: "20px",
+                          }}
+                        ></i>
+                        <span>Companies</span>
+                      </NavLink>
+                    </li>
+
+                    <li id="aside-bar">
+                      <NavLink to={"/hms/stock"}>
+                        <i
+                          className="ti-folder"
+                          style={{
+                            fontSize: "20px",
+                          }}
+                        ></i>
+                        <span>Stock Management</span>
+                      </NavLink>
+                    </li>
+
+                    <li id="aside-bar">
+                      <NavLink to={"/hms/reports"}>
+                        <i
+                          className="ti-folder"
+                          style={{
+                            fontSize: "20px",
+                          }}
+                        ></i>
+                        <span>Reports</span>
+                      </NavLink>
+                    </li>
+                  </ul>
+                ))}
 
               <div className="sidebar-widgets">
                 <div className="mx-25 mb-30 pb-20 side-bx bg-primary-light rounded20">

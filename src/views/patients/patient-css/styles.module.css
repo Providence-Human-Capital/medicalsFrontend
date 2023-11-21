@@ -6,3 +6,15 @@
     background-size: cover;
     height: 400px;
   }
+
+
+
+
+  .my-component2 {
+    /* background-image: url(../../../../public/assets/images/gallery/landscape14.jpg); */
+    background-image: url(../../../../public/assets/images/landscape14.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 200px;
+  }

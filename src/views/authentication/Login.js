@@ -86,12 +86,12 @@ const Login = () => {
             user: data.user,
             token: data.access_token,
             isAuth: true,
-            role: data.user.role,
+            role: "admin",
             type: data.user.type,
           })
         );
         setRedirectToHome(true);
-        if (data.user.type === "clinic") {
+        if (data.user.type === "clinic" || data.user.type === "admin") {
           navigate("/dashboard/clinic");
         } else if (data.user.type === "medicals") {
           navigate("/dashboard");

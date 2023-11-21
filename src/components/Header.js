@@ -243,7 +243,7 @@ const Header = ({}) => {
 
               {/* <!-- User Account--> */}
               <li className="dropdown user user-menu">
-                <Link
+                <a
                   className="waves-effect waves-light dropdown-toggle w-auto l-h-12 bg-transparent py-0 no-shadow"
                   data-bs-toggle="dropdown"
                   title="User"
@@ -251,10 +251,10 @@ const Header = ({}) => {
                   <div className="d-flex pt-5">
                     <div className="text-end me-10">
                       <p className="pt-5 fs-14 mb-0 fw-700 text-primary">
-                        {user && user.name}
+                        {user && user.first_name}
                       </p>
                       <small className="fs-10 mb-0 text-uppercase text-mute">
-                        {user && user.role}
+                        {user && user.type}
                       </small>
                     </div>
                     <img
@@ -263,7 +263,7 @@ const Header = ({}) => {
                       alt=""
                     />
                   </div>
-                </Link>
+                </a>
                 <ul className="dropdown-menu animated flipInX">
                   <li className="user-body">
                     <Link className="dropdown-item" href="#">

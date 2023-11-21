@@ -22,6 +22,7 @@ import uiSlice from "./ui-store";
 import formsSlice from "./forms-store";
 import certificateSlice from "./certificates-store";
 import centralSlice from "./central-store";
+import { apiSlice } from "./api/apiSlice";
 
 const persistConfig = {
   key: "root",
@@ -40,6 +41,7 @@ const rootReducer = combineReducers({
   forms: formsSlice.reducer,
   certificate: certificateSlice.reducer,
   central: centralSlice.reducer,
+  [apiSlice.reducerPath] : apiSlice.reducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -50,7 +52,7 @@ const store = configureStore({
       serializableCheck: {
         ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(apiSlice.middleware),
 });
 
 export default store;

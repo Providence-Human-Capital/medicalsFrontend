@@ -10,9 +10,7 @@ import store from "./redux_store";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <React.StrictMode>
-      <PersistGate loading={null} persistor={persistStore(store)}></PersistGate>
-      <App />
-    </React.StrictMode>
+    <PersistGate loading={null} persistor={persistStore(store)}></PersistGate>
+    <App />
   </Provider>
 );

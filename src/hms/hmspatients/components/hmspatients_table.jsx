@@ -1,132 +1,63 @@
 import React, { useEffect } from "react";
 import HmPatientItem from "./hmspatient_item";
+import { useGetUsersQuery } from "../../../redux_store/api/userSlice";
+import Loading from "../../../components/loader/Loading";
 
 const HmsPatientsTable = ({}) => {
+  const {
+    data: pts,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetUsersQuery();
+
+  let content;
+
+  if (isLoading) {
+    content = <Loading />;
+  } else if (isSuccess && pts?.data) {
+    content = pts.data.map((patient) => (
+      <HmPatientItem key={patient.id} patient={patient} />
+    ));
+  } else if (isError) {
+    content = <div>{error.toString()}</div>;
+  }
+
+  useEffect(() => {
+    console.log("Patients List", pts);
+  }, [pts]);
+
   return (
     <>
-      <table
-        id="patient-table"
-        class="table table-hover align-middle mb-0 nowrap dataTable no-footer dtr-inline collapsed"
-        style={{
-          width: "100%",
-        }}
-        role="grid"
-        aria-describedby="patient-table_info"
-      >
-        <thead>
-          <tr role="row">
-            <th
-              class="sorting_asc"
-              tabindex="0"
-              aria-controls="patient-table"
-              rowspan="1"
-              colspan="1"
-              style={{
-                width: "59.2px",
-              }}
-              aria-sort="ascending"
-              aria-label="Id: activate to sort column descending"
-            >
-              Id
-            </th>
-            <th
-              class="sorting"
-              tabindex="0"
-              aria-controls="patient-table"
-              rowspan="1"
-              colspan="1"
-              style={{
-                width: "130.2px",
-              }}
-              aria-label="Patients: activate to sort column ascending"
-            >
-              Patients
-            </th>
-            <th
-              class="sorting"
-              tabindex="0"
-              aria-controls="patient-table"
-              rowspan="1"
-              colspan="1"
-              style={{
-                width: "44.2px",
-              }}
-              aria-label="Age: activate to sort column ascending"
-            >
-              Age
-            </th>
-            <th
-              class="sorting"
-              tabindex="0"
-              aria-controls="patient-table"
-              rowspan="1"
-              colspan="1"
-              style={{
-                width: "333.2px",
-              }}
-              aria-label="Adress: activate to sort column ascending"
-            >
-              Adress
-            </th>
-            <th
-              class="sorting"
-              tabindex="0"
-              aria-controls="patient-table"
-              rowspan="1"
-              colspan="1"
-              style={{
-                width: "102.2px",
-              }}
-              aria-label="Admited: activate to sort column ascending"
-            >
-              Admited
-            </th>
-            <th
-              class="dt-body-right sorting"
-              tabindex="0"
-              aria-controls="patient-table"
-              rowspan="1"
-              colspan="1"
-              style={{
-                width: "102.2px",
-              }}
-              aria-label="Discharge: activate to sort column ascending"
-            >
-              Discharge
-            </th>
-            <th
-              class="sorting"
-              tabindex="0"
-              aria-controls="patient-table"
-              rowspan="1"
-              colspan="1"
-              style={{
-                width: "0px",
-              }}
-              aria-label="Progress: activate to sort column ascending"
-            >
-              Progress
-            </th>
-            <th
-              class="dt-body-right sorting"
-              tabindex="0"
-              aria-controls="patient-table"
-              rowspan="1"
-              colspan="1"
-              style={{
-                width: "0%",
-                display: "none",
-              }}
-              aria-label="Status: activate to sort column ascending"
-            >
-              Status
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <HmPatientItem />
-        </tbody>
-      </table>
+      <div className="table-responsive">
+        <table className="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th
+                className="pointer-style"
+                style={{
+                  cursor: "pointer",
+                }}
+              >
+                ID
+              </th>
+              <th className="pointer-style">First Name</th>
+              <th className="pointer-style">Last Name</th>
+              <th className="pointer-style">Company</th>
+              <th>National_ID</th>
+              <th>Date Of Birth</th>
+              <th>Phone Number</th>
+              <th>Employee Number</th>
+              <th>Gender</th>
+              <th>Role</th>
+              <th>Relationship</th>
+              <th className="fw-500">Actions</th>
+            </tr>
+          </thead>
+          <tbody>{content}</tbody>
+        </table>
+      </div>
     </>
   );
 };

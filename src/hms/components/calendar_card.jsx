@@ -44,10 +44,10 @@ const CalendarCardComponent = ({}) => {
 
   return (
     <>
-      <div class=" col-md-4 d-lg-block">
+      <div className=" col-md-4 d-lg-block">
         <svg
           id="b142c218-c3ca-487e-979b-dffd11e3a76c"
-          class="cal-img "
+          className="cal-img "
           data-name="Layer 1"
           xmlns="http://www.w3.org/2000/svg"
           width="100%"
@@ -198,44 +198,44 @@ const CalendarCardComponent = ({}) => {
             fill="var(--secondary-color)"
           ></path>
         </svg>
-        <div class="calandarclock-block">
-          <div class="signboard outer">
-            <div class="signboard front inner anim04c">
+        <div className="calandarclock-block">
+          <div className="signboard outer">
+            <div className="signboard front inner anim04c">
               <ul>
-                <li class="year anim04c">
+                <li className="year anim04c">
                   <span>{ currentDate.year }</span>
                 </li>
                 <li>
-                  <ul class="calendarMain anim04c">
-                    <li class="month anim04c">
+                  <ul className="calendarMain anim04c">
+                    <li className="month anim04c">
                       <span>{ currentDate.month }</span>
                     </li>
-                    <li class="date anim04c">
+                    <li className="date anim04c">
                       <span>{ currentDate.day }</span>
                     </li>
-                    <li class="day anim04c">
+                    <li className="day anim04c">
                       <span>{ currentDate.dayOfWeek }</span>
                     </li>
                   </ul>
                 </li>
-                <li class="clock minute anim04c">32</li>
-                <li class="calendarNormal date2 anim04c">
+                <li className="clock minute anim04c">32</li>
+                <li className="calendarNormal date2 anim04c">
                   <span>{ currentDate.day }</span>
                 </li>
               </ul>
             </div>
-            <div class="signboard left inner anim04c">
+            <div className="signboard left inner anim04c">
               <ul>
-                <li class="clock hour anim04c">11</li>
-                <li class="calendarNormal day2 anim04c">
+                <li className="clock hour anim04c">11</li>
+                <li className="calendarNormal day2 anim04c">
                   <span>{  currentDate.dayOfWeek }</span>
                 </li>
               </ul>
             </div>
-            <div class="signboard right inner anim04c">
+            <div className="signboard right inner anim04c">
               <ul>
-                <li class="clock second anim04c">06</li>
-                <li class="calendarNormal month2 anim04c">
+                <li className="clock second anim04c">06</li>
+                <li className="calendarNormal month2 anim04c">
                   <span>{ currentDate.month }</span>
                 </li>
               </ul>
