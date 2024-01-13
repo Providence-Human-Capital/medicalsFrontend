@@ -48,7 +48,7 @@ const AdvancedSearchBox = () => {
         params: searchData,
       });
 
-      console.log(response.data);
+      console.log("SEARCHED DATA",response.data);
       if (response.status === 200) {
         dispatch(
           patientActions.setSearchResult({
@@ -143,6 +143,7 @@ const AdvancedSearchBox = () => {
                 Advance Search With Filters <i className="fa fa-angle-down"></i>
               </a>
               <div className="collapse" id="collapseExample">
+                
                 <div className="card card-body">
                   <div className="row">
                     <div className="col-md-4">
@@ -203,6 +204,7 @@ const AdvancedSearchBox = () => {
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>

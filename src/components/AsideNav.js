@@ -56,6 +56,42 @@ const AsideNav = ({}) => {
               </h4>
             </Link>
           </div>
+          {/* { user && user.type === "medicals" && (
+
+          )} */}
+          {/* /patients/add */}
+          <div className="help-bt">
+            <Link
+              to={
+                user.type === "medicals" ? "/attendees/add" : "/hms/add/patient"
+              }
+              className="d-flex align-items-center"
+            >
+              <div
+                className="rounded10 h-50 w-50 l-h-50 text-center me-15"
+                style={styles.color}
+              >
+                <i
+                  className="ti-plus"
+                  style={{
+                    fontSize: "20px",
+                  }}
+                ></i>
+              </div>
+              <h4
+                className="mb-0"
+                style={{
+                  textTransform: "uppercase",
+                  transition: "color 0.3s", // Adding transition for a smooth effect
+                  ":hover": {
+                    color: "green",
+                  },
+                }}
+              >
+                Add New Patient
+              </h4>
+            </Link>
+          </div>
           <div className="multinav">
             <div className="multinav-scroll" style={styles.pageHeight}>
               {/* <!-- sidebar menu--> */}
@@ -349,6 +385,16 @@ const AsideNav = ({}) => {
                           Inventory
                         </NavLink>
                       </li>
+                      <li id="aside-bar-tree" className="mt-1">
+                        {" "}
+                        <NavLink>
+                          <i className="icon-Commit">
+                            <span className="path1"></span>
+                            <span className="path2"></span>
+                          </i>
+                          Drugs
+                        </NavLink>
+                      </li>
                     </ul>
                   </li>
 
@@ -363,7 +409,10 @@ const AsideNav = ({}) => {
                       <span>Certificates (Batches)</span>
                     </NavLink>
                   </li>
-                  <li id="aside-bar">
+
+
+
+                  {/* <li id="aside-bar">
                     <NavLink to={"/reports"} activeclassname="active">
                       <i
                         className="ti-pencil-alt"
@@ -373,7 +422,53 @@ const AsideNav = ({}) => {
                       ></i>
                       <span className="aside_label">Reports</span>
                     </NavLink>
+                  </li> */}
+
+                  <li className="treeview">
+                    <a
+                      className="mb-1"
+                      style={{
+                        cursor: "pointer",
+                      }}
+                    >
+                      <i
+                        className="ti-pie-chart"
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+                      <span>Reports</span>
+                      <span className="pull-right-container">
+                        <i className="ti-arrow-circle-right"></i>
+                      </span>
+                    </a>
+                    <ul className="treeview-menu">
+
+                      <li id="aside-bar-tree" className="mt-1">
+                        {" "}
+                        <NavLink to={"/reports"}>
+                          <i className="icon-Commit">
+                            <span className="path1"></span>
+                            <span className="path2"></span>
+                          </i>
+                          Visual Reports
+                        </NavLink>
+                      </li>
+                      <li id="aside-bar-tree" className="mt-1">
+                        {" "}
+                        <NavLink to={"/reports/generate"}>
+                          <i className="icon-Commit">
+                            <span className="path1"></span>
+                            <span className="path2"></span>
+                          </i>
+                          Generated Reports
+                        </NavLink>
+                      </li>
+
+                    </ul>
                   </li>
+
+
                   <li id="aside-bar">
                     <NavLink to={"/dnotes"} activeclassname="active">
                       <i
@@ -474,6 +569,7 @@ const AsideNav = ({}) => {
                         <span>Stock Management</span>
                       </NavLink>
                     </li>
+                    
 
                     <li id="aside-bar">
                       <NavLink to={"/hms/reports"}>
@@ -486,6 +582,9 @@ const AsideNav = ({}) => {
                         <span>Reports</span>
                       </NavLink>
                     </li>
+
+                    
+
                   </ul>
                 ))}
 
@@ -507,7 +606,7 @@ const AsideNav = ({}) => {
                       className="py-10 fs-14 mb-0 text-primary"
                       style={styles.textColor}
                     >
-                      Best Helth Care here{" "}
+                      Best Health Care here{" "}
                       <i className="mdi mdi-arrow-right"></i>
                     </a>
                   </div>

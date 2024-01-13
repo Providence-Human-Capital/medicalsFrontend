@@ -105,6 +105,13 @@ import UserAssignment from "./hms/views/admin/admin_user_assignmet";
 import ClinicPatientDetailsPage from "./hms/hmspatients/hms_patient_detail";
 import ConsultationPage from "./hms/hmspatients/consultation_page";
 import PatientsAttendance from "./hms/patients_attendance";
+import ForwardPatientPage from "./hms/hmspatients/forward_patient";
+import PrescriptionForm from "./hms/hmsdoctors/forms/add_prescription_form";
+import EditPatientHms from "./hms/hmspatients/edit_patient";
+import DoctorsWaitingList from "./hms/hmsdoctors/doctors_waiting_list_page";
+import BookAppointment from "./hms/views/appointments/book_appointment";
+import DoctorsDashboard from "./hms/hmsdoctors/doctors_dash";
+import GeneratedReports from "./views/reports/GeneratedReports";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
@@ -261,7 +268,7 @@ const WrapperComponent = () => {
           path="/"
           element={
             isAuthenticated ? (
-              userType === "clinic" ? (
+              userType === "clinic" || userType === "admin" ? (
                 <Navigate to="/dashboard/clinic" />
               ) : (
                 <Navigate to="/dashboard" />
@@ -271,7 +278,6 @@ const WrapperComponent = () => {
             )
           }
         />
-
         <Route exact path="/" element={<HomeInit />}>
           <Route
             path="/dashboard/clinic"
@@ -291,15 +297,31 @@ const WrapperComponent = () => {
             path="/hms/patient/:patientId/consultation"
             element={<ConsultationPage />}
           />
-
+          <Route
+            path="/hms/patient/edit/:patientId"
+            element={<EditPatientHms />}
+          />
           <Route path="/hms/patient/search" element={<PatientsAttendance />} />
-
           <Route path="/hms/stock" element={<StockManagement />} />
           <Route path="/hms/doctors" element={<DoctorsList />} />
 
           <Route path="/hms/add/doctor" element={<AddDoctor />} />
+          <Route
+            path="/hms/doctor/waiting/:doctorId"
+            element={<DoctorsWaitingList />}
+          />
+          <Route path="/hms/doctors/dashboard" element={<DoctorsDashboard />} />
 
+          <Route path="/hms/book/appointment" element={<BookAppointment />} />
           <Route path="/hms/user/assignment" element={<UserAssignment />} />
+          <Route
+            path="/hms/assign/consultant/:patientId"
+            element={<ForwardPatientPage />}
+          />
+          <Route
+            path="/hms/add/prescription/:patientId"
+            element={<PrescriptionForm />}
+          />
 
           {/* HMS ROUTES */}
 
@@ -389,6 +411,7 @@ const WrapperComponent = () => {
           <Route path="/industry" exact element={<Industry />} />
 
           <Route path="/reports" exact element={<Reports />} />
+          <Route path="/reports/generate" exact element={<GeneratedReports />} />
           <Route
             path="/report/single/:day"
             exact

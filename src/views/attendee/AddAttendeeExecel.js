@@ -26,6 +26,7 @@ const AddAttendeeExecel = () => {
   const [category, setCategory] = useState("");
   const companies = useSelector((state) => state.company.companies);
   const isLoading = useSelector((state) => state.ui.isLoading);
+  const [loading, setLoading ] = useState(false);
 
   const epurposes = useSelector((state) => state.central.examPurposes);
 
@@ -187,7 +188,7 @@ const AddAttendeeExecel = () => {
                             <option value=""></option>
                             {companies.map((company) => (
                               <option key={company.id} value={company.id}>
-                                {company.company_name}
+                                {company.company_name.toUpperCase()}
                               </option>
                             ))}
                           </select>
@@ -260,7 +261,7 @@ const AddAttendeeExecel = () => {
                       <div className="col-md-6"></div>
                     </div>
 
-                    {isLoading ? (
+                    {loading ? (
                       <Loading />
                     ) : (
                       <SaveButton

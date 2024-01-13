@@ -1,18 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import * as XLSX from "xlsx";
 import { PHYSICAL_EXAM } from "../../../helpers/helpers";
 import { Link } from "react-router-dom";
-import DownloadButton from "../../../components/buttons/DownloadButton";
 
-const SearchedClientsBox = () => {
-  const searchedClients =
-    useSelector((state) => state.patient.searchResults) || [];
+const ReportsListBox = ({}) => {
+  const reportsFilteredResults =
+    useSelector((state) => state.patient.reportsFilteredResults) || [];
 
-  // Your data structure
-
-  const flatttenedSearchedData = (searchedClients) => {
-    return searchedClients.map((item) => {
+  const flattenedReportsData = (reportsFilteredResults) => {
+    return reportsFilteredResults.map((item) => {
       const flattenedItem = {
         EMPLOYEE_NUMBER: item.attendee.employee_number,
         FIRST_NAME: item.attendee.first_name,
@@ -31,8 +28,8 @@ const SearchedClientsBox = () => {
       return flattenedItem;
     });
   };
-  const flatSearchData = flatttenedSearchedData(searchedClients);
 
+  const reportData = flattenedReportsData(reportsFilteredResults);
   const convertJsonToExcel = (flatData) => {
     const ws = XLSX.utils.json_to_sheet(flatData);
     const wb = XLSX.utils.book_new();
@@ -41,7 +38,7 @@ const SearchedClientsBox = () => {
     const blob = new Blob([excelBuffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
-    const fileName = "MedicalSearchResult.xlsx";
+    const fileName = "Report.xlsx";
     saveAs(blob, fileName);
   };
 
@@ -51,21 +48,42 @@ const SearchedClientsBox = () => {
     link.download = fileName;
     link.click();
   };
-
   const handleDownloadExcel = () => {
-    convertJsonToExcel(flatSearchData);
+    convertJsonToExcel(reportData);
   };
 
   return (
     <>
       <div className="box">
-        <div className="box-header no-border">
-          <h4 className="box-title">
-            Searched Clients:{" "}
-            <span className="badge badge-pill badge-warning">
-              {searchedClients.length}
-            </span>
-          </h4>
+        <div className="row">
+          <div className="col-md-9">
+            <div className="box-header no-border">
+              <h4 className="box-title">
+                GENERATED RESULTS: - {"  "}
+                <span className="badge badge-pill badge-warning">
+                  {reportsFilteredResults.length}
+                </span>
+              </h4>
+            </div>
+          </div>
+          <div className="col-md-3">
+          <div
+          style={{
+            margin: "2rem",
+          }}
+        >
+          <button
+            className="cssbuttons-io-button"
+            style={{
+              width: "fit-content",
+              borderRadius: "10px"
+            }}
+            onClick={handleDownloadExcel}
+          >
+            DOWNLOAD CSV
+          </button>
+        </div>
+          </div>
         </div>
 
         <div className="box-body pt-0">
@@ -84,8 +102,8 @@ const SearchedClientsBox = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {searchedClients &&
-                    searchedClients.map((client, index) => (
+                  {reportsFilteredResults &&
+                    reportsFilteredResults.map((client, index) => (
                       <tr key={client.id}>
                         <td>{client.attendee.first_name}</td>
                         <td>{client.attendee.last_name}</td>
@@ -111,25 +129,9 @@ const SearchedClientsBox = () => {
             </div>
           </div>
         </div>
-
-        <div
-          style={{
-            margin: "2rem",
-          }}
-        >
-          <button
-            className="cssbuttons-io-button"
-            style={{
-              width: "fit-content",
-            }}
-            onClick={handleDownloadExcel}
-          >
-            Download CSV
-          </button>
-        </div>
       </div>
     </>
   );
 };
 
-export default SearchedClientsBox;
+export default ReportsListBox;

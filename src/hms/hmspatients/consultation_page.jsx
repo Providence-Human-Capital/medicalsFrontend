@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import BreadCrumb from "../../components/BreadCrumb";
+import ConsultationForm from "./forms/consultation_form";
 
 const ConsultationPage = ({}) => {
   return (
@@ -10,7 +11,9 @@ const ConsultationPage = ({}) => {
       />
       <div className="section">
         <div className="row">
-          <div className="col-xl-8 col-12"></div>
+          <div className="col-xl-8 col-12">
+            <ConsultationForm />
+          </div>
           <div
             className="col-xl-4 col-12"
             style={{

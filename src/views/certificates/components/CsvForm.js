@@ -7,6 +7,8 @@ import Papa from "papaparse";
 import ProfessionalCertificatePrintCsv from "../certificates-print/ProfessionalCertificatePrintCsv";
 import ReactToPrint, { useReactToPrint } from "react-to-print";
 import InHouseCertificatePrintCsv from "../certificates-print/InHouseCertificatePrintCsv";
+import CityCertificate from "../certificates-print/CityCertificate";
+import CityPrintOn from "../certificates-print/CityPrintOn";
 
 const ProfessionalCertificatePrintAll = forwardRef(
   ({ company, clients, examData }, ref) => {
@@ -61,6 +63,46 @@ const InHouseCertificatePrintAll = forwardRef(
   }
 );
 
+const CityCertificatesPrintAll = forwardRef(
+  ({ company, batch, doctor }, ref) => {
+    return (
+      <div
+        ref={ref}
+        style={{
+          margin: "0",
+        }}
+      >
+        <CityCertificate company={company} client={batch} doctor={doctor} />
+      </div>
+    );
+  }
+);
+
+const CityPrintOnAll = forwardRef(
+  ({ company, clients, examData, doctor }, ref) => {
+    return (
+      <div
+        ref={ref}
+        style={{
+          margin: "0",
+        }}
+      >
+        {clients.map((client, index) => (
+          <div
+            key={index}
+            style={{
+              height: "1025px",
+              marginTop: index >= 1 ? "6rem" : "0",
+            }}
+          >
+            <CityPrintOn company={company} client={client} examData={examData} doctor={doctor} index={index}  />
+          </div>
+        ))}
+      </div>
+    );
+  }
+);
+
 const CsvForm = () => {
   const [selectedOption, setSelectedOption] = useState("professional");
   const companies = useSelector((state) => state.company.companies);
@@ -81,6 +123,8 @@ const CsvForm = () => {
     exam_date: Yup.date().required("Date of Medical Examination is required"),
     company_name: Yup.string().required("Company is required"),
     fileInput: Yup.mixed().required("CSV file is required"),
+    designation: Yup.string().nullable(),
+    doc_address: Yup.string().nullable()
   });
 
   const handleSubmit = (values, { setSubmitting }) => {
@@ -122,6 +166,10 @@ const CsvForm = () => {
       handlePrintProfessionalAll();
     } else if (selectedOption === "inhouse") {
       handlePrintAllInHouseCertificates();
+    } else if (selectedOption === "city") {
+      handlePrintCityCertificatesAll();
+    } else if (selectedOption === "printon") {
+      handlePrintAllCityPrintOn();
     }
   };
 
@@ -135,6 +183,18 @@ const CsvForm = () => {
 
   const handlePrintAllInHouseCertificates = useReactToPrint({
     content: () => inHouseCertificatesPrintAllRef.current,
+  });
+
+  const cityCertificatePrintAllRef = useRef();
+
+  const handlePrintCityCertificatesAll = useReactToPrint({
+    content: () => cityCertificatePrintAllRef.current,
+  });
+
+  const cityPrintOnPrintAllRef = useRef();
+
+  const handlePrintAllCityPrintOn = useReactToPrint({
+    content: () => cityPrintOnPrintAllRef.current,
   });
 
   return (
@@ -166,6 +226,35 @@ const CsvForm = () => {
           clients={csvData}
         />
       </div>
+
+      <div
+        className="row"
+        style={{
+          display: "none",
+        }}
+      >
+        <CityCertificatesPrintAll
+          ref={cityCertificatePrintAllRef}
+          company={selectedCompany}
+          examData={examData}
+          clients={csvData}
+        />
+      </div>
+
+      <div
+        className="row"
+        style={{
+          display: "none",
+        }}
+      >
+        <CityPrintOnAll
+          ref={cityPrintOnPrintAllRef}
+          company={selectedCompany}
+          examData={examData}
+          clients={csvData}
+        />
+      </div>
+
       <Formik
         initialValues={{
           examinerName: "DR F MUSHAMBI",
@@ -173,6 +262,9 @@ const CsvForm = () => {
           exam_date: "",
           company_name: "",
           fileInput: null,
+          designation: "",
+          doc_address: "",
+
         }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
@@ -222,6 +314,34 @@ const CsvForm = () => {
                         InHouse Certificates
                       </label>
                     </div>
+                    <div className="form-check form-check-inline">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="inlineRadioOptions"
+                        id="City"
+                        value="city"
+                        checked={selectedOption === "city"}
+                        onChange={handleOptionChange}
+                      />
+                      <label className="form-check-label" htmlFor="City">
+                        City Of Harare Certificates
+                      </label>
+                    </div>
+                    <div className="form-check form-check-inline">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="inlineRadioOptions"
+                        id="PrintOn"
+                        value="printon"
+                        checked={selectedOption === "printon"}
+                        onChange={handleOptionChange}
+                      />
+                      <label className="form-check-label" htmlFor="PrintOn">
+                        City Of Harare PrintOn
+                      </label>
+                    </div>
                   </div>
                   <div className="col-lg-6 col-md-12">
                     <div className="form-floating">
@@ -268,6 +388,56 @@ const CsvForm = () => {
                       />
                     </div>
                   </div>
+
+
+                  <div className="col-lg-6 col-md-12">
+                    <div className="form-floating">
+                      <Field
+                        type="text"
+                        className="form-control"
+                        id="designation"
+                        name="designation"
+                        placeholder="EXAMINER DESIGNATION
+                    "
+                      />
+                      <label htmlFor="designation">
+                      EXAMINER DESIGNATION
+                      </label>
+                      <ErrorMessage
+                        name="designation"
+                        component="div"
+                        style={{
+                          color: "red",
+                        }}
+                        className="error-message"
+                      />
+                    </div>
+                  </div>
+                  <div className="col-lg-6 col-md-12">
+                    <div className="form-floating">
+                      <Field
+                        type="text"
+                        className="form-control"
+                        id="doc_address"
+                        name="doc_address"
+                        placeholder="EXAMINER ADDRESS
+                    "
+                      />
+                      <label htmlFor="doc_address">
+                      EXAMINER ADDRESS
+                      </label>
+                      <ErrorMessage
+                        name="doc_address"
+                        component="div"
+                        style={{
+                          color: "red",
+                        }}
+                        className="error-message"
+                      />
+                    </div>
+                  </div>
+
+
                   <div className="col-lg-6 col-md-12">
                     <div className="form-floating">
                       <Field

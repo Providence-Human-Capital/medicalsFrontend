@@ -677,7 +677,7 @@ const AddHmsPatient = ({}) => {
                                 >
                                   <option value=""></option>
 
-                                  {companies.data &&
+                                  {/* {companies.data &&
                                     companies.data.map((company) => (
                                       <option
                                         key={company.id}
@@ -685,7 +685,7 @@ const AddHmsPatient = ({}) => {
                                       >
                                         {company.company_name.toUpperCase()}
                                       </option>
-                                    ))}
+                                    ))} */}
                                   <option value="PHC">PHC</option>
                                   <option value="CAPRI">CAPRI</option>
                                 </Field>
@@ -737,12 +737,12 @@ const AddHmsPatient = ({}) => {
                                   name="role_id"
                                 >
                                   <option value=""></option>
-                                  {roles.data &&
+                                  {/* {roles.data &&
                                     roles.data.map((role) => (
                                       <option key={role.id} value={role.id}>
                                         {role.name.toUpperCase()}
                                       </option>
-                                    ))}
+                                    ))} */}
                                 </Field>
                                 <label htmlFor="role_id">EMPLOYEE ROLE</label>
                                 <ErrorMessage

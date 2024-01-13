@@ -13,6 +13,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { certificateActions } from "../../../redux_store/certificates-store";
 import ProfessionalCertificatePrint from "../certificates-print/ProfessionalCertificatePrint";
+import CityCertificate from "../certificates-print/CityCertificate";
 
 const InHousePrintAllCertificates = forwardRef(
   ({ certificates, doctor, company }, ref) => {
@@ -70,6 +71,24 @@ const ProfessionalCertificatePrintAll = forwardRef(
     );
   }
 );
+
+const CityCertificatesPrintAll = forwardRef(
+  ({ company, batch, doctor }, ref) => {
+    return (
+      <div
+        ref={ref}
+        style={{
+          margin: "0",
+        }}
+      >
+        <CityCertificate company={company} client={batch} doctor={doctor} />
+      </div>
+    );
+  }
+);
+
+
+
 
 const CertificatePrintTable = () => {
   const validationSchema = Yup.object().shape({

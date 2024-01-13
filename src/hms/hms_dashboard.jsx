@@ -6,12 +6,10 @@ import { useGetCompaniesQuery } from "../redux_store/api/companySlice";
 
 const HospitalManagementDashboard = () => {
   const { data: rls } = useGetRolesQuery();
-
   const { data: cmps } = useGetCompaniesQuery();
 
   useEffect(() => {
-    console.log(rls);
-    console.log("companies", cmps);
+   
   }, []);
 
   return (

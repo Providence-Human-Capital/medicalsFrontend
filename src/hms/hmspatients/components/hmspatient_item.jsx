@@ -68,7 +68,8 @@ const HmPatientItem = ({ patient }) => {
 
   return (
     <>
-      <tr className="hover-primary">
+      <tr className="hover-primary" style={{
+       }}>
         <td>PT-{patient.id}</td>
         <td>{patient.first_name}</td>
         <td>{patient.last_name}</td>

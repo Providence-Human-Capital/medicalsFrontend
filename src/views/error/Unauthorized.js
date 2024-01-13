@@ -32,9 +32,9 @@ const Unauthorized = () => {
                 <p className="card-text">
                   You are not authorized to access this location.
                 </p>
-                <a onClick={handleGoBack} className="btn btn-primary">
+                <Link to={'/dashboard'} className="btn btn-primary">
                   Go Back
-                </a>
+                </Link>
               </div>
             </div>
           </div>

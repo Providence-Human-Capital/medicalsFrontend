@@ -739,3 +739,7 @@ button {
   font-family: 'Cooper Black', monospace !important;
   font-size: 20px;
 }
+
+.pointer-style {
+ cursor: pointer !important;
+}

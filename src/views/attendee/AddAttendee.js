@@ -343,7 +343,7 @@ const AddAttendee = () => {
                                   <option value=""></option>
                                   {companies.map((company) => (
                                     <option key={company.id} value={company.id}>
-                                      {company.company_name}
+                                      {company.company_name.toUpperCase()}
                                     </option>
                                   ))}
                                 </Field>

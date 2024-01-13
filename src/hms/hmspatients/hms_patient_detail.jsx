@@ -25,9 +25,9 @@ const ClinicPatientDetailsPage = () => {
           </div>
           <div className="col-xl-8 col-12">
             <div className="d-md-flex align-items-center justify-content-between mb-20">
-              <a className="btn btn-primary me-5 mb-md-0 mb-5">
+              <Link to={`/hms/patient/edit/${patientId}`} className="btn btn-primary me-5 mb-md-0 mb-5">
                 <i className="fa fa-edit"></i> Edit Profile
-              </a>
+              </Link>
               <div className="d-flex">
                 <a className="btn btn-outline btn-success me-5">
                   <i className="fa fa-times-circle-o"></i> Lab Results

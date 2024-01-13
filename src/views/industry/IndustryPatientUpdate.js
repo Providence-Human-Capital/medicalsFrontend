@@ -158,7 +158,7 @@ const IndustryPatientUpdate = () => {
             className="col-xl-4 col-12"
             style={{
               overflowY: "scroll",
-              height: "80vh",
+              height: "100vh",
               overflowX: "hidden",
             }}
           >

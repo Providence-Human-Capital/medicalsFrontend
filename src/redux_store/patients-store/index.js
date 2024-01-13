@@ -20,6 +20,8 @@ const initialState = {
 
   searchResults: [],
 
+  reportsFilteredResults: [],
+
   activityByDay: [],
   reportByDay: [],
 };
@@ -46,6 +48,10 @@ const patientSlice = createSlice({
 
     setSearchResult: (state, action) => {
       state.searchResults = action.payload.searchResults;
+    },
+
+    setReportsFilteredResults: (state, action) => {
+      state.reportsFilteredResults = action.payload.reportsFilteredResults;
     },
 
     resetSearchResult: (state, action) => {

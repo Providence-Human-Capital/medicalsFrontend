@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import BreadCrumb from "../components/BreadCrumb";
 import { useGetUsersQuery } from "../redux_store/api/userSlice";
+import { Link } from "react-router-dom";
 
 const PatientsAttendance = ({}) => {
   const [searchQuery, setSearchQuery] = useState("");
   const { data: users, error, isLoading } = useGetUsersQuery();
+  const [loading, setLoading] = useState(false);
+  const [checkedInUsers, setCheckedInUsers] = useState([]);
+  const currentDate = new Date();
+  const currentDateString = currentDate.toISOString().split("T")[0];
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -18,9 +23,62 @@ const PatientsAttendance = ({}) => {
     );
   });
 
+  const getCheckedInUsers = async () => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/today/checkin`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const responseData = await response.json();
+      setCheckedInUsers(responseData.data);
+      console.log(responseData.data);
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
+  const handleCheckIn = async (userId) => {
+    setLoading(true);
+    const checkInData = {
+      user_id: parseInt(userId),
+    };
+
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/patient/checkin`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(checkInData),
+        }
+      );
+
+      if (!response.ok) {
+        // If the response status is not OK (e.g., 404 or 500),
+        // throw an error and handle it in the catch block.
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+      console.log(responseData);
+      // You might want to do something with the responseData here
+    } catch (error) {
+      console.error("Error:", error.message);
+      // Handle the error more gracefully, e.g., show an error message to the user.
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     // Fetch all users when the component mounts
     handleSearch(searchQuery);
+    getCheckedInUsers();
   }, [searchQuery]);
 
   return (
@@ -115,25 +173,56 @@ const PatientsAttendance = ({}) => {
                           </td>
                           <td>{user.company?.company_name.toUpperCase()}</td>
                           <td>{user.employee_number}</td>
+                          {checkedInUsers && (
+                            <td>
+                              {loading ? (
+                                <h1>Loading...</h1>
+                              ) : (
+                                <>
+                                  {checkedInUsers.some((checkedUser) => {
+                                    const checkinDate =
+                                      checkedUser?.checkin.split(" ")[0];
+                                    return (
+                                      checkedUser.user?.id === user.id &&
+                                      checkinDate === currentDateString
+                                    );
+                                  }) ? (
+                                    <span
+                                      role="img"
+                                      aria-label="Checked In"
+                                      style={{
+                                        fontSize: "2em",
+                                        paddingLeft: "45px",
+                                      }}
+                                    >
+                                      ✅
+                                    </span>
+                                  ) : (
+                                    <button
+                                      className="btn btn-success-light"
+                                      style={{
+                                        fontWeight: "bold",
+                                      }}
+                                      onClick={() => handleCheckIn(user.id)}
+                                    >
+                                      CHECK IN
+                                    </button>
+                                  )}
+                                </>
+                              )}
+                            </td>
+                          )}
+
                           <td>
-                            <button
-                              className="btn btn-success-light"
-                              style={{
-                                fontWeight: "bold",
-                              }}
-                            >
-                              CHECK
-                            </button>
-                          </td>
-                          <td>
-                            <button
+                            <Link
+                              to={`/hms/assign/consultant/${user.id}`}
                               className="btn btn-outline btn-success me-5"
                               style={{
                                 fontWeight: "bold",
                               }}
                             >
                               FORWARD PATIENT
-                            </button>
+                            </Link>
                           </td>
                         </tr>
                       ))}

@@ -52,7 +52,7 @@ const ProfessionalCertificatePrintCsv = ({
               <div className="ss_element">
                 <p className="overall_date p_text">
                   {date.dayNumber}
-                  <span className="year_month"> {date.monthYear}</span>
+                  <span className="year_month">{date.monthYear}</span>
                 </p>
               </div>
             </div>
