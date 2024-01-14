@@ -132,7 +132,7 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                                     id="previous_health_issues"
                                     name="previous_health_issues"
                                     className="form-control"
-                                    disabled={user.role !== "admin"}
+                                    disabled={user.role_id !== 6}
                                   />
                                   <label htmlFor="previous_health_issues">
                                     ANY PREVIOUS HEALTH ISSUES
@@ -142,7 +142,7 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                                     htmlFor="previous_health_issues"
                                     className="error-message"
                                   />
-                                  {user.role !== "admin" && (
+                                  {user.role_id !== 6 && (
                                       <Tooltip
                                         placement="top"
                                         title="Only a doctor or nurse is allowed to comment on xray"
@@ -166,7 +166,7 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                                     id="year_of_diagnosis"
                                     name="year_of_diagnosis"
                                     className="form-control"
-                                    disabled={user.role !== "admin"}
+                                    disabled={user.role_id !== 6}
                                   />
                                   <label htmlFor="year_of_diagnosis">
                                     YEAR OF DIAGNOSIS
@@ -191,7 +191,7 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                                 rows="4"
                                 className="form-control"
                                 style={styles.textarea}
-                                disabled={user.role !== "admin"}
+                                disabled={user.role_id !== 6}
                               />
                               <label htmlFor="comment">GENERAL COMMENT</label>
                               <ErrorMessage
@@ -217,7 +217,7 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                                 value="1"
                                 id="chestXRayYes"
                                 name="chest_x_ray"
-                                disabled={user.role !== "admin"}
+                                disabled={user.role_id !== 6}
                               />
                               <label
                                 className="form-check-label"
@@ -233,7 +233,7 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                                 value="0"
                                 id="chestXRayNo"
                                 name="chest_x_ray"
-                                disabled={user.role !== "admin"}
+                                disabled={user.role_id !== 6}
                               />
                               <label
                                 className="form-check-label"
@@ -257,7 +257,7 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                                 rows="3"
                                 className="form-control"
                                 style={styles.textarea}
-                                disabled={user.role !== "admin"}
+                                disabled={user.role_id !== 6}
                               />
                               <label htmlFor="remarks">GENERAL REMARKS</label>
                               <ErrorMessage
@@ -285,7 +285,7 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                                     id="swab_result"
                                     name="swab_result"
                                     className="form-control"
-                                    disabled={user.role !== "admin"}
+                                    disabled={user.role_id !== 6}
                                   />
                                   <ErrorMessage
                                     name="swab_result"
@@ -318,7 +318,7 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                                         id="fit_to_work"
                                         name="fit_to_work"
                                         className="form-select"
-                                        disabled={user.role !== "admin"}
+                                        disabled={user.role_id !== 6}
                                       >
                                         <option value="">Select</option>
                                         <option value="1">YES</option>
@@ -333,7 +333,7 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                             </div>
                           </div>
 
-                          {user.role !== "admin" ? (
+                          {user.role_id !== 6 ? (
                             <FormButton
                               text={"Previous"}
                               direction={"left"}

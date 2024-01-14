@@ -5,7 +5,7 @@ const ReceptionistMiddleware = (Component) => {
 
   const user = useSelector((state) => state.auth.user);
 
-  if (user.role !== 'receptionist') {
+  if (user.role_id !== 7) {
     // Redirect to unauthorized page or show an error message
     history.push('/unauthorized');
   }

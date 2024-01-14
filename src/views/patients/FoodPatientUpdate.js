@@ -61,7 +61,7 @@ const FoodPatientUpdate = () => {
 
       break;
     case 5:
-      if (user.role !== "admin") {
+      if (user.role_id !== 6) {
         navigate("/unauthorized");
       }
       foodHandlerForm = (
@@ -118,7 +118,7 @@ const FoodPatientUpdate = () => {
             className="col-xl-4 col-12"
             style={{
               overflowY: "scroll",
-              height: "80vh",
+              height: "120vh",
               overflowX: "hidden",
             }}
           >

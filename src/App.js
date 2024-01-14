@@ -359,7 +359,7 @@ const WrapperComponent = () => {
 
           <Route path="/patients/:patientId/xray/add" element={<XrayForm />} />
 
-          <Route path="/patients/edit" element={<EditPatient />} />
+          <Route path="/patients/edit/:patientId" element={<EditPatient />} />
 
           <Route path="/companies" exact element={<Companies />} />
           <Route

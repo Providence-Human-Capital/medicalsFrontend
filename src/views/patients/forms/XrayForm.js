@@ -232,13 +232,13 @@ const XrayForm = ({ handlePrev, handleNext }) => {
                                       as="select"
                                       name="status"
                                       className="form-select"
-                                      disabled={user.role !== "admin"}
+                                      disabled={user.role_id !== 6}
                                     >
                                       <option value="NEGATIVE">
-                                        POSITIVE RESULT
+                                        XRAY GOOD (NAD) 
                                       </option>
                                       <option value="POSITIVE">
-                                        NEGATIVE RESULT
+                                        XRAY BAD (AD)
                                       </option>
                                     </Field>
                                     <ErrorMessage
@@ -267,7 +267,7 @@ const XrayForm = ({ handlePrev, handleNext }) => {
                                             ? "error-input"
                                             : ""
                                         }`}
-                                        disabled={user.role !== "admin"}
+                                        disabled={user.role_id !== 6}
                                       />
                                       <ErrorMessage
                                         name="result"

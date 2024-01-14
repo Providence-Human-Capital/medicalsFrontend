@@ -83,7 +83,7 @@ const AddAttendee = () => {
     employee_number: yup.string().nullable(),
     category: yup.string().required("Please Category is Required!"),
     last_x_ray: yup
-      .string()
+      .string() 
       .matches(
         /^(N\/A|\d{4}|\d{4}-\d{2})$/,
         "Please enter a valid year (YYYY) or year and month (YYYY-MM), or N/A"

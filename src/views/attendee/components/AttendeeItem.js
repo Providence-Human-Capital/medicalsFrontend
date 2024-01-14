@@ -113,7 +113,7 @@ const AttendeeItem = ({ attendee }) => {
             </span>
           </Link>
           <Link
-            to={`/`}
+            to={`/patients/edit/${attendee.id}`}
             class="waves-effect waves-light btn btn-primary-light btn-circle mx-5"
           >
             <span class="icon-Write">

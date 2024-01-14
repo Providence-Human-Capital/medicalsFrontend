@@ -207,6 +207,15 @@ const PatientItem = ({ patient, index }) => {
               <span className="path2"></span>
             </span>
           </Link>
+          <Link
+            to={`/patients/edit/${patient.id}`}
+            class="waves-effect waves-light btn btn-primary-light btn-circle mx-5"
+          >
+            <span class="icon-Write">
+              <span class="path1"></span>
+              <span class="path2"></span>
+            </span>
+          </Link>
 
           <a
             onClick={() => handleDelete(patient.id)}

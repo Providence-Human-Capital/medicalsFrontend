@@ -110,7 +110,7 @@ const AsideNav = ({}) => {
                     </NavLink>
                   </li>
 
-                  {user && user.role === "admin" && (
+                  {user && user.role_id === 6 && (
                     <li className="treeview">
                       <a
                         className="mb-1"
@@ -615,7 +615,7 @@ const AsideNav = ({}) => {
                   <p>
                     <strong className="d-block">Providence Medicals</strong> ©
                     <script>document.write(new Date().getFullYear());</script>
-                    All Rights Reserved
+                    All Rights Reserved  
                   </p>
                 </div>
               </div>

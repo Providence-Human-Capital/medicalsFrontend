@@ -87,9 +87,6 @@ const CityCertificatesPrintAll = forwardRef(
   }
 );
 
-
-
-
 const CertificatePrintTable = () => {
   const validationSchema = Yup.object().shape({
     template: Yup.mixed().nullable(),
@@ -122,6 +119,12 @@ const CertificatePrintTable = () => {
 
   const handlePrintProfessionalAll = useReactToPrint({
     content: () => professionalCertificatePrintAllRef.current,
+  });
+
+  const cityCertificatePrintAllRef = useRef();
+
+  const handlePrintCityCertificatesAll = useReactToPrint({
+    content: () => cityCertificatePrintAllRef.current,
   });
 
   useEffect(() => {}, []);
@@ -240,30 +243,30 @@ const CertificatePrintTable = () => {
                   <Form>
                     <div className="row">
                       <div className="col-md-4">
-                        <div className="form-group">
-                          <label htmlFor="examinerName">
-                            Name Of Examiner:
-                          </label>
+                        <div className="form-floating">
                           <Field
                             type="text"
                             id="examinerName"
                             name="examinerName"
-                            className="form-control my-upload"
+                            className="form-control"
                           />
+                          <label htmlFor="examinerName">
+                            NAME OF EXAMINER:
+                          </label>
                           <ErrorMessage name="examinerName" component="div" />
                         </div>
                       </div>
                       <div className="col-md-4">
-                        <div className="form-group">
-                          <label htmlFor="qualifications">
-                            Qualifications:
-                          </label>
+                        <div className="form-floating">
                           <Field
                             type="text"
                             id="qualifications"
                             name="qualifications"
-                            className="form-control my-upload"
+                            className="form-control"
                           />
+                          <label htmlFor="qualifications">
+                            QUALIFICATIONS:
+                          </label>
                           <ErrorMessage name="qualifications" component="div" />
                         </div>
                       </div>
@@ -295,13 +298,14 @@ const CertificatePrintTable = () => {
                         </div>
                       </div>
                     </div>
+                    <div className="separation-div"></div>
 
                     <div className="row">
                       <div className="form-group">
                         <button
                           type="submit"
                           className="btn btn-primary"
-                          style={{ borderRadius: "20px", fontWeight: "bold" }}
+                          style={{ borderRadius: "10px", fontWeight: "bold" }}
                           disabled={
                             !values.examinerName || !values.qualifications
                           }
@@ -352,7 +356,35 @@ const CertificatePrintTable = () => {
                   checked={selectType === "local"}
                 />
                 <label className="form-check-label" htmlFor="checkbox4">
-                  <strong>Local Certificate</strong>
+                  <strong>InHouse Certificate</strong>
+                </label>
+              </div>
+
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  value="coh"
+                  id="checkbox5"
+                  onChange={handleSelectType}
+                  checked={selectType === "coh"}
+                />
+                <label className="form-check-label" htmlFor="checkbox5">
+                  <strong>City of Harare Certificate</strong>
+                </label>
+              </div>
+
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  value="cohpo"
+                  id="checkbox6"
+                  onChange={handleSelectType}
+                  checked={selectType === "cohpo"}
+                />
+                <label className="form-check-label" htmlFor="checkbox6">
+                  <strong>City of Harare Certificate (PrintOn)</strong>
                 </label>
               </div>
             </div>

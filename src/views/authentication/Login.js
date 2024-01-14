@@ -222,10 +222,10 @@ const Login = () => {
               {/* <!-- /.col --> */}
               <div className="col-6">
                 <div className="fog-pwd text-end">
-                  <Link to={"/"} className="hover-warning">
+                  {/* <Link to={"/"} className="hover-warning">
                     <i className="ti-lock"></i> Forgot password?
                   </Link>
-                  <br />
+                  <br /> */}
                 </div>
               </div>
               {/* <!-- /.col --> */}

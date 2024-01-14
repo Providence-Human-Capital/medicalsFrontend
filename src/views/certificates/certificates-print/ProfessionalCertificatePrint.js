@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./Certificate.css";
 
-function ProfessionalCertificatePrint({ company, doctor, person }) {
+function ProfessionalCertificatePrint({ company, doctor, person, index }) {
   // patient.created_at
 
   const getDate = (createdAt) => {
@@ -26,519 +26,96 @@ function ProfessionalCertificatePrint({ company, doctor, person }) {
     <>
       <div
         style={{
-          fontSize: "11pt",
-          // height: "1025px",
+          fontSize: "15px",
+          marginLeft: "5rem",
+          marginRight: "5rem",
         }}
       >
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>
-          <span style={{ width: "9.6pt", display: "inline-block" }}>
-            &nbsp;
-          </span>
-          <span style={{ width: "40.65pt", display: "inline-block" }}>
-            &nbsp;
-          </span>
-        </p>
-        <p style={{ lineHeight: "normal" }}>
-          <span style={{ width: "57.6pt", display: "inline-block" }}>
-            &nbsp;
-          </span>
-          <strong>
-            <span
-              style={{
-                fontFamily: '"Cooper Black"',
-                textTransform: "uppercase",
-              }}
-            >
-              {doctor.examinerName}
-            </span>
-          </strong>
-        </p>
-        <p style={{ lineHeight: "normal" }}>
-          <strong>
-            <span style={{ fontFamily: '"Cooper Black"' }}>
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
-            </span>
-          </strong>
-          <strong>
-            <span
-              style={{
-                fontFamily: '"Cooper Black"',
-                textTransform: "uppercase",
-              }}
-            >
-              {person.patient.attendee.first_name}
-              {"  "} {person.patient.attendee.last_name}
-            </span>
-          </strong>
-          <strong>
-            <span style={{ fontFamily: '"Cooper Black"' }}>
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-              &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
-              &nbsp;&nbsp;&nbsp;&nbsp;
-            </span>
-          </strong>
-          <strong>
-            <span style={{ fontFamily: '"Cooper Black"' }}>
-              {date.dayNumber}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            </span>
-          </strong>
-          <strong>
-            <span
-              style={{
-                width: "17.56pt",
-                fontFamily: '"Cooper Black"',
-                display: "inline-block",
-              }}
-            >
-              &nbsp;
-            </span>
-          </strong>
-          <strong>
-            <span
-              style={{
-                fontFamily: '"Cooper Black"',
-                textTransform: "uppercase",
-              }}
-            >
-              {date.monthYear}
-            </span>
-          </strong>
-        </p>
-        <p style={{ lineHeight: "normal" }}>
-          <strong>
-            <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;</span>
-          </strong>
-        </p>
-        <p style={{ lineHeight: "normal" }}>
-          <strong>
-            <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;</span>
-          </strong>
-        </p>
-
-        {/* This Is the Second Section  */}
-        <div className="second-section-container">
-          <p
-            style={{
-              lineHeight: "10%",
-            }}
-          >
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;</span>
-            </strong>
-          </p>
-          <p style={{ lineHeight: "normal" }}>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              >
-                {person.patient.attendee.first_name}
-                {"  "} {person.patient.attendee.last_name}
-              </span>
-            </strong>
-          </p>
-          <p style={{ lineHeight: "normal" }}>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              >
-                {company.company_name}
-              </span>
-            </strong>
-          </p>
-          <p style={{ marginTop: "12pt", lineHeight: "normal" }}>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              >
-                {company.address}
-              </span>
-            </strong>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;&nbsp;</span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              ></span>
-            </strong>
-          </p>
-          <p style={{ marginTop: "12pt", lineHeight: "normal" }}>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              >
-                {doctor.examinerName}
-              </span>
-            </strong>
-          </p>
-
-          <p style={{ marginTop: "12pt", lineHeight: "normal" }}>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              >
-                {doctor.qualifications}
-              </span>
-            </strong>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;&nbsp;</span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              ></span>
-            </strong>
-          </p>
-          <p style={{ marginTop: "12pt", lineHeight: "normal" }}>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              >
-                {date.dayNumber}
-              </span>
-            </strong>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;&nbsp;</span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              >
-                {date.monthYear}
-              </span>
-            </strong>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;&nbsp;</span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              ></span>
-            </strong>
-          </p>
-          <p style={{ lineHeight: "normal" }}>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>
-                &nbsp;&nbsp;&nbsp;
-              </span>
-            </strong>
-          </p>
+        {/* First Section Start */}
+        <div
+          className="first_section"
+          style={{
+            paddingTop: index === 0 ? "21rem" : "21rem",
+          }}
+        >
+          <div className="first_section_doc">
+            <p className="p_text"> {doctor.examinerName}</p>
+          </div>
+          <div className="first_section_emp_date">
+            <div className="ss_container">
+              <div className="ss_element">
+                <p className="user_name_details p_text">
+                  {person.patient.attendee.first_name} {person.patient.attendee.last_name}
+                </p>
+              </div>
+              <div className="ss_element">
+                <p className="overall_date p_text">
+                  {date.dayNumber}
+                  <span className="year_month">{date.monthYear}</span>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-        {/* End of Second Section */}
+        {/* First Section End */}
 
-        <div className="third-section-container">
-          <p style={{ lineHeight: "17%" }}>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;</span>
-            </strong>
-          </p>
-          <p style={{ lineHeight: "normal" }}>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;</span>
-            </strong>
-          </p>
-          <p style={{ marginTop: "12pt", lineHeight: "normal" }}>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;</span>
-            </strong>
-          </p>
-          <p style={{ marginTop: "12pt", lineHeight: "normal" }}>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;</span>
-            </strong>
-          </p>
-          <p style={{ marginTop: "12pt", lineHeight: "normal" }}>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;</span>
-            </strong>
-          </p>
-          <p style={{ marginTop: "12pt", lineHeight: "normal" }}>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;</span>
-            </strong>
-          </p>
-          <p style={{ marginTop: "12pt", lineHeight: "normal" }}>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;&nbsp;</span>
-            </strong>
-          </p>
-          <p
-            style={{
-              marginTop: "12pt",
-              marginBottom: "0pt",
-              lineHeight: "normal",
-            }}
-          >
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              >
-                {person.patient.attendee.first_name}
-                {"  "} {person.patient.attendee.last_name}
-              </span>
-            </strong>
-          </p>
-          <p
-            style={{
-              marginTop: "8pt",
-              marginBottom: "0pt",
-              lineHeight: "50%",
-            }}
-          >
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              >
-                {company.company_name}
-              </span>
-            </strong>
-          </p>
-          <p
-            style={{
-              marginTop: "12pt",
-              marginBottom: "0pt",
-              lineHeight: "normal",
-            }}
-          >
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              >
-                {company.address}
-              </span>
-            </strong>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-              </span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              ></span>
-            </strong>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>
-                &nbsp;&nbsp;&nbsp;
-              </span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              ></span>
-            </strong>
-          </p>
-          <p
-            style={{
-              marginTop: "12pt",
-              marginBottom: "0pt",
-              lineHeight: "normal",
-            }}
-          >
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              >
-                {doctor.examinerName}
-              </span>
-            </strong>
-          </p>
-          <p
-            style={{
-              marginTop: "12pt",
-              marginBottom: "0pt",
-              lineHeight: "normal",
-            }}
-          >
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              >
-                MD
-              </span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              >
-                &nbsp;&nbsp;
-              </span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              >
-                PHD
-              </span>
-            </strong>
-          </p>
-          <p
-            style={{
-              marginTop: "12pt",
-              marginBottom: "0pt",
-              lineHeight: "normal",
-            }}
-          >
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              >
-                {date.dayNumber} {date.monthYear}
-              </span>
-            </strong>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;&nbsp;</span>
-            </strong>
-            <strong>
-              <span
-                style={{
-                  fontFamily: '"Cooper Black"',
-                  textTransform: "uppercase",
-                }}
-              ></span>
-            </strong>
-            <strong>
-              <span style={{ fontFamily: '"Cooper Black"' }}>&nbsp;&nbsp;</span>
-            </strong>
-          </p>
-          <p>
-            <span style={{ width: "108pt", display: "inline-block" }}>
-              &nbsp;
-            </span>
-          </p>
+        {/* Second Section Start */}
+        <div className="second_section">
+          <div className="second_section_user boder">
+            <p className="ss_user_detaile p_text">
+              {person.patient.attendee.first_name} {person.patient.attendee.last_name}
+            </p>
+          </div>
+          <div className="second_section_company boder_company">
+            <p className="ss_company p_text"> {company.company_name}</p>
+          </div>
+          <div className="second_section_company_add boder_company_add">
+            <p className="ss_company_add p_text"> {company.address}</p>
+          </div>
+          <div className="second_section_doc boder_examiner">
+            <p className="ss_doc p_text"> {doctor.examinerName}</p>
+          </div>
+          <div className="second_section_qualif boder_qualif">
+            <p className="ss_qualif p_text"> {doctor.qualifications}</p>
+          </div>
+          <div className="second_section_exam_date boder">
+            <p className="ss_exam_date p_text">
+              {date.dayNumber}
+              {"  "} {date.monthYear}
+            </p>
+          </div>
         </div>
+        {/* Second Section End */}
+
+        {/* Third Section Start */}
+        <div className="third_section">
+          <div className="third_section_user boder">
+            <p className="ts_user_detaile p_text">
+              {" "}
+              {person.patient.attendee.first_name} {person.patient.attendee.last_name}
+            </p>
+          </div>
+          <div className="third_section_company ts_border_cn">
+            <p className="ts_company p_text">{company.company_name}</p>
+          </div>
+          <div className="third_section_company_add ts_boder_address">
+            <p className="ts_company_add p_text">{company.address}</p>
+          </div>
+          <div className="third_section_doc boder">
+            <p className="ts_doc p_text">{doctor.examinerName}</p>
+          </div>
+          <div className="third_section_qualif">
+            <p className="ts_qualif p_text">{doctor.qualifications}</p>
+          </div>
+          <div className="third_section_exam_date boder">
+            <p className="ts_exam_date p_text">
+              {" "}
+              {date.dayNumber}
+              {"  "} {date.monthYear}
+            </p>
+          </div>
+        </div>
+        {/* Third Section End */}
       </div>
     </>
   );

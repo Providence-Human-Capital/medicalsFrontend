@@ -328,10 +328,8 @@ const PneumoPatientUpdate = () => {
             <MeasuresBox measures={pMeasuresRecord} />
             <ConditionsTestBox conditions={pneumoConditionsTestRecord} />
             <DustyOccupation dusty_occ={pOccupationDetailsRecord} />
-            <SymptomsBox symptoms={pSymptomsExaminationRecord} />
-
             <SmokingHistoryBox smoking={smokingHistoryRecord} />
-
+            <SymptomsBox symptoms={pSymptomsExaminationRecord} />
             <SystemsCheckBox syscheck={pneumoSystemsCheckRecord} />
             <ResultsAndInvestigation
               resultInvestigation={pneumoResultsRemarksRecord}

@@ -106,7 +106,7 @@ const PhysicalTestForm = ({ handlePrev, handleNext }) => {
     rhythm: Yup.string().nullable(),
     abnormal_details: Yup.string(),
     bp_repeat_sys: Yup.number().nullable(),
-    bp_repeat_dia: Yup.number(),
+    bp_repeat_dia: Yup.number().nullable(),
   });
 
   const onSubmit = async (values) => {
@@ -387,9 +387,7 @@ const PhysicalTestForm = ({ handlePrev, handleNext }) => {
                       {isLoading ? (
                         <Loading />
                       ) : (
-                        // <button type="submit" onClick={handleSubmit}>
-                        //   Next
-                        // </button>
+                     
                         <FormButton
                           text={"Next"}
                           direction={"right"}

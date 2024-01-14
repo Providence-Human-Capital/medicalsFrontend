@@ -53,7 +53,7 @@ const ReferralLetterPrint = ({ patient, vitals }) => {
             <div>
               <p
                 style={{
-                  marginBottom: "0pt",
+                  marginBottom: "5px",
                   textAlign: "right",
                   lineHeight: "0.5",
                   fontSize: "8pt",
@@ -63,7 +63,7 @@ const ReferralLetterPrint = ({ patient, vitals }) => {
               </p>
               <p
                 style={{
-                  marginBottom: "0pt",
+                  marginBottom: "5px",
                   textAlign: "right",
                   lineHeight: "0.5",
                   fontSize: "8pt",
@@ -73,7 +73,7 @@ const ReferralLetterPrint = ({ patient, vitals }) => {
               </p>
               <p
                 style={{
-                  marginBottom: "0pt",
+                  marginBottom: "5px",
                   textAlign: "right",
                   lineHeight: "0.5",
                   fontSize: "8pt",
@@ -83,7 +83,7 @@ const ReferralLetterPrint = ({ patient, vitals }) => {
               </p>
               <p
                 style={{
-                  marginBottom: "0pt",
+                  marginBottom: "5px",
                   textAlign: "right",
                   lineHeight: "0.5",
                   fontSize: "8pt",
@@ -93,7 +93,7 @@ const ReferralLetterPrint = ({ patient, vitals }) => {
               </p>
               <p
                 style={{
-                  marginBottom: "0pt",
+                  marginBottom: "5px",
                   textAlign: "right",
                   lineHeight: "0.5",
                   fontSize: "8pt",
@@ -103,7 +103,7 @@ const ReferralLetterPrint = ({ patient, vitals }) => {
               </p>
               <p
                 style={{
-                  marginBottom: "0pt",
+                  marginBottom: "5px",
                   textAlign: "right",
                   lineHeight: "0.5",
                   fontSize: "8pt",
