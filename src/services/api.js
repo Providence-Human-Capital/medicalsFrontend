@@ -1012,11 +1012,12 @@ export const doctorManualCertificateUpdate = async (
       }
     );
     const responseData = await response.json();
+    console.log(responseData)
     if (response.ok) {
       Swal.fire("Success!", responseData.message, "success");
       getAllPatients();
     } else {
-      Swal.fire("Error!", responseData.message, "error");
+      Swal.fire("Error whilst trying to update!", responseData.error, "error");
     }
   } catch (error) {
     console.log(error);

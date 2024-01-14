@@ -7,7 +7,7 @@ import { API } from "../../../config";
 import { attendeeActions } from "../../../redux_store/attendee-store";
 import SwabResultDropdown from "./SwabResultDropdown";
 import { PHYSICAL_EXAM } from "../../../helpers/helpers";
-import { doctorManualCertificateUpdate } from "../../../services/api";
+import { doctorManualCertificateUpdate, getAllPatients } from "../../../services/api";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -84,6 +84,16 @@ const PatientItem = ({ patient, index }) => {
           token
         ).then((data) => {
           console.log(data);
+          const fetchAllPatients = async () => {
+            const allPatients = await getAllPatients();
+            console.log("allPatients from Certificate Update", JSON.stringify(allPatients));
+            dispatch(
+              patientActions.setPatients({
+                patients: [...allPatients],
+              })
+            );
+          };
+          fetchAllPatients();
         });
       } else {
         handleCancel();
