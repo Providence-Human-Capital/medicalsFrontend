@@ -65,8 +65,6 @@ const EditCompany = () => {
       setLoading(false);
       setSubmitting(false);
     }
-
-    
   };
 
   return (
@@ -77,7 +75,7 @@ const EditCompany = () => {
           <div className="box">
             <div className="custom-form">
               <div className="box-body">
-                <div className="container">
+                <div className="">
                   <h2>Edit Company Details</h2>
                   {company && (
                     <Formik
@@ -98,151 +96,181 @@ const EditCompany = () => {
                       {({ values, isSubmitting, handleSubmit }) => (
                         <Form>
                           <div className="row">
-                            <div className="form-group col-md-6">
-                              <label htmlFor="company_name">Company Name</label>
-                              <Field
-                                type="text"
-                                className="form-control"
-                                id="company_name"
-                                name="company_name"
-                              />
-                              <ErrorMessage
-                                name="company_name"
-                                component="div"
-                                className="text-danger"
-                              />
+                            <div className="col-md-6">
+                              <div className="form-floating ">
+                                <Field
+                                  type="text"
+                                  className="form-control"
+                                  id="company_name"
+                                  name="company_name"
+                                />
+                                <label htmlFor="company_name">
+                                  Company Name
+                                </label>
+                                <ErrorMessage
+                                  name="company_name"
+                                  component="div"
+                                  className="text-danger"
+                                />
+                              </div>
                             </div>
-                            <div className="form-group col-md-6">
-                              <label htmlFor="address">Address</label>
-                              <Field
-                                type="text"
-                                className="form-control"
-                                id="address"
-                                name="address"
-                              />
-                              <ErrorMessage
-                                name="address"
-                                component="div"
-                                className="text-danger"
-                              />
+                            <div className="col-md-6">
+                              <div className="form-floating">
+                                <Field
+                                  type="text"
+                                  className="form-control"
+                                  id="address"
+                                  name="address"
+                                />
+                                <label htmlFor="address">Address</label>
+                                <ErrorMessage
+                                  name="address"
+                                  component="div"
+                                  className="text-danger"
+                                />
+                              </div>
                             </div>
                           </div>
+                          <div className="separation-div"></div>
                           <div className="row">
-                            <div className="form-group col-md-6">
-                              <label htmlFor="site_telephone">
-                                Site Telephone
-                              </label>
-                              <Field
-                                type="text"
-                                className="form-control"
-                                id="site_telephone"
-                                name="site_telephone"
-                              />
-                              <ErrorMessage
-                                name="site_telephone"
-                                component="div"
-                                className="text-danger"
-                              />
+                            <div className="col-md-6">
+                              <div className="form-floating">
+                                <Field
+                                  type="text"
+                                  className="form-control"
+                                  id="site_telephone"
+                                  name="site_telephone"
+                                />
+                                <label htmlFor="site_telephone">
+                                  Site Telephone
+                                </label>
+                                <ErrorMessage
+                                  name="site_telephone"
+                                  component="div"
+                                  className="text-danger"
+                                />
+                              </div>
                             </div>
-                            <div className="form-group col-md-6">
-                              <label htmlFor="company_email">
-                                Company Email
-                              </label>
-                              <Field
-                                type="email"
-                                className="form-control"
-                                id="company_email"
-                                name="company_email"
-                              />
-                              <ErrorMessage
-                                name="company_email"
-                                component="div"
-                                className="text-danger"
-                              />
+
+                            <div className="col-md-6">
+                              <div className="form-floating">
+                                <Field
+                                  type="email"
+                                  className="form-control"
+                                  id="company_email"
+                                  name="company_email"
+                                />
+                                <label htmlFor="company_email">
+                                  Company Email
+                                </label>
+                                <ErrorMessage
+                                  name="company_email"
+                                  component="div"
+                                  className="text-danger"
+                                />
+                              </div>
                             </div>
+                            
                           </div>
+                          <div className="separation-div"></div>
                           <div className="row">
-                            <div className="form-group col-md-4">
-                              <label htmlFor="designation">Designation</label>
-                              <Field
-                                type="text"
-                                className="form-control"
-                                id="designation"
-                                name="designation"
-                              />
-                              <ErrorMessage
-                                name="designation"
-                                component="div"
-                                className="text-danger"
-                              />
+                            <div className="col-md-4">
+                              <div className="form-floating">
+                                <Field
+                                  type="text"
+                                  className="form-control"
+                                  id="designation"
+                                  name="designation"
+                                />
+                                <label htmlFor="designation">Designation</label>
+                                <ErrorMessage
+                                  name="designation"
+                                  component="div"
+                                  className="text-danger"
+                                />
+                              </div>
                             </div>
-                            <div className="form-group col-md-4">
-                              <label htmlFor="contact_person">
-                                Contact Person
-                              </label>
-                              <Field
-                                type="text"
-                                className="form-control"
-                                id="contact_person"
-                                name="contact_person"
-                              />
-                              <ErrorMessage
-                                name="contact_person"
-                                component="div"
-                                className="text-danger"
-                              />
+
+                            <div className="col-md-4">
+                              <div className="form-floating">
+                                <Field
+                                  type="text"
+                                  className="form-control"
+                                  id="contact_person"
+                                  name="contact_person"
+                                />
+                                <label htmlFor="contact_person">
+                                  Contact Person
+                                </label>
+                                <ErrorMessage
+                                  name="contact_person"
+                                  component="div"
+                                  className="text-danger"
+                                />
+                              </div>
                             </div>
-                            <div className="form-group col-md-4">
-                              <label htmlFor="contact_number">
-                                Contact Number
-                              </label>
-                              <Field
-                                type="text"
-                                className="form-control"
-                                id="contact_number"
-                                name="contact_number"
-                              />
-                              <ErrorMessage
-                                name="contact_number"
-                                component="div"
-                                className="text-danger"
-                              />
+
+                            <div className="col-md-4">
+                              <div className="form-floating ">
+                                <Field
+                                  type="text"
+                                  className="form-control"
+                                  id="contact_number"
+                                  name="contact_number"
+                                />
+                                <label htmlFor="contact_number">
+                                  Contact Number
+                                </label>
+                                <ErrorMessage
+                                  name="contact_number"
+                                  component="div"
+                                  className="text-danger"
+                                />
+                              </div>
                             </div>
                           </div>
+                          <div className="separation-div"></div>
                           <div className="row">
-                            <div className="form-group col-md-6">
-                              <label htmlFor="province">Province</label>
-                              <Field
-                                as="select"
-                                className="form-control"
-                                id="province"
-                                name="province"
-                              >
-                                <option value="Choose province" disabled>
-                                  Choose province
-                                </option>
-                                <option value="Gauteng">Gauteng</option>
-                                <option value="KwaZulu-Natal">
-                                  KwaZulu-Natal
-                                </option>
-                                <option value="Western Cape">
-                                  Western Cape
-                                </option>
-                                <option value="Eastern Cape">
-                                  Eastern Cape
-                                </option>
-                                <option value="North West">North West</option>
-                                <option value="Limpopo">Limpopo</option>
-                                <option value="Free State">Free State</option>
-                                <option value="Mpumalanga">Mpumalanga</option>
-                              </Field>
-                              <ErrorMessage
-                                name="province"
-                                component="div"
-                                className="text-danger"
-                              />
+                            <div className="col-md-4">
+                              <div className="form-floating">
+                                <Field
+                                  as="select"
+                                  className="form-select"
+                                  id="province"
+                                  name="province"
+                                >
+                                  <option value="Choose province"></option>
+                                  <option value="Harare">Harare</option>
+                                  <option value="Bulawayo">Bulawayo</option>
+                                  <option value="Manicaland">Manicaland</option>
+                                  <option value="Mashonaland Central">
+                                    Mashonaland Central
+                                  </option>
+                                  <option value="Mashonaland East">
+                                    Mashonaland East
+                                  </option>
+                                  <option value="Mashonaland West">
+                                    Mashonaland West
+                                  </option>
+                                  <option value="Masvingo">Masvingo</option>
+                                  <option value="Matebeleland North">
+                                    Matebeleland North
+                                  </option>
+                                  <option value="Matebeleland South">
+                                    Matebeleland South
+                                  </option>
+                                </Field>
+                                <label htmlFor="province">Province</label>
+
+                                <ErrorMessage
+                                  name="province"
+                                  component="div"
+                                  className="text-danger"
+                                />
+                              </div>
                             </div>
                           </div>
+                          <div className="separation-div"></div>
                           {loading ? (
                             <Loading />
                           ) : (

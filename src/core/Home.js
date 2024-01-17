@@ -260,7 +260,7 @@ const Dashboard = ({}) => {
                       borderRadius: "20px",
                     }}
                   >
-                    <strong>Add New Client</strong>
+                    <strong>Add New Patient</strong>
                   </button>
                 </Link>
 

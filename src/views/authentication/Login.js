@@ -72,6 +72,15 @@ const Login = () => {
 
     userSignin(data).then((data) => {
       console.log("Response, data:", data);
+      if (data.message === "Invalid Credentials") {
+        Swal.fire({
+          title: "Failed to login",
+          text: "Invalid credentials / User does not exist!",
+          icon: "error",
+        });
+
+        setError("Invalid credentials / User does not exist");
+      }
       if (data.message === "Too Many Attempts.") {
         setError("Too Many Attempts when trying to login, Cool down");
       }

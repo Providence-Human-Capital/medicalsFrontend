@@ -49,6 +49,7 @@ const AddAttendee = () => {
     country_code: "+263",
     last_x_ray: "N/A",
     category: "",
+    created_at: "",
   };
 
   // /^(\d{2}-\d{7}-[A-Z]-\d{2})$/
@@ -83,70 +84,71 @@ const AddAttendee = () => {
     employee_number: yup.string().nullable(),
     category: yup.string().required("Please Category is Required!"),
     last_x_ray: yup
-      .string() 
+      .string()
       .matches(
         /^(N\/A|\d{4}|\d{4}-\d{2})$/,
         "Please enter a valid year (YYYY) or year and month (YYYY-MM), or N/A"
       ),
+    created_at: yup.string().nullable(),
   });
 
   const onSubmit = async (formData, { setSubmitting, resetForm }) => {
     setLoading(true);
     console.log("FormData", formData);
-    try {
-      const response = await fetch(`${API}/attendee`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await response.json();
-      console.log("Responsee", data);
-      dispatch(
-        uiActions.setAlert({
-          setAlert: true,
-        })
-      );
+    // try {
+    //   const response = await fetch(`${API}/attendee`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(formData),
+    //   });
+    //   const data = await response.json();
+    //   console.log("Responsee", data);
+    //   dispatch(
+    //     uiActions.setAlert({
+    //       setAlert: true,
+    //     })
+    //   );
 
-      setRedirectBack(true);
-      if ((response.status === 200) | (response.status === 201)) {
-        Swal.fire({
-          icon: "success",
-          title: "Success",
-          text: "New Client Successfully Added",
-          timer: 4000,
-          confirmButtonColor: "#007a41",
-        });
-        if (redirectToPatients) {
-          navigate("/patients");
-        } else if (continueAddingAttendees) {
-          resetForm();
-        }
-      }
+    //   setRedirectBack(true);
+    //   if ((response.status === 200) | (response.status === 201)) {
+    //     Swal.fire({
+    //       icon: "success",
+    //       title: "Success",
+    //       text: "New Client Successfully Added",
+    //       timer: 4000,
+    //       confirmButtonColor: "#007a41",
+    //     });
+    //     if (redirectToPatients) {
+    //       navigate("/patients");
+    //     } else if (continueAddingAttendees) {
+    //       resetForm();
+    //     }
+    //   }
 
-      if (response.status === 400) {
-        if (data.error) {
-          toast(data.error);
-        }
-      }
+    //   if (response.status === 400) {
+    //     if (data.error) {
+    //       toast(data.error);
+    //     }
+    //   }
 
-      if (response.status === 500) {
-        toast("An internal server error occurred! National ID might be in use");
-      }
-    } catch (error) {
-      console.error("Error Messsage", error);
-    } finally {
-      setLoading(false);
-      setSubmitting(false);
-      setTimeout(() => {
-        dispatch(
-          uiActions.setAlert({
-            setAlert: false,
-          })
-        );
-      }, 4000);
-    }
+    //   if (response.status === 500) {
+    //     toast("An internal server error occurred! National ID might be in use");
+    //   }
+    // } catch (error) {
+    //   console.error("Error Messsage", error);
+    // } finally {
+    //   setLoading(false);
+    //   setSubmitting(false);
+    //   setTimeout(() => {
+    //     dispatch(
+    //       uiActions.setAlert({
+    //         setAlert: false,
+    //       })
+    //     );
+    //   }, 4000);
+    // }
   };
 
   useEffect(() => {
@@ -617,6 +619,30 @@ const AddAttendee = () => {
                             </div>
                           </div>
                           <div className="separation-div"></div>
+                          <div className="col-md-3">
+                            <div className="form-floating">
+                              <Field
+                                type="date"
+                                className={`form-control ${
+                                  touched.created_at && errors.created_at
+                                    ? "error-input"
+                                    : ""
+                                }`}
+                                id="created_at"
+                                placeholder="Enter date of birth"
+                                name="created_at"
+                              />
+                              <label htmlFor="created_at">
+                                MEDICAL EXAM DATE
+                              </label>
+                              <ErrorMessage
+                                name="created_at"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
+                          </div>
+                          <div className="separation-div"></div>
                           <div className="row checkbox-row mb-5">
                             <div className="form-check">
                               <input
@@ -653,6 +679,7 @@ const AddAttendee = () => {
                               </label>
                             </div>
                           </div>
+                          <div className="separation-div"></div>
 
                           {loading ? (
                             <Loading />

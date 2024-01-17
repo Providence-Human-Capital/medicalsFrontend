@@ -56,9 +56,6 @@ const EditTobacco = () => {
     }
   };
 
-
-
-
   return (
     <Fragment>
       <BreadCrumb title={"Edit Illnesses"} activeTab={"Edit Illnesses"} />
@@ -67,7 +64,7 @@ const EditTobacco = () => {
           <div className="box">
             <div className="custom-form">
               <div className="box-body">
-                <div className="container">
+                <div className="">
                   <h2>Enter your Illnesses details</h2>
                   <Formik
                     enableReinitialize={true}
@@ -80,21 +77,25 @@ const EditTobacco = () => {
                     {({ values, isSubmitting, handleSubmit }) => (
                       <Form>
                         <div className="row">
-                          <div className="form-group col-md-6">
-                            <label htmlFor="name">Tobacco Name</label>
-                            <Field
-                              type="text"
-                              className="form-control"
-                              id="name"
-                              name="name"
-                            />
-                            <ErrorMessage
-                              name="name"
-                              component="div"
-                              className="text-danger"
-                            />
+                          <div className="col-md-6">
+                            <div className="form-floating">
+                              <Field
+                                type="text"
+                                className="form-control"
+                                id="name"
+                                name="name"
+                              />
+                              <label htmlFor="name">Tobacco Name</label>
+
+                              <ErrorMessage
+                                name="name"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
                           </div>
                         </div>
+                        <div className="separation-div"></div>
                         {loading ? (
                           <Loading />
                         ) : (

@@ -190,7 +190,7 @@ const AsideNav = ({}) => {
                             Tobacco Use
                           </NavLink>
                         </li>
-                        <li id="aside-bar-tree" className="mt-1">
+                        {/* <li id="aside-bar-tree" className="mt-1">
                           {" "}
                           <NavLink to={"/tobacco"}>
                             <i className="icon-Commit">
@@ -209,7 +209,7 @@ const AsideNav = ({}) => {
                             </i>
                             Service
                           </NavLink>
-                        </li>
+                        </li> */}
                       </ul>
                     </li>
                   )}
@@ -222,7 +222,7 @@ const AsideNav = ({}) => {
                           fontSize: "20px",
                         }}
                       ></i>
-                      <span>Attendees</span>
+                      <span>Walk In Clients</span>
                     </NavLink>
                   </li>
 
@@ -325,7 +325,7 @@ const AsideNav = ({}) => {
                           fontSize: "20px",
                         }}
                       ></i>
-                      <span>Industry</span>
+                      <span>Pre-Employment</span>
                       <span className="pull-right-container">
                         <i className="ti-arrow-circle-right"></i>
                       </span>
@@ -338,7 +338,7 @@ const AsideNav = ({}) => {
                             <span className="path1"></span>
                             <span className="path2"></span>
                           </i>
-                          Industries & Other
+                          Pre-Employment Medical
                         </NavLink>
                       </li>
                     </ul>

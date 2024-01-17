@@ -11,33 +11,33 @@ import ExcelJS from "exceljs";
 import BreadCrumb from "../../components/BreadCrumb";
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
 
-const services = {
-  foodHandlersPreEmployment: [
-    "Service 1",
-    "Service 2",
-    "Service 3",
-    "Service 4",
-  ],
-  foodHandlersPeriodical: ["Service 5", "Service 6", "Service 7", "Service 8"],
-  pneumoconiosisPreEmployment: [
-    "Service 9",
-    "Service 10",
-    "Service 11",
-    "Service 12",
-  ],
-  pneumoconiosisPeriodical: [
-    "Service 13",
-    "Service 14",
-    "Service 15",
-    "Service 16",
-  ],
-  preEmployment: ["Service 17", "Service 18", "Service 19", "Service 20"],
-  postEmployment: ["Service 21", "Service 22", "Service 23", "Service 24"],
-  hivMedical: ["Service 25", "Service 26", "Service 27", "Service 28"],
-  audiometry: ["Service 29", "Service 30", "Service 31", "Service 32"],
-  spirometry: ["Service 33", "Service 34", "Service 35", "Service 36"],
-  annualCheckup: ["Service 37", "Service 38", "Service 39", "Service 40"],
-};
+// const services = {
+//   foodHandlersPreEmployment: [
+//     "Service 1",
+//     "Service 2",
+//     "Service 3",
+//     "Service 4",
+//   ],
+//   foodHandlersPeriodical: ["Service 5", "Service 6", "Service 7", "Service 8"],
+//   pneumoconiosisPreEmployment: [
+//     "Service 9",
+//     "Service 10",
+//     "Service 11",
+//     "Service 12",
+//   ],
+//   pneumoconiosisPeriodical: [
+//     "Service 13",
+//     "Service 14",
+//     "Service 15",
+//     "Service 16",
+//   ],
+//   preEmployment: ["Service 17", "Service 18", "Service 19", "Service 20"],
+//   postEmployment: ["Service 21", "Service 22", "Service 23", "Service 24"],
+//   hivMedical: ["Service 25", "Service 26", "Service 27", "Service 28"],
+//   audiometry: ["Service 29", "Service 30", "Service 31", "Service 32"],
+//   spirometry: ["Service 33", "Service 34", "Service 35", "Service 36"],
+//   annualCheckup: ["Service 37", "Service 38", "Service 39", "Service 40"],
+// };
 
 const Appointments = () => {
   useEffect(() => {}, []);
@@ -54,7 +54,7 @@ const Appointments = () => {
   return (
     <>
       <BreadCrumb title={"Appointments"} activeTab={"Appointments"} />
-      <div className="container mt-5">
+      {/* <div className="container mt-5">
         <h3>Select Exam Purpose:</h3>
         <select
           className="form-control"
@@ -94,7 +94,7 @@ const Appointments = () => {
             </ul>
           </ModalBody>
         </Modal>
-      </div>
+      </div> */}
     </>
   );
 };

@@ -69,7 +69,7 @@ const XRayBox = ({ patientId }) => {
                           <p className="fw-500 mb-0">
                             XRay Status:{" "}
                             <span className="badge badge-success">
-                              {patientXray.status}
+                              {patientXray.status === "NEGATIVE" ? "XRAY GOOD" : "ARBNOMALITIES DETECTED"}
                             </span>
                           </p>
                         )}

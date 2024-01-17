@@ -208,6 +208,7 @@ const ControlMeasuresForm = ({ handlePrev, handleNext }) => {
                               onChange={handleChange}
                               className="form-select"
                             >
+                                <option value="">Select an option</option>
                               <option value={false}>NO</option>
                               <option value={true}>YES</option>
                             </Field>
@@ -224,7 +225,7 @@ const ControlMeasuresForm = ({ handlePrev, handleNext }) => {
                       </div>
                     </div>
 
-                    {values.ppe === "Yes" && (
+                    {values.ppe === "true" && (
                       <div className="form-group">
                         <label htmlFor="ppe_details">PPE Details</label>
                         <div className="form-floating">

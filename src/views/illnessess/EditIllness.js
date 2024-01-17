@@ -23,7 +23,7 @@ const EditIllness = () => {
     setIllness(illnessItem[0]);
 
     if (redirectBack) {
-        navigate("/illnesses")
+      navigate("/illnesses");
     } else {
       return;
     }
@@ -76,21 +76,25 @@ const EditIllness = () => {
                     {({ values, isSubmitting, handleSubmit }) => (
                       <Form>
                         <div className="row">
-                          <div className="form-group col-md-6">
-                            <label htmlFor="illness_name">Illness Name</label>
-                            <Field
-                              type="text"
-                              className="form-control"
-                              id="illness_name"
-                              name="illness_name"
-                            />
-                            <ErrorMessage
-                              name="illness_name"
-                              component="div"
-                              className="text-danger"
-                            />
+                          <div className="col-md-6">
+                            <div className="form-floating">
+                              <Field
+                                type="text"
+                                className="form-control"
+                                id="illness_name"
+                                name="illness_name"
+                              />
+                              <label htmlFor="illness_name">Illness Name</label>
+
+                              <ErrorMessage
+                                name="illness_name"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
                           </div>
                         </div>
+                        <div className="separation-div"></div>
                         {loading ? (
                           <Loading />
                         ) : (
@@ -99,6 +103,9 @@ const EditIllness = () => {
                             className="btn btn-primary"
                             disabled={isSubmitting}
                             onClick={handleSubmit}
+                            style={{
+                              borderRadius: "10px",
+                            }}
                           >
                             Update Illness
                           </button>

@@ -14,6 +14,7 @@ import { uiActions } from "../../redux_store/ui-store";
 import Loading from "../../components/loader/Loading";
 import "./component-css/CustomCss.css";
 import SaveButton from "../../components/buttons/SaveButton";
+import { attendeeActions } from "../../redux_store/attendee-store";
 
 const AddAttendeeExecel = () => {
   const [data, setData] = useState([]);
@@ -26,7 +27,7 @@ const AddAttendeeExecel = () => {
   const [category, setCategory] = useState("");
   const companies = useSelector((state) => state.company.companies);
   const isLoading = useSelector((state) => state.ui.isLoading);
-  const [loading, setLoading ] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const epurposes = useSelector((state) => state.central.examPurposes);
 
@@ -65,23 +66,38 @@ const AddAttendeeExecel = () => {
 
   const saveDataToDatabase = async () => {
     console.log("Data", data);
-    const transformedData = data.map((row) => ({
-      first_name: row["First Name"],
-      last_name: row["Last Name"],
-      national_id: row["National ID"],
-      gender: row["Gender"],
-      phone_number: row["Phone Number"].toString(),
-      date_of_birth: new Date((row["Date of Birth"] - 25569) * 86400 * 1000)
-        .toISOString()
-        .slice(0, 10),
-      exam_purpose: examPurpose,
-      company_id: company,
-      category: category,
-      x_ray_status: "PENDING",
-      country_code: "+263",
-      last_x_ray: "N/A",
-      employee_number: "",
-    }));
+    const transformedData = data.map((row) => {
+      // Check if "Date of Birth" property exists and is not undefined
+      const dateOfBirthTimestamp =
+        row["Date of Birth"] !== undefined
+          ? (row["Date of Birth"] - 25569) * 86400 * 1000
+          : null;
+
+      // Check if the timestamp is valid
+      const dateOfBirth =
+        dateOfBirthTimestamp !== null && !isNaN(dateOfBirthTimestamp)
+          ? new Date(dateOfBirthTimestamp).toISOString().slice(0, 10)
+          : null;
+
+      return {
+        first_name: row["First Name"],
+        last_name: row["Last Name"],
+        national_id: row["National ID"],
+        gender: row["Gender"] !== undefined ? row["Gender"].toUpperCase() : "",
+        phone_number:
+          row["Phone Number"] !== undefined
+            ? row["Phone Number"].toString()
+            : "",
+        date_of_birth: dateOfBirth,
+        exam_purpose: examPurpose,
+        company_id: company,
+        category: category,
+        x_ray_status: "PENDING",
+        country_code: "+263",
+        last_x_ray: "N/A",
+        employee_number: "",
+      };
+    });
 
     const savedEntries = [];
 
@@ -109,6 +125,24 @@ const AddAttendeeExecel = () => {
               isLoading: false,
             })
           );
+          const getAttendees = async () => {
+            const attendeesResponse = await fetch(`${API}/attendee`, {
+              method: "GET",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+            });
+        
+            const responseData = await attendeesResponse.json();
+            const attendees = responseData.data;
+            dispatch(
+              attendeeActions.setAttendees({
+                attendees: [...attendees],
+              })
+            );
+          };
+          getAttendees();
           savedEntries.push(entry);
         }
 
@@ -122,7 +156,10 @@ const AddAttendeeExecel = () => {
         }
       } catch (error) {
         console.log(error);
-        // toast.error("There was an error", error);
+        toast.error(
+          "Record might exist in the system / Duplicate National ID",
+          error
+        );
         dispatch(
           uiActions.setLoadingSpinner({
             isLoading: false,

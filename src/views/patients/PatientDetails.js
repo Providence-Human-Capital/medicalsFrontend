@@ -1,11 +1,17 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, {
+  forwardRef,
+  useRef,
+  Fragment,
+  useEffect,
+  useState,
+} from "react";
 import Layout from "../../core/Layout";
 import BreadCrumb from "../../components/BreadCrumb";
 import PButtons from "./components/PButtons";
 import BoxProfile from "./components/BoxProfile";
 import DiseaseHistory from "./components/DiseaseHistory";
 import Vitals from "./components/Vitals";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { API } from "../../config";
 import { batch, useDispatch, useSelector } from "react-redux";
 import { patientActions } from "../../redux_store/patients-store";
@@ -54,6 +60,16 @@ import Swal from "sweetalert2";
 import { uiActions } from "../../redux_store/ui-store";
 import Loading from "../../components/loader/Loading";
 import CategoryBox from "../../components/CategoryBox";
+import ReactToPrint, { useReactToPrint } from "react-to-print";
+import PrintMedicalRecord from "./recordPrint/PrintMedicalRecord";
+
+const PrintPatientMedicalRecord = forwardRef(({ patientData }, ref) => {
+  return (
+    <div ref={ref}>
+      <PrintMedicalRecord />
+    </div>
+  );
+});
 
 const PatientDetails = () => {
   const { patientId } = useParams();
@@ -129,6 +145,7 @@ const PatientDetails = () => {
   );
 
   useEffect(() => {
+    localStorage.setItem("currentStep", parseInt("1"));
     getCurrentPatientRemarks(patientId).then((remarks) => {
       dispatch(formsActions.setFoodHandlerRemarks(remarks));
     });
@@ -172,6 +189,8 @@ const PatientDetails = () => {
           dispatch(formsActions.setPneumoPhysicalTests(null));
           dispatch(formsActions.setPneumoSystemsCheck(null));
           dispatch(formsActions.setSmokingHistory(null));
+          dispatch(formsActions.setOccupationDetails(null));
+          dispatch(formsActions.setPneumoAdditionalTest(null));
         } else {
           dispatch(
             formsActions.setSymptomsExamination(
@@ -356,6 +375,16 @@ const PatientDetails = () => {
     }
   };
 
+  // const printmedicalRecord = useRef();
+
+  // const handlePrintCurrentMedicalRecord = useReactToPrint({
+  //   content: () => printmedicalRecord.current,
+  // });
+
+  // const PrintRecord = () => {
+  //   handlePrintCurrentMedicalRecord();
+  // };
+
   const category = singlePatient?.category ?? "Medical Patient";
 
   return (
@@ -371,10 +400,30 @@ const PatientDetails = () => {
         </title>
       </Helmet>
 
-      {singlePatient && (
+      {/* <div
+        className="row"
+        style={{
+          display: "none",
+        }}
+      >
+        <PrintPatientMedicalRecord ref={handlePrintCurrentMedicalRecord} />
+      </div> */}
+
+      {singlePatient ? (
         <section className="content">
           <div className="row">
             <div className="col-xl-8 col-12">
+              <div>
+                <button
+                  className="btn btn-primary"
+                  style={{
+                    marginBottom: "10px",
+                  }}
+                  // onClick={PrintRecord}
+                >
+                  PRINT MEDICAL RECORD
+                </button>
+              </div>
               <div className="d-md-flex align-items-center justify-content-between mb-20">
                 <div style={{}}>
                   <h4>
@@ -542,6 +591,30 @@ const PatientDetails = () => {
             </div>
           </div>
         </section>
+      ) : (
+        <div className="container">
+          <div className="row">
+            <div className="card mt-5 text-center">
+              <div className="card-body">
+                <h4
+                  className="card-title"
+                  style={{
+                    textTransform: "uppercase",
+                    fontWeight: "bold",
+                  }}
+                >
+                  An Error occured whilst trying to fetch Patient Information
+                </h4>
+                <p className="card-text">
+                  Please Reload the page / Go to Dashboard
+                </p>
+                <Link to={"/dashboard"} className="btn btn-primary">
+                  Go To Dashboard
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </Fragment>
   );

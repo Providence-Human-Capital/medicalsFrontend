@@ -17,32 +17,32 @@ const MedicalHistoryForm = ({ handlePrev, handleNext }) => {
   const { patientId } = useParams();
 
   const HealthSchema = Yup.object().shape({
-    serious_injury: Yup.boolean(),
-    injury_details: Yup.string().when("serious_injury", {
-      is: true,
-      then: Yup.string().required("Injury details are required"),
-    }),
-    admitted: Yup.boolean(),
-    admission_details: Yup.string().when("admitted", {
-      is: true,
-      then: Yup.string().required("Admission details are required"),
-    }),
-    allergies: Yup.boolean(),
-    allergies_details: Yup.string().when("allergies", {
-      is: true,
-      then: Yup.string().required("Allergy details are required"),
-    }),
-    health_state: Yup.string(),
-    alcohol: Yup.boolean(),
-    alcohol_per_day: Yup.number().when("alcohol", {
-      is: true,
-      then: Yup.number().required("Alcohol per day is required"),
-    }),
-    alcohol_per_week: Yup.number().when("alcohol", {
-      is: true,
-      then: Yup.number().required("Alcohol per week is required"),
-    }),
-    exercise: Yup.string(),
+    // serious_injury: Yup.boolean(),
+    // injury_details: Yup.string().when("serious_injury", {
+    //   is: true,
+    //   then: Yup.string().nullable(),
+    // }),
+    // admitted: Yup.boolean(),
+    // admission_details: Yup.string().when("admitted", {
+    //   is: true,
+    //   then: Yup.string().nullable(),
+    // }),
+    // allergies: Yup.boolean().nullable(),
+    // allergies_details: Yup.string().when("allergies", {
+    //   is: true,
+    //   then: Yup.string().nullable(),
+    // }),
+    // health_state: Yup.string().nullable(),
+    // alcohol: Yup.boolean(),
+    // alcohol_per_day: Yup.number().when("alcohol", {
+    //   is: true,
+    //   then: Yup.number().nullable()
+    // }),
+    // alcohol_per_week: Yup.number().when("alcohol", {
+    //   is: true,
+    //   then: Yup.number().nullable(),
+    // }),
+    // exercise: Yup.string().nullable(),
   });
 
   const onHandleSubmit = async (values) => {

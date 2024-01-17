@@ -98,10 +98,10 @@ const PhysicalTestForm = ({ handlePrev, handleNext }) => {
   };
 
   const validationSchema = Yup.object({
-    weight: Yup.number().required("Weight is required"),
-    height: Yup.number().required("Height is required"),
-    bp_sys: Yup.number().required("Systolic BP is required"),
-    bp_dia: Yup.number().required("Diastolic BP is required"),
+    weight: Yup.number().nullable(),
+    height: Yup.number().nullable(),
+    bp_sys: Yup.number().nullable(),
+    bp_dia: Yup.number().nullable(),
     pulse: Yup.string().nullable(),
     rhythm: Yup.string().nullable(),
     abnormal_details: Yup.string(),
