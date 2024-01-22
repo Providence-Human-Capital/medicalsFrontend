@@ -139,7 +139,8 @@ const InfoBox = ({ patient }) => {
             <div>
               <div className="image-container">
                 <img
-                  src={selectedImage || "/assets/images/avatar/2.jpg"}
+                  // src={selectedImage || "/assets/images/avatar/2.jpg"}
+                  src={selectedImage || "assets/images/avatar/2.jpg"}
                   className="bg-success-light rounded50 square-image"
                   alt=""
                   style={{

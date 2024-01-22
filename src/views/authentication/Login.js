@@ -161,6 +161,7 @@ const Login = () => {
             <span className="light-logo">
               <img
                 src="/assets/images/providence.png"
+                // src="assets/images/providence.png"
                 alt="logo"
                 style={styles.logoStyles}
               />

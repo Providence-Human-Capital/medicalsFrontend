@@ -9,7 +9,8 @@ const DetailsBox = () => {
           <div className="d-md-flex align-items-center">
             <div className="me-20 text-center text-md-start">
               <img
-                src="/assets/images/avatar/2.jpg"
+                // src="/assets/images/avatar/2.jpg"
+                src="assets/images/avatar/2.jpg"
                 className="bg-success-light rounded10"
                 alt=""
               />

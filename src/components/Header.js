@@ -68,7 +68,7 @@ const Header = ({}) => {
         <ToastContainer autoClose={8000} />
         <div className="d-flex align-items-center logo-box justify-content-start">
           {/* <!-- Logo --> */}
-          <Link to={"/"} className="logo">
+          <Link to={"/dashboard"} className="logo">
             {/* <!-- logo--> */}
             {isSideBarCollapsed && (
               <div className="logo-mini w-50">
@@ -81,7 +81,8 @@ const Header = ({}) => {
             <div className="logo-lg">
               <span className="light-logo">
                 <img
-                  src="/assets/images/providence.png"
+                  // src="/assets/images/providence.png"
+                  src="assets/images/providence.png"
                   alt="logo"
                   style={styles.logoStyles}
                 />
@@ -157,17 +158,17 @@ const Header = ({}) => {
                     </Link>
                   </li>
                   <li>
-                    <button
-                      className="btn btn-secondary"
-                      style={{
-                        borderRadius: "20px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      <Link to={"certificates/print/csv"}>
+                    <Link to={"certificates/print/csv"}>
+                      <button
+                        className="btn btn-secondary"
+                        style={{
+                          borderRadius: "20px",
+                          fontWeight: "bold",
+                        }}
+                      >
                         Print Certificates Using Csv File
-                      </Link>
-                    </button>
+                      </button>
+                    </Link>
                   </li>
                 </>
               ) : (
@@ -258,7 +259,8 @@ const Header = ({}) => {
                       </small>
                     </div>
                     <img
-                      src="/assets/images/avatar/avatar-1.png"
+                      // src="assets/images/avatar/avatar-1.png"
+                      src="assets/images/avatar/avatar-1.png"
                       className="avatar rounded-10 bg-primary-light h-40 w-40"
                       alt=""
                     />

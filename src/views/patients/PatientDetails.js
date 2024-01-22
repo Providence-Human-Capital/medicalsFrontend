@@ -5,243 +5,74 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import Layout from "../../core/Layout";
 import BreadCrumb from "../../components/BreadCrumb";
 import PButtons from "./components/PButtons";
 import BoxProfile from "./components/BoxProfile";
-import DiseaseHistory from "./components/DiseaseHistory";
-import Vitals from "./components/Vitals";
+
 import { Link, useParams } from "react-router-dom";
 import { API } from "../../config";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { patientActions } from "../../redux_store/patients-store";
 import InfoBox from "./components/InfoBox";
-import TobaccoBox from "./components/TobaccoBox";
-import XRayBox from "./components/XRayBox";
+
 import { Helmet } from "react-helmet";
 import {
   calculateDaysLeftForCertificateValidity,
-  chechCertificatesStatusUpdate,
   createCertificateBatch,
-  foodHandlerPatientDetail,
   getCurrentPatientRemarks,
-  getFoodHandlerPatientDetails,
-  getIndustryPatientDetails,
   getLatestPatientXray,
   getPatient,
-  getPneumoPatientDetails,
-  getPneumoPatients,
 } from "../../services/api";
 import { formsActions } from "../../redux_store/forms-store";
 import PatientSkeleton from "../../components/skeletons/PatientSkeleton";
-import HomeAddress from "../industry/components/HomeAddress";
-import MedicalHistoryBox from "../industry/components/MedicalHistoryBox";
-import OtherPhysicalExamination from "../industry/components/OtherPhysicalExamination";
-import CardioBox from "../industry/components/CardioBox";
-import RespiratoryBox from "../industry/components/RespiratoryBox";
-import IComments from "../industry/components/IComments";
-import IndustryClassificationBox from "../pneumoconiosis/components/IndustryClassificationBox";
-import MineralDustExBox from "../pneumoconiosis/components/MineralDustExBox";
-import DustyOccupation from "../pneumoconiosis/components/DustyOccupation";
-import SymptomsBox from "../pneumoconiosis/components/SymptomsBox";
-import MeasuresBox from "../pneumoconiosis/components/MeasuresBox";
-import SmokingHistoryBox from "../pneumoconiosis/components/SmokingHistoryBox";
-import PhysicalBox from "../pneumoconiosis/components/PhysicalBox";
-import SystemsCheckBox from "../pneumoconiosis/components/SystemsCheckBox";
-import ResultsAndInvestigation from "../pneumoconiosis/components/ResultsAndInvestigation";
-import AdditionalTestsBox from "../pneumoconiosis/components/AdditionalTestsBox";
-import ConditionsTestBox from "../pneumoconiosis/components/ConditionsTestBox";
-import InjuryBox from "../industry/components/InjuryBox";
+
 import { PHYSICAL_EXAM } from "../../utils/global";
 import BpPlot from "./components/BpPlot";
 import BmiPlot from "./components/BmiPlot";
 import DaysLeftBox from "./components/DaysLeftBox";
 import Swal from "sweetalert2";
-import { uiActions } from "../../redux_store/ui-store";
 import Loading from "../../components/loader/Loading";
-import CategoryBox from "../../components/CategoryBox";
-import ReactToPrint, { useReactToPrint } from "react-to-print";
+import { useReactToPrint } from "react-to-print";
 import PrintMedicalRecord from "./recordPrint/PrintMedicalRecord";
+import PneumoDetail from "./patientDetailedComponents/PneumoDetail";
+import PreEmployementDetail from "./patientDetailedComponents/PreEmployementDetail";
+import FoodHandlerDetail from "./patientDetailedComponents/FoodHandlerDetail";
+import InHouseDetail from "./patientDetailedComponents/InHouseDetail";
 
 const PrintPatientMedicalRecord = forwardRef(({ patientData }, ref) => {
   return (
     <div ref={ref}>
-      <PrintMedicalRecord />
+      <PrintMedicalRecord patient={patientData} />
     </div>
   );
 });
 
 const PatientDetails = () => {
+  const printmedicalRecordRef = useRef();
+  const handlePrintCurrentMedicalRecord = useReactToPrint({
+    content: () => printmedicalRecordRef.current,
+  });
+
   const { patientId } = useParams();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [dayLeftData, setDayLeftData] = useState(null);
   const isLoading = useSelector((state) => state.ui.isLoading);
-
   const [addingToBatch, setAddingToBatch] = useState(false);
-
-  //Pneumo  Records from state
-  const industryClassification = useSelector(
-    (state) => state.forms.pIndustryClassification
-  );
-  const pMineralDExposureRecord = useSelector(
-    (state) => state.forms.pMineralDExposure
-  );
-  const pMeasuresRecord = useSelector((state) => state.forms.pMeasures);
-  const pOccupationDetailsRecord = useSelector(
-    (state) => state.forms.pOccupationDetails
-  );
-  const pSymptomsExaminationRecord = useSelector(
-    (state) => state.forms.pSymptomsExamination
-  );
-
-  const smokingHistoryRecord = useSelector(
-    (state) => state.forms.smokingHistory
-  );
-
-  const pneumoPhysicalTestsRecord = useSelector(
-    (state) => state.forms.pneumoPhysicalTests
-  );
-
-  const pneumoSystemsCheckRecord = useSelector(
-    (state) => state.forms.pneumoSystemsCheck
-  );
-
-  const pneumoConditionsTestRecord = useSelector(
-    (state) => state.forms.pneumoConditionsTest
-  );
-
-  const pneumoResultsRemarksRecord = useSelector(
-    (state) => state.forms.pneumoResultsRemarks
-  );
-
-  const pneumoAdditionalTestRecord = useSelector(
-    (state) => state.forms.pneumoAdditionalTest
-  );
-
-  //Industry and Other
-  const homeAddressesRecord = useSelector((state) => state.forms.homeAddresses);
-  const otherIllnessInjuriesRecord = useSelector(
-    (state) => state.forms.otherIllnessInjuries
-  );
-  const otherMedicalHistoryRecord = useSelector(
-    (state) => state.forms.otherMedicalHistory
-  );
-  const otherPhysicalExaminationRecord = useSelector(
-    (state) => state.forms.otherPhysicalExamination
-  );
-  const otherCardioVascularCheckRecord = useSelector(
-    (state) => state.forms.otherCardioVascularCheck
-  );
-  const otherRespiratoryCheckRecord = useSelector(
-    (state) => state.forms.otherRespiratoryCheck
-  );
-  const otherCommentsAndRemarksRecord = useSelector(
-    (state) => state.forms.otherCommentsAndRemarks
-  );
-
   const companiesWithBatches = useSelector(
     (state) => state.company.companiesWithBatches
   );
 
   useEffect(() => {
     localStorage.setItem("currentStep", parseInt("1"));
+
     getCurrentPatientRemarks(patientId).then((remarks) => {
       dispatch(formsActions.setFoodHandlerRemarks(remarks));
     });
     getLatestPatientXray(patientId).then((xray) => {
       dispatch(formsActions.setPatientsXray(xray));
     });
-    getFoodHandlerPatientDetails(patientId)
-      .then((data) => {
-        dispatch(formsActions.setCertificateState(data.certificate));
-        dispatch(formsActions.setPatientsIllness(data.illnesses));
-        dispatch(formsActions.setPatientsXray(data.xrays));
-        dispatch(formsActions.setPatientsTobaccos(data.tobaccoUses));
-        dispatch(formsActions.setPhysicalExamination(data.physical_exam));
-        if (typeof data.fremarks === "object" && data.fremarks !== null) {
-          const remarksObjects = Object.assign({}, ...data.fremarks);
-          dispatch(formsActions.setFoodHandlerRemarks(remarksObjects));
-        } else {
-          // Handle the case where data.fremarks is not iterable
-          console.error("Invalid data received for fremarks:", data.fremarks);
-        }
-      })
-      .catch((error) => {
-        // Handle any errors that occur during the API call
-        console.error("Error fetching food handler patient details:", error);
-      });
-    if (singlePatient && singlePatient.category === "Pneumoconiosis") {
-      getPneumoPatientDetails(patientId).then((data) => {
-        console.log("All Dataa", data);
-        dispatch(
-          formsActions.setIndustryClassification(data.industryClassification)
-        );
-        dispatch(formsActions.setControlMeasures(data.controlMeasures));
-        dispatch(formsActions.setMineralDustExposure(data.mineralDustExposure));
-        dispatch(formsActions.setControlMeasures(data.controlMeasures));
-        dispatch(
-          formsActions.setPneumoResultsRemarks(data.resultsInvestigation)
-        );
-        if (data.healthyQuestionnaire === null) {
-          dispatch(formsActions.setSymptomsExamination(null));
-          dispatch(formsActions.setPneumoConditionsTest(null));
-          dispatch(formsActions.setPneumoPhysicalTests(null));
-          dispatch(formsActions.setPneumoSystemsCheck(null));
-          dispatch(formsActions.setSmokingHistory(null));
-          dispatch(formsActions.setOccupationDetails(null));
-          dispatch(formsActions.setPneumoAdditionalTest(null));
-        } else {
-          dispatch(
-            formsActions.setSymptomsExamination(
-              data.healthyQuestionnaire.symptomsTest
-            )
-          );
-          dispatch(
-            formsActions.setPneumoConditionsTest(
-              data.healthyQuestionnaire.conditionsTest
-            )
-          );
-          dispatch(
-            formsActions.setPneumoPhysicalTests(
-              data.healthyQuestionnaire.physicalTest
-            )
-          );
-          dispatch(
-            formsActions.setPneumoSystemsCheck(
-              data.healthyQuestionnaire.systemsCheck
-            )
-          );
-          dispatch(
-            formsActions.setSmokingHistory(
-              data.healthyQuestionnaire.smokingHistory
-            )
-          );
-        }
-      });
-    }
-    if (singlePatient && singlePatient.category === "Industry") {
-      getIndustryPatientDetails(patientId).then((data) => {
-        console.log("Industry Patient Data: " + JSON.stringify(data));
 
-        dispatch(formsActions.setHomeAddress(data.home_address));
-        dispatch(formsActions.setInjuriesAndIllnesses(data.diseases));
-        dispatch(
-          formsActions.setOtherPhysicalExamination(
-            data.latest_other_physical_exam
-          )
-        );
-        dispatch(formsActions.setMedicalHistory(data.medical_history));
-        dispatch(
-          formsActions.setOtherCardioVascularCheck(data.cardio_vascular)
-        );
-        dispatch(formsActions.setOtherRespiratoryCheck(data.respiratory));
-
-        dispatch(
-          formsActions.setOtherCommentsAndRemarks(data.icomments_remarks)
-        );
-      });
-    }
     calculateDaysLeftForCertificateValidity(patientId).then((data) => {
       setDayLeftData(data);
     });
@@ -346,13 +177,21 @@ const PatientDetails = () => {
 
     if (company) {
       Swal.fire({
-        title: "Select Certificate Batch",
+        title: "ADD CERTIFICATE TO A BATCH",
+        width: "700px",
         html: `
+        <div class="form-floating">
         <select id="status-select" class="form-select"> 
-        <option value="">Select Batch</option> 
-        ${valid_batches
-          .map((batch) => `<option value="${batch.id}">${batch.name}</option>`)
-          .join("")} 
+          <option value="">Select Batch</option> 
+          ${valid_batches
+            .map(
+              (batch) => `<option value="${batch.id}">${batch.name}</option>`
+            )
+            .join("")} 
+        </select>
+        <label htmlFor="status-select">SELECT BATCH FOR CERTIFICATE</label>
+        </div>
+        
         `,
         showCancelButton: true,
         confirmButtonText: "Save",
@@ -375,17 +214,11 @@ const PatientDetails = () => {
     }
   };
 
-  // const printmedicalRecord = useRef();
-
-  // const handlePrintCurrentMedicalRecord = useReactToPrint({
-  //   content: () => printmedicalRecord.current,
-  // });
-
-  // const PrintRecord = () => {
-  //   handlePrintCurrentMedicalRecord();
-  // };
-
   const category = singlePatient?.category ?? "Medical Patient";
+
+  const PrintRecord = () => {
+    handlePrintCurrentMedicalRecord();
+  };
 
   return (
     <Fragment>
@@ -400,14 +233,17 @@ const PatientDetails = () => {
         </title>
       </Helmet>
 
-      {/* <div
+      <div
         className="row"
         style={{
           display: "none",
         }}
       >
-        <PrintPatientMedicalRecord ref={handlePrintCurrentMedicalRecord} />
-      </div> */}
+        <PrintPatientMedicalRecord
+          ref={printmedicalRecordRef}
+          patientData={singlePatient}
+        />
+      </div>
 
       {singlePatient ? (
         <section className="content">
@@ -419,8 +255,15 @@ const PatientDetails = () => {
                   style={{
                     marginBottom: "10px",
                   }}
-                  // onClick={PrintRecord}
+                  onClick={PrintRecord}
                 >
+                  <i
+                    className="ti-file"
+                    style={{
+                      fontSize: "20px",
+                    }}
+                  ></i>
+                  {"  "}
                   PRINT MEDICAL RECORD
                 </button>
               </div>
@@ -441,11 +284,13 @@ const PatientDetails = () => {
                         <button
                           style={{
                             color: "#fff",
-                            display: "block", // Show the button
+                            display: "block",
+                            textTransform: "uppercase",
+                            // Show the button
                           }}
                           onClick={handleAddToBatchClick}
                         >
-                          <strong>Add To Batch</strong>
+                          Add To Batch
                         </button>
                       ) : (
                         <button
@@ -459,15 +304,24 @@ const PatientDetails = () => {
                     </div>
                   )}
 
-                  {singlePatient.certificate_status !== "READY" && (
-                    <PButtons routeId={patientId} patient={singlePatient} />
-                  )}
+                  {singlePatient.certificate_status !== "READY" &&
+                    (singlePatient.certificate_status === "RELEASED" ? (
+                      <button className="btn btn-primary"><i
+                      className="ti-back-left"
+                      style={{
+                        fontSize: "20px",
+                      }}
+                    ></i>
+                    {"  "}RENEW CERTICATE</button>
+                    ) : (
+                      <PButtons routeId={patientId} patient={singlePatient} />
+                    ))}
                 </div>
               </div>
 
               {singlePatient.certificate_status === "RELEASED" && (
                 <div className="col-xl-12 col-12">
-                  <DaysLeftBox daysLeftData={dayLeftData} />
+                  {dayLeftData && <DaysLeftBox daysLeftData={dayLeftData} />}
                 </div>
               )}
 
@@ -486,104 +340,42 @@ const PatientDetails = () => {
 
             {singlePatient.category === "Pneumoconiosis" && (
               <Fragment>
-                <div
-                  className="col-xl-4 col-12"
-                  style={{
-                    overflowY: "scroll",
-                    height: "100vh",
-                    overflowX: "hidden",
-                  }}
-                >
-                  <div>
-                    {/* <PhysicalBox
-                      patient={singlePatient}
-                      physical={pneumoPhysicalTestsRecord}
-                    /> */}
-                    <Vitals patient={singlePatient} vitals={vitals} />
-                    <IndustryClassificationBox
-                      classification={industryClassification}
-                    />
-                    <MineralDustExBox exposure={pMineralDExposureRecord} />
-                    <DustyOccupation dusty_occ={pOccupationDetailsRecord} />
-                    <SymptomsBox symptoms={pSymptomsExaminationRecord} />
-                    <MeasuresBox measures={pMeasuresRecord} />
-                    <ConditionsTestBox
-                      conditions={pneumoConditionsTestRecord}
-                    />
-                    <SmokingHistoryBox smoking={smokingHistoryRecord} />
-
-                    <SystemsCheckBox syscheck={pneumoSystemsCheckRecord} />
-                    <ResultsAndInvestigation
-                      resultInvestigation={pneumoResultsRemarksRecord}
-                    />
-                    <AdditionalTestsBox
-                      additionalTests={pneumoAdditionalTestRecord}
-                    />
-                  </div>
-                </div>
+                <PneumoDetail
+                  singlePatient={singlePatient}
+                  patientId={patientId}
+                  vitals={vitals}
+                />
               </Fragment>
             )}
 
             {singlePatient.category === "City Of Harare" && (
               <Fragment>
-                <div
-                  className="col-xl-4 col-12"
-                  style={{
-                    overflowY: "scroll",
-                    height: "110vh",
-                    overflowX: "hidden",
-                  }}
-                >
-                  <Vitals patient={singlePatient} vitals={vitals} />
-                  <DiseaseHistory patientId={patientId} />
-                  <TobaccoBox patientId={patientId} />
-                  <XRayBox patientId={patientId} />
-                </div>
+                <FoodHandlerDetail
+                  singlePatient={singlePatient}
+                  patientId={patientId}
+                  vitals={vitals}
+                />
               </Fragment>
             )}
 
             {singlePatient.category === "In House" && (
               <Fragment>
-                <div
-                  className="col-xl-4 col-12"
-                  style={{
-                    overflowY: "scroll",
-                    height: "110vh",
-                    overflowX: "hidden",
-                  }}
-                >
-                  <Vitals patient={singlePatient} vitals={vitals} />
-                  <DiseaseHistory patientId={patientId} />
-                  <TobaccoBox patientId={patientId} />
-                  <XRayBox patientId={patientId} />
-                </div>
+                <InHouseDetail
+                  singlePatient={singlePatient}
+                  patientId={patientId}
+                  vitals={vitals}
+                />
               </Fragment>
             )}
 
             {/* In House */}
-
             {singlePatient.category === "Industry" && (
               <Fragment>
-                <div
-                  className="col-xl-4 col-12"
-                  style={{
-                    overflowY: "scroll",
-                    overflowX: "hidden",
-                    height: "110vh",
-                  }}
-                >
-                  <HomeAddress homeAddress={homeAddressesRecord} />
-                  <MedicalHistoryBox mHistory={otherMedicalHistoryRecord} />
-                  {/* <OtherPhysicalExamination
-                    physical={otherPhysicalExaminationRecord}
-                    vitals={otherCardioVascularCheckRecord}
-                  /> */}
-                  <Vitals patient={singlePatient} vitals={vitals} />
-                  <InjuryBox injuries={otherIllnessInjuriesRecord} />
-                  <CardioBox data={otherCardioVascularCheckRecord} />
-                  <RespiratoryBox data={otherRespiratoryCheckRecord} />
-                  <IComments data={otherCommentsAndRemarksRecord} />
-                </div>
+                <PreEmployementDetail
+                  singlePatient={singlePatient}
+                  patientId={patientId}
+                  vitals={vitals}
+                />
               </Fragment>
             )}
             <div className="col-xl-8 col-12">

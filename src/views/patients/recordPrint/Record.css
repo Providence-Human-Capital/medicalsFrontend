@@ -1,0 +1,14 @@
+.record-container {
+  margin: 3rem;
+}
+.underline-span {
+  display: inline-block;
+  border-bottom: 2px dotted #000;
+  /* border-radius: 0px; */
+  text-align: center;
+  /* font-family: "Cooper Black"; */
+  font-weight: bold;
+}
+.record-container p {
+    font-size: 14px !important;
+}

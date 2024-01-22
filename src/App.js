@@ -116,13 +116,16 @@ import GeneratedReports from "./views/reports/GeneratedReports";
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
   injectStyle();
-}
+} 
 
 const App = () => {
   return (
     <HashRouter>
       <WrapperComponent />
     </HashRouter>
+    // <BrowserRouter basename="/medicals">
+    //   <WrapperComponent />
+    // </BrowserRouter>
   );
 };
 
@@ -411,7 +414,11 @@ const WrapperComponent = () => {
           <Route path="/industry" exact element={<Industry />} />
 
           <Route path="/reports" exact element={<Reports />} />
-          <Route path="/reports/generate" exact element={<GeneratedReports />} />
+          <Route
+            path="/reports/generate"
+            exact
+            element={<GeneratedReports />}
+          />
           <Route
             path="/report/single/:day"
             exact

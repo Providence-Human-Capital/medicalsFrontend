@@ -95,60 +95,60 @@ const AddAttendee = () => {
   const onSubmit = async (formData, { setSubmitting, resetForm }) => {
     setLoading(true);
     console.log("FormData", formData);
-    // try {
-    //   const response = await fetch(`${API}/attendee`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(formData),
-    //   });
-    //   const data = await response.json();
-    //   console.log("Responsee", data);
-    //   dispatch(
-    //     uiActions.setAlert({
-    //       setAlert: true,
-    //     })
-    //   );
+    try {
+      const response = await fetch(`${API}/attendee`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      console.log("Responsee", data);
+      dispatch(
+        uiActions.setAlert({
+          setAlert: true,
+        })
+      );
 
-    //   setRedirectBack(true);
-    //   if ((response.status === 200) | (response.status === 201)) {
-    //     Swal.fire({
-    //       icon: "success",
-    //       title: "Success",
-    //       text: "New Client Successfully Added",
-    //       timer: 4000,
-    //       confirmButtonColor: "#007a41",
-    //     });
-    //     if (redirectToPatients) {
-    //       navigate("/patients");
-    //     } else if (continueAddingAttendees) {
-    //       resetForm();
-    //     }
-    //   }
+      setRedirectBack(true);
+      if ((response.status === 200) | (response.status === 201)) {
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "New Client Successfully Added",
+          timer: 4000,
+          confirmButtonColor: "#007a41",
+        });
+        if (redirectToPatients) {
+          navigate("/patients");
+        } else if (continueAddingAttendees) {
+          resetForm();
+        }
+      }
 
-    //   if (response.status === 400) {
-    //     if (data.error) {
-    //       toast(data.error);
-    //     }
-    //   }
+      if (response.status === 400) {
+        if (data.error) {
+          toast(data.error);
+        }
+      }
 
-    //   if (response.status === 500) {
-    //     toast("An internal server error occurred! National ID might be in use");
-    //   }
-    // } catch (error) {
-    //   console.error("Error Messsage", error);
-    // } finally {
-    //   setLoading(false);
-    //   setSubmitting(false);
-    //   setTimeout(() => {
-    //     dispatch(
-    //       uiActions.setAlert({
-    //         setAlert: false,
-    //       })
-    //     );
-    //   }, 4000);
-    // }
+      if (response.status === 500) {
+        toast("An internal server error occurred! National ID might be in use");
+      }
+    } catch (error) {
+      console.error("Error Messsage", error);
+    } finally {
+      setLoading(false);
+      setSubmitting(false);
+      setTimeout(() => {
+        dispatch(
+          uiActions.setAlert({
+            setAlert: false,
+          })
+        );
+      }, 4000);
+    }
   };
 
   useEffect(() => {
@@ -409,7 +409,7 @@ const AddAttendee = () => {
                               </div>
                             </div>
                             <div className="col-md-4">
-                              <div className="form-floating">
+                              {/* <div className="form-floating">
                                 <Field
                                   as="select"
                                   className="form-select"
@@ -425,7 +425,7 @@ const AddAttendee = () => {
                                 </Field>
                                 <label htmlFor="id_type">ID TYPE</label>
                               </div>
-                              <div className="separation-div"></div>
+                              <div className="separation-div"></div> */}
                               <div className="form-floating">
                                 <Field
                                   type="text"
@@ -437,13 +437,13 @@ const AddAttendee = () => {
                                   id="national_id"
                                   placeholder="Enter national ID"
                                   name="national_id"
-                                  onChange={(event) =>
-                                    handleNationalIdChange(
-                                      event,
-                                      setFieldValue,
-                                      values.id_type
-                                    )
-                                  }
+                                  // onChange={(event) =>
+                                  //   handleNationalIdChange(
+                                  //     event,
+                                  //     setFieldValue,
+                                  //     values.id_type
+                                  //   )
+                                  // }
                                 />
                                 <label htmlFor="national_id">NATIONAL ID</label>
                                 <ErrorMessage
@@ -518,14 +518,14 @@ const AddAttendee = () => {
                                   name="exam_purpose"
                                 >
                                   <option value=""></option>
-                                  <option value="1">Pre-Placement</option>
+                                  {/* <option value="1">Pre-Placement</option> */}
                                   <option value="2">Periodical</option>
-                                  <option value="3">
+                                  {/* <option value="3">
                                     Exit(Employment Termination)
                                   </option>
                                   <option value="4">
                                     Post(Employment Follow Up)
-                                  </option>
+                                  </option> */}
                                 </Field>
                                 <label htmlFor="exam_purpose">
                                   EXAM PURPOSE
@@ -576,17 +576,17 @@ const AddAttendee = () => {
                                 >
                                   <option value=""></option>
                                   <option value="City Of Harare">
-                                    City Of Harare
+                                    Food Handler
                                   </option>
                                   <option value="Pneumoconiosis">
                                     Pneumoconiosis
                                   </option>
                                   <option value="Industry">
-                                    Industry/Security
+                                   Pre-Employment
                                   </option>
                                   <option value="In House">In House</option>
                                 </Field>
-                                <label htmlFor="date_of_birth">Category:</label>
+                                <label htmlFor="date_of_birth">EXAMINATION TYPE:</label>
                                 <ErrorMessage
                                   name="category"
                                   component="div"

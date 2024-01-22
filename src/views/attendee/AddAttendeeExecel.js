@@ -20,6 +20,7 @@ const AddAttendeeExecel = () => {
   const [data, setData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [patientsAdded, setPatientsAdded] = useState(0);
   const [savedData, setSavedData] = useState([]);
   const [count, setCount] = useState(0);
   const [company, setCompany] = useState("");
@@ -119,7 +120,9 @@ const AddAttendeeExecel = () => {
         });
         const data = await response.json();
         console.log("New entry", data);
+
         if ((response.status === 200) | (response.status === 201)) {
+          setPatientsAdded((prevCount) => prevCount + 1);
           dispatch(
             uiActions.setLoadingSpinner({
               isLoading: false,
@@ -133,7 +136,7 @@ const AddAttendeeExecel = () => {
                 "Content-Type": "application/json",
               },
             });
-        
+
             const responseData = await attendeesResponse.json();
             const attendees = responseData.data;
             dispatch(
@@ -144,6 +147,8 @@ const AddAttendeeExecel = () => {
           };
           getAttendees();
           savedEntries.push(entry);
+
+          setSavedData(savedEntries);
         }
 
         if (response.status === 400) {
@@ -167,8 +172,6 @@ const AddAttendeeExecel = () => {
         );
       }
     }
-
-    setSavedData(savedEntries);
   };
 
   useEffect(() => {
@@ -177,6 +180,7 @@ const AddAttendeeExecel = () => {
     //     isLoading: false,
     //   })
     // );
+    setPatientsAdded(0);
   }, []);
 
   return (
@@ -245,14 +249,7 @@ const AddAttendeeExecel = () => {
                             }
                           >
                             <option value=""></option>
-                            <option value="1">Pre-Placement</option>
                             <option value="2">Periodical</option>
-                            <option value="3">
-                              Exit(Employment Termination)
-                            </option>
-                            <option value="4">
-                              Post(Employment Follow Up)
-                            </option>
                           </select>
                           <label
                             htmlFor="examPurposeSelect"
@@ -273,13 +270,11 @@ const AddAttendeeExecel = () => {
                             }
                           >
                             <option value=""></option>
-                            <option value="City Of Harare">
-                              City Of Harare
-                            </option>
+                            <option value="City Of Harare">FoodHandler</option>
                             <option value="Pneumoconiosis">
                               Pneumoconiosis
                             </option>
-                            <option value="Industry">Industry/Security</option>
+                            <option value="Industry">Pre-Employment</option>
                             <option value="In House">In House</option>
                           </select>
                           <label
@@ -298,7 +293,7 @@ const AddAttendeeExecel = () => {
                       <div className="col-md-6"></div>
                     </div>
 
-                    {loading ? (
+                    {isLoading ? (
                       <Loading />
                     ) : (
                       <SaveButton
@@ -314,6 +309,10 @@ const AddAttendeeExecel = () => {
         </div>
       </div>
       <div className="separation-div"></div>
+      <h4>
+        NUMBER OF PATIENTS ADDED {"  "}
+        {patientsAdded}
+      </h4>
       <div className="row">
         <div className="col-12">
           <table className="table table-striped">
