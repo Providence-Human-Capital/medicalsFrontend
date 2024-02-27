@@ -156,6 +156,7 @@ const PatientItem = ({ patient, index }) => {
 
   useEffect(() => {
     console.log("patient" + JSON.stringify(patient.category));
+    console.log("STATUS", (patient.certificates[patient.certificates.length - 1].status))
   }, []);
 
   return (
@@ -171,12 +172,12 @@ const PatientItem = ({ patient, index }) => {
         <td>{patient.employee_number}</td>
 
         {patient.category === "In House" ||
-        patient.category === "City Of Harare" ? (
+        patient.category === "Food Handler (COH)" ? (
           <td>
             {patient.swabs.length !== 0 ? (
               <SwabResultDropdown
                 patientId={patient.id}
-                initialSwabResult={`${patient.swabs[0].status}`}
+                initialSwabResult={`${patient.swabs[patient.swabs.length - 1].status}`}
               />
             ) : (
               <SwabResultDropdown
@@ -201,9 +202,9 @@ const PatientItem = ({ patient, index }) => {
             style={{
               cursor: "pointer",
             }}
-            onClick={() => updateCertificateStatus(patient.certificates[0].id)}
+            onClick={() => updateCertificateStatus(patient.certificates[patient.certificates.length - 1].id)}
           >
-            {PHYSICAL_EXAM(patient.certificates[0].status)}
+            {PHYSICAL_EXAM(patient.certificates[patient.certificates.length - 1].status)}
           </span>
         </td>
 

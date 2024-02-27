@@ -112,11 +112,12 @@ import DoctorsWaitingList from "./hms/hmsdoctors/doctors_waiting_list_page";
 import BookAppointment from "./hms/views/appointments/book_appointment";
 import DoctorsDashboard from "./hms/hmsdoctors/doctors_dash";
 import GeneratedReports from "./views/reports/GeneratedReports";
+import Swab from "./views/swabs/Swab";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
   injectStyle();
-} 
+}
 
 const App = () => {
   return (
@@ -419,6 +420,8 @@ const WrapperComponent = () => {
             exact
             element={<GeneratedReports />}
           />
+
+          <Route path="/swab" exact element={<Swab />} />
           <Route
             path="/report/single/:day"
             exact

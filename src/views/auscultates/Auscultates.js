@@ -17,7 +17,7 @@ const Auscultates = () => {
                   <div className="d-flex">
                     <CreateButton
                       text={"Add New Skin  Auscultate"}
-                      to={"/skin/conditions/add"}
+                      to={"/auscultates/add"}
                     />
                   </div>
                 </div>

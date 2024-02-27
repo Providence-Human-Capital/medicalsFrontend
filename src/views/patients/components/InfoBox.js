@@ -61,75 +61,7 @@ const InfoBox = ({ patient }) => {
 
   return (
     <Fragment>
-      <div className="box">
-        <div className="container">
-          <div
-            className="mt-3"
-            style={{
-              margin: "2rem",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <a
-                data-toggle="collapse"
-                href="#collapseExample"
-                role="button"
-                aria-expanded="false"
-                aria-controls="collapseExample"
-                className="advanced"
-                style={{
-                  fontWeight: "bold",
-                }}
-              >
-                ADD HYGIENE DETAILS <i className="fa fa-angle-down"></i>
-              </a>
-              {patient?.category === "City Of Harare" && (
-                <a
-                  data-toggle="collapse"
-                  href="#collapseSwab"
-                  role="button"
-                  aria-expanded="false"
-                  aria-controls="collapseSwab"
-                  className="advanced"
-                  style={{ fontWeight: "bold" }}
-                >
-                  ADD SWAB DETAILS <i className="fa fa-angle-down"></i>
-                </a>
-              )}
-
-              {patient?.category === "In House" && (
-                <a
-                  data-toggle="collapse"
-                  href="#collapseSwab"
-                  role="button"
-                  aria-expanded="false"
-                  aria-controls="collapseSwab"
-                  className="advanced"
-                  style={{ fontWeight: "bold" }}
-                >
-                  ADD SWAB DETAILS <i className="fa fa-angle-down"></i>
-                </a>
-              )}
-            </div>
-            <div className="separation-div"></div>
-            <div className="collapse" id="collapseExample">
-              <div className="">
-                <HygieneForm />
-              </div>
-            </div>
-            <div className="collapse" id="collapseSwab">
-              <div className="">
-                <SwabForm />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+     
       <div className="box bg-bubbles-white">
         <div
           className={`box-body text-end min-h-150 ${styles["my-component"]}`}
@@ -140,7 +72,7 @@ const InfoBox = ({ patient }) => {
               <div className="image-container">
                 <img
                   // src={selectedImage || "/assets/images/avatar/2.jpg"}
-                  src={selectedImage || "assets/images/avatar/2.jpg"}
+                  src={selectedImage || "/assets/images/avatar/2.jpg"}
                   className="bg-success-light rounded50 square-image"
                   alt=""
                   style={{
@@ -220,123 +152,45 @@ const InfoBox = ({ patient }) => {
             </h5>
           </div>
         </div>
-        <div className="container">
-          <div className="mt-3">
-            <a
-              data-toggle="collapse"
-              href="#collapseExample"
-              role="button"
-              aria-expanded="false"
-              aria-controls="collapseExample"
-              className="advanced"
-              style={{
-                fontWeight: "bold",
-              }}
-            >
-              ADD DEPARTMENT OR SUB COMPANY <i className="fa fa-angle-down"></i>
-            </a>
-            <div className="separation-div"></div>
-            <div className="collapse" id="collapseExample">
-              <div className="card card-body">
-                <Formik
-                  initialValues={initialValues}
-                  onSubmit={onSubmit}
-                  validationSchema={validationSchema}
-                >
-                  {({
-                    values,
-                    isSubmitting,
-                    handleSubmit,
-                    touched,
-                    errors,
-                    setFieldValue,
-                  }) => (
-                    <Form>
-                      <div className="row">
-                        <div className="col-md-6">
-                          <div className="form-floating">
-                            <Field
-                              type="text"
-                              className={`form-control ${
-                                touched.department && errors.department
-                                  ? "error-input"
-                                  : ""
-                              }`}
-                              id="department"
-                              placeholder="Enter department"
-                              name="department"
-                            />
-                            <label htmlFor="department">DEPARTMENT</label>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-floating">
-                            <Field
-                              type="text"
-                              className={`form-control ${
-                                touched.sub_company && errors.sub_company
-                                  ? "error-input"
-                                  : ""
-                              }`}
-                              id="sub_company"
-                              placeholder="Enter SUB COMPANY"
-                              name="sub_company"
-                            />
-                            <label htmlFor="sub_company">SUB COMPANY</label>
-                          </div>
-                        </div>
-                        <div className="separation-div"></div>
-                        {updating ? (
-                          <Loading />
-                        ) : (
-                          <button
-                            className="btn btn-success"
-                            style={{
-                              width: "fit-content",
-                              textTransform: "uppercase",
-                              fontWeight: "bold",
-                              borderRadius: "10px",
-                            }}
-                            type="submit"
-                            onClick={onSubmit}
-                          >
-                            Save
-                          </button>
-                        )}
-                      </div>
-                    </Form>
-                  )}
-                </Formik>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        {patientsRemarks && (
+        {patient.medical_record && (
           <Fragment>
             <div className="box-body pt-0">
               <h4 className="fw-500">Doctor's Comment</h4>
-              {patientsRemarks.comment ? (
-                <p>{patientsRemarks.comment}</p>
+              {patient.medical_record.doctor_remarks && patient.medical_record.doctor_remarks.comment ? (
+                <p
+                  className="badge badge-primary"
+                  style={{
+                    fontWeight: "bold",
+                  }}
+                >
+                  {patient.medical_record.doctor_remarks.comment}
+                </p>
               ) : (
-                <p>No comment from the doctor yet.</p>
-              )}
-            </div>
-            <div className="box-body pt-0">
-              <h4 className="fw-500">General Observation</h4>
-              {patient.general_observation ? (
-                <p>{patient.general_observation}</p>
-              ) : (
-                <p>Now Observation's from the doctor yet.</p>
+                <p
+                  style={{
+                    fontWeight: "bold",
+                  }}
+                >
+                  No comment from the doctor yet.
+                </p>
               )}
             </div>
 
             <div className="box-body pt-0">
               <h4 className="fw-500">Doctor's Remarks</h4>
-              {patientsRemarks.remarks && patientsRemarks.remarks ? (
-                <p>{patientsRemarks.remarks}</p>
+              {patient.medical_record.doctor_remarks &&
+              patient.medical_record.doctor_remarks.remarks ? (
+                <p
+                  className="badge badge-primary"
+                  style={{
+                    fontWeight: "bold",
+                  }}
+                >
+                  {patient.medical_record.doctor_remarks.remarks}
+                </p>
               ) : (
-                <p>No remarks from the doctor yet.</p>
+                <p>No remarks from the doctor yet..</p>
               )}
             </div>
           </Fragment>

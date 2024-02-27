@@ -79,6 +79,7 @@ const Reports = () => {
           sampleData={activityByDayData}
           colorCustomization={colorCustomization}
           showMonth={true}
+        
         />
       </div>
 

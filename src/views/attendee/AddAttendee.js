@@ -78,7 +78,9 @@ const AddAttendee = () => {
       otherwise: yup.string().notRequired(),
     }),
     country_code: yup.string().required("Select country code"),
-    phone_number: yup.string().required("Please enter the Phone Number"),
+    phone_number: yup.string()
+    .required("Please enter the Phone Number")
+    .matches(/^\d{9}$/, "Phone Number must be 9 digits"),
     x_ray_status: yup.string().required("Please select the X ray Status"),
     exam_purpose: yup.string().required("Please select the Exam Purpose"),
     employee_number: yup.string().nullable(),
@@ -94,6 +96,10 @@ const AddAttendee = () => {
 
   const onSubmit = async (formData, { setSubmitting, resetForm }) => {
     setLoading(true);
+    formData.first_name = formData.first_name.toUpperCase();
+    formData.last_name = formData.last_name.toUpperCase();
+    formData.national_id = formData.national_id.toUpperCase();
+    formData.employee_number = formData.employee_number.toUpperCase();
     console.log("FormData", formData);
     try {
       const response = await fetch(`${API}/attendee`, {
@@ -437,13 +443,7 @@ const AddAttendee = () => {
                                   id="national_id"
                                   placeholder="Enter national ID"
                                   name="national_id"
-                                  // onChange={(event) =>
-                                  //   handleNationalIdChange(
-                                  //     event,
-                                  //     setFieldValue,
-                                  //     values.id_type
-                                  //   )
-                                  // }
+                                
                                 />
                                 <label htmlFor="national_id">NATIONAL ID</label>
                                 <ErrorMessage
@@ -519,7 +519,14 @@ const AddAttendee = () => {
                                 >
                                   <option value=""></option>
                                   {/* <option value="1">Pre-Placement</option> */}
-                                  <option value="2">Periodical</option>
+                                  <option
+                                    value="2"
+                                    style={{
+                                      textTransform: "uppercase",
+                                    }}
+                                  >
+                                    Periodical
+                                  </option>
                                   {/* <option value="3">
                                     Exit(Employment Termination)
                                   </option>
@@ -575,18 +582,50 @@ const AddAttendee = () => {
                                   name="category"
                                 >
                                   <option value=""></option>
-                                  <option value="City Of Harare">
+                                  <option
+                                    value="Food Handler (COH)"
+                                    style={{
+                                      textTransform: "uppercase",
+                                    }}
+                                  >
                                     Food Handler
                                   </option>
-                                  <option value="Pneumoconiosis">
+                                  <option
+                                    value="Pneumoconiosis"
+                                    style={{
+                                      textTransform: "uppercase",
+                                    }}
+                                  >
                                     Pneumoconiosis
                                   </option>
-                                  <option value="Industry">
-                                   Pre-Employment
+                                  <option
+                                    value="Pre-Employement"
+                                    style={{
+                                      textTransform: "uppercase",
+                                    }}
+                                  >
+                                    Pre-Employment
                                   </option>
-                                  <option value="In House">In House</option>
+                                  <option
+                                    value="Exit-Pneumoconiosis"
+                                    style={{
+                                      textTransform: "uppercase",
+                                    }}
+                                  >
+                                    Exit (Pneumoconiosis)
+                                  </option>
+                                  <option
+                                    value="Exit-Employement"
+                                    style={{
+                                      textTransform: "uppercase",
+                                    }}
+                                  >
+                                    Exit-Employement
+                                  </option>
                                 </Field>
-                                <label htmlFor="date_of_birth">EXAMINATION TYPE:</label>
+                                <label htmlFor="date_of_birth">
+                                  EXAMINATION TYPE:
+                                </label>
                                 <ErrorMessage
                                   name="category"
                                   component="div"

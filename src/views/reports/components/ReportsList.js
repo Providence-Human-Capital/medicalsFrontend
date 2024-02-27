@@ -66,7 +66,7 @@ const ReportsList = ({ reportsData }) => {
                     }}
                     className="text-center bb-2"
                   >
-                    City Of Harare Stats
+                    FoodHandler Stats
                   </th>
                   <th
                     style={{
@@ -74,7 +74,23 @@ const ReportsList = ({ reportsData }) => {
                     }}
                     className="text-center bb-2"
                   >
-                    Industries & Other Stats
+                    Pre-Employment Stats
+                  </th>
+                  <th
+                    style={{
+                      minWidth: "150px",
+                    }}
+                    className="text-center bb-2"
+                  >
+                    Exit-Employement Stats
+                  </th>
+                  <th
+                    style={{
+                      minWidth: "150px",
+                    }}
+                    className="text-center bb-2"
+                  >
+                    Exit-Pneumoconiosis Stats
                   </th>
 
                   <th

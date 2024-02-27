@@ -42,7 +42,7 @@ const AustTable = () => {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Skin Condition</th>
+                <th>Auscultate</th>
                 <th></th>
               </tr>
             </thead>

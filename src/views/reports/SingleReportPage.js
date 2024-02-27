@@ -18,6 +18,8 @@ const SingleReportPage = () => {
   useEffect(() => {
     const filteredData = reportByDayData.filter((obj) => obj.day === day);
     setSingleDayReport(filteredData);
+
+    console.log("Single day report", singleDayReport);
   }, [day]);
 
   return (
@@ -25,18 +27,6 @@ const SingleReportPage = () => {
       <BreadCrumb title={"Single Report"} activeTab={"Report Overview"} />
 
       <section className="content">
-        {/* <PDFDownloadLink
-          document={<ReportDocument singleReport={singleDayReport[0]} />}
-          fileName="my-document.pdf"
-        >
-          {({ blob, url, loading, error }) =>
-            loading ? (
-              <DownloadButton text={"Loading Document"} />
-            ) : (
-              <DownloadButton text={"Download now!"} />
-            )
-          }
-        </PDFDownloadLink> */}
         <div
           style={{
             paddingBottom: "20px",
@@ -67,8 +57,12 @@ const SingleReportPage = () => {
                         <thead className="thead-dark">
                           <tr>
                             <th scope="col">First Name</th>
-                            <th scope="col">Last Name</th>
-                            <th scope="col">Exam Purpose</th>
+                            <th scope="col">Surname</th>
+                            <th scope="col">Date Of Birth</th>
+                            <th scope="col">Gender</th>
+                            <th scope="col">National ID</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Company</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -77,7 +71,11 @@ const SingleReportPage = () => {
                               <tr>
                                 <td>{patient.first_name}</td>
                                 <td>{patient.last_name}</td>
-                                <td>{patient.exam_purpose}</td>
+                                <td>{patient.date_of_birth}</td>
+                                <td>{patient.gender}</td>
+                                <td>{patient.national_id}</td>
+                                <td>{patient.phone_number}</td>
+                                <td>{patient.company}</td>
                               </tr>
                             ))}
                         </tbody>
@@ -88,8 +86,8 @@ const SingleReportPage = () => {
                   <h4 className="mt-4">
                     City Of Harare{" "}
                     <span className="badge badge-primary-light badge-lg">
-                      {singleDayReport[0]["City Of Harare"].length}{" "}
-                      {singleDayReport[0]["City Of Harare"].length <= 1
+                      {singleDayReport[0]["Food Handler (COH)"].length}{" "}
+                      {singleDayReport[0]["Food Handler (COH)"].length <= 1
                         ? "Patient"
                         : "Patients"}
                     </span>
@@ -98,27 +96,109 @@ const SingleReportPage = () => {
                     <thead className="thead-dark">
                       <tr>
                         <th scope="col">First Name</th>
-                        <th scope="col">Last Name</th>
-                        <th scope="col">Exam Purpose</th>
+                        <th scope="col">Surname</th>
+                        <th scope="col">Date Of Birth</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">National ID</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">Company</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {singleDayReport[0]["City Of Harare"] &&
-                        singleDayReport[0]["City Of Harare"].map((patient) => (
-                          <tr>
-                            <td>{patient.first_name}</td>
-                            <td>{patient.last_name}</td>
-                            <td>{patient.exam_purpose}</td>
-                          </tr>
-                        ))}
+                      {singleDayReport[0]["Food Handler (COH)"] &&
+                        singleDayReport[0]["Food Handler (COH)"].map(
+                          (patient, index) => (
+                            <tr key={index}>
+                              <td>{patient.first_name}</td>
+                              <td>{patient.last_name}</td>
+                              <td>{patient.date_of_birth}</td>
+                              <td>{patient.gender}</td>
+                              <td>{patient.national_id}</td>
+                              <td>{patient.phone_number}</td>
+                              <td>{patient.company}</td>
+                            </tr>
+                          )
+                        )}
                     </tbody>
                   </table>
 
                   <h4 className="mt-4">
-                    Industry & Other{" "}
+                    Pre-Employement{" "}
                     <span className="badge badge-primary-light badge-lg">
-                      {singleDayReport[0]["Industry"].length}{" "}
-                      {singleDayReport[0]["Industry"].length <= 1
+                      {singleDayReport[0]["Pre-Employement"].length}{" "}
+                      {singleDayReport[0]["Pre-Employement"].length <= 1
+                        ? "Patient"
+                        : "Patients"}
+                    </span>
+                  </h4>
+                  <table className="table table-striped table-bordered">
+                    <thead className="thead-dark">
+                      <tr>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Surname</th>
+                        <th scope="col">Date Of Birth</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">National ID</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">Company</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {singleDayReport[0]["Pre-Employement"] &&
+                        singleDayReport[0]["Pre-Employement"].map((patient) => (
+                          <tr>
+                            <td>{patient.first_name}</td>
+                            <td>{patient.last_name}</td>
+                            <td>{patient.date_of_birth}</td>
+                            <td>{patient.gender}</td>
+                            <td>{patient.national_id}</td>
+                            <td>{patient.phone_number}</td>
+                            <td>{patient.company}</td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                  <h4 className="mt-4">
+                    Exit-Employment{" "}
+                    <span className="badge badge-primary-light badge-lg">
+                      {singleDayReport[0]["Exit-Employment"].length}{" "}
+                      {singleDayReport[0]["Exit-Employment"].length <= 1
+                        ? "Patient"
+                        : "Patients"}
+                    </span>
+                  </h4>
+                  <table className="table table-striped table-bordered">
+                    <thead className="thead-dark">
+                      <tr>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Surname</th>
+                        <th scope="col">Date Of Birth</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">National ID</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">Company</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {singleDayReport[0]["Exit-Employment"] &&
+                        singleDayReport[0]["Exit-Employment"].map((patient) => (
+                          <tr>
+                            <td>{patient.first_name}</td>
+                            <td>{patient.last_name}</td>
+                            <td>{patient.date_of_birth}</td>
+                            <td>{patient.gender}</td>
+                            <td>{patient.national_id}</td>
+                            <td>{patient.phone_number}</td>
+                            <td>{patient.company}</td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                  <h4 className="mt-4">
+                    Exit-Pneumoconiosis{" "}
+                    <span className="badge badge-primary-light badge-lg">
+                      {singleDayReport[0]["Exit-Pneumoconiosis"].length}{" "}
+                      {singleDayReport[0]["Exit-Pneumoconiosis"].length <= 1
                         ? "Patient"
                         : "Patients"}
                     </span>
@@ -128,18 +208,28 @@ const SingleReportPage = () => {
                       <tr>
                         <th scope="col">First Name</th>
                         <th scope="col">Last Name</th>
-                        <th scope="col">Exam Purpose</th>
+                        <th scope="col">Date Of Birth</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">National ID</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">Company</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {singleDayReport[0]["Industry"] &&
-                        singleDayReport[0]["Industry"].map((patient) => (
-                          <tr>
-                            <td>{patient.first_name}</td>
-                            <td>{patient.last_name}</td>
-                            <td>{patient.exam_purpose}</td>
-                          </tr>
-                        ))}
+                      {singleDayReport[0]["Exit-Pneumoconiosis"] &&
+                        singleDayReport[0]["Exit-Pneumoconiosis"].map(
+                          (patient) => (
+                            <tr>
+                              <td>{patient.first_name}</td>
+                              <td>{patient.last_name}</td>
+                              <td>{patient.date_of_birth}</td>
+                              <td>{patient.gender}</td>
+                              <td>{patient.national_id}</td>
+                              <td>{patient.phone_number}</td>
+                              <td>{patient.company}</td>
+                            </tr>
+                          )
+                        )}
                     </tbody>
                   </table>
                 </div>

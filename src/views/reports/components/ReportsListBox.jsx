@@ -4,7 +4,7 @@ import * as XLSX from "xlsx";
 import { PHYSICAL_EXAM } from "../../../helpers/helpers";
 import { Link } from "react-router-dom";
 
-const ReportsListBox = ({}) => {
+const ReportsListBox = ({ year, month }) => {
   const reportsFilteredResults =
     useSelector((state) => state.patient.reportsFilteredResults) || [];
 
@@ -18,9 +18,9 @@ const ReportsListBox = ({}) => {
         GENDER: item.attendee.gender,
         PHONE_NUMBER: item.attendee.phone_number,
         NATIONAL_ID: item.attendee.national_id,
-        COMPANY: item.company.company_name,
+        COMPANY: item.attendee.company.company_name,
         X_RAY_STATUS: item.attendee.x_ray_status,
-        CERTIFICATE_STATUS: item.certificates[0].status,
+        CERTIFICATE_STATUS: item.certificate_status,
         EXAMINATION_TYPE: item.exam_purpose,
         MEDICAL_CATEGORY: item.category,
       };
@@ -32,13 +32,21 @@ const ReportsListBox = ({}) => {
   const reportData = flattenedReportsData(reportsFilteredResults);
   const convertJsonToExcel = (flatData) => {
     const ws = XLSX.utils.json_to_sheet(flatData);
+    const columnWidths = [];
+    Object.keys(flatData[0]).forEach((key) => {
+      columnWidths.push({ wch: 20 }); // You can adjust the width as needed
+    });
+    ws["!cols"] = columnWidths;
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Sheet 1");
     const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     const blob = new Blob([excelBuffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
-    const fileName = "Report.xlsx";
+
+    const currentDate = new Date();
+    const dateString = currentDate.toISOString().slice(0, 19).replace(/:/g, "-");
+    const fileName = `Report_${dateString}.xlsx`;
     saveAs(blob, fileName);
   };
 
@@ -67,22 +75,22 @@ const ReportsListBox = ({}) => {
             </div>
           </div>
           <div className="col-md-3">
-          <div
-          style={{
-            margin: "2rem",
-          }}
-        >
-          <button
-            className="cssbuttons-io-button"
-            style={{
-              width: "fit-content",
-              borderRadius: "10px"
-            }}
-            onClick={handleDownloadExcel}
-          >
-            DOWNLOAD CSV
-          </button>
-        </div>
+            <div
+              style={{
+                margin: "2rem",
+              }}
+            >
+              <button
+                className="cssbuttons-io-button"
+                style={{
+                  width: "fit-content",
+                  borderRadius: "10px",
+                }}
+                onClick={handleDownloadExcel}
+              >
+                DOWNLOAD EXCEL (xlsx) 
+              </button>
+            </div>
           </div>
         </div>
 
@@ -94,10 +102,11 @@ const ReportsListBox = ({}) => {
                   <tr>
                     <th className="bb-2">First Name</th>
                     <th className="bb-2">Last Name</th>
+                    <th className="bb-2">Gender </th>
+
                     <th className="bb-2">Company</th>
                     <th className="bb-2">Category</th>
                     <th className="bb-2">Phone Number</th>
-                    <th className="bb-2">Certificate</th>
                     <th className="bb-2">Actions</th>
                   </tr>
                 </thead>
@@ -107,10 +116,11 @@ const ReportsListBox = ({}) => {
                       <tr key={client.id}>
                         <td>{client.attendee.first_name}</td>
                         <td>{client.attendee.last_name}</td>
-                        <td>{client.company.company_name}</td>
+                        <td>{client.attendee.gender}</td>
+
+                        <td>{client.attendee.company.company_name}</td>
                         <td>{client.category}</td>
                         <td>{client.attendee.phone_number}</td>
-                        <td>{PHYSICAL_EXAM(client.certificates[0].status)}</td>
                         <td>
                           <Link
                             to={`/patients/${client.id}`}

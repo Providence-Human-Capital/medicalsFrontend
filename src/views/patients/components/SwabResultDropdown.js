@@ -112,12 +112,17 @@ const SwabResultDropdown = ({ patientId, initialSwabResult }) => {
 
   const handleUpdateStatusClick = () => {
     Swal.fire({
-      title: "Update Status",
+      title: "UPDATE SWAB STATUS",
       html: `
-       <select id="status-select" class="form-select"> 
+      <p><strong>NB</strong>: THE PERSON CAN ONLY UPDATE THE SWAB STATUS TO DONE IF PATIENT RETURN WITH SWAB!</p>
+      <div class="form-floating">
+        <select id="status-select" class="form-select"> 
           <option value="PENDING">PENDING</option> 
           <option value="DONE">DONE</option> 
-        </select> 
+        </select>
+        <label htmlFor="status-select">Status</label> 
+      </div>
+      
        `,
 
       showCancelButton: true,

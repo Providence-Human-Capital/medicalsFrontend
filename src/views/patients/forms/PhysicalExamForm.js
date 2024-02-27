@@ -24,6 +24,7 @@ import PrevButton from "../../../components/buttons/PrevButton";
 import NextButton from "../../../components/buttons/NextButton";
 import { formsActions } from "../../../redux_store/forms-store";
 import FormButton from "../../../components/buttons/FormButton";
+import { Try } from "@mui/icons-material";
 
 const PhysicalExamForm = ({ handlePrev, handleNext }) => {
   const location = useLocation();
@@ -46,22 +47,42 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
   const [showForm, setShowForm] = useState(false);
   const [updateStatus, setUpdateStatus] = useState(false);
+  const [latestVitals, setLatestVitals] = useState({});
   const handleButtonClick = () => {
     setShowForm(!showForm);
   };
   const navigate = useNavigate();
+  const getLatestVitals = async () => {
+    try {
+      const response = await fetch(`${API}/physical/latest/${patientId}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+
+      const resp = await response.json();
+      if (response.ok) {
+        console.log("Latest Physical Exam", resp.data);
+        setLatestVitals(resp.data);
+      }
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
 
   const physicalId = 1;
 
   const initialValues = {
-    weight: "",
-    height: "",
+    weight: latestVitals ? latestVitals.weight : "",
+    height: latestVitals ? latestVitals.height : "",
     bp_sys: "",
     bp_dia: "",
     pulse: "",
     temp: "",
-    left_vision: "",
-    right_vision: "",
+    left_vision: latestVitals ? latestVitals.left_vision : "",
+    right_vision: latestVitals ? latestVitals.right_vision : "",
   };
 
   const bpRepeatInitialValues = {
@@ -171,7 +192,8 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
     // chechCertificatesStatusUpdate(patientId).then((data) => {
     //   console.log("From Certificates Update", data);
     // });
-  }, [updateStatus]);
+    getLatestVitals();
+  }, []);
   return (
     <Fragment>
       <div className="step-form">
@@ -186,6 +208,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                         <strong>Physical Examination</strong>
                       </h3>
                       <Formik
+                        enableReinitialize={true}
                         initialValues={initialValues}
                         onSubmit={onSubmit}
                         validationSchema={validationSchema}
@@ -211,7 +234,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                         type="number"
                                         className="form-control"
                                         id="height"
-                                        placeholder="Enter height"
+                                        // placeholder="Enter height"
                                         name="height"
                                         onChange={(e) =>
                                           onChangeHeight(e, setFieldValue)
@@ -242,7 +265,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                         type="number"
                                         className="form-control"
                                         id="weight"
-                                        placeholder="Enter weight"
+                                        // placeholder="Enter weight"
                                         name="weight"
                                       />
                                       <ErrorMessage
@@ -274,7 +297,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                         type="number"
                                         className="form-control"
                                         id="bp_sys"
-                                        placeholder="Systolic"
+                                        // placeholder="Systolic"
                                         name="bp_sys"
                                       />
                                       <ErrorMessage
@@ -303,7 +326,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                         type="number"
                                         className="form-control"
                                         id="bp_dia"
-                                        placeholder="Diastolic"
+                                        // placeholder="Diastolic"
                                         name="bp_dia"
                                         required
                                       />
@@ -336,7 +359,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                             type="number"
                                             className="form-control"
                                             id="pulse"
-                                            placeholder="BP Test Pulse"
+                                            // placeholder="BP Test Pulse"
                                             name="pulse"
                                           />
                                           <label htmlFor="pulse">
@@ -357,7 +380,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                             type="number"
                                             className="form-control"
                                             id="temp"
-                                            placeholder="Temperature"
+                                            // placeholder="Temperature"
                                             name="temp"
                                           />
                                           <label htmlFor="temp">
@@ -386,7 +409,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                           placeholder="Enter left vision"
                                           name="left_vision"
                                           style={{
-                                            height: "60px"
+                                            height: "60px",
                                           }}
                                         />
                                         <div className="input-group-append">
@@ -415,7 +438,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                           placeholder="Enter right vision"
                                           name="right_vision"
                                           style={{
-                                            height: "60px"
+                                            height: "60px",
                                           }}
                                         />
                                         <div className="input-group-append">
@@ -464,7 +487,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
               </div>
             )}
 
-            <button
+            {/* <button
               onClick={handleButtonClick}
               className="btn btn-primary me-5 mb-md-0 mb-5 "
               style={{
@@ -474,7 +497,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
             >
               <FontAwesomeIcon color="#fff" icon={faWaveSquare} /> {"  "}
               {showForm ? "Hide BP Repeat Form" : "Add BP Repeat"}
-            </button>
+            </button> */}
 
             <div className="separation-div"></div>
 

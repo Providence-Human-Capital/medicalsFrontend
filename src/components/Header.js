@@ -81,8 +81,8 @@ const Header = ({}) => {
             <div className="logo-lg">
               <span className="light-logo">
                 <img
-                  // src="/assets/images/providence.png"
-                  src="assets/images/providence.png"
+                  src="/assets/images/providence.png"
+                  // src="assets/images/providence.png"
                   alt="logo"
                   style={styles.logoStyles}
                 />
@@ -259,8 +259,8 @@ const Header = ({}) => {
                       </small>
                     </div>
                     <img
-                      // src="assets/images/avatar/avatar-1.png"
                       src="assets/images/avatar/avatar-1.png"
+                      // src="assets/images/avatar/avatar-1.png"
                       className="avatar rounded-10 bg-primary-light h-40 w-40"
                       alt=""
                     />

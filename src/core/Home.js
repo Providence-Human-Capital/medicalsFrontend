@@ -309,11 +309,10 @@ const Dashboard = ({}) => {
             </div>
 
             <div className="row">
-              <div className="col-xl-6 col-12">
+              <div className="col-xl-12 col-12">
                 <CertificateAnalysisCard />
               </div>
               <div className="col-xl-6 col-12">
-                <PatientStatisticsCard />
               </div>
             </div>
 
@@ -327,6 +326,8 @@ const Dashboard = ({}) => {
           <div className="col-xl-4 col-12">
             <DueMedicalsBox />
             <IllnessAnalysisCard />
+            <PatientStatisticsCard />
+
           </div>
         </div>
       </section>

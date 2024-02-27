@@ -7,6 +7,7 @@ import {
   faSmoking,
   faComment,
   faWaveSquare,
+  faHeartCircleExclamation
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -97,7 +98,7 @@ const FStepNavigation = ({ currentStep, setCurrentStep }) => {
           >
             <span className="progress-count">
               <FontAwesomeIcon
-                icon={faXRay}
+                icon={faHeartCircleExclamation}
                 className={`progress-icon ${
                   currentStep === 4 ? "current-icon" : ""
                 }`}
@@ -111,7 +112,7 @@ const FStepNavigation = ({ currentStep, setCurrentStep }) => {
               }}
               onClick={() => handleStepClick(4)}
             >
-              Patient's X Ray
+              Xray, Swab & Hygiene
             </span>
           </li>
           <li

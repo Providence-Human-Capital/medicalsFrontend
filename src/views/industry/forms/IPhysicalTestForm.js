@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import FormButton from "../../../components/buttons/FormButton";
 const IPhysicalTestForm = ({ handlePrev, handleNext }) => {
   const isLoading = useSelector((state) => state.ui.isLoading);
   const dispatch = useDispatch();
+  const [latestVitals, setLatestVitals] = useState({});
   const { patientId } = useParams();
 
   const validationSchema = Yup.object().shape({
@@ -50,12 +51,32 @@ const IPhysicalTestForm = ({ handlePrev, handleNext }) => {
     speech: Yup.string().nullable(),
   });
 
+  const getLatestVitals = async () => {
+    try {
+      const response = await fetch(`${API}/physical/latest/${patientId}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+
+      const resp = await response.json();
+      if (response.ok) {
+        console.log("Latest Physical Exam", resp.data);
+        setLatestVitals(resp.data);
+      }
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
+
   const initialValues = {
     exercise: "",
     how_often: "",
     how_long: "",
-    height: null,
-    weight: null,
+    weight: latestVitals ? latestVitals.weight : "",
+    height: latestVitals ? latestVitals.height : "",
     chest_in: "",
     chest_out: "",
     mental_state: "",
@@ -105,6 +126,10 @@ const IPhysicalTestForm = ({ handlePrev, handleNext }) => {
       dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
     }
   };
+
+  useEffect(() => {
+    getLatestVitals()
+  }, [])
   return (
     <div className="step-form">
       <div className="box">

@@ -64,7 +64,10 @@ const EditIllness = () => {
             <div className="custom-form">
               <div className="box-body">
                 <div className="container">
-                  <h2>Enter your Illnesses details</h2>
+                  <h3 style={{
+                      textTransform: "uppercase",
+                      fontWeight: "bold",
+                    }}>ENTER ILLNESS UPDATE DETAILS</h3>
                   <Formik
                     enableReinitialize={true}
                     initialValues={{
@@ -84,7 +87,10 @@ const EditIllness = () => {
                                 id="illness_name"
                                 name="illness_name"
                               />
-                              <label htmlFor="illness_name">Illness Name</label>
+                              <label htmlFor="illness_name" style={{
+                                textTransform: "uppercase",
+                                fontWeight: "bold",
+                              }}>Illness Name</label>
 
                               <ErrorMessage
                                 name="illness_name"
@@ -105,6 +111,8 @@ const EditIllness = () => {
                             onClick={handleSubmit}
                             style={{
                               borderRadius: "10px",
+                              textTransform: "uppercase",
+                              fontWeight: "bold",
                             }}
                           >
                             Update Illness

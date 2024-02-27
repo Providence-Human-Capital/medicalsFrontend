@@ -29,7 +29,7 @@ const StatsSummaryCard = ({ companyId }) => {
                     <i class="fs-24 fa fa-user"></i>
                   </div>
                   <div>
-                    <p class="text-fade fs-16 mb-0">Total Clients</p>
+                    <p class="text-fade fs-16 mb-0">Yearly Attendance</p>
                     <h3 class="fw-500 my-0">{generalStats.totalPatients}</h3>
                   </div>
                 </div>

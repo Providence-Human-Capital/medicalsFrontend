@@ -38,18 +38,34 @@ const ReportListItem = ({ report, index }) => {
         </span>
       </td>
       <td className="text-center">
-        <span class="text-fade fw-600 d-block fs-16">City Of Harare</span>
+        <span class="text-fade fw-600 d-block fs-16">Food Handler (COH)</span>
         <span class="text-dark fw-600 d-block fs-16">
           <span class="badge badge-pill badge-primary-light badge-lg">
-            Patients {report["City Of Harare"].length}
+            Patients {report["Food Handler (COH)"] && report["Food Handler (COH)"].length}
           </span>
         </span>
       </td>
       <td className="text-center">
-        <span class="text-fade fw-600 d-block fs-16">Industry & Other</span>
+        <span class="text-fade fw-600 d-block fs-16">Pre-Employment</span>
         <span class="text-dark fw-600 d-block fs-16">
           <span class="badge badge-pill badge-primary-light badge-lg">
-            Patients {report["Industry"].length}
+            Patients {report["Pre-Employement"].length}
+          </span>
+        </span>
+      </td>
+      <td className="text-center">
+        <span class="text-fade fw-600 d-block fs-16">Pre-Employment</span>
+        <span class="text-dark fw-600 d-block fs-16">
+          <span class="badge badge-pill badge-primary-light badge-lg">
+            Patients {report["Exit-Employement"] && report["Exit-Employement"].length}
+          </span>
+        </span>
+      </td>
+      <td className="text-center">
+        <span class="text-fade fw-600 d-block fs-16">Pre-Employment</span>
+        <span class="text-dark fw-600 d-block fs-16">
+          <span class="badge badge-pill badge-primary-light badge-lg">
+            Patients {report["Exit-Pneumoconiosis"] && report["Exit-Pneumoconiosis"].length}
           </span>
         </span>
       </td>

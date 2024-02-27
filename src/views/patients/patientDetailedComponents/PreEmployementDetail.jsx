@@ -68,9 +68,9 @@ const PreEmployementDetail = ({ singlePatient, patientId, vitals }) => {
           height: "130vh",
         }}
       >
+        <Vitals patient={singlePatient} vitals={vitals} />
         <HomeAddress homeAddress={homeAddressesRecord} />
         <MedicalHistoryBox mHistory={otherMedicalHistoryRecord} />
-        <Vitals patient={singlePatient} vitals={vitals} />
         <InjuryBox injuries={otherIllnessInjuriesRecord} />
         <CardioBox data={otherCardioVascularCheckRecord} />
         <RespiratoryBox data={otherRespiratoryCheckRecord} />

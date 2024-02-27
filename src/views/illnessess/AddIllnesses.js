@@ -62,7 +62,14 @@ const AddIllness = () => {
             <div className="custom-form">
               <div className="box-body">
                 <div className="container">
-                  <h2>Enter New Illness</h2>
+                  <h3
+                    style={{
+                      textTransform: "uppercase",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Enter New Illness
+                  </h3>
                   <Formik
                     initialValues={initialValues}
                     onSubmit={onSubmit}
@@ -77,41 +84,42 @@ const AddIllness = () => {
                     }) => (
                       <Form>
                         <div className="row">
-                          <div className="form-group col-md-6">
-                            <label htmlFor="illness_name">Name</label>
-                            <Field
-                              type="text"
-                              className={`form-control my-upload ${
-                                touched.illness_name && errors.illness_name
-                                  ? "error-input"
-                                  : ""
-                              }`}
-                              id="illness_name"
-                              name="illness_name"
-                              placeholder="Enter new illness name"
-                            />
-                            <ErrorMessage
-                              name="illness_name"
-                              component="div"
-                              className="text-danger"
-                            />
+                          <div className="col-md-6">
+                            <div className="form-floating">
+                              <Field
+                                type="text"
+                                className={`form-control ${
+                                  touched.illness_name && errors.illness_name
+                                    ? "error-input"
+                                    : ""
+                                }`}
+                                id="illness_name"
+                                name="illness_name"
+                              />
+                              <label
+                                htmlFor="illness_name"
+                                style={{
+                                  fontWeight: "bold",
+                                }}
+                              >
+                                ENTER NEW ILLNESS
+                              </label>
+                              <ErrorMessage
+                                name="illness_name"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
                           </div>
+                          <div className="separation-div"></div>
                         </div>
                         {loading ? (
                           <Loading />
                         ) : (
-                          // <button
-                          //   type="submit"
-                          //   className="btn btn-primary"
-                          //   disabled={isSubmitting}
-                          //   onClick={handleSubmit}
-                          // >
-                          //   Save Illness
-                          // </button>
                           <SaveButton
                             disable={isSubmitting}
                             onClick={handleSubmit}
-                            text={"Save Illness"}
+                            text={"Save"}
                           />
                         )}
                       </Form>

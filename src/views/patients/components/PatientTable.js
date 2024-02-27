@@ -23,6 +23,14 @@ import AdvancedSearchBox from "../../../components/AdvancedSearchBox";
 
 const exportToExcel = (data, filename) => {
   const worksheet = XLSX.utils.json_to_sheet(data);
+
+  // Define column widths
+  const columnWidths = [];
+  Object.keys(data[0]).forEach((key) => {
+    columnWidths.push({ wch: 20 }); // You can adjust the width as needed
+  });
+  worksheet['!cols'] = columnWidths;
+
   const workbook = XLSX.utils.book_new();
   const headerStyle = {
     font: { bold: true },
@@ -32,6 +40,7 @@ const exportToExcel = (data, filename) => {
   XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
   XLSX.writeFile(workbook, filename);
 };
+
 
 const PatientTable = () => {
   const dispatch = useDispatch();
@@ -80,9 +89,31 @@ const PatientTable = () => {
     itemsPerPage
   );
 
-  const handleExportClick = () => {
-    exportToExcel(filteredPatients, "data.xlsx");
+  const flattenPatientsForReport = (filteredData) => {
+    return filteredData.map((item) => {
+      const flattendedItem = {
+        "EMPLOYEE NUMBER": item.employee_number,
+        "FIRST NAME": item.first_name,
+        SURNAME: item.last_name,
+        "NATIONAL ID": item.national_id,
+        COMPANY: item.company,
+        "DATE OF BIRTH": item.date_of_birth,
+        AGE: item.age,
+        "PHONE NUMBER": item.phone_number,
+        "EXAMINATION TYPE": item.category,
+      };
+
+      return flattendedItem;
+    });
   };
+
+  const data = flattenPatientsForReport(filteredPatients);
+
+  const handleExportClick = () => {
+    exportToExcel(data, "patients.xlsx");
+  };
+
+  
 
   useEffect(() => {}, []);
 

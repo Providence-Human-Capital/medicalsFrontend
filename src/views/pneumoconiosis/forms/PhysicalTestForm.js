@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -82,13 +82,35 @@ const PhysicalTestForm = ({ handlePrev, handleNext }) => {
   const [showBPRepeatForm, setShowBPRepeatForm] = useState(false);
   const isLoading = useSelector((state) => state.ui.isLoading);
   const dispatch = useDispatch();
+  const [latestVitals, setLatestVitals] = useState({});
   const { patientId } = useParams();
 
+  const getLatestVitals = async () => {
+    try {
+      const response = await fetch(`${API}/physical/latest/${patientId}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+
+      const resp = await response.json();
+      if (response.ok) {
+        console.log("Latest Physical Exam", resp.data);
+        setLatestVitals(resp.data);
+      }
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
+
   const initialValues = {
-    weight: "",
-    height: "",
-    bp_sys: "",
-    bp_dia: "",
+    weight: latestVitals ? latestVitals.weight : "",
+    height: latestVitals ? latestVitals.height : "",
+    
+    bp_sys: latestVitals ? latestVitals.bp_sys : "",
+    bp_dia: latestVitals ? latestVitals.bp_dia :"",
     pulse: "",
     rhythm: "",
     general_exam: true,
@@ -139,6 +161,10 @@ const PhysicalTestForm = ({ handlePrev, handleNext }) => {
     }
   };
 
+  useEffect(() => {
+    getLatestVitals();
+  }, []);
+
   return (
     <div className="step-form">
       <div className="box">
@@ -153,6 +179,7 @@ const PhysicalTestForm = ({ handlePrev, handleNext }) => {
                 <strong>Section D: Physical Examination</strong>
               </h4>
               <Formik
+                enableReinitialize={true}
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}
@@ -387,7 +414,6 @@ const PhysicalTestForm = ({ handlePrev, handleNext }) => {
                       {isLoading ? (
                         <Loading />
                       ) : (
-                     
                         <FormButton
                           text={"Next"}
                           direction={"right"}

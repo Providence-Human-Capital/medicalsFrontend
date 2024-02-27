@@ -7,6 +7,7 @@ import { useState } from "react";
 import SaveButton from "../../../components/buttons/SaveButton";
 import Loading from "../../../components/loader/Loading";
 import { API } from "../../../config";
+import Swal from "sweetalert2";
 
 const SwabForm = () => {
   const { patientId } = useParams();
@@ -33,9 +34,9 @@ const SwabForm = () => {
     formData.append("status", values.status);
     formData.append("file", values.file);
     formData.append("comment", values.comment);
-    formData.append("result", values.result);
+    formData.append("result", parseInt(values.result));
 
-    // console.log("FORM DATA",formData);
+    console.log("FORM DATA",formData.entries);
 
     try {
       setIsLoading(true);
@@ -48,7 +49,19 @@ const SwabForm = () => {
       if (response.status === 200 || response.status === 201) {
         console.log("Success", data);
         setIsLoading(false);
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Hey 👋👋👋, Swab result successfully uploaded!",
+          timer: 1000,
+          confirmButtonColor: "#007a41",
+        });
         resetForm();
+      }
+
+      if (response.status === 500) {
+        setIsLoading(false);
+        console.log("Error", response.message);
       }
     } catch (e) {
       console.log("error", e);
@@ -114,6 +127,7 @@ const SwabForm = () => {
                                 id="status"
                                 name="status"
                               >
+                                 <option value=""></option>
                                 <option value="PENDING">PENDING</option>
                                 <option value="DONE">DONE</option>
                               </Field>
@@ -153,8 +167,9 @@ const SwabForm = () => {
                                 id="result"
                                 name="result"
                               >
-                                <option value={true}>POSITIVE</option>
-                                <option value={false}>NAGATIVE</option>
+                                 <option ></option>
+                                <option value={1}>POSITIVE</option>
+                                <option value={0}>NAGATIVE</option>
                               </Field>
                               <label htmlFor="result">
                                 SWAB POSITIVE/NEGATIVE

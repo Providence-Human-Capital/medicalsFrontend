@@ -15,6 +15,8 @@ import "react-toastify/dist/ReactToastify.css";
 import PatientSideView from "../components/PatientSideView";
 import SaveButton from "../../../components/buttons/SaveButton";
 import FormButton from "../../../components/buttons/FormButton";
+import HygieneForm from "./HygieneForm";
+import SwabForm from "./SwabForm";
 
 const XrayForm = ({ handlePrev, handleNext }) => {
   const [previewImage, setPreviewImage] = useState(null);
@@ -124,6 +126,67 @@ const XrayForm = ({ handlePrev, handleNext }) => {
 
   return (
     <Fragment>
+       <div className="box">
+        <div className="container">
+          <div
+            className="mt-3"
+            style={{
+              margin: "2rem",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <a
+                data-toggle="collapse"
+                href="#collapseExample"
+                role="button"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+                className="advanced"
+                style={{
+                  fontWeight: "bold",
+                }}
+              >
+                ADD HYGIENE DETAILS <i className="fa fa-angle-down"></i>
+              </a>
+              {/* {patient?.category === "City Of Harare" && (
+                
+              )} */}
+              <a
+                  data-toggle="collapse"
+                  href="#collapseSwab"
+                  role="button"
+                  aria-expanded="false"
+                  aria-controls="collapseSwab"
+                  className="advanced"
+                  style={{ fontWeight: "bold" }}
+                >
+                  ADD SWAB DETAILS <i className="fa fa-angle-down"></i>
+                </a>
+
+              {/* {patient?.category === "In House" && (
+               
+              )} */}
+               
+            </div>
+            <div className="separation-div"></div>
+            <div className="collapse" id="collapseExample">
+              <div className="">
+                <HygieneForm />
+              </div>
+            </div>
+            <div className="collapse" id="collapseSwab">
+              <div className="">
+                <SwabForm />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="step-form">
         <div className="row">
           <div className="col-xl-12 col-12">

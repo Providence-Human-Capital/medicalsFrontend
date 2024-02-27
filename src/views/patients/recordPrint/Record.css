@@ -1,5 +1,6 @@
 .record-container {
   margin: 3rem;
+  width: 700px;
 }
 .underline-span {
   display: inline-block;
@@ -10,5 +11,5 @@
   font-weight: bold;
 }
 .record-container p {
-    font-size: 14px !important;
+    font-size: 10px !important;
 }

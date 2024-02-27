@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
+import { useDispatch } from "react-redux";
 
 const CompanyAttendanceStats = ({ data }) => {
   useEffect(() => {}, []);
@@ -13,21 +14,28 @@ const CompanyAttendanceStats = ({ data }) => {
       categories: Object.keys(data[Object.keys(data)[0]] || {}),
     },
   };
+
+  useEffect(() => {}, []);
+
   return (
     <>
       <div className="box">
         {data && (
           <>
             <div className="box-header no-border">
-              <h4
-                className="box-title"
-                style={{
-                  textTransform: "uppercase",
-                  fontWeight: "bold",
-                }}
-              >
-                Patient Statistics
-              </h4>
+              <div className="row">
+                <div className="col-md-10">
+                  <h4
+                    className="box-title"
+                    style={{
+                      textTransform: "uppercase",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Patient Statistics
+                  </h4>
+                </div>
+              </div>
             </div>
             <div className="box-body">
               <Chart

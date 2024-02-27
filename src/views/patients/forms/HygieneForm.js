@@ -7,6 +7,7 @@ import { useState } from "react";
 import Loading from "../../../components/loader/Loading";
 import SaveButton from "../../../components/buttons/SaveButton";
 import { API } from "../../../config";
+import Swal from "sweetalert2";
 
 const HygieneForm = () => {
   const { patientId } = useParams();
@@ -62,6 +63,13 @@ const HygieneForm = () => {
         const responseData = await response.json();
         if (response.status === 200 || response.status === 201) {
           console.log("onSubmit", responseData);
+          Swal.fire({
+            icon: "success",
+            title: "Success",
+            text: "Hey 👋👋👋, observation on hygiene successfully saved!",
+            timer: 1000,
+            confirmButtonColor: "#007a41",
+          });
           setIsLoading(false);
           resetForm();
         }
@@ -310,8 +318,10 @@ const HygieneForm = () => {
                 {isLoading ? (
                   <Loading />
                 ) : (
-                  <button type="submit" className="btn btn-success-light me-4">
-                    Save Personal Hygiene Details
+                  <button type="submit" className="btn btn-success me-4" style={{
+                    fontWeight: 'bold',
+                  }}>
+                    SAVE OBSERVATION
                   </button>
                 )}
               </form>

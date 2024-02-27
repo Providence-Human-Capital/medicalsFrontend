@@ -171,6 +171,8 @@ const AddAttendeeExecel = () => {
           })
         );
       }
+
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     }
   };
 
@@ -249,7 +251,9 @@ const AddAttendeeExecel = () => {
                             }
                           >
                             <option value=""></option>
-                            <option value="2">Periodical</option>
+                            <option value="2" style={{
+                              textTransform: "uppercase",
+                            }}>Periodical</option>
                           </select>
                           <label
                             htmlFor="examPurposeSelect"
@@ -270,12 +274,46 @@ const AddAttendeeExecel = () => {
                             }
                           >
                             <option value=""></option>
-                            <option value="City Of Harare">FoodHandler</option>
-                            <option value="Pneumoconiosis">
+                            <option
+                              value="City Of Harare"
+                              style={{
+                                textTransform: "uppercase",
+                              }}
+                            >
+                              Food Handler
+                            </option>
+                            <option
+                              value="Pneumoconiosis"
+                              style={{
+                                textTransform: "uppercase",
+                              }}
+                            >
                               Pneumoconiosis
                             </option>
-                            <option value="Industry">Pre-Employment</option>
-                            <option value="In House">In House</option>
+                            <option
+                              value="Pre-Employement"
+                              style={{
+                                textTransform: "uppercase",
+                              }}
+                            >
+                              Pre-Employment
+                            </option>
+                            <option
+                              value="Exit-Pneumoconiosis"
+                              style={{
+                                textTransform: "uppercase",
+                              }}
+                            >
+                              Exit (Pneumoconiosis)
+                            </option>
+                            <option
+                              value="Exit-Employement"
+                              style={{
+                                textTransform: "uppercase",
+                              }}
+                            >
+                              Exit-Employement
+                            </option>
                           </select>
                           <label
                             htmlFor="categorySelect"

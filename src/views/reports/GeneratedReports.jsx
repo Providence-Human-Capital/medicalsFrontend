@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { API } from "../../config";
 import { patientActions } from "../../redux_store/patients-store";
 import Loading from "../../components/loader/Loading";
+import { Helmet } from "react-helmet";
 
 const GeneratedReports = ({}) => {
   const companies = useSelector((state) => state.company.companies);
@@ -53,7 +54,7 @@ const GeneratedReports = ({}) => {
         console.log("This is the patient Response", response.data);
         dispatch(
           patientActions.setReportsFilteredResults({
-            reportsFilteredResults: response.data,
+            reportsFilteredResults: response.data.data,
           })
         );
 
@@ -69,8 +70,11 @@ const GeneratedReports = ({}) => {
 
   return (
     <>
+      <Helmet>
+        <title>GENERATE REPORT</title>
+      </Helmet>
       <BreadCrumb title={"Generate Reports"} activeTab={"Graphs & Exports"} />
-      <div className="section">
+      <div className="content">
         <div className="row">
           <div className="col-xl-8 col-12">
             <div className="box p-3  py-4">
@@ -149,10 +153,11 @@ const GeneratedReports = ({}) => {
                       }
                     >
                       <option value="">Select Category</option>
-                      <option value="City Of Harare">City Of Harare</option>
-                      <option value="Local">Local</option>
+                      <option value="Food Handler (COH)">Food Handler (COH)</option>
+                      <option value="Pre-Employement">Pre-Employement</option>
+                      <option value="Exit-Employement">Exit-Employement</option>
                       <option value="Pneumoconiosis">Pneumoconiosis</option>
-                      <option value="Industry">Industry</option>
+                      <option value="Exit-Pneumoconiosis">Exit-Pneumoconiosis</option>
                     </select>
                     <label>SELECT CATEGORY</label>
                   </div>
@@ -197,7 +202,7 @@ const GeneratedReports = ({}) => {
               </div>
             </div>
             {/* List of Generated Results */}
-            <ReportsListBox />
+            <ReportsListBox  />
           </div>
 
           <div className="col-xl-4 col-12"></div>

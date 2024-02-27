@@ -9,7 +9,7 @@ const ConsultationPage = ({}) => {
         title={"New Patient Consultation"}
         activeTab={"Consultation"}
       />
-      <div className="section">
+      <div className="content">
         <div className="row">
           <div className="col-xl-8 col-12">
             <ConsultationForm />

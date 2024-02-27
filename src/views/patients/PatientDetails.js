@@ -38,6 +38,7 @@ import PneumoDetail from "./patientDetailedComponents/PneumoDetail";
 import PreEmployementDetail from "./patientDetailedComponents/PreEmployementDetail";
 import FoodHandlerDetail from "./patientDetailedComponents/FoodHandlerDetail";
 import InHouseDetail from "./patientDetailedComponents/InHouseDetail";
+import PastMedicalRecords from "./components/PastMedicalRecords.";
 
 const PrintPatientMedicalRecord = forwardRef(({ patientData }, ref) => {
   return (
@@ -59,10 +60,41 @@ const PatientDetails = () => {
   const [dayLeftData, setDayLeftData] = useState(null);
   const isLoading = useSelector((state) => state.ui.isLoading);
   const [addingToBatch, setAddingToBatch] = useState(false);
+  const token = useSelector((state) => state.auth.token);
   const companiesWithBatches = useSelector(
     (state) => state.company.companiesWithBatches
   );
 
+  const fetchPatientData = async () => {
+    try {
+      setLoading(true);
+
+      const [patientData, physicalExamRecordsResponse] = await Promise.all([
+        getPatient(patientId),
+        fetch(`${API}/physical/latest/${patientId}`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }),
+      ]);
+
+      const physicalExamRecords = await physicalExamRecordsResponse.json();
+
+      console.log("LatestPhysicalExamRecords", physicalExamRecords);
+      if (physicalExamRecordsResponse.ok) {
+        dispatch(formsActions.setPhysicalExamination(physicalExamRecords.data));
+      }
+
+      dispatch(patientActions.setSinglePatient({ singlePatient: patientData }));
+    } catch (error) {
+      console.log("Error", error);
+      dispatch(formsActions.setPhysicalExamination(null));
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
     localStorage.setItem("currentStep", parseInt("1"));
 
@@ -76,39 +108,7 @@ const PatientDetails = () => {
     calculateDaysLeftForCertificateValidity(patientId).then((data) => {
       setDayLeftData(data);
     });
-    const fetchPatientData = async () => {
-      try {
-        setLoading(true);
 
-        const [patientData, physicalExamRecordsResponse] = await Promise.all([
-          getPatient(patientId),
-          fetch(`${API}/physical/latest/${patientId}`, {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-          }),
-        ]);
-
-        const physicalExamRecords = await physicalExamRecordsResponse.json();
-
-        console.log("LatestPhysicalExamRecords", physicalExamRecords);
-        if (physicalExamRecordsResponse.ok) {
-          dispatch(
-            formsActions.setPhysicalExamination(physicalExamRecords.data)
-          );
-        }
-
-        dispatch(
-          patientActions.setSinglePatient({ singlePatient: patientData })
-        );
-      } catch (error) {
-        console.log("Error", error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchPatientData();
   }, [patientId]);
 
@@ -122,6 +122,46 @@ const PatientDetails = () => {
     return companiesWithBatches.find(
       (company) => company.company_name === companyName
     );
+  };
+
+  const handleRenewCertificate = async () => {
+    // Display a SweetAlert confirmation dialog
+    Swal.fire({
+      title: "Renew Certificate",
+      text: "Are you sure you want to renew this certificate?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes, renew it!",
+      cancelButtonText: "No, cancel",
+    }).then(async (result) => {
+      // Handle the result after the user clicks on the button
+      if (result.isConfirmed) {
+        // User clicked "Yes, renew it!"
+        // Perform the logic to renew the certificate here
+        const response = await fetch(`${API}/certificate/renew/${patientId}`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        });
+
+        const rsp = await response.json();
+        if (response.ok) {
+          // You can replace the following alert with your actual logic
+          fetchPatientData();
+          Swal.fire(
+            "Renewed!",
+            "Your certificate has been renewed.",
+            "success"
+          );
+        }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // User clicked "No, cancel"
+        Swal.fire("Cancelled", "Your certificate is not renewed.", "info");
+      }
+    });
   };
 
   // Adding Patient to Batch
@@ -239,10 +279,12 @@ const PatientDetails = () => {
           display: "none",
         }}
       >
-        <PrintPatientMedicalRecord
-          ref={printmedicalRecordRef}
-          patientData={singlePatient}
-        />
+        {singlePatient && (
+          <PrintPatientMedicalRecord
+            ref={printmedicalRecordRef}
+            patientData={singlePatient}
+          />
+        )}
       </div>
 
       {singlePatient ? (
@@ -306,13 +348,18 @@ const PatientDetails = () => {
 
                   {singlePatient.certificate_status !== "READY" &&
                     (singlePatient.certificate_status === "RELEASED" ? (
-                      <button className="btn btn-primary"><i
-                      className="ti-back-left"
-                      style={{
-                        fontSize: "20px",
-                      }}
-                    ></i>
-                    {"  "}RENEW CERTICATE</button>
+                      <button
+                        className="btn btn-primary"
+                        onClick={handleRenewCertificate}
+                      >
+                        <i
+                          className="ti-back-left"
+                          style={{
+                            fontSize: "20px",
+                          }}
+                        ></i>
+                        {"  "}RENEW CERTICATE
+                      </button>
                     ) : (
                       <PButtons routeId={patientId} patient={singlePatient} />
                     ))}
@@ -336,9 +383,15 @@ const PatientDetails = () => {
                   <BmiPlot />
                 </div>
               </div>
+              <div className="row">
+                <div className="col-xl-12 col-12">
+                  <PastMedicalRecords />
+                </div>
+              </div>
             </div>
 
-            {singlePatient.category === "Pneumoconiosis" && (
+            {(singlePatient.category === "Pneumoconiosis" ||
+              singlePatient.category === "Exit-Pneumoconiosis") && (
               <Fragment>
                 <PneumoDetail
                   singlePatient={singlePatient}
@@ -348,7 +401,7 @@ const PatientDetails = () => {
               </Fragment>
             )}
 
-            {singlePatient.category === "City Of Harare" && (
+            {singlePatient.category === "Food Handler (COH)" && (
               <Fragment>
                 <FoodHandlerDetail
                   singlePatient={singlePatient}
@@ -358,7 +411,7 @@ const PatientDetails = () => {
               </Fragment>
             )}
 
-            {singlePatient.category === "In House" && (
+            {/* {singlePatient.category === "In House" && (
               <Fragment>
                 <InHouseDetail
                   singlePatient={singlePatient}
@@ -366,10 +419,11 @@ const PatientDetails = () => {
                   vitals={vitals}
                 />
               </Fragment>
-            )}
+            )} */}
 
             {/* In House */}
-            {singlePatient.category === "Industry" && (
+            {(singlePatient.category === "Pre-Employement" ||
+              singlePatient.category === "Exit-Employement") && (
               <Fragment>
                 <PreEmployementDetail
                   singlePatient={singlePatient}
@@ -378,6 +432,7 @@ const PatientDetails = () => {
                 />
               </Fragment>
             )}
+
             <div className="col-xl-8 col-12">
               <BoxProfile patient={singlePatient} />
             </div>

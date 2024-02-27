@@ -33,7 +33,8 @@ const PButtons = ({ routeId, patient }) => {
   return (
     <Fragment>
       <ul className="navi-list list-unstyled">
-        {patient.category && patient.category === "Industry" && (
+        {((patient.category && patient.category === "Pre-Employement") ||
+          patient.category === "Exit-Employement") && (
           <Fragment>
             <StepButton
               text={`Update Patient Information`}
@@ -46,7 +47,8 @@ const PButtons = ({ routeId, patient }) => {
           </Fragment>
         )}
 
-        {patient.category && patient.category === "Pneumoconiosis" && (
+        {((patient.category && patient.category === "Pneumoconiosis") ||
+          patient.category === "Exit-Pneumoconiosis") && (
           <Fragment>
             <StepButton
               text={`Update Patient Information`}
@@ -54,13 +56,12 @@ const PButtons = ({ routeId, patient }) => {
               toLink={`/patient/pneumo/${routeId}`}
               disabled={
                 patient.certificate_status === "RELEASED" ? true : false
-              
               }
             />
           </Fragment>
         )}
 
-        {patient.category && patient.category === "City Of Harare"  && (
+        {patient.category && patient.category === "Food Handler (COH)" && (
           <Fragment>
             <StepButton
               text={`Update Patient Information`}
@@ -73,7 +74,7 @@ const PButtons = ({ routeId, patient }) => {
           </Fragment>
         )}
 
-        {patient.category && patient.category === "In House"  && (
+        {/* {patient.category && patient.category === "In House"  && (
           <Fragment>
             <StepButton
               text={`Update Patient Information`}
@@ -84,7 +85,7 @@ const PButtons = ({ routeId, patient }) => {
               }
             />
           </Fragment>
-        )}
+        )} */}
       </ul>
     </Fragment>
   );
