@@ -312,7 +312,6 @@ const PatientDetails = () => {
           {singlePatient?.attendee?.last_name ?? "Unknown"}
         </title>
       </Helmet>
-      {JSON.stringify(vitals)}
 
       <div
         className="row"
