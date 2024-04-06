@@ -24,6 +24,7 @@ const initialState = {
 
   activityByDay: [],
   reportByDay: [],
+  patientMedicalRecords: [],
 };
 
 const patientSlice = createSlice({
@@ -39,6 +40,10 @@ const patientSlice = createSlice({
 
     isLoadingStart: (state, action) => {
       state.isLoading = true;
+    },
+
+    setPatientMedicalRecords: (state, action) => {
+      state.patientMedicalRecords = action.payload.patientMedicalRecords;
     },
 
     isError: (state, action) => {

@@ -37,7 +37,7 @@ const PButtons = ({ routeId, patient }) => {
           patient.category === "Exit-Employement") && (
           <Fragment>
             <StepButton
-              text={`Update Patient Information`}
+              text={`START/EDIT PRE-EMPLOYMENT EXAMINATION`}
               icon={faStethoscope}
               toLink={`/patient/industry/${routeId}`}
               disabled={
@@ -51,7 +51,7 @@ const PButtons = ({ routeId, patient }) => {
           patient.category === "Exit-Pneumoconiosis") && (
           <Fragment>
             <StepButton
-              text={`Update Patient Information`}
+              text={`START/EDIT PNEUMO EXAMINATION`}
               icon={faStethoscope}
               toLink={`/patient/pneumo/${routeId}`}
               disabled={
@@ -64,7 +64,7 @@ const PButtons = ({ routeId, patient }) => {
         {patient.category && patient.category === "Food Handler (COH)" && (
           <Fragment>
             <StepButton
-              text={`Update Patient Information`}
+              text={`START/EDIT FOODHANDLER EXAMINATION`}
               icon={faStethoscope}
               toLink={`/patient/foodhandler/${routeId}`}
               disabled={

@@ -7,6 +7,8 @@ const PrintMedicalRecord = ({
   specificIllnesses,
   allTobaccos,
   specificTobaccos,
+  latestRecord,
+  latestVitals,
 }) => {
   const mergedIllnesses = allIllnesses.map((illness) => {
     const specificIllness = specificIllnesses.find(
@@ -85,7 +87,7 @@ const PrintMedicalRecord = ({
               display: "inline-block",
               textAlign: "center",
               margin: "0px",
-              backgroundColor: do_smoke === 0 ? "lightgray" : "white",
+              backgroundColor: do_smoke === 0 ? "white" : "white",
             }}
           >
             {do_smoke === 0 && (
@@ -115,7 +117,7 @@ const PrintMedicalRecord = ({
               display: "inline-block",
               textAlign: "center",
               margin: "0px",
-              backgroundColor: how_many ? "lightgray" : "white",
+              backgroundColor: how_many ? "white" : "white",
             }}
           >
             {how_many && (
@@ -400,7 +402,9 @@ const PrintMedicalRecord = ({
             <span
               className="underline-span2"
               style={{ flex: 1, marginLeft: "5px" }}
-            ></span>{" "}
+            >
+              {patient.last_x_ray && patient.last_x_ray}
+            </span>{" "}
           </p>
         </div>
         <div>
@@ -432,12 +436,16 @@ const PrintMedicalRecord = ({
             <span
               className="underline-span2"
               style={{ flex: 0.4, marginLeft: "5px" }}
-            ></span>{" "}
+            >
+              {latestVitals.height} m
+            </span>{" "}
             WEIGHT{" "}
             <span
               className="underline-span2"
               style={{ flex: 0.6, marginLeft: "5px" }}
-            ></span>
+            >
+              {latestVitals.weight} kg
+            </span>
           </p>
           <p
             style={{
@@ -449,12 +457,14 @@ const PrintMedicalRecord = ({
             <span
               className="underline-span2"
               style={{ flex: 0.4, marginLeft: "5px" }}
-            ></span>{" "}
+            >
+              {latestVitals.bp_sys}/{latestVitals.bp_dia} mmHg{" "}
+            </span>{" "}
             PULSE{" "}
             <span
               className="underline-span2"
               style={{ flex: 0.6, marginLeft: "5px" }}
-            ></span>{" "}
+            >{latestVitals.pulse}</span>{" "}
           </p>
           <p
             style={{
@@ -462,12 +472,12 @@ const PrintMedicalRecord = ({
               marginBottom: "3px",
             }}
           >
-            REPEAT BP{" "}
+            BMI{" "}
             <span
               className="underline-span2"
               style={{ flex: 0.4, marginLeft: "5px" }}
             >
-              130 / 78 mmHg
+              {latestVitals.bmi} ({latestVitals.bmi_status})
             </span>{" "}
             <span
               style={{
@@ -482,12 +492,16 @@ const PrintMedicalRecord = ({
             <span
               className="underline-span2"
               style={{ flex: 0.3, marginLeft: "5px" }}
-            ></span>{" "}
+            >
+              {latestVitals.left_vision}
+            </span>{" "}
             RIGHT
             <span
               className="underline-span2"
               style={{ flex: 0.3, marginLeft: "5px" }}
-            ></span>
+            >
+              {latestVitals.right_vision}
+            </span>
           </p>
           <p style={{ fontWeight: "bold", textDecoration: "underline" }}>
             GENERAL PHYSICAL OBSERVATION AND REMARKS
@@ -498,6 +512,8 @@ const PrintMedicalRecord = ({
               style={{ flex: 1, marginLeft: "5px" }}
             >
               {" "}
+              {latestRecord.doctor_remarks &&
+                latestRecord.doctor_remarks.comment}
             </p>
           </p>
           <p
@@ -544,7 +560,10 @@ const PrintMedicalRecord = ({
             <p
               className="underline-span3"
               style={{ marginLeft: "5px", flex: "3" }}
-            ></p>
+            >
+              {latestRecord.doctor_remarks &&
+                latestRecord.doctor_remarks.remarks}
+            </p>
           </div>
 
           <p

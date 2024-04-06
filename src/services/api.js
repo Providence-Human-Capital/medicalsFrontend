@@ -36,6 +36,22 @@ export const getAllPatients = async () => {
   return patients;
 };
 
+export const getPatientMedicalRecords = async (patientId) => {
+  const recordsResponse = await fetch(`${API}/patient/${patientId}/medical/record`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });
+
+  const responseData = await recordsResponse.json();
+  console.log("Patient Records", responseData.data);
+
+  const records = responseData.data;
+  return records; 
+}
+
 export const getAllAttendees = async () => {
   const attendeesResponse = await fetch(`${API}/attendee`, {
     method: "GET",

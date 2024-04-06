@@ -22,6 +22,7 @@ import {
   getCurrentPatientRemarks,
   getLatestPatientXray,
   getPatient,
+  getPatientMedicalRecords,
 } from "../../services/api";
 import { formsActions } from "../../redux_store/forms-store";
 import PatientSkeleton from "../../components/skeletons/PatientSkeleton";
@@ -48,6 +49,8 @@ const PrintPatientMedicalRecord = forwardRef(
       everyIllness,
       selectedTobaccos,
       everyTobacco,
+      latestRecord,
+      vitals,
     },
     ref
   ) => {
@@ -59,6 +62,8 @@ const PrintPatientMedicalRecord = forwardRef(
           specificIllnesses={selectedIllnesses}
           allTobaccos={everyTobacco}
           specificTobaccos={selectedTobaccos}
+          latestRecord={latestRecord}
+          latestVitals={vitals}
         />
       </div>
     );
@@ -133,12 +138,22 @@ const PatientDetails = () => {
     calculateDaysLeftForCertificateValidity(patientId).then((data) => {
       setDayLeftData(data);
     });
+    getPatientMedicalRecords(patientId).then((records) => {
+      dispatch(
+        patientActions.setPatientMedicalRecords({
+          patientMedicalRecords: records,
+        })
+      );
+    });
 
     fetchPatientData();
   }, [patientId]);
 
   const singlePatient = useSelector((state) => state.patient.singlePatient);
   const vitals = useSelector((state) => state.forms.fPhysicalExamination);
+  const records =
+    useSelector((state) => state.patient.patientMedicalRecords) || [];
+
   if (loading) {
     return <PatientSkeleton />;
   }
@@ -297,6 +312,7 @@ const PatientDetails = () => {
           {singlePatient?.attendee?.last_name ?? "Unknown"}
         </title>
       </Helmet>
+      {JSON.stringify(vitals)}
 
       <div
         className="row"
@@ -312,6 +328,8 @@ const PatientDetails = () => {
             everyIllness={diseases}
             everyTobacco={tobaccos}
             selectedTobaccos={patientTobaccos}
+            latestRecord={records[records.length - 1]}
+            vitals={vitals}
           />
         )}
       </div>

@@ -49,7 +49,7 @@ const DiseaseHistory = ({ patientId }) => {
           <div className="box-header no-border">
             <h4 className="box-title">
               <strong>
-              <img
+                <img
                   src="/assets/images/patient2.svg"
                   className="w-100 bg-primary-light rounded10 me-15"
                   alt=""
@@ -57,8 +57,10 @@ const DiseaseHistory = ({ patientId }) => {
                     height: "40px",
                     width: "20px",
                   }}
-                />{"  "}
-                Patient's Disease History</strong>
+                />
+                {"  "}
+                Patient's Disease History
+              </strong>
             </h4>
           </div>
         </div>
@@ -73,9 +75,7 @@ const DiseaseHistory = ({ patientId }) => {
         ) : (
           <Fragment>
             {patientIllnesses.map((illness, index) => (
-              <div className="col-md-6"
-              key={illness.id}
-              >
+              <div className="col-md-6" key={index}>
                 <div className="card">
                   <div className="card-body">
                     <div className="row">
