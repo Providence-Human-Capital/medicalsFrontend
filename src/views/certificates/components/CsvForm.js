@@ -522,6 +522,7 @@ const CsvForm = () => {
                       disabled={isPrinting}
                       style={{
                         borderRadius: "20px",
+                        fontWeight: "bold",
                       }}
                       type="submit"
                     >

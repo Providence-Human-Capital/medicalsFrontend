@@ -40,19 +40,44 @@ import FoodHandlerDetail from "./patientDetailedComponents/FoodHandlerDetail";
 import InHouseDetail from "./patientDetailedComponents/InHouseDetail";
 import PastMedicalRecords from "./components/PastMedicalRecords.";
 
-const PrintPatientMedicalRecord = forwardRef(({ patientData }, ref) => {
-  return (
-    <div ref={ref}>
-      <PrintMedicalRecord patient={patientData} />
-    </div>
-  );
-});
+const PrintPatientMedicalRecord = forwardRef(
+  (
+    {
+      patientData,
+      selectedIllnesses,
+      everyIllness,
+      selectedTobaccos,
+      everyTobacco,
+    },
+    ref
+  ) => {
+    return (
+      <div ref={ref}>
+        <PrintMedicalRecord
+          patient={patientData}
+          allIllnesses={everyIllness}
+          specificIllnesses={selectedIllnesses}
+          allTobaccos={everyTobacco}
+          specificTobaccos={selectedTobaccos}
+        />
+      </div>
+    );
+  }
+);
 
 const PatientDetails = () => {
   const printmedicalRecordRef = useRef();
   const handlePrintCurrentMedicalRecord = useReactToPrint({
     content: () => printmedicalRecordRef.current,
   });
+
+  const patientIllnesses = useSelector(
+    (state) => state.forms.patientsIllnesses || []
+  );
+  const diseases = useSelector((state) => state.illness.illnesses);
+  const tobaccos = useSelector((state) => state.tobacco.tobaccos);
+  const patientTobaccos =
+    useSelector((state) => state.forms.patientsTobaccos) || [];
 
   const { patientId } = useParams();
   const dispatch = useDispatch();
@@ -283,10 +308,13 @@ const PatientDetails = () => {
           <PrintPatientMedicalRecord
             ref={printmedicalRecordRef}
             patientData={singlePatient}
+            selectedIllnesses={patientIllnesses}
+            everyIllness={diseases}
+            everyTobacco={tobaccos}
+            selectedTobaccos={patientTobaccos}
           />
         )}
       </div>
-
       {singlePatient ? (
         <section className="content">
           <div className="row">

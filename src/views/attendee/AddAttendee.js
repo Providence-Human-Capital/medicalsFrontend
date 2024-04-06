@@ -44,7 +44,7 @@ const AddAttendee = () => {
     national_id: "",
     phone_number: "",
     x_ray_status: "PENDING",
-    exam_purpose: "",
+    exam_purpose: "2",
     employee_number: "",
     country_code: "+263",
     last_x_ray: "N/A",
@@ -80,7 +80,7 @@ const AddAttendee = () => {
     country_code: yup.string().required("Select country code"),
     phone_number: yup.string()
     .required("Please enter the Phone Number")
-    .matches(/^\d{9}$/, "Phone Number must be 9 digits"),
+    .matches(/^\d{9}$/, "Phone Number must be 9 digits (do not include a 0 on start)"),
     x_ray_status: yup.string().required("Please select the X ray Status"),
     exam_purpose: yup.string().required("Please select the Exam Purpose"),
     employee_number: yup.string().nullable(),

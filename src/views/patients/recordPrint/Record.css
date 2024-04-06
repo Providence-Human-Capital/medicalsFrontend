@@ -1,15 +1,53 @@
 .record-container {
-  margin: 3rem;
+  margin: 1rem 3rem 1rem 3rem;
   width: 700px;
 }
-.underline-span {
+.underline-span2 {
   display: inline-block;
-  border-bottom: 2px dotted #000;
-  /* border-radius: 0px; */
+  border-bottom: 1px solid #000;
+  border-radius: 0px;
   text-align: center;
-  /* font-family: "Cooper Black"; */
+  font-family: "Cooper Black";
+  font-weight: bold;
+}
+
+.underline-span3{
+  display: inline-block;
+  border-bottom: 1px solid #000;
+  border-radius: 0px;
+  text-align: start;
+  font-family: "Cooper Black";
   font-weight: bold;
 }
 .record-container p {
     font-size: 10px !important;
+}
+
+.rmargin{
+  /* margin-bottom: 3px !important; */
+}
+
+
+.table-table {
+  font-size: 9px;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tth, .ttd {
+  border: 1px solid black;
+  padding: 1px;
+  text-align: left;
+}
+
+.tth {
+  background-color: #f2f2f2;
+}
+
+.tth.name {
+  width: 60%; /* Adjust the width as needed */
+}
+
+.tth:not(.name), .ttd {
+  width: calc((100% - 60%) / 3); /* Distribute remaining width equally among other columns */
 }

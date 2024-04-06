@@ -83,6 +83,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
     temp: "",
     left_vision: latestVitals ? latestVitals.left_vision : "",
     right_vision: latestVitals ? latestVitals.right_vision : "",
+    blood_sugar: "",
   };
 
   const bpRepeatInitialValues = {
@@ -99,6 +100,7 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
     bp_dia: yup
       .number()
       .required("Please Patient Systolic Diastolic Bp Reading"),
+    blood_sugar: yup.string().nullable(),
   });
 
   const bpRvalidationSchema = yup.object().shape({
@@ -447,6 +449,32 @@ const PhysicalExamForm = ({ handlePrev, handleNext }) => {
                                           </span>
                                         </div>
                                       </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col-md-6">
+                                    <label htmlFor="right_vision ">
+                                      <strong>BLOOD SUGAR</strong>
+                                    </label>
+                                  </div>
+                                  <div className="col-md-6">
+                                    <div className="form-floating">
+                                      <Field
+                                        type="text"
+                                        className={`form-control 
+                                        `}
+                                        id="blood_sugar"
+                                        name="blood_sugar"
+                                      />
+                                      <label htmlFor="blood_sugar">
+                                        PATIENT BLOOD SUGAR
+                                      </label>
+                                      <ErrorMessage
+                                        name="blood_sugar"
+                                        component="div"
+                                        className="text-danger"
+                                      />
                                     </div>
                                   </div>
                                 </div>
