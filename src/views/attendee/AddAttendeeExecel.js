@@ -275,7 +275,7 @@ const AddAttendeeExecel = () => {
                           >
                             <option value=""></option>
                             <option
-                              value="City Of Harare"
+                              value="Food Handler (COH)"
                               style={{
                                 textTransform: "uppercase",
                               }}
