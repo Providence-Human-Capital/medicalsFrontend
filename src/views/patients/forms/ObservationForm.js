@@ -110,7 +110,7 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                         previous_health_issues: "N/A",
                         year_of_diagnosis: "",
                         comment: "NAD",
-                        chest_x_ray: "",
+                        chest_x_ray: 1,
                         remarks: "",
                         swab_result: "",
                         fit_to_work: "",
@@ -214,7 +214,7 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                               <Field
                                 className="form-check-input"
                                 type="radio"
-                                value="1"
+                                value={1}
                                 id="chestXRayYes"
                                 name="chest_x_ray"
                                 disabled={user.role_id !== 6}
@@ -230,7 +230,7 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                               <Field
                                 className="form-check-input"
                                 type="radio"
-                                value="0"
+                                value={0}
                                 id="chestXRayNo"
                                 name="chest_x_ray"
                                 disabled={user.role_id !== 6}
@@ -268,7 +268,7 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                           </div>
 
                           <div className="row">
-                            <div className="col-md-6">
+                            {/* <div className="col-md-6">
                               <div className="form-group">
                                 <label
                                   htmlFor="swab_result"
@@ -293,7 +293,7 @@ const ObeservationForm = ({ handlePrev, handleNext }) => {
                                   />
                                 </div>
                               </div>
-                            </div>
+                            </div> */}
                             <div className="col-md-6">
                               <div className="row">
                                 <div className="col-md-8">

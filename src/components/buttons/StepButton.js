@@ -16,16 +16,15 @@ const StepButton = ({ text, icon, toLink, disabled }) => {
     <li className="step-button">
       <NavLink to={toLink}>
         <button
-          className="button"
+          className="btn btn-primary fst"
           style={{
-            borderRadius: "20px",
+            borderRadius: "5px",
+            fontWeight: "bold",
+            
           }}
           disabled={disabled}
         >
-          <span className="saveico">
-            <FontAwesomeIcon color="#172b4c" icon={icon} />
-          </span>
-          {text}
+          <FontAwesomeIcon color="#ffffff" icon={icon} /> {text}
         </button>
       </NavLink>
     </li>

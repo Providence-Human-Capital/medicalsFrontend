@@ -80,9 +80,21 @@ const ProfessionalCertificatePrintCsv = ({
             <p className="ss_qualif p_text"> {examData.qualifications}</p>
           </div>
           <div className="second_section_exam_date boder">
-            <p className="ss_exam_date p_text">
-              {date.dayNumber}
-              {"  "} {date.monthYear}
+            <p className="">
+              <span className="signature">
+                <img
+                  style={{
+                    height: "3rem",
+                    marginTop: "-0.5rem",
+                    position: "absolute",
+                  }}
+                  src="/assets/images/signature.png"
+                />
+              </span>
+              <span className="ss_exam_date p_text">
+                {date.dayNumber}
+                {"  "} {date.monthYear}
+              </span>
             </p>
           </div>
         </div>
@@ -109,10 +121,22 @@ const ProfessionalCertificatePrintCsv = ({
             <p className="ts_qualif p_text">{examData.qualifications}</p>
           </div>
           <div className="third_section_exam_date boder">
-            <p className="ts_exam_date p_text">
-              {" "}
-              {date.dayNumber}
-              {"  "} {date.monthYear}
+            <p className=" p_text">
+              <span className="signature">
+                <img
+                  style={{
+                    height: "4rem",
+                    marginTop: "-1.5rem",
+                    position: "absolute",
+                  }}
+                  src="/assets/images/signature.png"
+                />
+              </span>
+              <span className="ts_exam_date">
+                {" "}
+                {date.dayNumber}
+                {"  "} {date.monthYear}
+              </span>
             </p>
           </div>
         </div>

@@ -41,6 +41,7 @@ const ReferralLetterPrint = ({ patient, vitals }) => {
             >
               <img
                 src="/assets/images/PHC_Logo.png"
+                // src="/medicals/assets/images/PHC_Logo.png"
                 width={227}
                 height={87}
                 alt=""

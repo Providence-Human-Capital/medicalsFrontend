@@ -95,7 +95,13 @@ const CityPrintOnAll = forwardRef(
               marginTop: index >= 1 ? "6rem" : "0",
             }}
           >
-            <CityPrintOn company={company} client={client} examData={examData} doctor={doctor} index={index}  />
+            <CityPrintOn
+              company={company}
+              client={client}
+              examData={examData}
+              doctor={doctor}
+              index={index}
+            />
           </div>
         ))}
       </div>
@@ -124,7 +130,7 @@ const CsvForm = () => {
     company_name: Yup.string().required("Company is required"),
     fileInput: Yup.mixed().required("CSV file is required"),
     designation: Yup.string().nullable(),
-    doc_address: Yup.string().nullable()
+    doc_address: Yup.string().nullable(),
   });
 
   const handleSubmit = (values, { setSubmitting }) => {
@@ -262,9 +268,8 @@ const CsvForm = () => {
           exam_date: "",
           company_name: "",
           fileInput: null,
-          designation: "",
-          doc_address: "",
-
+          designation: "HOSPITAL SUPERINTENDENT",
+          doc_address: "BRIDH",
         }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
@@ -389,54 +394,54 @@ const CsvForm = () => {
                     </div>
                   </div>
 
-
-                  <div className="col-lg-6 col-md-12">
-                    <div className="form-floating">
-                      <Field
-                        type="text"
-                        className="form-control"
-                        id="designation"
-                        name="designation"
-                        placeholder="EXAMINER DESIGNATION
+                  {selectedOption !== "professional" && (
+                    <>
+                      <div className="col-lg-6 col-md-12">
+                        <div className="form-floating">
+                          <Field
+                            type="text"
+                            className="form-control"
+                            id="designation"
+                            name="designation"
+                            placeholder="EXAMINER DESIGNATION
                     "
-                      />
-                      <label htmlFor="designation">
-                      EXAMINER DESIGNATION
-                      </label>
-                      <ErrorMessage
-                        name="designation"
-                        component="div"
-                        style={{
-                          color: "red",
-                        }}
-                        className="error-message"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-md-12">
-                    <div className="form-floating">
-                      <Field
-                        type="text"
-                        className="form-control"
-                        id="doc_address"
-                        name="doc_address"
-                        placeholder="EXAMINER ADDRESS
+                          />
+                          <label htmlFor="designation">
+                            EXAMINER DESIGNATION
+                          </label>
+                          <ErrorMessage
+                            name="designation"
+                            component="div"
+                            style={{
+                              color: "red",
+                            }}
+                            className="error-message"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-lg-6 col-md-12">
+                        <div className="form-floating">
+                          <Field
+                            type="text"
+                            className="form-control"
+                            id="doc_address"
+                            name="doc_address"
+                            placeholder="EXAMINER ADDRESS
                     "
-                      />
-                      <label htmlFor="doc_address">
-                      EXAMINER ADDRESS
-                      </label>
-                      <ErrorMessage
-                        name="doc_address"
-                        component="div"
-                        style={{
-                          color: "red",
-                        }}
-                        className="error-message"
-                      />
-                    </div>
-                  </div>
-
+                          />
+                          <label htmlFor="doc_address">EXAMINER ADDRESS</label>
+                          <ErrorMessage
+                            name="doc_address"
+                            component="div"
+                            style={{
+                              color: "red",
+                            }}
+                            className="error-message"
+                          />
+                        </div>
+                      </div>
+                    </>
+                  )}
 
                   <div className="col-lg-6 col-md-12">
                     <div className="form-floating">

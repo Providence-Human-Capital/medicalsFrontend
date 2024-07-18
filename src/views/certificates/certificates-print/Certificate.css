@@ -42,8 +42,11 @@
 .ss_qualif {
   margin-left: 3.5rem;
 }
+.signature {
+  margin-left: 5rem ;
+}
 .ss_exam_date {
-  margin-left: 25rem;
+  margin-left: 20rem;
 }
 
 /* End of Second section edit */
@@ -68,7 +71,7 @@
   margin-left: 3.5rem;
 }
 .ts_exam_date {
-  margin-left: 25rem;
+  margin-left: 20rem;
 }
 
 /* End of Third Section */

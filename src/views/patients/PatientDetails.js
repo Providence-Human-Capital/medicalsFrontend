@@ -19,6 +19,8 @@ import { Helmet } from "react-helmet";
 import {
   calculateDaysLeftForCertificateValidity,
   createCertificateBatch,
+  doctorManualCertificateUpdate,
+  getAllPatients,
   getCurrentPatientRemarks,
   getLatestPatientXray,
   getPatient,
@@ -55,7 +57,9 @@ const PrintPatientMedicalRecord = forwardRef(
     ref
   ) => {
     return (
-      <div ref={ref}>
+      <div ref={ref}  style={{
+        padding: "3rem"
+      }}>
         <PrintMedicalRecord
           patient={patientData}
           allIllnesses={everyIllness}
@@ -294,6 +298,86 @@ const PatientDetails = () => {
     }
   };
 
+  const updateCertificateStatus = async (certificateId) => {
+    Swal.fire({
+      title: "UPDATE CERTIFICATE STATUS",
+      width: "700px",
+      html: `
+        <div class="form-floating">
+          <select id="status-select" class="form-select">
+            <option value="PENDING">PENDING</option>
+            <option value="MONITORING">MONITORING</option>
+            <option value="READY">READY</option>
+            <option value="FAILED">FAILED</option>
+          </select>
+          <label htmlFor="status-select">Status</label>
+        </div>
+        <div class="form-floating sep">
+          <textarea id="update-reason" class="form-control update-reason" placeholder="Update Reason"></textarea>
+          <label htmlFor="update-reason">UPDATE REASON</label>
+        </div>
+        <div class="form-floating sep">
+          <input type="password" id="password-input" class="form-control" placeholder="Password" />
+          <label htmlFor="password-input">USER PASSWORD</label>
+        </div>
+        <p><strong>NB</strong>: Enter Password for a successful status update!</p>
+      `,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      cancelButtonText: "Cancel",
+      focusConfirm: false,
+      preConfirm: () => {
+        const selectElement = document.getElementById("status-select");
+        const selectedValue =
+          selectElement.options[selectElement.selectedIndex].value;
+
+        const updateReasonElement = document.getElementById("update-reason");
+        const updateReason = updateReasonElement.value;
+
+        const passwordElement = document.getElementById("password-input");
+        const password = passwordElement.value;
+
+        console.log(
+          "selectedValue   " + selectedValue,
+          "updateReason   " + updateReason,
+          "password    " + password
+        );
+
+        return { selectedValue, updateReason, password };
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const { selectedValue, updateReason, password } = result.value;
+        // Perform the necessary actions with the selectedValue, updateReason, and password
+        doctorManualCertificateUpdate(
+          certificateId,
+          selectedValue,
+          updateReason,
+          password,
+          token
+        ).then((data) => {
+          console.log(data);
+          const fetchAllPatients = async () => {
+            const allPatients = await getAllPatients();
+            console.log(
+              "allPatients from Certificate Update",
+              JSON.stringify(allPatients)
+            );
+            dispatch(
+              patientActions.setPatients({
+                patients: [...allPatients],
+              })
+            );
+          };
+          fetchAllPatients();
+          fetchPatientData();
+        });
+      } else {
+        handleCancel();
+      }
+    });
+  };
+
   const category = singlePatient?.category ?? "Medical Patient";
 
   const PrintRecord = () => {
@@ -312,6 +396,7 @@ const PatientDetails = () => {
           {singlePatient?.attendee?.last_name ?? "Unknown"}
         </title>
       </Helmet>
+      {/* {JSON.stringify(singlePatient.certificate)} */}
 
       <div
         className="row"
@@ -336,7 +421,12 @@ const PatientDetails = () => {
         <section className="content">
           <div className="row">
             <div className="col-xl-8 col-12">
-              <div>
+              <div
+                style={{
+                  display: "flex",
+                  marginBottom: "14px",
+                }}
+              >
                 <button
                   className="btn btn-primary"
                   style={{
@@ -353,6 +443,19 @@ const PatientDetails = () => {
                   {"  "}
                   PRINT MEDICAL RECORD
                 </button>
+                <button
+                  className="btn btn-secondary btn-outline"
+                  onClick={() =>
+                    updateCertificateStatus(singlePatient.certificate.id)
+                  }
+                >
+                  MANUAL CERTIFICATE UPDATE
+                </button>
+                <Link to={`/patients/edit/${singlePatient.id}`}>
+                  <button className="btn btn-success btn-outline">
+                    EDIT PATIENT BIO INFO
+                  </button>
+                </Link>
               </div>
               <div className="d-md-flex align-items-center justify-content-between mb-20">
                 <div style={{}}>
@@ -375,6 +478,7 @@ const PatientDetails = () => {
                             textTransform: "uppercase",
                             // Show the button
                           }}
+                          className="btn btn-dark"
                           onClick={handleAddToBatchClick}
                         >
                           Add To Batch
@@ -421,16 +525,16 @@ const PatientDetails = () => {
                 <InfoBox patient={singlePatient} />
               </div>
               <div className="row">
+                <div className="col-xl-12 col-12">
+                  <PastMedicalRecords />
+                </div>
+              </div>
+              <div className="row">
                 <div className="col-xl-6 col-12">
                   <BpPlot />
                 </div>
                 <div className="col-xl-6 col-12">
                   <BmiPlot />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-xl-12 col-12">
-                  <PastMedicalRecords />
                 </div>
               </div>
             </div>
@@ -455,16 +559,6 @@ const PatientDetails = () => {
                 />
               </Fragment>
             )}
-
-            {/* {singlePatient.category === "In House" && (
-              <Fragment>
-                <InHouseDetail
-                  singlePatient={singlePatient}
-                  patientId={patientId}
-                  vitals={vitals}
-                />
-              </Fragment>
-            )} */}
 
             {/* In House */}
             {(singlePatient.category === "Pre-Employement" ||
@@ -495,10 +589,11 @@ const PatientDetails = () => {
                     fontWeight: "bold",
                   }}
                 >
-                  An Error occured whilst trying to fetch Patient Information
+                  An Error occured whilst trying to fetch Patient Information /
+                  Server Might be Unreachable
                 </h4>
                 <p className="card-text">
-                  Please Reload the page / Go to Dashboard
+                  Please Reload the page / Check if Server is Online
                 </p>
                 <Link to={"/dashboard"} className="btn btn-primary">
                   Go To Dashboard

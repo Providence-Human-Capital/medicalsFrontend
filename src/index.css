@@ -21,13 +21,13 @@
   width: 50%;
 }
 
-.update-reason{
+.update-reason {
   width: 100% !important;
   /* border: 1px solid red; */
   height: 90px !important;
 }
 
-.sep{
+.sep {
   margin-top: 2rem !important;
 }
 
@@ -500,44 +500,38 @@ button {
   border: 1px solid #000;
 }
 
-.table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
+.table-bordered > thead > tr > td,
+.table-bordered > thead > tr > th {
   border: 1px solid #000 !important;
   /* border-bottom-width: 2px; */
 }
 
-
-.checky-input{
+.checky-input {
   opacity: 1 !important;
   position: absolute;
   left: 70px !important;
 }
 
-
-.second-section-container{
+.second-section-container {
   margin-top: 2rem !important;
 }
 
-
-.aside_label{
+.aside_label {
   /* text-transform: uppercase;
   font-weight: 700; */
 }
 
-
-.d-none{
+.d-none {
   margin-right: 10px;
 }
 
-
-.borderr{
+.borderr {
   border-radius: 0px 0px 10px 10px !important;
 }
 
-.bor{
+.bor {
   border-radius: 10px 10px 0px 0px !important;
 }
-
-
 
 .calandarclock-block {
   position: relative;
@@ -642,7 +636,7 @@ button {
   -ms-transform: rotate(5deg) translate(-4px, 4px);
   -o-transform: rotate(5deg) translate(-4px, 4px);
   transform: rotate(5deg) translate(-4px, 4px);
-  background: #3498DB;
+  background: #3498db;
 }
 
 .calandarclock-block .clock {
@@ -660,7 +654,7 @@ button {
 }
 
 .calandarclock-block .day2 {
-  color: #3498DB;
+  color: #3498db;
 }
 
 .calandarclock-block .calendarNormal {
@@ -686,7 +680,7 @@ button {
   -ms-transform: rotate(5deg) translate(-4px, 4px);
   -o-transform: rotate(5deg) translate(-4px, 4px);
   transform: rotate(5deg) translate(-4px, 4px);
-  background: #3498DB;
+  background: #3498db;
 }
 
 .calandarclock-block .signboard {
@@ -712,7 +706,7 @@ button {
 }
 
 .calandarclock-block .month2 {
-  color: #EFC94C;
+  color: #efc94c;
 }
 
 .calandarclock-block .front {
@@ -724,7 +718,6 @@ button {
   text-align: center;
 }
 
-
 .table.dataTable {
   clear: both;
   margin-top: 6px !important;
@@ -732,14 +725,17 @@ button {
   max-width: none !important;
   border-collapse: separate !important;
   border-spacing: 0;
-  
 }
 
 .details_text {
-  font-family: 'Cooper Black', monospace !important;
+  font-family: "Cooper Black", monospace !important;
   font-size: 20px;
 }
 
 .pointer-style {
- cursor: pointer !important;
+  cursor: pointer !important;
+}
+
+.pp {
+  font-family: "Poppins", sans-serif;
 }

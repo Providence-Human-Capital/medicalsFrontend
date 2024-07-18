@@ -15,6 +15,8 @@ import TobaccoBox from "./components/TobaccoBox";
 import XRayBox from "./components/XRayBox";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
+import SwabForm from "./forms/SwabForm";
+import HygieneForm from "./forms/HygieneForm";
 
 const FoodPatientUpdate = () => {
   const { patientId } = useParams();
@@ -60,7 +62,14 @@ const FoodPatientUpdate = () => {
       );
 
       break;
+
     case 5:
+      foodHandlerForm = <SwabForm />;
+      break;
+    case 6:
+      foodHandlerForm = <HygieneForm />;
+      break;
+    case 7:
       if (user.role_id !== 6) {
         navigate("/unauthorized");
       }
@@ -103,7 +112,10 @@ const FoodPatientUpdate = () => {
             {singlePatient && singlePatient.attendee.last_name}
           </span>
         </Link>
-        <BreadCrumb activeTab={"Food Handler (IN HOUSE / CITY OF HARARE)"} title={"Patient"} />
+        <BreadCrumb
+          activeTab={"Food Handler (IN HOUSE / CITY OF HARARE)"}
+          title={"Patient"}
+        />
       </div>
       <section className="content">
         <div className="row">

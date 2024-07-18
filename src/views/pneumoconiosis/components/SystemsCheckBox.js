@@ -41,7 +41,8 @@ const SystemsCheckBox = ({ syscheck }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/lungs.svg"
+                        // src="/assets/images/lungs.svg"
+                        src="/medicals/assets/images/lungs.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -71,7 +72,8 @@ const SystemsCheckBox = ({ syscheck }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/anatomical-heart.svg"
+                        // src="/assets/images/anatomical-heart.svg"
+                        src="/medicals/assets/images/anatomical-heart.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -100,7 +102,8 @@ const SystemsCheckBox = ({ syscheck }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/appleavater.svg"
+                        // src="/assets/images/appleavater.svg"
+                        src="/medicals/assets/images/appleavater.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -129,7 +132,8 @@ const SystemsCheckBox = ({ syscheck }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/neurology.svg"
+                        // src="/assets/images/neurology.svg"
+                        src="/medicals/assets/images/neurology.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -159,7 +163,8 @@ const SystemsCheckBox = ({ syscheck }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/x-ray.svg"
+                        // src="/assets/images/x-ray.svg"
+                        src="/medicals/assets/images/x-ray.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />

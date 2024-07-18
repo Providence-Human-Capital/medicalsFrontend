@@ -88,7 +88,8 @@ const Vitals = ({ patient, vitals }) => {
                     <div className="col-4">
                       <img
                         className="img-fluid float-start w-30 mt-10 me-10"
-                        src="/assets/images/weight.png"
+                        // src="/assets/images/weight.png"
+                        src="/medicals/assets/images/weight.png"
                         alt=""
                       />
                       <div>
@@ -103,7 +104,8 @@ const Vitals = ({ patient, vitals }) => {
                     <div className="col-4 bs-1 be-1">
                       <img
                         className="img-fluid float-start w-30 mt-10 me-10"
-                        src="/assets/images/human.png"
+                        // src="/assets/images/human.png"
+                        src="/medicals/assets/images/human.png"
                         alt=""
                       />
                       <div>
@@ -118,7 +120,8 @@ const Vitals = ({ patient, vitals }) => {
                     <div className="col-4">
                       <img
                         className="img-fluid float-start w-30 mt-10 me-10"
-                        src="/assets/images/bmi.png"
+                        // src="/assets/images/bmi.png"
+                        src="/medicals/assets/images/bmi.png"
                         alt=""
                       />
                       <div>
@@ -135,7 +138,8 @@ const Vitals = ({ patient, vitals }) => {
                     <div className="col-6">
                       <img
                         className="img-fluid float-start w-30 mt-10 me-10"
-                        src="/assets/images/bmi.png"
+                        // src="/assets/images/bmi.png" 
+                        src="/medicals/assets/images/bmi.png" 
                         alt=""
                       />
                       <div>

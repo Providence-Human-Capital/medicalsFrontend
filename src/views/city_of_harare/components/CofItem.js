@@ -20,7 +20,10 @@ const CofItem = ({ patient, index }) => {
     handleDeletePatient(patient.id, dispatch);
   };
 
-  const { certificate_status } = patient;
+
+
+
+  const { certificate_status, certificates } = patient;
 
   const addItemToDNote = async (certificateId) => {
     const certificateIDArray = Array.isArray(certificateId)
@@ -67,7 +70,6 @@ const CofItem = ({ patient, index }) => {
     Swal.close();
   };
 
-  
   useEffect(() => {
     getCityOfHarareDnoteNoneDispatched().then((cityDnote) => {
       dispatch(certificateActions.setCityOfHarareDnotes([...cityDnote]));
@@ -76,6 +78,7 @@ const CofItem = ({ patient, index }) => {
 
   return (
     <Fragment>
+      {/* {JSON.stringify(certificates.slice(-1)[0].status)} */}
       <tr className="hover-primary">
         <td>{index + 1}</td>
         <td>{patient.first_name}</td>
@@ -115,7 +118,7 @@ const CofItem = ({ patient, index }) => {
               }}
               onClick={() => addItemToDNote(patient.certificates[0].id)}
             >
-              {PHYSICAL_EXAM(certificate_status)}
+              {PHYSICAL_EXAM(certificates.slice(-1)[0].status)}
             </span>
           )}
         </td>

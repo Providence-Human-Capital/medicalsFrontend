@@ -41,7 +41,8 @@ const XRayBox = ({ patientId }) => {
               <div className="row">
                 <div className="col-md-3">
                   <img
-                    src="/assets/images/x-ray.svg"
+                    // src="/assets/images/x-ray.svg"
+                    src="/medicals/assets/images/x-ray.svg"
                     className="w-100 bg-primary-light rounded10 me-15"
                     alt=""
                   />

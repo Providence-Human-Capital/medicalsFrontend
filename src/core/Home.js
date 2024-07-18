@@ -255,12 +255,13 @@ const Dashboard = ({}) => {
               <div className="d-flex">
                 <Link to={"/attendees/add"}>
                   <button
-                    className="btn btn-success me-4"
+                    className="btn btn-success me-4 pp"
                     style={{
                       borderRadius: "20px",
+                      fontWeight: "bold",
                     }}
                   >
-                    <strong>Add New Patient</strong>
+                    <strong>ADD NEW PATIENT</strong>
                   </button>
                 </Link>
 

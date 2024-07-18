@@ -52,7 +52,7 @@ const EditPatient = ({}) => {
           timer: 4000,
           confirmButtonColor: "#007a41",
         });
-        navigate('/attendees')
+        navigate("/attendees");
       }
       if (response.status === 500) {
         Swal.fire("Something went wrong!", response.error, "error");
@@ -287,14 +287,21 @@ const EditPatient = ({}) => {
                                   <option value="">
                                     {values.exam_purpose}
                                   </option>
-                                  <option value="1">Pre-Placement</option>
-                                  <option value="2">Periodical</option>
-                                  <option value="3">
+                                  {/* <option value="1">Pre-Placement</option> */}
+                                  <option
+                                    value="2"
+                                    style={{
+                                      textTransform: "uppercase",
+                                    }}
+                                  >
+                                    Periodical
+                                  </option>
+                                  {/* <option value="3">
                                     Exit(Employment Termination)
                                   </option>
                                   <option value="4">
                                     Post(Employment Follow Up)
-                                  </option>
+                                  </option> */}
                                 </Field>
                                 <label htmlFor="exam_purpose">
                                   EXAM PURPOSE
@@ -336,16 +343,46 @@ const EditPatient = ({}) => {
                                   name="category"
                                 >
                                   <option value="">{values.category}</option>
-                                  <option value="City Of Harare">
-                                    City Of Harare
+                                  <option
+                                    value="Food Handler (COH)"
+                                    style={{
+                                      textTransform: "uppercase",
+                                    }}
+                                  >
+                                    Food Handler
                                   </option>
-                                  <option value="Pneumoconiosis">
+                                  <option
+                                    value="Pneumoconiosis"
+                                    style={{
+                                      textTransform: "uppercase",
+                                    }}
+                                  >
                                     Pneumoconiosis
                                   </option>
-                                  <option value="Industry">
-                                    Industry/Security
+                                  <option
+                                    value="Pre-Employement"
+                                    style={{
+                                      textTransform: "uppercase",
+                                    }}
+                                  >
+                                    Pre-Employment
                                   </option>
-                                  <option value="In House">In House</option>
+                                  <option
+                                    value="Exit-Pneumoconiosis"
+                                    style={{
+                                      textTransform: "uppercase",
+                                    }}
+                                  >
+                                    Exit (Pneumoconiosis)
+                                  </option>
+                                  <option
+                                    value="Exit-Employement"
+                                    style={{
+                                      textTransform: "uppercase",
+                                    }}
+                                  >
+                                    Exit-Employement
+                                  </option>
                                 </Field>
                                 <label htmlFor="date_of_birth">Category:</label>
                                 <ErrorMessage

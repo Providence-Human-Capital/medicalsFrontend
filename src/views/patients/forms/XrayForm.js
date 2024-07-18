@@ -204,9 +204,11 @@ const XrayForm = ({ handlePrev, handleNext }) => {
                       <button
                         className="btn btn-success"
                         style={{
-                          borderRadius: "10px",
+                          borderRadius: "2px",
                           textTransform: "uppercase",
                           fontWeight: "bold",
+                          fontFamily: "Calibri"
+
                         }}
                         onClick={handleUploadNewXray}
                       >
@@ -298,10 +300,10 @@ const XrayForm = ({ handlePrev, handleNext }) => {
                                       disabled={user.role_id !== 6}
                                     >
                                       <option value="NEGATIVE">
-                                        XRAY GOOD (NAD) 
+                                        CHEST XRAY NORMMAL 
                                       </option>
                                       <option value="POSITIVE">
-                                        XRAY BAD (AD)
+                                        ARBONOMALITIES IDENTIFIED IN CHEST
                                       </option>
                                     </Field>
                                     <ErrorMessage

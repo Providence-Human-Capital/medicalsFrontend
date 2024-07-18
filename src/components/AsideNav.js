@@ -34,8 +34,8 @@ const AsideNav = ({}) => {
 
   return (
     <Fragment>
-      <aside className="main-sidebar"  >
-        <section className="sidebar position-relative"  >
+      <aside className="main-sidebar">
+        <section className="sidebar position-relative">
           <div className="help-bt">
             <Link href="tel:108" className="d-flex align-items-center">
               <div
@@ -128,11 +128,14 @@ const AsideNav = ({}) => {
               </h4>
             </Link>
           </div>
-          <div className="multinav" style={{
-          overflowY: "scroll",
-          height: "100vh",
-          overflowX: "hidden",
-        }}>
+          <div
+            className="multinav"
+            style={{
+              overflowY: "scroll",
+              height: "100vh",
+              overflowX: "hidden",
+            }}
+          >
             <div className="multinav-scroll" style={styles.pageHeight}>
               {/* <!-- sidebar menu--> */}
 
@@ -480,7 +483,12 @@ const AsideNav = ({}) => {
                         <i className="ti-arrow-circle-right"></i>
                       </span>
                     </a>
-                    <ul className="treeview-menu">
+                    <ul
+                      className="treeview-menu"
+                      style={{
+                        display: "block !important",
+                      }}
+                    >
                       <li id="aside-bar-tree" className="mt-1">
                         {" "}
                         <NavLink to={"/reports"}>
@@ -502,6 +510,25 @@ const AsideNav = ({}) => {
                         </NavLink>
                       </li>
                     </ul>
+                  </li>
+                  <li id="aside-bar-tree" className="mt-1">
+                        {" "}
+                        <NavLink to={"/reports"}>
+                          <i className="icon-Commit">
+                            <span className="path1"></span>
+                            <span className="path2"></span>
+                          </i>
+                          Visual Reports
+                        </NavLink>
+                      </li>
+                  <li id="aside-bar">
+                    <NavLink to={"/reports/generate"}>
+                      <i className="icon-Commit">
+                        <span className="path1"></span>
+                        <span className="path2"></span>
+                      </i>
+                      Generated Reports
+                    </NavLink>
                   </li>
 
                   <li id="aside-bar">
@@ -539,7 +566,7 @@ const AsideNav = ({}) => {
                           },
                         }}
                       >
-                        SWAB
+                        SWAB REG
                       </h4>
                     </Link>
                   </div>

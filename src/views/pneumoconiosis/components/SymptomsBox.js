@@ -56,7 +56,8 @@ const SymptomsBox = ({ symptoms }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/patient2.svg"
+                        // src="/assets/images/patient2.svg"
+                        src="/medicals/assets/images/patient2.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -85,7 +86,8 @@ const SymptomsBox = ({ symptoms }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/patient1.svg"
+                        // src="/assets/images/patient1.svg"
+                        src="/medicals/assets/images/patient1.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -114,7 +116,8 @@ const SymptomsBox = ({ symptoms }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/shortnessofbreath.svg"
+                        // src="/assets/images/shortnessofbreath.svg"
+                        src="/medicals/assets/images/shortnessofbreath.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -143,7 +146,8 @@ const SymptomsBox = ({ symptoms }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/chestpains.svg"
+                        // src="/assets/images/chestpains.svg"
+                        src="/medicals/assets/images/chestpains.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -172,7 +176,8 @@ const SymptomsBox = ({ symptoms }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/manco.svg"
+                        // src="/assets/images/manco.svg"
+                        src="/medicals/assets/images/manco.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -201,7 +206,8 @@ const SymptomsBox = ({ symptoms }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/mass.svg"
+                        // src="/assets/images/mass.svg"
+                        src="/medicals/assets/images/mass.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -230,7 +236,8 @@ const SymptomsBox = ({ symptoms }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/syringe.svg"
+                        // src="/assets/images/syringe.svg"
+                        src="/medicals/assets/images/syringe.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -259,7 +266,8 @@ const SymptomsBox = ({ symptoms }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/cblood.svg"
+                        // src="/assets/images/cblood.svg"
+                        src="/medicals/assets/images/cblood.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />

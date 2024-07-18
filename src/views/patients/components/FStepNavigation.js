@@ -7,7 +7,7 @@ import {
   faSmoking,
   faComment,
   faWaveSquare,
-  faHeartCircleExclamation
+  faHeartCircleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -122,7 +122,7 @@ const FStepNavigation = ({ currentStep, setCurrentStep }) => {
           >
             <span className="progress-count">
               <FontAwesomeIcon
-                icon={faComment}
+                icon={faHeartCircleExclamation}
                 className={`progress-icon ${
                   currentStep === 5 ? "current-icon" : ""
                 }`}
@@ -135,6 +135,54 @@ const FStepNavigation = ({ currentStep, setCurrentStep }) => {
                 cursor: "pointer",
               }}
               onClick={() => handleStepClick(5)}
+            >
+              Swab
+            </span>
+          </li>
+          <li
+            className={`step-wizard-item ${
+              currentStep === 6 ? "current-item" : ""
+            }`}
+          >
+            <span className="progress-count">
+              <FontAwesomeIcon
+                icon={faHeartCircleExclamation}
+                className={`progress-icon ${
+                  currentStep === 6 ? "current-icon" : ""
+                }`}
+              />
+            </span>
+
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(6)}
+            >
+              Hygiene
+            </span>
+          </li>
+          <li
+            className={`step-wizard-item ${
+              currentStep === 7 ? "current-item" : ""
+            }`}
+          >
+            <span className="progress-count">
+              <FontAwesomeIcon
+                icon={faComment}
+                className={`progress-icon ${
+                  currentStep === 7 ? "current-icon" : ""
+                }`}
+              />
+            </span>
+
+            <span
+              className="progress-label"
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => handleStepClick(7)}
             >
               Obeservation and Remarks
             </span>

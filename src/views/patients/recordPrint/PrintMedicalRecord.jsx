@@ -133,6 +133,11 @@ const PrintMedicalRecord = ({
     );
   };
 
+  const formattedDate = latestRecord?.created_at 
+  ? new Date(latestRecord.created_at).toLocaleDateString("en-GB")
+  : "N/A";
+
+  
   const record = {
     examDate: "20/01/2024",
   };
@@ -145,7 +150,8 @@ const PrintMedicalRecord = ({
           }}
         >
           <img
-            src="/assets/images/providence.png"
+            // src="/assets/images/providence.png"
+            src="/medicals/assets/images/providence.png"
             style={{
               height: "5rem",
             }}
@@ -162,15 +168,21 @@ const PrintMedicalRecord = ({
           PERIODIC MEDICAL EXAMINATION RECORD
         </p>
         <p
-          className="rmargin"
+          className=""
           style={{
             textTransform: "uppercase",
             fontWeight: "bold",
+            display: "flex",
+            justifyContent: "space-between",
+            padding: "10px",
           }}
         >
-          <u>PATIENT DETAILS</u>
+          <span>
+            <u>PATIENT DETAILS</u>
+          </span>
+
           <span style={{ float: "right", fontSize: "11px" }}>
-            DATE <span className="underline-span2"> {record.examDate} </span>
+            DATE <span className="underline-span2"> {formattedDate} </span>
           </span>
         </p>
         <p
@@ -178,44 +190,29 @@ const PrintMedicalRecord = ({
             fontWeight: "bold",
             textTransform: "uppercase",
             marginBottom: "2px",
+            display: "flex",
           }}
         >
           NAME{" "}
           <span
             className="underline-span2"
-            style={{ width: "250px", fontSize: "11px" }}
+            style={{ flex: 4, fontSize: "11px" }}
           >
             {patient.attendee.first_name}
           </span>
+          SURNAME{" "}
           <span
-            className="surname-span"
-            style={{
-              fontWeight: "bold",
-              textTransform: "uppercase",
-            }}
+            className="underline-span2"
+            style={{ flex: 4, fontSize: "11px" }}
           >
-            SURNAME{" "}
-            <span
-              className="underline-span2"
-              style={{ width: "250px", fontSize: "11px" }}
-            >
-              {patient.attendee.last_name}
-            </span>
+            {patient.attendee.last_name}
           </span>
+          AGE{" "}
           <span
-            className="age-span"
-            style={{
-              fontWeight: "bold",
-              textTransform: "uppercase",
-            }}
+            className="underline-span2"
+            style={{ flex: 2, fontSize: "11px" }}
           >
-            AGE{" "}
-            <span
-              className="underline-span2"
-              style={{ width: "70px", fontSize: "11px" }}
-            >
-              {patient.attendee.age}
-            </span>
+            {patient.attendee.age}
           </span>
         </p>
         <p
@@ -254,38 +251,38 @@ const PrintMedicalRecord = ({
             fontWeight: "bold",
             textTransform: "uppercase",
             marginBottom: "2px",
+            display: "flex",
           }}
         >
           EMPLOYEE NO.{" "}
           <span
             className="underline-span2"
-            style={{ width: "100px", fontSize: "11px" }}
+            style={{ flex: 0.2, fontSize: "11px" }}
           >
             {" "}
             {patient.attendee.employee_number}
           </span>
-          <span>
-            DIVISION/COMPANY{" "}
-            <span
-              className="underline-span2"
-              style={{ width: "420px", fontSize: "11px" }}
-            >
-              {patient.attendee.company.company_name}
-            </span>{" "}
-          </span>
+          DIVISION/COMPANY{" "}
+          <span
+            className="underline-span2"
+            style={{ flex: 0.75, fontSize: "11px" }}
+          >
+            {patient.attendee.company.company_name}
+          </span>{" "}
         </p>
         <p
           style={{
             fontWeight: "bold",
             textTransform: "uppercase",
             marginBottom: "2px",
+            display: "flex",
           }}
         >
           <span>
             ID NUMBER{" "}
             <span
               className="underline-span2"
-              style={{ width: "170px", fontSize: "11px" }}
+              style={{ flex: 0.4, fontSize: "11px" }}
             >
               {" "}
               {patient.attendee.national_id}
@@ -298,6 +295,8 @@ const PrintMedicalRecord = ({
             style={{
               fontWeight: "bold",
               textTransform: "uppercase",
+              marginTop: "10px",
+              textDecoration: "underline",
             }}
           >
             MEDICAL HISTORY
@@ -307,7 +306,11 @@ const PrintMedicalRecord = ({
           WERE YOU EVER TREATED FOR ANY OF THE ILLNESSES LISTED BELOW ? PLEASE
           TICK
         </p>
-        <div>
+        <div
+          style={{
+            padding: "10px",
+          }}
+        >
           <table className="table-table">
             <thead>
               <tr>
@@ -350,6 +353,7 @@ const PrintMedicalRecord = ({
           <p
             style={{
               fontWeight: "bold",
+              textDecoration: "underline",
             }}
           >
             TOBACCO USE{" "}
@@ -437,14 +441,14 @@ const PrintMedicalRecord = ({
               className="underline-span2"
               style={{ flex: 0.4, marginLeft: "5px" }}
             >
-              {latestVitals.height} m
+              {latestVitals && latestVitals.height} m
             </span>{" "}
             WEIGHT{" "}
             <span
               className="underline-span2"
               style={{ flex: 0.6, marginLeft: "5px" }}
             >
-              {latestVitals.weight} kg
+              {latestVitals && latestVitals.weight} kg
             </span>
           </p>
           <p
@@ -458,13 +462,16 @@ const PrintMedicalRecord = ({
               className="underline-span2"
               style={{ flex: 0.4, marginLeft: "5px" }}
             >
-              {latestVitals.bp_sys}/{latestVitals.bp_dia} mmHg{" "}
+              {latestVitals && latestVitals.bp_sys}/
+              {latestVitals && latestVitals.bp_dia} mmHg{" "}
             </span>{" "}
             PULSE{" "}
             <span
               className="underline-span2"
               style={{ flex: 0.6, marginLeft: "5px" }}
-            >{latestVitals.pulse}</span>{" "}
+            >
+              {latestVitals && latestVitals.pulse}
+            </span>{" "}
           </p>
           <p
             style={{
@@ -477,7 +484,8 @@ const PrintMedicalRecord = ({
               className="underline-span2"
               style={{ flex: 0.4, marginLeft: "5px" }}
             >
-              {latestVitals.bmi} ({latestVitals.bmi_status})
+              {latestVitals && latestVitals.bmi} (
+              {latestVitals && latestVitals.bmi_status})
             </span>{" "}
             <span
               style={{
@@ -493,14 +501,14 @@ const PrintMedicalRecord = ({
               className="underline-span2"
               style={{ flex: 0.3, marginLeft: "5px" }}
             >
-              {latestVitals.left_vision}
+              {latestVitals && latestVitals.left_vision}
             </span>{" "}
             RIGHT
             <span
               className="underline-span2"
               style={{ flex: 0.3, marginLeft: "5px" }}
             >
-              {latestVitals.right_vision}
+              {latestVitals && latestVitals.right_vision}
             </span>
           </p>
           <p style={{ fontWeight: "bold", textDecoration: "underline" }}>
@@ -587,7 +595,10 @@ const PrintMedicalRecord = ({
               className="underline-span2"
               style={{ flex: 0.5, marginRight: "5px" }}
             ></span>{" "}
-            DATE <span className="underline-span2" style={{ flex: 0.5 }}></span>
+            DATE{" "}
+            <span className="underline-span2" style={{ flex: 0.5 }}>
+              {formattedDate}
+            </span>
           </p>
         </div>
       </div>

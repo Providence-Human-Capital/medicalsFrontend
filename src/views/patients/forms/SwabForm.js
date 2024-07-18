@@ -8,8 +8,9 @@ import SaveButton from "../../../components/buttons/SaveButton";
 import Loading from "../../../components/loader/Loading";
 import { API } from "../../../config";
 import Swal from "sweetalert2";
+import FormButton from "../../../components/buttons/FormButton";
 
-const SwabForm = () => {
+const SwabForm = ({ handlePrev, handleNext }) => {
   const { patientId } = useParams();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +37,7 @@ const SwabForm = () => {
     formData.append("comment", values.comment);
     formData.append("result", parseInt(values.result));
 
-    console.log("FORM DATA",formData.entries);
+    console.log("FORM DATA", formData.entries);
 
     try {
       setIsLoading(true);
@@ -57,6 +58,7 @@ const SwabForm = () => {
           confirmButtonColor: "#007a41",
         });
         resetForm();
+        handleNext();
       }
 
       if (response.status === 500) {
@@ -88,98 +90,99 @@ const SwabForm = () => {
     <>
       <div className="row">
         <div className="col-xl-12 col-12">
-          <div className="card">
-            <div className="box-body">
-              <h5>
-                <strong>CLIENT'S SWAB RESULTS</strong>
-              </h5>
-              <Formik
-                initialValues={initialValues}
-                onSubmit={onSubmit}
-                validationSchema={validationSchema}
-              >
-                {({ values, isSubmitting, handleSubmit, setFieldValue }) => (
-                  <Form>
-                    <div className="row">
+          <div className="box">
+            <div className="container">
+              <div className="box-body">
+                <h5>
+                  <strong>CLIENT'S SWAB RESULTS</strong>
+                </h5>
+                <Formik
+                  initialValues={initialValues}
+                  onSubmit={onSubmit}
+                  validationSchema={validationSchema}
+                >
+                  {({ values, isSubmitting, handleSubmit, setFieldValue }) => (
+                    <Form>
                       <div className="row">
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <div className="form-floating">
-                              <input
-                                class="form-control"
-                                type="file"
-                                name="file"
-                                onChange={(event) =>
-                                  handleFileChange(event, setFieldValue)
-                                }
-                              />
-                              <label htmlFor="file">FILE UPLOAD</label>
+                        <div className="row">
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <div className="form-floating">
+                                <input
+                                  class="form-control"
+                                  type="file"
+                                  name="file"
+                                  onChange={(event) =>
+                                    handleFileChange(event, setFieldValue)
+                                  }
+                                />
+                                <label htmlFor="file">FILE UPLOAD</label>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <label htmlFor="status">SWAB STATUS</label>
-                            <div className="form-floating">
-                              <Field
-                                as="select"
-                                className="form-select"
-                                id="status"
-                                name="status"
-                              >
-                                 <option value=""></option>
-                                <option value="PENDING">PENDING</option>
-                                <option value="DONE">DONE</option>
-                              </Field>
+                          <div className="col-md-6">
+                            <div className="form-group">
                               <label htmlFor="status">SWAB STATUS</label>
+                              <div className="form-floating">
+                                <Field
+                                  as="select"
+                                  className="form-select"
+                                  id="status"
+                                  name="status"
+                                >
+                                  <option value=""></option>
+                                  <option value="PENDING">PENDING</option>
+                                  <option value="DONE">DONE</option>
+                                </Field>
+                                <label htmlFor="status">SWAB STATUS</label>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div className="row">
-                        <div className="col-md-12">
-                          <div className="form-group">
-                            <label htmlFor="status">
-                              GENERAL COMMENT ON SWAB
-                            </label>
-                            <div className="form-floating">
-                              <Field
-                                as="textarea"
-                                rows="4"
-                                name="comment"
-                                className="form-control"
-                                style={{
-                                  minHeight: "100px",
-                                }}
-                              />
-                              <label htmlFor="comment">COMMENT ON SWAB</label>
+                        <div className="row">
+                          <div className="col-md-12">
+                            <div className="form-group">
+                              <label htmlFor="status">
+                                GENERAL COMMENT ON SWAB
+                              </label>
+                              <div className="form-floating">
+                                <Field
+                                  as="textarea"
+                                  rows="4"
+                                  name="comment"
+                                  className="form-control"
+                                  style={{
+                                    minHeight: "100px",
+                                  }}
+                                />
+                                <label htmlFor="comment">COMMENT ON SWAB</label>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="col-md-4">
-                          <div className="form-group">
-                            <label htmlFor="result">RESULT STATUS</label>
-                            <div className="form-floating">
-                              <Field
-                                as="select"
-                                className="form-select"
-                                id="result"
-                                name="result"
-                              >
-                                 <option ></option>
-                                <option value={1}>POSITIVE</option>
-                                <option value={0}>NAGATIVE</option>
-                              </Field>
-                              <label htmlFor="result">
-                                SWAB POSITIVE/NEGATIVE
-                              </label>
+                          <div className="col-md-4">
+                            <div className="form-group">
+                              <label htmlFor="result">RESULT STATUS</label>
+                              <div className="form-floating">
+                                <Field
+                                  as="select"
+                                  className="form-select"
+                                  id="result"
+                                  name="result"
+                                >
+                                  <option></option>
+                                  <option value={1}>POSITIVE</option>
+                                  <option value={0}>NAGATIVE</option>
+                                </Field>
+                                <label htmlFor="result">
+                                  SWAB POSITIVE/NEGATIVE
+                                </label>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    {isLoading ? (
+                      {/* {isLoading ? (
                       <Loading />
                     ) : (
                       <SaveButton
@@ -187,10 +190,37 @@ const SwabForm = () => {
                         onClick={onSubmit}
                         disable={isSubmitting}
                       />
-                    )}
-                  </Form>
-                )}
-              </Formik>
+                    )} */}
+                      <div
+                        className="d-flex"
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          marginTop: "20px",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <FormButton
+                          text={"Previous"}
+                          direction={"left"}
+                          onClick={handlePrev}
+                        />
+
+                        {isLoading ? (
+                          <Loading />
+                        ) : (
+                          <FormButton
+                            text={"Next"}
+                            direction={"right"}
+                            onClick={onSubmit}
+                          />
+                        )}
+                      </div>
+                    </Form>
+                  )}
+                </Formik>
+              </div>
             </div>
           </div>
         </div>

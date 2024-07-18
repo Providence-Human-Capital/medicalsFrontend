@@ -1,6 +1,6 @@
 .record-container {
-  margin: 1rem 3rem 1rem 3rem;
-  width: 700px;
+  /* margin: 3rem; */
+  /* width: 700px; */
 }
 .underline-span2 {
   display: inline-block;
@@ -11,7 +11,7 @@
   font-weight: bold;
 }
 
-.underline-span3{
+.underline-span3 {
   display: inline-block;
   border-bottom: 1px solid #000;
   border-radius: 0px;
@@ -20,13 +20,12 @@
   font-weight: bold;
 }
 .record-container p {
-    font-size: 10px !important;
+  font-size: 10px !important;
 }
 
-.rmargin{
+.rmargin {
   /* margin-bottom: 3px !important; */
 }
-
 
 .table-table {
   font-size: 9px;
@@ -34,7 +33,8 @@
   border-collapse: collapse;
 }
 
-.tth, .ttd {
+.tth,
+.ttd {
   border: 1px solid black;
   padding: 1px;
   text-align: left;
@@ -48,6 +48,9 @@
   width: 60%; /* Adjust the width as needed */
 }
 
-.tth:not(.name), .ttd {
-  width: calc((100% - 60%) / 3); /* Distribute remaining width equally among other columns */
+.tth:not(.name),
+.ttd {
+  width: calc(
+    (100% - 60%) / 3
+  ); /* Distribute remaining width equally among other columns */
 }

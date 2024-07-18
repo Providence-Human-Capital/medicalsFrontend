@@ -5,6 +5,7 @@ import { API } from "../../config";
 import axios from "axios";
 import Loading from "../../components/loader/Loading";
 import * as XLSX from "xlsx";
+import { formatDate } from "../../utils/dateConverter";
 
 const Swab = () => {
   const companies = useSelector((state) => state.company.companies);
@@ -38,7 +39,7 @@ const Swab = () => {
       .post(`${API}/swab/list/generate`, filters)
       .then((response) => {
         // Handle successful response
-        console.log(response.data); // Log the response data or perform other actions
+        console.log("Generated Swab List",response.data); // Log the response data or perform other actions
         setSwabPeople(response.data.data);
       })
       .catch((error) => {
@@ -55,8 +56,13 @@ const Swab = () => {
     return swabPeople.map((item) => {
       const flattItem = {
         "SWAB NUMBER": "",
+        "EXAM DATE": formatDate(item.certificate?.created_at),
         "FIRST NAME": item.attendee.first_name,
         SURNAME: item.attendee.last_name,
+        COMPANY: item.attendee.company?.company_name,
+        AGE: item.attendee?.age,
+        GENDER: item.attendee?.gender
+       
       };
 
       return flattItem;
@@ -76,7 +82,10 @@ const Swab = () => {
     const blob = new Blob([excelBuffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
-    const fileName = "Report.xlsx";
+    const currentDate = new Date();
+    const dateString = currentDate.toISOString().slice(0, 19).replace(/:/g, "-");
+
+    const fileName = `Swab_Register_For_(${dateString}).xlsx`;
     saveAs(blob, fileName);
   };
 
@@ -227,7 +236,7 @@ const Swab = () => {
                     }}
                     onClick={handleDownloadExcel}
                   >
-                    DOWNLOAD CSV
+                    DOWNLOAD XLSX
                   </button>
                 </div>
               </div>
@@ -240,8 +249,12 @@ const Swab = () => {
                     <thead>
                       <tr>
                         <th className="bb-2">Swab Number</th>
+                        <th className="bb-2">Exam Date</th>
                         <th className="bb-2">First Name</th>
                         <th className="bb-2">Last Name</th>
+                        <th className="bb-2">Company</th>
+                        <th className="bb-2">Age</th>
+                        <th className="bb-2">Gender</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -249,8 +262,12 @@ const Swab = () => {
                         swabPeople.map((client, index) => (
                           <tr key={client.id}>
                             <td></td>
+                            <td>{formatDate(client.certificate?.created_at)}</td>
                             <td>{client.attendee.first_name}</td>
                             <td>{client.attendee.last_name}</td>
+                            <td>{client.attendee.company?.company_name}</td>
+                            <td>{client.attendee?.age}</td>
+                            <td>{client.attendee?.gender}</td>
                           </tr>
                         ))}
                     </tbody>

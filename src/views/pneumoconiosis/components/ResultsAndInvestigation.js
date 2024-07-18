@@ -56,7 +56,8 @@ const ResultsAndInvestigation = ({ resultInvestigation }) => {
                   <div className="row">
                     <div className="col-md-3">
                       <img
-                        src="/assets/images/x-ray.svg"
+                        // src="/assets/images/x-ray.svg"
+                        src="/medicals/assets/images/x-ray.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -82,7 +83,8 @@ const ResultsAndInvestigation = ({ resultInvestigation }) => {
                   <div className="row">
                     <div className="col-md-3">
                       <img
-                        src="/assets/images/lungs.svg"
+                        // src="/assets/images/lungs.svg"
+                        src="/medicals/assets/images/lungs.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -124,7 +126,8 @@ const ResultsAndInvestigation = ({ resultInvestigation }) => {
                   <div className="row">
                     <div className="col-md-3">
                     <img
-                        src="/assets/images/hospital-medical.svg"
+                        // src="/assets/images/hospital-medical.svg"
+                        src="/medicals/assets/images/hospital-medical.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -143,7 +146,8 @@ const ResultsAndInvestigation = ({ resultInvestigation }) => {
                   <div className="row">
                     <div className="col-md-3">
                     <img
-                        src="/assets/images/healthcare-hospital.svg"
+                        // src="/assets/images/healthcare-hospital.svg"
+                        src="/medicals/assets/images/healthcare-hospital.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />

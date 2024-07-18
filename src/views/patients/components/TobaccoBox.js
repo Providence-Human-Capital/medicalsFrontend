@@ -47,7 +47,8 @@ const TobaccoBox = ({ patientId }) => {
               <strong>
                 {" "}
                 <img
-                  src="/assets/images/smoking-m.svg"
+                  // src="/assets/images/smoking-m.svg"
+                  src="/medicals/assets/images/smoking-m.svg"
                   className="w-100 bg-primary-light rounded10 me-15"
                   alt=""
                   style={{
@@ -88,7 +89,8 @@ const TobaccoBox = ({ patientId }) => {
                     <div className="row">
                       <div className="col-md-6">
                         <img
-                          src="/assets/images/smoking-m.svg"
+                          // src="/assets/images/smoking-m.svg"
+                          src="/medicals/assets/images/smoking-m.svg"
                           className="w-100 bg-primary-light rounded10 me-15"
                           alt=""
                         />

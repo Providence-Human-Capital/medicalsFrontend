@@ -50,7 +50,8 @@ const DiseaseHistory = ({ patientId }) => {
             <h4 className="box-title">
               <strong>
                 <img
-                  src="/assets/images/patient2.svg"
+                  // src="/assets/images/patient2.svg"
+                  src="/medicals/assets/images/patient2.svg"
                   className="w-100 bg-primary-light rounded10 me-15"
                   alt=""
                   style={{
@@ -81,7 +82,8 @@ const DiseaseHistory = ({ patientId }) => {
                     <div className="row">
                       <div className="col-md-6">
                         <img
-                          src="/assets/images/patient2.svg"
+                          // src="/assets/images/patient2.svg"
+                          src="/medicals/assets/images/patient2.svg"
                           className="w-100 bg-primary-light rounded10 me-15"
                           alt=""
                         />

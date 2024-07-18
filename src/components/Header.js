@@ -73,7 +73,12 @@ const Header = ({}) => {
             {isSideBarCollapsed && (
               <div className="logo-mini w-50">
                 <span className="light-logo">
-                  <img src="/assets/images/providence.png" alt="logo" />
+                  <img 
+                  
+                  // src="/assets/images/providence.png"
+                  src="/medicals/assets/images/providence.png"
+                  
+                  alt="logo" />
                 </span>
               </div>
             )}
@@ -81,8 +86,8 @@ const Header = ({}) => {
             <div className="logo-lg">
               <span className="light-logo">
                 <img
-                  src="/assets/images/providence.png"
-                  // src="assets/images/providence.png"
+                  // src="/assets/images/providence.png"
+                  src="/medicals/assets/images/providence.png"
                   alt="logo"
                   style={styles.logoStyles}
                 />
@@ -160,10 +165,11 @@ const Header = ({}) => {
                   <li>
                     <Link to={"certificates/print/csv"}>
                       <button
-                        className="btn btn-secondary"
+                        className="btn btn-secondary pp"
                         style={{
                           borderRadius: "20px",
                           fontWeight: "bold",
+                         
                         }}
                       >
                         Print Certificates Using Csv File
@@ -259,8 +265,8 @@ const Header = ({}) => {
                       </small>
                     </div>
                     <img
-                      src="assets/images/avatar/avatar-1.png"
                       // src="assets/images/avatar/avatar-1.png"
+                      src="/medicals/assets/images/avatar/avatar-1.png"
                       className="avatar rounded-10 bg-primary-light h-40 w-40"
                       alt=""
                     />

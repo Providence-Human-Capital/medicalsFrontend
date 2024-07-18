@@ -39,7 +39,7 @@ const PatientStatisticsCard = () => {
   useEffect(() => {
     const currentYear = new Date().getFullYear();
     const yearsArray = [];
-    for (let year = 2023; year <= currentYear; year++) {
+    for (let year = 2019; year <= currentYear; year++) {
       yearsArray.push(year);
     }
     setYears(yearsArray);

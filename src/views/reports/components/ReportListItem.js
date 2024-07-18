@@ -19,7 +19,9 @@ const ReportListItem = ({ report, index }) => {
             <div class="bg-img h-50 w-50 my-bgg"></div>
           </div>
 
-          <div>
+          <div style={{
+            textTransform: "uppercase",
+          }}>
             <a class="text-dark fw-600 hover-primary mb-1 fs-16">
               {convertToDateWord(report.day)}
             </a>

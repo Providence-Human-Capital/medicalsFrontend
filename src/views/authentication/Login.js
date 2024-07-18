@@ -95,8 +95,8 @@ const Login = () => {
             user: data.user,
             token: data.access_token,
             isAuth: true,
-            role: "admin",
-            type: data.user.type,
+            role: "Admin",
+            type: "medicals",
           })
         );
         setRedirectToHome(true);
@@ -160,8 +160,8 @@ const Login = () => {
           <div className="logo-lg">
             <span className="light-logo">
               <img
-                src="/assets/images/providence.png"
-                // src="assets/images/providence.png"
+                // src="/assets/images/providence.png"
+                src="/medicals/assets/images/providence.png"
                 alt="logo"
                 style={styles.logoStyles}
               />

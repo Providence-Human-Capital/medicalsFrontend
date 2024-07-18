@@ -18,7 +18,11 @@ const ExcelAddPage = () => {
         Back To Form
       </Link>
       <div className="separation-div"></div>
-      <AddAttendeeExecel />
+      <div className="box m-3">
+        <div className="box-body">
+          <AddAttendeeExecel />
+        </div>
+      </div>
     </Fragment>
   );
 };

@@ -28,7 +28,8 @@ const ConditionsTestBox = ({ conditions }) => {
           <div class="media bg-white mb-20">
             <span class="avatar">
               <img
-                src="/assets/images/stethoscope.svg"
+                // src="/assets/images/stethoscope.svg"
+                src="/medicals/assets/images/stethoscope.svg"
                 className="w-100 bg-primary-light rounded10 me-15"
                 alt=""
               />{" "}
@@ -53,7 +54,8 @@ const ConditionsTestBox = ({ conditions }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/checkupd.svg"
+                        // src="/assets/images/checkupd.svg"
+                        src="/medicals/assets/images/checkupd.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -82,7 +84,8 @@ const ConditionsTestBox = ({ conditions }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/checkupd.svg"
+                        // src="/assets/images/checkupd.svg"
+                        src="/medicals/assets/images/checkupd.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -111,7 +114,8 @@ const ConditionsTestBox = ({ conditions }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/checkupd.svg"
+                        // src="/assets/images/checkupd.svg"
+                        src="/medicals/assets/images/checkupd.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -140,7 +144,8 @@ const ConditionsTestBox = ({ conditions }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/checkupd.svg"
+                        // src="/assets/images/checkupd.svg"
+                        src="/medicals/assets/images/checkupd.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -169,7 +174,8 @@ const ConditionsTestBox = ({ conditions }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/checkupd.svg"
+                        // src="/assets/images/checkupd.svg"
+                        src="/medicals/assets/images/checkupd.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -198,7 +204,8 @@ const ConditionsTestBox = ({ conditions }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/checkupd.svg"
+                        // src="/assets/images/checkupd.svg"
+                        src="/medicals/assets/images/checkupd.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -227,7 +234,8 @@ const ConditionsTestBox = ({ conditions }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/checkupd.svg"
+                        // src="/assets/images/checkupd.svg"
+                        src="/medicals/assets/images/checkupd.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -256,7 +264,8 @@ const ConditionsTestBox = ({ conditions }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/checkupd.svg"
+                        // src="/assets/images/checkupd.svg"
+                        src="/medicals/assets/images/checkupd.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
@@ -285,7 +294,8 @@ const ConditionsTestBox = ({ conditions }) => {
                   <div className="row">
                     <div className="col-md-6">
                       <img
-                        src="/assets/images/checkupd.svg"
+                        // src="/assets/images/checkupd.svg"
+                        src="/medicals/assets/images/checkupd.svg"
                         className="w-100 bg-primary-light rounded10 me-15"
                         alt=""
                       />
