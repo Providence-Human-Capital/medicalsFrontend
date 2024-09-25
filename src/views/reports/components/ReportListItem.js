@@ -4,93 +4,90 @@ import { Link } from "react-router-dom";
 
 const ReportListItem = ({ report, index }) => {
   return (
-    <tr>
-      <td class="ps-0 py-8">
-        <div class="d-flex align-items-start">
-          <div class="flex-shrink-0 me-20">
-            <div class="bg-img h-50 w-50 my-bgg"></div>
-          </div>
-          <span>{index} </span>
-        </div>
-      </td>
-      <td class="ps-0 py-8">
-        <div class="d-flex align-items-start">
-          <div class="flex-shrink-0 me-20">
-            <div class="bg-img h-50 w-50 my-bgg"></div>
-          </div>
+    <tr style={{ cursor: "pointer" }}>
+      <>
+        {/* Row index */}
+        <td className="align-middle text-center">
+          <span className="fw-bold">{index + 1}</span>
+        </td>
 
-          <div style={{
-            textTransform: "uppercase",
-          }}>
-            <a class="text-dark fw-600 hover-primary mb-1 fs-16">
+        {/* Date and patient count */}
+        <td className="align-middle">
+          <div className="d-flex flex-column justify-content-center">
+            <span className="text-uppercase fw-bold text-primary fs-6">
               {convertToDateWord(report.day)}
-            </a>
-            <span class="text-fade d-block">
-              Patients {report.patients_count}
             </span>
+            <small className="text-muted mt-1">
+              Total Patients: {report.patients_count}
+            </small>
           </div>
-        </div>
-      </td>
-      <td className="text-center">
-        <span class="text-fade fw-600 d-block fs-16">Pneumoconiosis</span>
-        <span class="text-dark fw-600 d-block fs-16">
-          <span class="badge badge-pill badge-primary-light badge-lg">
-            Patients {report.Pneumoconiosis.length}
-          </span>
-        </span>
-      </td>
-      <td className="text-center">
-        <span class="text-fade fw-600 d-block fs-16">Food Handler (COH)</span>
-        <span class="text-dark fw-600 d-block fs-16">
-          <span class="badge badge-pill badge-primary-light badge-lg">
-            Patients {report["Food Handler (COH)"] && report["Food Handler (COH)"].length}
-          </span>
-        </span>
-      </td>
-      <td className="text-center">
-        <span class="text-fade fw-600 d-block fs-16">Pre-Employment</span>
-        <span class="text-dark fw-600 d-block fs-16">
-          <span class="badge badge-pill badge-primary-light badge-lg">
-            Patients {report["Pre-Employement"].length}
-          </span>
-        </span>
-      </td>
-      <td className="text-center">
-        <span class="text-fade fw-600 d-block fs-16">Pre-Employment</span>
-        <span class="text-dark fw-600 d-block fs-16">
-          <span class="badge badge-pill badge-primary-light badge-lg">
-            Patients {report["Exit-Employement"] && report["Exit-Employement"].length}
-          </span>
-        </span>
-      </td>
-      <td className="text-center">
-        <span class="text-fade fw-600 d-block fs-16">Pre-Employment</span>
-        <span class="text-dark fw-600 d-block fs-16">
-          <span class="badge badge-pill badge-primary-light badge-lg">
-            Patients {report["Exit-Pneumoconiosis"] && report["Exit-Pneumoconiosis"].length}
-          </span>
-        </span>
-      </td>
-      {/* <td>
-        <span class="badge badge-primary-light badge-lg">Approved</span>
-      </td> */}
-      <td class="text-end">
-        {/* <a
-          href="#"
-          class="waves-effect waves-light btn btn-primary btn-circle mx-5"
-        >
-          <span class="icon-Bookmark"></span>
-        </a> */}
-        <Link
-          to={`/report/single/${report.day}`}
-          class="waves-effect waves-light btn btn-primary btn-circle mx-5"
-        >
-          <span class="icon-Arrow-right">
-            <span class="path1"></span>
-            <span class="path2"></span>
-          </span>
-        </Link>
-      </td>
+        </td>
+
+        {/* Categories Section */}
+        <td colSpan={5} className="align-middle">
+          <div className="row">
+            {/* Pneumoconiosis */}
+            <div className="col text-center">
+              <span className="fw-bold d-block text-secondary">
+                Pneumoconiosis
+              </span>
+              <span className="badge bg-warning text-dark px-3 py-2 mt-1">
+                {report.Pneumoconiosis.length} Patients
+              </span>
+            </div>
+
+            {/* Food Handler (COH) */}
+            <div className="col text-center">
+              <span className="fw-bold d-block text-secondary">
+                Food Handler (COH)
+              </span>
+              <span className="badge bg-warning text-dark px-3 py-2 mt-1">
+                {report["Food Handler (COH)"]?.length || 0} Patients
+              </span>
+            </div>
+
+            {/* Pre-Employment */}
+            <div className="col text-center">
+              <span className="fw-bold d-block text-secondary">
+                Pre-Employment
+              </span>
+              <span className="badge bg-warning text-dark px-3 py-2 mt-1">
+                {report["Pre-Employement"]?.length || 0} Patients
+              </span>
+            </div>
+
+            {/* Exit-Employment */}
+            <div className="col text-center">
+              <span className="fw-bold d-block text-secondary">
+                Exit-Employment
+              </span>
+              <span className="badge bg-warning text-dark px-3 py-2 mt-1">
+                {report["Exit-Employement"]?.length || 0} Patients
+              </span>
+            </div>
+
+            {/* Exit-Pneumoconiosis */}
+            <div className="col text-center">
+              <span className="fw-bold d-block text-secondary">
+                Exit-Pneumoconiosis
+              </span>
+              <span className="badge bg-warning text-dark px-3 py-2 fw500 mt-1">
+                {report["Exit-Pneumoconiosis"]?.length || 0} Patients
+              </span>
+            </div>
+          </div>
+        </td>
+
+        {/* Action button */}
+        <td className="align-middle text-end">
+          <Link
+            to={`/report/single/${report.day}`}
+            className="btn btn-primary btn-sm"
+          >
+            View <i className="bi bi-arrow-right"></i>
+          </Link>
+        </td>
+      </>
     </tr>
   );
 };

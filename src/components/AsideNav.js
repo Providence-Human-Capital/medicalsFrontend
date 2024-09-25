@@ -292,100 +292,73 @@ const AsideNav = ({}) => {
                     </NavLink>
                   </li>
 
-                  <li className="treeview">
-                    <a
-                      className="mb-1"
+                  <li id="aside-bar">
+                    <NavLink
                       style={{
                         cursor: "pointer",
+                        fontWeight: "bold",
+                        color: "green",
                       }}
+                      to={"/pneumo"}
                     >
                       <i
                         className="ti-support"
                         style={{
                           fontSize: "20px",
+                          fontWeight: "bold",
+                          color: "green",
                         }}
                       ></i>
                       <span>Pneumoconiosis</span>
-                      <span className="pull-right-container">
-                        <i className="ti-arrow-circle-right"></i>
-                      </span>
-                    </a>
-                    <ul className="treeview-menu">
-                      <li id="aside-bar-tree" className="mt-1">
-                        {" "}
-                        <NavLink to={"/pneumo"}>
-                          <i className="icon-Commit">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                          </i>
-                          Pneumoconiosis
-                        </NavLink>
-                      </li>
-                    </ul>
+                    </NavLink>
                   </li>
 
-                  <li className="treeview">
-                    <a
-                      className="mb-1"
+
+                  <li id="aside-bar">
+                    <NavLink
                       style={{
                         cursor: "pointer",
+                        fontWeight: "bold",
+                        color: "green",
                       }}
+                      to={"/foodhandlers"}
                     >
                       <i
                         className="ti-support"
                         style={{
                           fontSize: "20px",
+                          fontWeight: "bold",
+                          color: "green",
                         }}
                       ></i>
                       <span>Food Handlers</span>
-                      <span className="pull-right-container">
-                        <i className="ti-arrow-circle-right"></i>
-                      </span>
-                    </a>
-                    <ul className="treeview-menu">
-                      <li id="aside-bar-tree" className="mt-1">
-                        {" "}
-                        <NavLink to={"/foodhandlers"}>
-                          <i className="icon-Commit">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                          </i>
-                          Food Handlers
-                        </NavLink>
-                      </li>
-                    </ul>
+                    </NavLink>
                   </li>
-                  <li className="treeview">
-                    <a
-                      className="mb-1"
+
+
+                  <li id="aside-bar">
+                    <NavLink
                       style={{
                         cursor: "pointer",
+                        fontWeight: "bold",
+                        color: "green",
                       }}
+                      to={"/industry"}
                     >
                       <i
                         className="ti-support"
                         style={{
                           fontSize: "20px",
+                          fontWeight: "bold",
+                          color: "green",
                         }}
                       ></i>
                       <span>Pre-Employment</span>
-                      <span className="pull-right-container">
-                        <i className="ti-arrow-circle-right"></i>
-                      </span>
-                    </a>
-                    <ul className="treeview-menu">
-                      <li id="aside-bar-tree" className="mt-1">
-                        {" "}
-                        <NavLink to={"/industry"}>
-                          <i className="icon-Commit">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                          </i>
-                          Pre-Employment Medical
-                        </NavLink>
-                      </li>
-                    </ul>
+                    </NavLink>
                   </li>
+
+                 
+                
 
                   <li id="aside-bar">
                     <NavLink to={"/outreach"}>
@@ -512,15 +485,15 @@ const AsideNav = ({}) => {
                     </ul>
                   </li>
                   <li id="aside-bar-tree" className="mt-1">
-                        {" "}
-                        <NavLink to={"/reports"}>
-                          <i className="icon-Commit">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                          </i>
-                          Visual Reports
-                        </NavLink>
-                      </li>
+                    {" "}
+                    <NavLink to={"/reports"}>
+                      <i className="icon-Commit">
+                        <span className="path1"></span>
+                        <span className="path2"></span>
+                      </i>
+                      Visual Reports
+                    </NavLink>
+                  </li>
                   <li id="aside-bar">
                     <NavLink to={"/reports/generate"}>
                       <i className="icon-Commit">

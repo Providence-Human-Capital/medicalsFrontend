@@ -6,10 +6,13 @@ import { getCurrentPageData } from "../../../helpers/helpers";
 
 const ReportsList = ({ reportsData }) => {
   const patients = useSelector((state) => state.patient.patients) || [];
-
   const dispatch = useDispatch();
-  const [pageNumber, setPageNumber] = useState(0);
   const itemsPerPage = 8;
+
+  // Retrieve the saved page number from localStorage or default to 0 if not found
+  const [pageNumber, setPageNumber] = useState(
+    parseInt(localStorage.getItem("visualReportsSelectedPage")) || 0
+  );
 
   const currentPageData = getCurrentPageData(
     reportsData,
@@ -17,13 +20,17 @@ const ReportsList = ({ reportsData }) => {
     itemsPerPage
   );
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    // Save the selected page to localStorage whenever it changes
+    localStorage.setItem("visualReportsSelectedPage", pageNumber);
+  }, [pageNumber]);
+
   return (
     <div className="col-12">
       <div className="box">
         <div className="box-header">
           <h4 className="box-title align-items-start flex-column">
-            Daily Patient Reports
+            Daily Patient Reports - Page {pageNumber + 1}
             {patients && (
               <small className="subtitle">
                 {patients.length} Total Patients
@@ -92,7 +99,6 @@ const ReportsList = ({ reportsData }) => {
                   >
                     Exit-Pneumoconiosis Stats
                   </th>
-
                   <th
                     style={{
                       minWidth: "120px",
@@ -104,7 +110,11 @@ const ReportsList = ({ reportsData }) => {
               <tbody>
                 {reportsData &&
                   currentPageData.map((report, index) => (
-                    <ReportListItem key={report.id} report={report} index={index} />
+                    <ReportListItem
+                      key={report.id}
+                      report={report}
+                      index={index}
+                    />
                   ))}
               </tbody>
             </table>
@@ -115,14 +125,15 @@ const ReportsList = ({ reportsData }) => {
                 nextLabel={"Next"}
                 breakLabel={"..."}
                 breakClassName={"break-me"}
-                pageCount={Math.ceil(patients.length / itemsPerPage)}
+                pageCount={Math.ceil(reportsData.length / itemsPerPage)}
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
                 onPageChange={(patients) => {
-                  setPageNumber(patients.selected);
+                  setPageNumber(patients.selected); // Update the page number on change
                 }}
                 containerClassName={"pagination"}
                 activeClassName={"active-paginate"}
+                forcePage={pageNumber} // Force the current page to the persisted page number
               />
             </div>
           </div>

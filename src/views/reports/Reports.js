@@ -19,16 +19,7 @@ const Reports = () => {
       minWidth: "100%",
     },
   };
-  const sampleData = [
-    {
-      day: "2023-01-01",
-      activity: 5,
-    },
-    {
-      day: "2023-01-02",
-      activity: 1,
-    },
-  ];
+ 
   const colorCustomization = {
     activity0: "#dadada",
     activity1: "#0e4429",
@@ -79,9 +70,10 @@ const Reports = () => {
           sampleData={activityByDayData}
           colorCustomization={colorCustomization}
           showMonth={true}
-        
         />
       </div>
+
+      {/* {JSON.stringify(reportByDayData.slice().reverse())} */}
 
       <section className="content">
         <div className="row">
@@ -93,7 +85,8 @@ const Reports = () => {
                   className="table-responsive rounded card-table"
                   style={styles.containerStyles}
                 >
-                  <ReportsList reportsData={reportByDayData} />
+                  {/* Reverse the reportByDayData array */}
+                  <ReportsList reportsData={reportByDayData.slice().reverse()} />
                 </div>
               </div>
             </div>

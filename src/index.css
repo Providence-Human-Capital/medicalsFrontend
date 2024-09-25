@@ -356,6 +356,10 @@
   cursor: pointer;
 }
 
+.space{
+  margin-bottom: 2rem;
+}
+
 .step-navigation {
   display: flex;
   justify-content: space-between;

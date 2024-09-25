@@ -58,9 +58,19 @@ const IndustryItem = ({ patient, index  }) => {
             </span>
           </Link>
 
+          <Link
+            to={`/patients/edit/${patient.id}`}
+            class="waves-effect waves-light btn btn-warning-light btn-circle mx-5"
+          >
+            <span class="icon-Write">
+              <span class="path1"></span>
+              <span class="path2"></span>
+            </span>
+          </Link>
+
           <a
             onClick={onDelete}
-            class="waves-effect waves-light btn btn-primary-light btn-circle"
+            class="waves-effect waves-light btn btn-danger-light btn-circle"
           >
             <span class="icon-Trash1 fs-18">
               <span class="path1"></span>

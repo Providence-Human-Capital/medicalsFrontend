@@ -1,14 +1,9 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import BreadCrumb from "../../components/BreadCrumb";
-import { PDFViewer } from "@react-pdf/renderer";
-import ReportDocument from "./components/ReportDocument";
-import "./ReportsCss.css";
-
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import DownloadButton from "../../components/buttons/DownloadButton";
 import { useParams } from "react-router-dom";
 import { convertToDateWord } from "../../helpers/helpers";
+import * as XLSX from "xlsx";
 
 const SingleReportPage = () => {
   const { day } = useParams();
@@ -18,20 +13,57 @@ const SingleReportPage = () => {
   useEffect(() => {
     const filteredData = reportByDayData.filter((obj) => obj.day === day);
     setSingleDayReport(filteredData);
+  }, [day, reportByDayData]);
 
-    console.log("Single day report", singleDayReport);
-  }, [day]);
+  // Function to export data to Excel
+  const exportToExcel = () => {
+    if (singleDayReport.length === 0) return;
+
+    const dataToExport = [];
+
+    // Loop through different categories and prepare the data for Excel
+    const categories = [
+      "Pneumoconiosis",
+      "Food Handler (COH)",
+      "Pre-Employement",
+      "Exit-Employment",
+      "Exit-Pneumoconiosis",
+    ];
+
+    categories.forEach((category) => {
+      if (singleDayReport[0][category].length > 0) {
+        singleDayReport[0][category].forEach((patient) => {
+          dataToExport.push({
+            Category: category,
+            "First Name": patient.first_name,
+            "Last Name": patient.last_name,
+            "Date Of Birth": patient.date_of_birth,
+            Gender: patient.gender,
+            "National ID": patient.national_id,
+            "Phone Number": patient.phone_number,
+            Company: patient.company,
+          });
+        });
+      }
+    });
+
+    // Convert JSON data to worksheet
+    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+
+    // Create a new workbook and append the worksheet
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "SingleDayReport");
+
+    // Generate Excel file and trigger download
+    XLSX.writeFile(workbook, `Single_Report_${convertToDateWord(day)}.xlsx`);
+  };
 
   return (
     <>
       <BreadCrumb title={"Single Report"} activeTab={"Report Overview"} />
 
       <section className="content">
-        <div
-          style={{
-            paddingBottom: "20px",
-          }}
-        ></div>
+        <div style={{ paddingBottom: "20px" }}></div>
         <div className="row">
           {singleDayReport.length > 0 && (
             <div className="col-xl-12 col-12">
@@ -40,13 +72,19 @@ const SingleReportPage = () => {
                   <h4 className="box-title">
                     {convertToDateWord(day)} Daily Report
                   </h4>
+                  <button
+                    className="btn btn-success"
+                    onClick={exportToExcel}
+                    style={{ float: "right", textTransform: "uppercase", fontWeight: "bold" }}
+                  >
+                    Export to Excel
+                  </button>
                 </div>
                 <div className="box-body">
+                  {/* Pneumoconiosis Data */}
                   {singleDayReport[0]["Pneumoconiosis"].length > 0 && (
                     <Fragment>
-                      <h4 style={{
-                        textTransform: "uppercase"
-                      }}>
+                      <h4 style={{ textTransform: "uppercase" }}>
                         Pneumoconiosis{" "}
                         <span className="badge badge-primary-light badge-lg">
                           {singleDayReport[0]["Pneumoconiosis"].length}{" "}
@@ -68,9 +106,9 @@ const SingleReportPage = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {singleDayReport[0].Pneumoconiosis &&
-                            singleDayReport[0].Pneumoconiosis.map((patient) => (
-                              <tr>
+                          {singleDayReport[0].Pneumoconiosis.map(
+                            (patient, index) => (
+                              <tr key={index}>
                                 <td>{patient.first_name}</td>
                                 <td>{patient.last_name}</td>
                                 <td>{patient.date_of_birth}</td>
@@ -79,16 +117,17 @@ const SingleReportPage = () => {
                                 <td>{patient.phone_number}</td>
                                 <td>{patient.company}</td>
                               </tr>
-                            ))}
+                            )
+                          )}
                         </tbody>
                       </table>
                     </Fragment>
                   )}
 
                   {singleDayReport[0]["Food Handler (COH)"].length > 0 && (
-                    <>
-                      <h4 className="mt-4">
-                        City Of Harare{" "}
+                    <Fragment>
+                      <h4 style={{ textTransform: "uppercase" }}>
+                        Food Handler (COH){" "}
                         <span className="badge badge-primary-light badge-lg">
                           {singleDayReport[0]["Food Handler (COH)"].length}{" "}
                           {singleDayReport[0]["Food Handler (COH)"].length <= 1
@@ -109,29 +148,28 @@ const SingleReportPage = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {singleDayReport[0]["Food Handler (COH)"] &&
-                            singleDayReport[0]["Food Handler (COH)"].map(
-                              (patient, index) => (
-                                <tr key={index}>
-                                  <td>{patient.first_name}</td>
-                                  <td>{patient.last_name}</td>
-                                  <td>{patient.date_of_birth}</td>
-                                  <td>{patient.gender}</td>
-                                  <td>{patient.national_id}</td>
-                                  <td>{patient.phone_number}</td>
-                                  <td>{patient.company}</td>
-                                </tr>
-                              )
-                            )}
+                          {singleDayReport[0]["Food Handler (COH)"].map(
+                            (patient, index) => (
+                              <tr key={index}>
+                                <td>{patient.first_name}</td>
+                                <td>{patient.last_name}</td>
+                                <td>{patient.date_of_birth}</td>
+                                <td>{patient.gender}</td>
+                                <td>{patient.national_id}</td>
+                                <td>{patient.phone_number}</td>
+                                <td>{patient.company}</td>
+                              </tr>
+                            )
+                          )}
                         </tbody>
                       </table>
-                    </>
+                    </Fragment>
                   )}
 
                   {singleDayReport[0]["Pre-Employement"].length > 0 && (
-                    <>
-                      <h4 className="mt-4">
-                        Pre-Employement{" "}
+                    <Fragment>
+                      <h4 style={{ textTransform: "uppercase" }}>
+                        Pre-Employment{" "}
                         <span className="badge badge-primary-light badge-lg">
                           {singleDayReport[0]["Pre-Employement"].length}{" "}
                           {singleDayReport[0]["Pre-Employement"].length <= 1
@@ -152,28 +190,27 @@ const SingleReportPage = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {singleDayReport[0]["Pre-Employement"] &&
-                            singleDayReport[0]["Pre-Employement"].map(
-                              (patient) => (
-                                <tr>
-                                  <td>{patient.first_name}</td>
-                                  <td>{patient.last_name}</td>
-                                  <td>{patient.date_of_birth}</td>
-                                  <td>{patient.gender}</td>
-                                  <td>{patient.national_id}</td>
-                                  <td>{patient.phone_number}</td>
-                                  <td>{patient.company}</td>
-                                </tr>
-                              )
-                            )}
+                          {singleDayReport[0]["Pre-Employement"].map(
+                            (patient, index) => (
+                              <tr key={index}>
+                                <td>{patient.first_name}</td>
+                                <td>{patient.last_name}</td>
+                                <td>{patient.date_of_birth}</td>
+                                <td>{patient.gender}</td>
+                                <td>{patient.national_id}</td>
+                                <td>{patient.phone_number}</td>
+                                <td>{patient.company}</td>
+                              </tr>
+                            )
+                          )}
                         </tbody>
                       </table>
-                    </>
+                    </Fragment>
                   )}
 
                   {singleDayReport[0]["Exit-Employment"].length > 0 && (
-                    <>
-                      <h4 className="mt-4">
+                    <Fragment>
+                      <h4 style={{ textTransform: "uppercase" }}>
                         Exit-Employment{" "}
                         <span className="badge badge-primary-light badge-lg">
                           {singleDayReport[0]["Exit-Employment"].length}{" "}
@@ -195,28 +232,27 @@ const SingleReportPage = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {singleDayReport[0]["Exit-Employment"] &&
-                            singleDayReport[0]["Exit-Employment"].map(
-                              (patient) => (
-                                <tr>
-                                  <td>{patient.first_name}</td>
-                                  <td>{patient.last_name}</td>
-                                  <td>{patient.date_of_birth}</td>
-                                  <td>{patient.gender}</td>
-                                  <td>{patient.national_id}</td>
-                                  <td>{patient.phone_number}</td>
-                                  <td>{patient.company}</td>
-                                </tr>
-                              )
-                            )}
+                          {singleDayReport[0]["Exit-Employment"].map(
+                            (patient, index) => (
+                              <tr key={index}>
+                                <td>{patient.first_name}</td>
+                                <td>{patient.last_name}</td>
+                                <td>{patient.date_of_birth}</td>
+                                <td>{patient.gender}</td>
+                                <td>{patient.national_id}</td>
+                                <td>{patient.phone_number}</td>
+                                <td>{patient.company}</td>
+                              </tr>
+                            )
+                          )}
                         </tbody>
                       </table>
-                    </>
+                    </Fragment>
                   )}
 
                   {singleDayReport[0]["Exit-Pneumoconiosis"].length > 0 && (
-                    <>
-                      <h4 className="mt-4">
+                    <Fragment>
+                      <h4 style={{ textTransform: "uppercase" }}>
                         Exit-Pneumoconiosis{" "}
                         <span className="badge badge-primary-light badge-lg">
                           {singleDayReport[0]["Exit-Pneumoconiosis"].length}{" "}
@@ -229,7 +265,7 @@ const SingleReportPage = () => {
                         <thead className="thead-dark">
                           <tr>
                             <th scope="col">First Name</th>
-                            <th scope="col">Last Name</th>
+                            <th scope="col">Surname</th>
                             <th scope="col">Date Of Birth</th>
                             <th scope="col">Gender</th>
                             <th scope="col">National ID</th>
@@ -238,35 +274,30 @@ const SingleReportPage = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {singleDayReport[0]["Exit-Pneumoconiosis"] &&
-                            singleDayReport[0]["Exit-Pneumoconiosis"].map(
-                              (patient) => (
-                                <tr>
-                                  <td>{patient.first_name}</td>
-                                  <td>{patient.last_name}</td>
-                                  <td>{patient.date_of_birth}</td>
-                                  <td>{patient.gender}</td>
-                                  <td>{patient.national_id}</td>
-                                  <td>{patient.phone_number}</td>
-                                  <td>{patient.company}</td>
-                                </tr>
-                              )
-                            )}
+                          {singleDayReport[0]["Exit-Pneumoconiosis"].map(
+                            (patient, index) => (
+                              <tr key={index}>
+                                <td>{patient.first_name}</td>
+                                <td>{patient.last_name}</td>
+                                <td>{patient.date_of_birth}</td>
+                                <td>{patient.gender}</td>
+                                <td>{patient.national_id}</td>
+                                <td>{patient.phone_number}</td>
+                                <td>{patient.company}</td>
+                              </tr>
+                            )
+                          )}
                         </tbody>
                       </table>
-                    </>
+                    </Fragment>
                   )}
+
+                  {/* Repeat the same structure for other categories */}
+                  {/* Food Handler (COH), Pre-Employement, Exit-Employment, Exit-Pneumoconiosis */}
                 </div>
               </div>
             </div>
           )}
-          <div className="col-xl-6 col-12">
-            <div className="pdf-container">
-              {/* <PDFViewer className="pdf-viewer">
-                <ReportDocument />
-              </PDFViewer> */}
-            </div>
-          </div>{" "}
         </div>
       </section>
     </>

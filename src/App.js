@@ -113,6 +113,7 @@ import BookAppointment from "./hms/views/appointments/book_appointment";
 import DoctorsDashboard from "./hms/hmsdoctors/doctors_dash";
 import GeneratedReports from "./views/reports/GeneratedReports";
 import Swab from "./views/swabs/Swab";
+import PrintCertificatesCoH from "./views/cofcertificates/PrintCertificatesCoH";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
@@ -412,6 +413,7 @@ const WrapperComponent = () => {
 
           <Route path="/pneumo" exact element={<Pneumo />} />
           <Route path="/foodhandlers" exact element={<CityOfHarare />} />
+          <Route path="/certificate/print/coh" exact element={<PrintCertificatesCoH />} />
           <Route path="/industry" exact element={<Industry />} />
 
           <Route path="/reports" exact element={<Reports />} />

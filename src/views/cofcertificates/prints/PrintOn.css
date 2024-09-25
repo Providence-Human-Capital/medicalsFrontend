@@ -1,0 +1,129 @@
+/* This is the container for the whole printon */
+.certi-container {
+    margin: 4rem;
+  }
+  
+  /* First */
+  /* The section with the name of doctor ,client & date */
+  /* .first-section {
+    margin-top: 15rem;
+  } */
+
+  .first-section p {
+    margin: 0;
+    padding-top:4px;
+  }
+  .f_doctor_name {
+    margin-left: 3rem !important;
+    font-family: "Cooper Black";
+    text-transform: uppercase;
+  }
+  .f_patient_name {
+      margin-top: -4px !important;
+    margin-left: 17rem !important;
+    font-family: "Cooper Black";
+    text-transform: uppercase;
+  }
+  .f_date {
+    margin-top: -4px !important;
+    margin-left: 6rem !important;
+    font-family: "Cooper Black";
+    text-transform: uppercase;
+  }
+  .f_month_year {
+     margin-top: -4px !important;
+    margin-left: 15rem;
+    font-family: "Cooper Black";
+    text-transform: uppercase;
+  }
+  /* End First */
+  
+  /* Second */
+  /* The section with company & address etc */
+  .second-section p {
+    margin: 0;
+    padding-top: 6px;
+    margin-left: 4rem !important;
+    /* text-transform: uppercase; */
+  }
+
+  /* Section Adjustments */
+  /* .second-section {
+    margin-top: 12rem;
+    font-family: "Cooper Black";
+  } */
+
+  .second-section {
+    margin-top: 11rem;
+    font-family: "Cooper Black";
+  }
+
+
+  .s_patient_name {
+    margin-left: -3.5rem;
+
+  }
+  .s_doctors_qualif {
+    margin-left: -3.5rem;
+  }
+  .s_designation {
+    margin-left: -3.5rem;
+  }
+  .s_date {
+    margin-left: -3.5rem;
+    text-transform: uppercase;
+  }
+  
+  .s_month_year {
+    /* margin-left: 1rem; */
+  }
+  /* End of Second */
+  
+  /* Third */
+  /* The last tear off section */
+  .third-section p{
+    margin: 0;
+    padding-top: 6px;
+  }
+
+  /* Third section Adjustments */
+  .third-section {
+    /* Edit here for the 3rd section */
+      /* margin-top: 5rem;  */
+      font-family: "Cooper Black";
+      /* text-transform: uppercase; */
+  }
+  .third-section {
+    /* Edit here for the 3rd section */
+      margin-top: 4rem; 
+      font-family: "Cooper Black";
+      /* text-transform: uppercase; */
+  }
+
+
+  .t_patient_name{
+      margin-left: 17rem !important;
+  }
+  .t_company_name{
+      margin-left: 6rem !important;
+  }
+  .t_address{
+      margin-left: 4rem !important;
+  }
+  .t_examiner{
+      margin-left: 9rem !important;
+  }
+  .t_qualification{
+      margin-left: 5rem !important;
+
+  }
+  .t_date{
+    margin-left: 22rem !important; 
+    text-transform: uppercase; 
+  }
+  .t_month_year{
+  margin-left: 3rem !important;
+  text-transform: uppercase;
+  }
+  /* End of Third */
+  

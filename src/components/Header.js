@@ -73,12 +73,11 @@ const Header = ({}) => {
             {isSideBarCollapsed && (
               <div className="logo-mini w-50">
                 <span className="light-logo">
-                  <img 
-                  
-                  // src="/assets/images/providence.png"
-                  src="/medicals/assets/images/providence.png"
-                  
-                  alt="logo" />
+                  <img
+                    // src="/assets/images/providence.png"
+                    src="/medicals/assets/images/providence.png"
+                    alt="logo"
+                  />
                 </span>
               </div>
             )}
@@ -169,10 +168,22 @@ const Header = ({}) => {
                         style={{
                           borderRadius: "20px",
                           fontWeight: "bold",
-                         
                         }}
                       >
                         Print Certificates Using Csv File
+                      </button>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={"certificate/print/coh"}>
+                      <button
+                        className="btn btn-warning pp"
+                        style={{
+                          borderRadius: "20px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        CITY OF HARARE
                       </button>
                     </Link>
                   </li>
