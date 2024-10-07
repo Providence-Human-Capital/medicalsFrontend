@@ -69,6 +69,7 @@ const EditPatient = ({}) => {
     <Fragment>
       <BreadCrumb title={"Edit Patient"} activeTab={"Edit Patient"} />
       <div className="section">
+        {/* {JSON.stringify(attendee.latest_certificate?.created_at)} */}
         <div className="row">
           <div className="col-xl-12 col-12">
             <div className="card">
@@ -98,12 +99,36 @@ const EditPatient = ({}) => {
                         exam_purpose: attendee.exam_purpose,
                         category: attendee.category,
                         last_x_ray: attendee.last_x_ray,
+                        attendance_day: attendee.latest_certificate?.created_at
                       }}
                       onSubmit={handleUpdateSubmit}
                       validationSchema={validationSchema}
                     >
                       {({ values, isSubmitting, handleSubmit }) => (
                         <Form>
+                          <div className="row">
+                            <div className="col-md-6" style={{
+                              marginBottom: "20px",
+                            }}>
+                              <div className="form-floating">
+                                <Field
+                                  type="date"
+                                  className={`form-control `}
+                                  id="attendance_day"
+                                  placeholder="Date of Attendance"
+                                  name="attendance_day"
+                                />
+                                <label htmlFor="attendance_day">
+                                  DATE OF ATTANDANCE
+                                </label>
+                                <ErrorMessage
+                                  name="attendance_day"
+                                  component="div"
+                                  className="text-danger"
+                                />
+                              </div>
+                            </div>
+                          </div>
                           <div className="row">
                             <div className="col-md-6">
                               <div className="form-floating">
