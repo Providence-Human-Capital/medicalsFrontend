@@ -21,6 +21,11 @@
   width: 50%;
 }
 
+
+.bolden-font{
+  font-weight: bold !important;
+}
+
 .update-reason {
   width: 100% !important;
   /* border: 1px solid red; */

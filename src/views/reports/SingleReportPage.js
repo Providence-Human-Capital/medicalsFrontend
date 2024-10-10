@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import BreadCrumb from "../../components/BreadCrumb";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { convertToDateWord } from "../../helpers/helpers";
 import * as XLSX from "xlsx";
 
@@ -61,7 +61,6 @@ const SingleReportPage = () => {
   return (
     <>
       <BreadCrumb title={"Single Report"} activeTab={"Report Overview"} />
-
       <section className="content">
         <div style={{ paddingBottom: "20px" }}></div>
         <div className="row">
@@ -75,7 +74,12 @@ const SingleReportPage = () => {
                   <button
                     className="btn btn-success"
                     onClick={exportToExcel}
-                    style={{ float: "right", textTransform: "uppercase", fontWeight: "bold" }}
+                    style={{
+                      float: "right",
+                      textTransform: "uppercase",
+                      fontWeight: "bold",
+                     
+                    }}
                   >
                     Export to Excel
                   </button>
@@ -93,6 +97,7 @@ const SingleReportPage = () => {
                             : "Patients"}
                         </span>
                       </h4>
+
                       <table className="table table-striped table-bordered">
                         <thead className="thead-dark">
                           <tr>
@@ -103,6 +108,7 @@ const SingleReportPage = () => {
                             <th scope="col">National ID</th>
                             <th scope="col">Phone Number</th>
                             <th scope="col">Company</th>
+                            <th scope="col">Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -116,6 +122,17 @@ const SingleReportPage = () => {
                                 <td>{patient.national_id}</td>
                                 <td>{patient.phone_number}</td>
                                 <td>{patient.company}</td>
+                                <td className="text-end">
+                                  <Link
+                                    to={`/patients/edit/${patient.patient_id}`}
+                                    class="waves-effect waves-light btn btn-warning-light btn-circle mx-5"
+                                  >
+                                    <span class="icon-Write">
+                                      <span class="path1"></span>
+                                      <span class="path2"></span>
+                                    </span>
+                                  </Link>
+                                </td>
                               </tr>
                             )
                           )}
@@ -135,6 +152,8 @@ const SingleReportPage = () => {
                             : "Patients"}
                         </span>
                       </h4>
+
+                      <div className="table-responsive">
                       <table className="table table-striped table-bordered">
                         <thead className="thead-dark">
                           <tr>
@@ -145,6 +164,7 @@ const SingleReportPage = () => {
                             <th scope="col">National ID</th>
                             <th scope="col">Phone Number</th>
                             <th scope="col">Company</th>
+                            <th scope="col text-end">Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -158,11 +178,24 @@ const SingleReportPage = () => {
                                 <td>{patient.national_id}</td>
                                 <td>{patient.phone_number}</td>
                                 <td>{patient.company}</td>
+                                <td className="text-end">
+                                  <Link
+                                    to={`/patients/edit/${patient.patient_id}`}
+                                    class="waves-effect waves-light btn btn-warning-light btn-circle mx-5"
+                                  >
+                                    <span class="icon-Write">
+                                      <span class="path1"></span>
+                                      <span class="path2"></span>
+                                    </span>
+                                  </Link>
+                                </td>
                               </tr>
                             )
                           )}
                         </tbody>
                       </table>
+                      </div>
+                     
                     </Fragment>
                   )}
 
@@ -187,6 +220,7 @@ const SingleReportPage = () => {
                             <th scope="col">National ID</th>
                             <th scope="col">Phone Number</th>
                             <th scope="col">Company</th>
+                            <th scope="col">Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -200,6 +234,17 @@ const SingleReportPage = () => {
                                 <td>{patient.national_id}</td>
                                 <td>{patient.phone_number}</td>
                                 <td>{patient.company}</td>
+                                <td className="text-end">
+                                  <Link
+                                    to={`/patients/edit/${patient.patient_id}`}
+                                    class="waves-effect waves-light btn btn-warning-light btn-circle mx-5"
+                                  >
+                                    <span class="icon-Write">
+                                      <span class="path1"></span>
+                                      <span class="path2"></span>
+                                    </span>
+                                  </Link>
+                                </td>
                               </tr>
                             )
                           )}
@@ -229,6 +274,7 @@ const SingleReportPage = () => {
                             <th scope="col">National ID</th>
                             <th scope="col">Phone Number</th>
                             <th scope="col">Company</th>
+                            <th scope="col">Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -242,6 +288,17 @@ const SingleReportPage = () => {
                                 <td>{patient.national_id}</td>
                                 <td>{patient.phone_number}</td>
                                 <td>{patient.company}</td>
+                                <td className="text-end">
+                                  <Link
+                                    to={`/patients/edit/${patient.patient_id}`}
+                                    class="waves-effect waves-light btn btn-warning-light btn-circle mx-5"
+                                  >
+                                    <span class="icon-Write">
+                                      <span class="path1"></span>
+                                      <span class="path2"></span>
+                                    </span>
+                                  </Link>
+                                </td>
                               </tr>
                             )
                           )}
@@ -271,6 +328,7 @@ const SingleReportPage = () => {
                             <th scope="col">National ID</th>
                             <th scope="col">Phone Number</th>
                             <th scope="col">Company</th>
+                            <th scope="col">Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -284,6 +342,17 @@ const SingleReportPage = () => {
                                 <td>{patient.national_id}</td>
                                 <td>{patient.phone_number}</td>
                                 <td>{patient.company}</td>
+                                <td className="text-end">
+                                  <Link
+                                    to={`/patients/edit/${patient.patient_id}`}
+                                    class="waves-effect waves-light btn btn-warning-light btn-circle mx-5"
+                                  >
+                                    <span class="icon-Write">
+                                      <span class="path1"></span>
+                                      <span class="path2"></span>
+                                    </span>
+                                  </Link>
+                                </td>
                               </tr>
                             )
                           )}

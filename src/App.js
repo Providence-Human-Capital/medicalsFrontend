@@ -114,20 +114,25 @@ import DoctorsDashboard from "./hms/hmsdoctors/doctors_dash";
 import GeneratedReports from "./views/reports/GeneratedReports";
 import Swab from "./views/swabs/Swab";
 import PrintCertificatesCoH from "./views/cofcertificates/PrintCertificatesCoH";
+import Bookings from "./views/bookings/Bookings";
+import UploadBookings from "./views/bookings/forms/UploadBookings";
+import { QueryClient, QueryClientProvider } from "react-query";
+import AddBooking from "./views/bookings/forms/AddBooking";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
   injectStyle();
 }
 
+const queryClient = new QueryClient();
+
 const App = () => {
   return (
-    <HashRouter>
-      <WrapperComponent />
-    </HashRouter>
-    // <BrowserRouter basename="/medicals">
-    //   <WrapperComponent />
-    // </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <HashRouter>
+        <WrapperComponent />
+      </HashRouter>
+    </QueryClientProvider>
   );
 };
 
@@ -413,7 +418,11 @@ const WrapperComponent = () => {
 
           <Route path="/pneumo" exact element={<Pneumo />} />
           <Route path="/foodhandlers" exact element={<CityOfHarare />} />
-          <Route path="/certificate/print/coh" exact element={<PrintCertificatesCoH />} />
+          <Route
+            path="/certificate/print/coh"
+            exact
+            element={<PrintCertificatesCoH />}
+          />
           <Route path="/industry" exact element={<Industry />} />
 
           <Route path="/reports" exact element={<Reports />} />
@@ -468,6 +477,11 @@ const WrapperComponent = () => {
             path="/dnote/certificate/update/:dnoteId/:dnoteName"
             element={<DnoteEditPage />}
           />
+
+          <Route path="/booking" element={<Bookings />} />
+          <Route path="/add/booking" element={<AddBooking />} />
+
+          <Route path="/booking/upload" element={<UploadBookings />} />
         </Route>
 
         <Route path="/login" element={<Login />} />

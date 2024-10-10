@@ -124,7 +124,7 @@ const Header = ({}) => {
 
               {user && user?.type === "medicals" ? (
                 <>
-                  <li className="btn-group d-lg-inline-flex d-none">
+                  {/* <li className="btn-group d-lg-inline-flex d-none">
                     <Link
                       to={"/foodhandlers"}
                       className="btn btn-primary"
@@ -159,6 +159,19 @@ const Header = ({}) => {
                       }}
                     >
                       Pre-Employment Patients
+                    </Link>
+                  </li> */}
+                  <li>
+                    <Link to={"/add/booking"}>
+                      <button
+                        className="btn btn-primary pp"
+                        style={{
+                          borderRadius: "20px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        ADD SINGLE BOOKING
+                      </button>
                     </Link>
                   </li>
                   <li>

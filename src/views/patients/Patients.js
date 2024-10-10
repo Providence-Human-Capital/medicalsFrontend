@@ -32,9 +32,30 @@ const Patients = () => {
                   style={styles.containerStyles}
                 >
                   <PatientTable />
+
+                  
                 </div>
               </div>
             </div>
+
+
+            <div className="key-container mb-3">
+            <h5>Key</h5>
+            <div className="d-flex align-items-center mb-2">
+              <div
+                className="p-2 me-2 bg-primary text-white rounded"
+                style={{ width: "90px", height: "20px" }}
+              ></div>
+              <span>Record of the patient available (table-primary)</span>
+            </div>
+            <div className="d-flex align-items-center">
+              <div
+                className="p-2 me-2 bg-warning rounded"
+                style={{ width: "90px", height: "20px" }}
+              ></div>
+              <span>No record available (table-warning)</span>
+            </div>
+          </div>
           </div>
         </div>
       </section>

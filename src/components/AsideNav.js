@@ -23,6 +23,11 @@ const AsideNav = ({}) => {
       color: "#FFF",
     },
 
+    bookingsColor: {
+      backgroundColor: "#DD5540",
+      color: "#FFF",
+    },
+
     textColor: {
       color: "#58AD46",
     },
@@ -93,6 +98,34 @@ const AsideNav = ({}) => {
             </Link>
           </div>
           <div className="help-bt">
+            <Link to={"/add/booking"} className="d-flex align-items-center">
+              <div
+                className="rounded10 h-50 w-50 l-h-50 text-center me-15"
+                style={styles.bookingsColor}
+              >
+                <i
+                  className="fa fa-plus"
+                  aria-hidden="true"
+                  style={{
+                    fontSize: "20px",
+                  }}
+                ></i>
+              </div>
+              <h4
+                className="mb-0"
+                style={{
+                  textTransform: "uppercase",
+                  transition: "color 0.3s", // Adding transition for a smooth effect
+                  ":hover": {
+                    color: "green",
+                  },
+                }}
+              >
+                ADD SINGLE BOOKING
+              </h4>
+            </Link>
+          </div>
+          <div className="help-bt">
             <Link
               to={"/attendees/add/excel"}
               className="d-flex align-items-center"
@@ -125,6 +158,40 @@ const AsideNav = ({}) => {
                 }}
               >
                 BULK PATIENT UPLOAD
+              </h4>
+            </Link>
+          </div>
+
+          <div className="help-bt">
+            <Link to={"/booking"} className="d-flex align-items-center">
+              <div
+                className="rounded10 h-50 w-50 l-h-50 text-center me-15"
+                style={styles.bookingsColor}
+              >
+                <p
+                  style={{
+                    marginTop: "-4px",
+                  }}
+                >
+                  <i
+                    className="fa fa-user-plus"
+                    style={{
+                      fontSize: "20px",
+                    }}
+                  ></i>
+                </p>
+              </div>
+              <h4
+                className="mb-0"
+                style={{
+                  textTransform: "uppercase",
+                  transition: "color 0.3s", // Adding transition for a smooth effect
+                  ":hover": {
+                    color: "green",
+                  },
+                }}
+              >
+                BOOKINGS
               </h4>
             </Link>
           </div>
@@ -313,7 +380,6 @@ const AsideNav = ({}) => {
                     </NavLink>
                   </li>
 
-
                   <li id="aside-bar">
                     <NavLink
                       style={{
@@ -335,7 +401,6 @@ const AsideNav = ({}) => {
                     </NavLink>
                   </li>
 
-
                   <li id="aside-bar">
                     <NavLink
                       style={{
@@ -356,9 +421,6 @@ const AsideNav = ({}) => {
                       <span>Pre-Employment</span>
                     </NavLink>
                   </li>
-
-                 
-                
 
                   <li id="aside-bar">
                     <NavLink to={"/outreach"}>

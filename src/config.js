@@ -12,9 +12,6 @@
 
 export const API = "https://providencehumancapital.com/medicalsapi/public/api"
 
-
-
-
 export const IMAGE_URL = "https://providencehumancapital.com/medicalsapi/public/images"
 
 

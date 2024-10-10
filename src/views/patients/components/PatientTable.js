@@ -1,16 +1,8 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import PatientItem from "./PatientItem";
-import { API } from "../../../config";
 import ReactPaginate from "react-paginate";
-import { useDispatch, useSelector } from "react-redux";
-import { patientActions } from "../../../redux_store/patients-store";
 import * as XLSX from "xlsx";
-import Alert from "../../../components/notifications/Alert";
-import ErrorNotification from "../../../components/notifications/ErrorNotification";
-import EmptyTable from "../../../components/EmptyTable";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import SearchBox from "../../../components/SearchBox";
+import { useQuery } from "react-query";
 import { getAllPatients } from "../../../services/api";
 import {
   sortPatients,
@@ -19,7 +11,11 @@ import {
 } from "../../../helpers/helpers";
 import ExportExcelButton from "../../../components/buttons/ExportExcelButton";
 import Loading from "../../../components/loader/Loading";
+import ErrorNotification from "../../../components/notifications/ErrorNotification";
+import SearchBox from "../../../components/SearchBox";
 import AdvancedSearchBox from "../../../components/AdvancedSearchBox";
+import EmptyTable from "../../../components/EmptyTable";
+
 
 const exportToExcel = (data, filename) => {
   const worksheet = XLSX.utils.json_to_sheet(data);
@@ -29,7 +25,7 @@ const exportToExcel = (data, filename) => {
   Object.keys(data[0]).forEach((key) => {
     columnWidths.push({ wch: 20 }); // You can adjust the width as needed
   });
-  worksheet['!cols'] = columnWidths;
+  worksheet["!cols"] = columnWidths;
 
   const workbook = XLSX.utils.book_new();
   const headerStyle = {
@@ -41,31 +37,19 @@ const exportToExcel = (data, filename) => {
   XLSX.writeFile(workbook, filename);
 };
 
-
 const PatientTable = () => {
-  const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(0);
   const itemsPerPage = 8;
-  const [loading, setLoading] = useState(false);
-  const allPatients = useSelector((state) => state.patient.patients) || [];
-  const addedNew = useSelector((state) => state.ui.showAlert);
   const [selectedCompany, setSelectedCompany] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState("id");
   const [isSortAscending, setIsSortAscending] = useState(false);
-
-  useEffect(() => {
-    const fetchAllPatients = async () => {
-      const allPatients = await getAllPatients();
-      console.log("allPatients", JSON.stringify(allPatients));
-      dispatch(
-        patientActions.setPatients({
-          patients: [...allPatients],
-        })
-      );
-    };
-    fetchAllPatients();
-  }, []);
+  const [loading, setLoading] = useState(false);
+  // Using react-query to fetch all patients
+  const { data: allPatients = [], isLoading, isError, error } = useQuery(
+    "allPatients",
+    getAllPatients
+  );
 
   const handleSort = (column) => {
     if (sortColumn === column) {
@@ -113,9 +97,14 @@ const PatientTable = () => {
     exportToExcel(data, "patients.xlsx");
   };
 
-  
+  if (isLoading) {
+    return <Loading />;
+  }
 
-  useEffect(() => {}, []);
+  if (isError) {
+    return <ErrorNotification message={error.message} />;
+  }
+
 
   return (
     <>
@@ -141,6 +130,7 @@ const PatientTable = () => {
             </div>
           </div>
 
+          {/* {JSON.stringify(allPatients[0])} */}
           <div className="table-responsive">
             <table className="table table-striped table-hover">
               <thead>
@@ -212,6 +202,8 @@ const PatientTable = () => {
               activeClassName={"active-paginate"}
             />
           </div>
+
+          
         </Fragment>
       )}
     </>

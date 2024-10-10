@@ -7,7 +7,10 @@ import { API } from "../../../config";
 import { attendeeActions } from "../../../redux_store/attendee-store";
 import SwabResultDropdown from "./SwabResultDropdown";
 import { PHYSICAL_EXAM } from "../../../helpers/helpers";
-import { doctorManualCertificateUpdate, getAllPatients } from "../../../services/api";
+import {
+  doctorManualCertificateUpdate,
+  getAllPatients,
+} from "../../../services/api";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -86,7 +89,10 @@ const PatientItem = ({ patient, index }) => {
           console.log(data);
           const fetchAllPatients = async () => {
             const allPatients = await getAllPatients();
-            console.log("allPatients from Certificate Update", JSON.stringify(allPatients));
+            console.log(
+              "allPatients from Certificate Update",
+              JSON.stringify(allPatients)
+            );
             dispatch(
               patientActions.setPatients({
                 patients: [...allPatients],
@@ -156,12 +162,21 @@ const PatientItem = ({ patient, index }) => {
 
   useEffect(() => {
     console.log("patient" + JSON.stringify(patient.category));
-    console.log("STATUS", (patient.certificates[patient.certificates.length - 1].status))
+    console.log(
+      "STATUS",
+      patient.certificates[patient.certificates.length - 1].status
+    );
   }, []);
 
   return (
     <Fragment>
-      <tr className="hover-primary">
+      <tr
+        className={
+          patient.physical_records?.length > 0
+            ? "hover-primary table-primary bolden-font"
+            : "hover-primary table-warning bolden-font"
+        }
+      >
         <td>{index + 1}</td>
         <td>{patient.first_name}</td>
         <td>{patient.last_name}</td>
@@ -177,7 +192,9 @@ const PatientItem = ({ patient, index }) => {
             {patient.swabs.length !== 0 ? (
               <SwabResultDropdown
                 patientId={patient.id}
-                initialSwabResult={`${patient.swabs[patient.swabs.length - 1].status}`}
+                initialSwabResult={`${
+                  patient.swabs[patient.swabs.length - 1].status
+                }`}
               />
             ) : (
               <SwabResultDropdown
@@ -202,9 +219,15 @@ const PatientItem = ({ patient, index }) => {
             style={{
               cursor: "pointer",
             }}
-            onClick={() => updateCertificateStatus(patient.certificates[patient.certificates.length - 1].id)}
+            onClick={() =>
+              updateCertificateStatus(
+                patient.certificates[patient.certificates.length - 1].id
+              )
+            }
           >
-            {PHYSICAL_EXAM(patient.certificates[patient.certificates.length - 1].status)}
+            {PHYSICAL_EXAM(
+              patient.certificates[patient.certificates.length - 1].status
+            )}
           </span>
         </td>
 

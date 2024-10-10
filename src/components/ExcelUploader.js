@@ -31,6 +31,8 @@ const ExcelUploader = () => {
     };
     reader.readAsBinaryString(file);
   };
+
+  
   const handleSearch = () => {
     const filteredData = data.filter((row) =>
       Object.values(row).some(

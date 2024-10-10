@@ -93,6 +93,8 @@ const AttendeeTable = () => {
         <EmptyTable />
       ) : (
         <Fragment>
+
+        
           <SearchBox
             placeholderText={"Search by swab number, first name, or last name"}
             searchTerm={searchTerm}
