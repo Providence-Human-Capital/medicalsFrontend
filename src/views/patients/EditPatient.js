@@ -52,7 +52,7 @@ const EditPatient = ({}) => {
           timer: 4000,
           confirmButtonColor: "#007a41",
         });
-        navigate("/attendees");
+        navigate("/patients");
       }
       if (response.status === 500) {
         Swal.fire("Something went wrong!", response.error, "error");

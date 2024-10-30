@@ -23,6 +23,7 @@ import formsSlice from "./forms-store";
 import certificateSlice from "./certificates-store";
 import centralSlice from "./central-store";
 import { apiSlice } from "./api/apiSlice";
+import printSlice from "./print-store";
 
 const persistConfig = {
   key: "root",
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
   illness: illnessSlice.reducer,
   tobacco: tobaccoSlice.reducer,
   patient: patientSlice.reducer,
+  print: printSlice.reducer,
   attendee: attendeeSlice.reducer,
   outreach: outReachSlice.reducer,
   ui: uiSlice.reducer,

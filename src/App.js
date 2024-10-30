@@ -118,6 +118,7 @@ import Bookings from "./views/bookings/Bookings";
 import UploadBookings from "./views/bookings/forms/UploadBookings";
 import { QueryClient, QueryClientProvider } from "react-query";
 import AddBooking from "./views/bookings/forms/AddBooking";
+import PrintBookingsForm from "./views/bookings/PrintBookingsForm";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
@@ -482,6 +483,7 @@ const WrapperComponent = () => {
           <Route path="/add/booking" element={<AddBooking />} />
 
           <Route path="/booking/upload" element={<UploadBookings />} />
+          <Route path="/print/booking" element={<PrintBookingsForm />} />
         </Route>
 
         <Route path="/login" element={<Login />} />
@@ -489,7 +491,9 @@ const WrapperComponent = () => {
           path="/create_medicals_user_providence_human_capital"
           element={<Register />}
         />
-      </Routes>
+
+       
+      </Routes> 
     </Fragment>
   );
 };

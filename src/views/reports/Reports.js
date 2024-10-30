@@ -7,8 +7,8 @@ import { getActivityByDay, getPatientReportByDay } from "../../services/api";
 import ReportsList from "./components/ReportsList";
 
 const Reports = () => {
-  const activityByDayData = useSelector((state) => state.patient.activityByDay);
-  const reportByDayData = useSelector((state) => state.patient.reportByDay);
+  const activityByDayData = useSelector((state) => state.patient.activityByDay) || [];
+  const reportByDayData = useSelector((state) => state.patient.reportByDay) || [];
 
   const dispatch = useDispatch();
 
@@ -55,7 +55,7 @@ const Reports = () => {
     };
 
     fetchActivityByDayData();
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
@@ -73,8 +73,6 @@ const Reports = () => {
         />
       </div>
 
-      {/* {JSON.stringify(reportByDayData.slice().reverse())} */}
-
       <section className="content">
         <div className="row">
           <div className="col-12">
@@ -85,7 +83,6 @@ const Reports = () => {
                   className="table-responsive rounded card-table"
                   style={styles.containerStyles}
                 >
-                  {/* Reverse the reportByDayData array */}
                   <ReportsList reportsData={reportByDayData.slice().reverse()} />
                 </div>
               </div>

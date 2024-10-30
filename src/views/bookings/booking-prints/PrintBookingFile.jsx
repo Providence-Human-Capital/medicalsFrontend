@@ -1,17 +1,27 @@
-import React, { Fragment, useEffect, useState } from "react";
-import "./Record.css";
+import React from "react";
+import "./BookingFile.css";
 
-const PrintMedicalRecord = ({
-  patient,
+function getNextDayDate() {
+  const today = new Date();
+  const nextDay = new Date(today);
+  nextDay.setDate(today.getDate() + 1);
+
+  const day = String(nextDay.getDate()).padStart(2, "0");
+  const month = String(nextDay.getMonth() + 1).padStart(2, "0");
+  const year = nextDay.getFullYear();
+
+  return `${day}/${month}/${year}`;
+}
+
+const PrintBookingFile = ({
+  client,
+  examData,
   allIllnesses,
   specificIllnesses,
   allTobaccos,
   specificTobaccos,
-  latestRecord,
-  latestVitals,
+  index,
 }) => {
-
-  
   const mergedIllnesses = allIllnesses.map((illness) => {
     const specificIllness = specificIllnesses.find(
       (item) => item.name === illness.illness_name
@@ -45,7 +55,6 @@ const PrintMedicalRecord = ({
       <div
         style={{
           display: "flex",
-          padding: "0px",
         }}
       >
         <div style={{ flex: 0.3 }}>
@@ -75,9 +84,7 @@ const PrintMedicalRecord = ({
             {do_smoke === 1 && (
               <span
                 style={{ color: "black", fontWeight: "bold", fontSize: "10px" }}
-              >
-                ✔️
-              </span>
+              ></span>
             )}
           </div>
 
@@ -95,9 +102,7 @@ const PrintMedicalRecord = ({
             {do_smoke === 0 && (
               <span
                 style={{ color: "black", fontWeight: "bold", fontSize: "10px" }}
-              >
-                ✔️
-              </span>
+              ></span>
             )}
           </div>
 
@@ -135,17 +140,15 @@ const PrintMedicalRecord = ({
     );
   };
 
-  const formattedDate = latestRecord?.created_at 
-  ? new Date(latestRecord.created_at).toLocaleDateString("en-GB")
-  : "N/A";
-
-  
-  const record = {
-    examDate: "20/01/2024",
-  };
   return (
     <>
-      <div className="record-container">
+      <div
+        className="record-container"
+        style={{
+          margin: "3rem",
+          paddingTop: index === 0 ? "0px" : "3rem", //
+        }}
+      >
         <p
           style={{
             marginBottom: "0px",
@@ -184,7 +187,7 @@ const PrintMedicalRecord = ({
           </span>
 
           <span style={{ float: "right", fontSize: "11px" }}>
-            DATE <span className="underline-span2"> {formattedDate} </span>
+            DATE <span className="underline-span2">{getNextDayDate()}</span>
           </span>
         </p>
         <p
@@ -200,21 +203,21 @@ const PrintMedicalRecord = ({
             className="underline-span2"
             style={{ flex: 4, fontSize: "11px" }}
           >
-            {patient.attendee.first_name}
+            {client.first_name}
           </span>
           SURNAME{" "}
           <span
             className="underline-span2"
             style={{ flex: 4, fontSize: "11px" }}
           >
-            {patient.attendee.last_name}
+            {client.surname}
           </span>
           AGE{" "}
           <span
             className="underline-span2"
             style={{ flex: 2, fontSize: "11px" }}
           >
-            {patient.attendee.age}
+            {/* {patient.attendee.age} */}
           </span>
         </p>
         <p
@@ -230,14 +233,14 @@ const PrintMedicalRecord = ({
             className="underline-span2"
             style={{ flex: 0.3, fontSize: "11px" }}
           >
-            {patient.attendee.date_of_birth}
+            {client.date_of_birth}
           </span>
           SEX:
           <span
             className="underline-span2"
             style={{ flex: 0.3, fontSize: "11px" }}
           >
-            {patient.attendee.gender}
+            {client.gender}
           </span>
           CONTACT NUMBER
           <span
@@ -245,7 +248,7 @@ const PrintMedicalRecord = ({
             style={{ flex: 0.4, fontSize: "11px" }}
           >
             {" "}
-            {patient.attendee.phone_number}
+            {client.phone_number}
           </span>
         </p>
         <p
@@ -262,14 +265,14 @@ const PrintMedicalRecord = ({
             style={{ flex: 0.2, fontSize: "11px" }}
           >
             {" "}
-            {patient.attendee.employee_number}
+            {/* {patient.attendee.employee_number} */}
           </span>
           DIVISION/COMPANY{" "}
           <span
             className="underline-span2"
             style={{ flex: 0.75, fontSize: "11px" }}
           >
-            {patient.attendee.company.company_name}
+            {examData.company_name}
           </span>{" "}
         </p>
         <p
@@ -287,7 +290,7 @@ const PrintMedicalRecord = ({
               style={{ flex: 0.4, fontSize: "11px" }}
             >
               {" "}
-              {patient.attendee.national_id}
+              {client.national_id}
             </span>{" "}
           </span>
         </p>
@@ -334,10 +337,12 @@ const PrintMedicalRecord = ({
                     {illness.illness_name}
                   </td>
                   <td className="ttd text-center">
-                    {illness.specificIllness.has_illness === 1 ? "✔️" : ""}
+                    {/* {illness.specificIllness.has_illness === 1 ? "✔️" : ""} */}
+                    {illness.specificIllness.has_illness === 1 ? "" : ""}
                   </td>
                   <td className="ttd text-center">
-                    {illness.specificIllness.has_illness === 0 ? "✔️" : ""}
+                    {illness.specificIllness.has_illness === 0 ? "" : ""}
+                    {/* {illness.specificIllness.has_illness === 0 ? "✔️" : ""} */}
                   </td>
                   <td className=" ttd text-center">
                     {illness.specificIllness.treatment_year}
@@ -409,7 +414,7 @@ const PrintMedicalRecord = ({
               className="underline-span2"
               style={{ flex: 1, marginLeft: "5px" }}
             >
-              {patient.last_x_ray && patient.last_x_ray}
+              {/* {patient.last_x_ray && patient.last_x_ray} */}
             </span>{" "}
           </p>
         </div>
@@ -443,14 +448,14 @@ const PrintMedicalRecord = ({
               className="underline-span2"
               style={{ flex: 0.4, marginLeft: "5px" }}
             >
-              {latestVitals && latestVitals.height} m
+              {/* {latestVitals && latestVitals.height} m */}
             </span>{" "}
             WEIGHT{" "}
             <span
               className="underline-span2"
               style={{ flex: 0.6, marginLeft: "5px" }}
             >
-              {latestVitals && latestVitals.weight} kg
+              {/* {latestVitals && latestVitals.weight} kg */}
             </span>
           </p>
           <p
@@ -464,15 +469,15 @@ const PrintMedicalRecord = ({
               className="underline-span2"
               style={{ flex: 0.4, marginLeft: "5px" }}
             >
-              {latestVitals && latestVitals.bp_sys}/
-              {latestVitals && latestVitals.bp_dia} mmHg{" "}
+              {/* {latestVitals && latestVitals.bp_sys}/
+              {latestVitals && latestVitals.bp_dia} mmHg{" "} */}
             </span>{" "}
             PULSE{" "}
             <span
               className="underline-span2"
               style={{ flex: 0.6, marginLeft: "5px" }}
             >
-              {latestVitals && latestVitals.pulse}
+              {/* {latestVitals && latestVitals.pulse} */}
             </span>{" "}
           </p>
           <p
@@ -486,8 +491,8 @@ const PrintMedicalRecord = ({
               className="underline-span2"
               style={{ flex: 0.4, marginLeft: "5px" }}
             >
-              {latestVitals && latestVitals.bmi} (
-              {latestVitals && latestVitals.bmi_status})
+              {/* {latestVitals && latestVitals.bmi} (
+              {latestVitals && latestVitals.bmi_status}) */}
             </span>{" "}
             <span
               style={{
@@ -503,14 +508,14 @@ const PrintMedicalRecord = ({
               className="underline-span2"
               style={{ flex: 0.3, marginLeft: "5px" }}
             >
-              {latestVitals && latestVitals.left_vision}
+              {/* {latestVitals && latestVitals.left_vision} */}
             </span>{" "}
             RIGHT
             <span
               className="underline-span2"
               style={{ flex: 0.3, marginLeft: "5px" }}
             >
-              {latestVitals && latestVitals.right_vision}
+              {/* {latestVitals && latestVitals.right_vision} */}
             </span>
           </p>
           <p style={{ fontWeight: "bold", textDecoration: "underline" }}>
@@ -522,8 +527,8 @@ const PrintMedicalRecord = ({
               style={{ flex: 1, marginLeft: "5px" }}
             >
               {" "}
-              {latestRecord.doctor_remarks &&
-                latestRecord.doctor_remarks.comment}
+              {/* {latestRecord.doctor_remarks &&
+                latestRecord.doctor_remarks.comment} */}
             </p>
           </p>
           <p
@@ -571,8 +576,8 @@ const PrintMedicalRecord = ({
               className="underline-span3"
               style={{ marginLeft: "5px", flex: "3" }}
             >
-              {latestRecord.doctor_remarks &&
-                latestRecord.doctor_remarks.remarks}
+              {/* {latestRecord.doctor_remarks &&
+                latestRecord.doctor_remarks.remarks} */}
             </p>
           </div>
 
@@ -599,7 +604,7 @@ const PrintMedicalRecord = ({
             ></span>{" "}
             DATE{" "}
             <span className="underline-span2" style={{ flex: 0.5 }}>
-              {formattedDate}
+              {/* {formattedDate} */}
             </span>
           </p>
         </div>
@@ -608,4 +613,4 @@ const PrintMedicalRecord = ({
   );
 };
 
-export default PrintMedicalRecord;
+export default PrintBookingFile;

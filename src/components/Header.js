@@ -188,6 +188,19 @@ const Header = ({}) => {
                     </Link>
                   </li>
                   <li>
+                    <Link to={"/print/booking"}>
+                      <button
+                        className="btn btn-warning pp"
+                        style={{
+                          borderRadius: "20px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Print Medicals Bookings
+                      </button>
+                    </Link>
+                  </li>
+                  <li>
                     <Link to={"certificate/print/coh"}>
                       <button
                         className="btn btn-warning pp"
