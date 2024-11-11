@@ -70,7 +70,6 @@ const AttendeeTable = () => {
       (attendee.age && attendee.age.toString().match(regex))
     );
   });
-  
 
   function getCurrentPageData() {
     const startIndex = pageNumber * itemsPerPage;
@@ -93,8 +92,6 @@ const AttendeeTable = () => {
         <EmptyTable />
       ) : (
         <Fragment>
-
-        
           <SearchBox
             placeholderText={"Search by swab number, first name, or last name"}
             searchTerm={searchTerm}
@@ -148,6 +145,7 @@ const AttendeeTable = () => {
                 </th>
                 <th>Gender</th>
                 <th>National ID</th>
+                <th>Location</th>
                 <th>Phone Number</th>
                 <th></th>
               </tr>

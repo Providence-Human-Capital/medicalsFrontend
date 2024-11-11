@@ -182,7 +182,28 @@ const PatientItem = ({ patient, index }) => {
         <td>{patient.last_name}</td>
         <td>{patient.company}</td>
         <td>{patient.national_id}</td>
-        <td>{patient.date_of_birth}</td>
+        <td>
+          {patient.certificates[patient.certificates.length - 1]
+            .certificate_location === "HARARE" ? (
+            <>
+              <span className="badge badge-pill badge-primary">
+                {
+                  patient.certificates[patient.certificates.length - 1]
+                    .certificate_location
+                }
+              </span>
+            </>
+          ) : (
+            <>
+              <span className="badge badge-pill badge-warning">
+                {
+                  patient.certificates[patient.certificates.length - 1]
+                    .certificate_location
+                }
+              </span>
+            </>
+          )}
+        </td>
         <td>{patient.phone_number}</td>
         <td>{patient.employee_number}</td>
 

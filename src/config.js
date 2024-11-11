@@ -10,9 +10,9 @@
 
 // https://providencehumancapital.com/medicalsapi/public/api/user
 
-export const API = "https://providencehumancapital.com/medicalsapi/public/api"
+ export const API = "https://providencehumancapital.com/medicalsapi/public/api"
 
-export const IMAGE_URL = "https://providencehumancapital.com/medicalsapi/public/images"
+ export const IMAGE_URL = "https://providencehumancapital.com/medicalsapi/public/images"
 
 
 // export const API = "http://192.168.100.19:8080/medicalsapi2/public/api"

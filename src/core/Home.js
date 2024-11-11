@@ -49,6 +49,9 @@ const Dashboard = ({}) => {
   const [notifications, setNotifications] = useState([]);
   const [isCreatingDnote, setIsCreatingDnote] = useState(false);
 
+  const user = useSelector((state) => state.auth.user);
+
+
   const fetchData = useCallback(async () => {
     // Your async data fetching logic here
     const attendees = await getAllAttendees();
@@ -220,7 +223,7 @@ const Dashboard = ({}) => {
         <div className="row">
           <div className="col-xl-8 col-12">
             <div className="row">
-              {/* { JSON.stringify(overallStats)} */}
+             
               <SmallCard
                 svgLink={
                   "https://rhythm-admin-template.multipurposethemes.com/images/svg-icon/medical/icon-2.svg"

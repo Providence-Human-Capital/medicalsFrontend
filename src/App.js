@@ -119,6 +119,8 @@ import UploadBookings from "./views/bookings/forms/UploadBookings";
 import { QueryClient, QueryClientProvider } from "react-query";
 import AddBooking from "./views/bookings/forms/AddBooking";
 import PrintBookingsForm from "./views/bookings/PrintBookingsForm";
+import Nassa from "./views/certificates/nssa/Nassa";
+import Test from "./views/Test";
 
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
@@ -294,6 +296,8 @@ const WrapperComponent = () => {
             path="/dashboard/clinic"
             element={<HospitalManagementDashboard />}
           />
+
+          <Route path="/nssa" element={<Nassa />} />
           <Route path="/dashboard" element={<Dashboard />} />
 
           {/* HMS ROUTES */}
@@ -482,6 +486,7 @@ const WrapperComponent = () => {
           <Route path="/booking" element={<Bookings />} />
           <Route path="/add/booking" element={<AddBooking />} />
 
+          <Route path="/test" element={<Test />} />
           <Route path="/booking/upload" element={<UploadBookings />} />
           <Route path="/print/booking" element={<PrintBookingsForm />} />
         </Route>
@@ -491,9 +496,7 @@ const WrapperComponent = () => {
           path="/create_medicals_user_providence_human_capital"
           element={<Register />}
         />
-
-       
-      </Routes> 
+      </Routes>
     </Fragment>
   );
 };

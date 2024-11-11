@@ -24,6 +24,9 @@ const AddAttendee = () => {
   const [continueAddingAttendees, setContinueAddingAttendees] = useState(false);
   const addedNew = useSelector((state) => state.ui.showAlert);
 
+
+  const user = useSelector((state) => state.auth.user);
+
   const styles = {
     formContainer: {
       width: "70%",
@@ -43,6 +46,7 @@ const AddAttendee = () => {
     gender: "",
     national_id: "",
     phone_number: "",
+    location: user?.location,
     x_ray_status: "PENDING",
     exam_purpose: "2",
     employee_number: "",
@@ -223,7 +227,7 @@ const AddAttendee = () => {
     <Fragment>
       <BreadCrumb title={"Add Attendee"} activeTab={"Add Attendee"} />
       {/* {addedNew && <Alert message={"Attendee Successfully Added!"} />} */}
-
+      {/* {JSON.stringify(user?.location)} */}
       <Link
         to={"/attendees/add/excel"}
         className="btn btn-primary me-5 mb-md-0 mb-4 excel-btn"

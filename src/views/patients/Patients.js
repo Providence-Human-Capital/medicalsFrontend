@@ -32,8 +32,6 @@ const Patients = () => {
                   style={styles.containerStyles}
                 >
                   <PatientTable />
-
-                  
                 </div>
               </div>
             </div>

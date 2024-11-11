@@ -7,6 +7,7 @@ import { useReactToPrint } from "react-to-print";
 import { printActions } from "../../redux_store/print-store";
 import Swal from "sweetalert2";
 import PrintBookingFile from "./booking-prints/PrintBookingFile";
+import Nassa from "../certificates/nssa/Nassa";
 
 const PrintBookingsAll = forwardRef(
   (
@@ -51,12 +52,42 @@ const PrintBookingsAll = forwardRef(
   }
 );
 
+const PrintPneumoBookingsAll = forwardRef(
+  ({ clients, company, examData }, ref) => {
+    return (
+      <div
+        ref={ref}
+        style={{
+          margin: "0",
+        }}
+      >
+        {clients.map((client, index) => (
+          <div
+            key={index}
+            style={{
+              marginTop: index >= 1 ? "6rem" : "0",
+            }}
+          >
+            <Nassa
+              company={company}
+              person={client}
+              other={examData}
+              index={index}
+            />
+          </div>
+        ))}
+      </div>
+    );
+  }
+);
+
 const PrintBookingsForm = () => {
   const [selectedOption, setSelectedOption] = useState("bookings");
   const companies = useSelector((state) => state.company.companies);
   const [isPrinting, setIsPrinting] = useState(false);
   const [examData, setExamData] = useState({});
   const [selectedCompany, setSelectedCompany] = useState({});
+  const [bookingType, setBookingType] = useState("foodHandler");
   const [csvData, setCsvData] = useState([]);
   const [columnArray, setColumnArray] = useState([]);
 
@@ -70,6 +101,8 @@ const PrintBookingsForm = () => {
 
   const bookingsPrintRef = useRef();
 
+  const pneumoPrintRef = useRef();
+
   const clients = useSelector((state) => state.print.currentTF);
   const dispatch = useDispatch();
 
@@ -78,6 +111,19 @@ const PrintBookingsForm = () => {
     fileInput: Yup.mixed().required(
       "Select The CSV File With All The Employee Information"
     ),
+    bookingType: Yup.string().required(
+      "Please select Booking Type (Food Handler / Pneumo)"
+    ),
+
+    industryType: Yup.string().required("Industry type is required"),
+    mining_mineral: Yup.string().when("industryType", {
+      is: "mining",
+      then: Yup.string().required("Mineral is required"),
+    }),
+    other_description: Yup.string().when("industryType", {
+      is: "other",
+      then: Yup.string().required("Other description is required"),
+    }),
   });
 
   const handleSubmit = (values, { setSubmitting }) => {
@@ -100,7 +146,7 @@ const PrintBookingsForm = () => {
         result.data.map((d) => {
           columnData.push(Object.keys(d));
           namesData.push(Object.values(d));
-        })
+        });
 
         const convertedData = namesData.map((dataItem) => {
           return {
@@ -125,7 +171,9 @@ const PrintBookingsForm = () => {
     });
   };
 
-  const handlePrintBoookingsPrint = () => {
+  const handlePrintBoookingsPrint = (boookingType) => {
+    console.log("This is the selected Bookin Type: " + boookingType);
+
     if (bookingsPrintRef.current) {
       Swal.fire({
         icon: "warning",
@@ -139,7 +187,11 @@ const PrintBookingsForm = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           // Trigger printing only if the ref is valid
-          handlePrintBookings();
+          if (boookingType === "Pneumo") {
+            handlePrintPneumo();
+          } else if (boookingType === "foodHandler") {
+            handlePrintBookings();
+          }
         } else {
           // Handle cancel logic if needed
         }
@@ -151,6 +203,10 @@ const PrintBookingsForm = () => {
 
   const handlePrintBookings = useReactToPrint({
     content: () => bookingsPrintRef.current,
+  });
+
+  const handlePrintPneumo = useReactToPrint({
+    content: () => pneumoPrintRef.current,
   });
 
   return (
@@ -172,12 +228,41 @@ const PrintBookingsForm = () => {
           selectedTobaccos={patientTobaccos}
         />
       </div>
+
+      <div
+        className="row"
+        style={{
+          display: "none",
+        }}
+      >
+        <PrintPneumoBookingsAll
+          ref={pneumoPrintRef}
+          examData={examData}
+          clients={csvData}
+          company={selectedCompany}
+        />
+      </div>
+
       <section className="content">
         <div className="row">
           <Formik
             initialValues={{
               company_name: "",
               fileInput: null,
+              bookingType: "",
+
+              industryType: "", // Holds the selected industry type
+              mining_mineral: "",
+              other_description: "",
+
+              healthRisk: "",
+              other_health_risk: "",
+
+              controlMeasure: "",
+              ppe: "",
+              ppe_specify: "",
+              other_cm: "",
+              other_cm_specify: "",
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
@@ -192,6 +277,433 @@ const PrintBookingsForm = () => {
                         Please make sure that you upload the csv file
                       </span>
                     </div>
+                    <div className="row">
+                      <div className="col-lg-4 col-md-12">
+                        <div className="form-floating">
+                          <Field
+                            as="select"
+                            className="form-select"
+                            id="bookingType"
+                            name="bookingType"
+                            onChange={(e) => {
+                              setFieldValue("bookingType", e.target.value);
+                              setBookingType(e.target.value); // Update state directly for conditional rendering
+                            }}
+                          >
+                            <option value="">SELECT BOOKING TYPE</option>
+                            <option value="Pneumo">
+                              PNEUMOCONIOSIS BOOKING
+                            </option>
+                            <option value="foodHandler">
+                              FOODHANDLER BOOKING
+                            </option>
+                          </Field>
+                          <label htmlFor="bookingType">BOOKING TYPE</label>
+                          <ErrorMessage
+                            name="bookingType"
+                            component="div"
+                            style={{
+                              color: "red",
+                            }}
+                            className="error-message"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="space"></div>
+
+                    {/* {bookingType === "Pneumo" && (
+                      <div className="row">
+                        <h1>Pneumo Booking ___________</h1>
+                      </div>
+                    )} */}
+
+                    {bookingType === "Pneumo" && (
+                      <div
+                        className="row"
+                        style={{
+                          backgroundColor: "#ccc",
+                          borderRadius: "10px",
+                          padding: "20px",
+                        }}
+                      >
+                        <div className="row">
+                          <h3
+                            style={{
+                              margin: "10px 2rem",
+                              textTransform: "uppercase",
+                              fontSize: "17px",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Industry Classification
+                          </h3>
+                          <div className="col-md-4">
+                            <div className="form-check">
+                              <Field
+                                type="radio"
+                                name="industryType"
+                                value="mining"
+                                className="form-check-input"
+                                id="mining"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="mining"
+                              >
+                                Mining
+                              </label>
+                            </div>
+                            {values.industryType === "mining" && (
+                              <div
+                                className="form-floating"
+                                style={{
+                                  margin: "10px 2rem",
+                                }}
+                              >
+                                <Field
+                                  type="text"
+                                  name="mining_mineral"
+                                  className="form-control"
+                                />
+                                <label htmlFor="mining_mineral">MINING</label>
+                                <ErrorMessage
+                                  name="mining_mineral"
+                                  component="div"
+                                  className="text-danger"
+                                />
+                              </div>
+                            )}
+
+                            <div className="form-check">
+                              <Field
+                                type="radio"
+                                name="industryType"
+                                value="quarrying"
+                                className="form-check-input"
+                                id="quarrying"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="quarrying"
+                              >
+                                Quarrying
+                              </label>
+                            </div>
+
+                            <div className="form-check">
+                              <Field
+                                type="radio"
+                                name="industryType"
+                                value="manufacturing"
+                                className="form-check-input"
+                                id="manufacturing"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="manufacturing"
+                              >
+                                Manufacturing
+                              </label>
+                            </div>
+
+                            <div className="form-check">
+                              <Field
+                                type="radio"
+                                name="industryType"
+                                value="construction"
+                                className="form-check-input"
+                                id="construction"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="construction"
+                              >
+                                Construction
+                              </label>
+                            </div>
+
+                            <div className="form-check">
+                              <Field
+                                type="radio"
+                                name="industryType"
+                                value="agriculture"
+                                className="form-check-input"
+                                id="agriculture"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="agriculture"
+                              >
+                                Agriculture
+                              </label>
+                            </div>
+
+                            <div className="form-check">
+                              <Field
+                                type="radio"
+                                name="industryType"
+                                value="other"
+                                className="form-check-input"
+                                id="other"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="other"
+                              >
+                                Other
+                              </label>
+                            </div>
+                            {values.industryType === "other" && (
+                              <div className="form-floating">
+                                <Field
+                                  type="text"
+                                  name="other_description"
+                                  className="form-control"
+                                />
+                                <label
+                                  className="form-check-label"
+                                  htmlFor="other_description"
+                                >
+                                  Other Description
+                                </label>
+                                <ErrorMessage
+                                  name="other_description"
+                                  component="div"
+                                  className="text-danger"
+                                />
+                              </div>
+                            )}
+                          </div>
+                          <div className="col-md-4">
+                            <h3
+                              style={{
+                                margin: "10px 2rem",
+                                textTransform: "uppercase",
+                                fontSize: "17px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Health Risk
+                            </h3>
+                            <div className="form-check">
+                              <Field
+                                type="radio"
+                                name="healthRisk"
+                                value="silica"
+                                className="form-check-input"
+                                id="silica"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="silica"
+                              >
+                                Silica
+                              </label>
+                            </div>
+                            <div className="form-check">
+                              <Field
+                                type="radio"
+                                name="healthRisk"
+                                value="coal"
+                                className="form-check-input"
+                                id="coal"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="coal"
+                              >
+                                Coal
+                              </label>
+                            </div>
+                            <div className="form-check">
+                              <Field
+                                type="radio"
+                                name="healthRisk"
+                                value="asbestos"
+                                className="form-check-input"
+                                id="asbestos"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="asbestos"
+                              >
+                                Asbestos
+                              </label>
+                            </div>
+                            <div className="form-check">
+                              <Field
+                                type="radio"
+                                name="healthRisk"
+                                value="other_hr"
+                                className="form-check-input"
+                                id="other_hr"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="other_hr"
+                              >
+                                Other
+                              </label>
+                            </div>
+                            {values.healthRisk === "other_hr" && (
+                              <div
+                                className="form-floating"
+                                style={{
+                                  margin: "10px 2rem",
+                                }}
+                              >
+                                <Field
+                                  type="text"
+                                  name="other_health_risk"
+                                  className="form-control"
+                                />
+                                <label htmlFor="other_health_risk">
+                                  Specify Other
+                                </label>
+                                <ErrorMessage
+                                  name="other_health_risk"
+                                  component="div"
+                                  className="text-danger"
+                                />
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="col-md-4">
+                            <h3
+                              style={{
+                                margin: "10px 2rem",
+                                textTransform: "uppercase",
+                                fontSize: "17px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              CONTROL MEASURES
+                            </h3>
+
+                            <div className="form-check">
+                              <Field
+                                type="radio"
+                                name="controlMeasure"
+                                value="wet_method"
+                                className="form-check-input"
+                                id="wet_method"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="wet_method"
+                              >
+                                Use of Wet Method
+                              </label>
+                            </div>
+                            <div className="form-check">
+                              <Field
+                                type="radio"
+                                name="controlMeasure"
+                                value="containment"
+                                className="form-check-input"
+                                id="containment"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="containment"
+                              >
+                                Containment and Ventilation
+                              </label>
+                            </div>
+                            <div className="form-check">
+                              <Field
+                                type="radio"
+                                name="controlMeasure"
+                                value="monitoring"
+                                className="form-check-input"
+                                id="monitoring"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="monitoring"
+                              >
+                                Exposure monitoring (workplace dust level
+                                surveys)
+                              </label>
+                            </div>
+                            <div className="form-check">
+                              <Field
+                                type="radio"
+                                name="controlMeasure"
+                                value="ppe"
+                                className="form-check-input"
+                                id="ppe"
+                              />
+                              <label className="form-check-label" htmlFor="ppe">
+                                PPE: (Specify)
+                              </label>
+                            </div>
+                            {values.controlMeasure === "ppe" && (
+                              <div
+                                className="form-floating"
+                                style={{
+                                  margin: "10px 2rem",
+                                }}
+                              >
+                                <Field
+                                  type="text"
+                                  name="ppe_specify"
+                                  className="form-control"
+                                />
+                                <label htmlFor="ppe_specify">
+                                  (Specify) PPE
+                                </label>
+                                <ErrorMessage
+                                  name="ppe_specify"
+                                  component="div"
+                                  className="text-danger"
+                                />
+                              </div>
+                            )}
+                            <div className="form-check">
+                              <Field
+                                type="radio"
+                                name="controlMeasure"
+                                value="other_cm"
+                                className="form-check-input"
+                                id="other_cm"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="other_cm"
+                              >
+                                Other
+                              </label>
+                            </div>
+                            {values.controlMeasure === "other_cm" && (
+                              <div
+                                className="form-floating"
+                                style={{
+                                  margin: "10px 2rem",
+                                }}
+                              >
+                                <Field
+                                  type="text"
+                                  name="other_cm_specify"
+                                  className="form-control"
+                                />
+                                <label htmlFor="other_cm_specify">Other</label>
+                                <ErrorMessage
+                                  name="other_cm_specify"
+                                  component="div"
+                                  className="text-danger"
+                                />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="space"></div>
+
                     <div className="row">
                       <div className="col-lg-4 col-md-12">
                         <div className="form-floating">
@@ -281,9 +793,10 @@ const PrintBookingsForm = () => {
                         successfully loaded the names{" "}
                       </h4>
                       <div>
+                        <p>Booking Type: {bookingType}</p>
                         <button
                           className="btn btn-primary text-uppercase"
-                          onClick={handlePrintBoookingsPrint}
+                          onClick={() => handlePrintBoookingsPrint(bookingType)}
                           disabled={csvData.length <= 0}
                           style={{
                             borderRadius: "10px",

@@ -101,6 +101,12 @@ const AttendeeItem = ({ attendee }) => {
         <td>{attendee.age}</td>
         <td>{attendee.gender}</td>
         <td>{attendee.national_id}</td>
+        <td>
+          <span className="badge badge-pill badge-primary">
+            {attendee.latest_certificate?.certificate_location}
+          </span>
+        </td>
+
         <td>{attendee.phone_number}</td>
         <td class="text-end">
           <Link

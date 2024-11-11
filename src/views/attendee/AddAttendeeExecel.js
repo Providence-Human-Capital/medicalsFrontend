@@ -53,6 +53,7 @@ const AddAttendeeExecel = () => {
       setData(formattedData);
     };
     reader.readAsBinaryString(file);
+    
   };
   const handleSearch = () => {
     const filteredData = data.filter((row) =>

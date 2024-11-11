@@ -163,7 +163,7 @@ const PatientTable = () => {
                     Company
                   </th>
                   <th>National_ID</th>
-                  <th>Date Of Birth</th>
+                  <th>Location</th>
                   <th>Phone Number</th>
                   <th>Employee Number</th>
                   <th>Swab Status</th>
