@@ -220,6 +220,7 @@ const Dashboard = ({}) => {
       <section className="content">
         {/* <DashboardSkeleton /> */}
 
+{/* {JSON.stringify(overallStats)} */}
         <div className="row">
           <div className="col-xl-8 col-12">
             <div className="row">
@@ -229,7 +230,7 @@ const Dashboard = ({}) => {
                   "https://rhythm-admin-template.multipurposethemes.com/images/svg-icon/medical/icon-2.svg"
                 }
                 Label={"Total Patients"}
-                Number={totalPatients || 0}
+                Number={overallStats.totalPatients || 0}
               />
               <SmallCard
                 Label={"To 81 Baines"}

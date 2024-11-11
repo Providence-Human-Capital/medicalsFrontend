@@ -3,7 +3,7 @@ import PatientItem from "./PatientItem";
 import ReactPaginate from "react-paginate";
 import * as XLSX from "xlsx";
 import { useQuery } from "react-query";
-import { getAllPatients } from "../../../services/api";
+// import { getAllPatients } from "../../../services/api";
 import {
   sortPatients,
   filterPatients,
@@ -15,7 +15,68 @@ import ErrorNotification from "../../../components/notifications/ErrorNotificati
 import SearchBox from "../../../components/SearchBox";
 import AdvancedSearchBox from "../../../components/AdvancedSearchBox";
 import EmptyTable from "../../../components/EmptyTable";
+import { API } from "../../../config";
 
+// export const getAllPatients = async (pageNumber = 1) => {
+//   const patiencesResponse = await fetch(`${API}/patient?page=${pageNumber}`, {
+//     method: "GET",
+//     headers: {
+//       Accept: "application/json",
+//       "Content-Type": "application/json",
+//     },
+//   });
+
+//   const responseData = await patiencesResponse.json();
+//   console.log("All Patients", responseData.data);
+
+//   const patients = responseData.data;
+//   return patients;
+// };
+
+// const getAllPatients = async (pageNumber = 1) => {
+//   const response = await fetch(`${API}/patient?page=${pageNumber}`, {
+//     method: "GET",
+//     headers: {
+//       Accept: "application/json",
+//       "Content-Type": "application/json",
+//     },
+//   });
+
+//   console.log('Patients Table Response .............')
+//   const responseData = await response.json();
+//   console.log("All Patients", responseData);
+
+//   // Return both patients and pagination info
+//   return {
+//     patients: responseData.data,
+//     total: responseData?.meta?.total,
+//     perPage: responseData.per_page,
+//     currentPage: responseData.current_page,
+//   };
+// };
+
+const getAllPatients = async (pageNumber = 1, searchTerm = "") => {
+  const response = await fetch(
+    `${API}/patient?page=${pageNumber}&search=${searchTerm}`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  const responseData = await response.json();
+  console.log("All Patients", responseData);
+
+  return {
+    patients: responseData.data,
+    total: responseData?.meta?.total,
+    perPage: responseData.per_page,
+    currentPage: responseData.current_page,
+  };
+};
 
 const exportToExcel = (data, filename) => {
   const worksheet = XLSX.utils.json_to_sheet(data);
@@ -38,18 +99,27 @@ const exportToExcel = (data, filename) => {
 };
 
 const PatientTable = () => {
-  const [pageNumber, setPageNumber] = useState(0);
+  const [pageNumber, setPageNumber] = useState(1);
   const itemsPerPage = 8;
   const [selectedCompany, setSelectedCompany] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState("id");
   const [isSortAscending, setIsSortAscending] = useState(false);
   const [loading, setLoading] = useState(false);
-  // Using react-query to fetch all patients
-  const { data: allPatients = [], isLoading, isError, error } = useQuery(
-    "allPatients",
-    getAllPatients
+
+  const { data, isLoading, isError, error } = useQuery(
+    ["patients", pageNumber, searchTerm],
+    () => getAllPatients(pageNumber, searchTerm),
+    {
+      keepPreviousData: true,
+      staleTime: 10 * 60 * 1000,
+    }
   );
+
+  const allPatients = data?.patients || [];
+  const totalPatients = data?.total || 0;
+  const currentPage = data?.currentPage || 1;
+  const pageCount = Math.ceil(totalPatients / itemsPerPage);
 
   const handleSort = (column) => {
     if (sortColumn === column) {
@@ -62,7 +132,7 @@ const PatientTable = () => {
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
-    setPageNumber(0);
+    setPageNumber(1); // Reset to the first page on new search
   };
 
   const sortedPatients = sortPatients(allPatients, sortColumn, isSortAscending);
@@ -91,10 +161,10 @@ const PatientTable = () => {
     });
   };
 
-  const data = flattenPatientsForReport(filteredPatients);
+  const flattenedData = flattenPatientsForReport(filteredPatients);
 
   const handleExportClick = () => {
-    exportToExcel(data, "patients.xlsx");
+    exportToExcel(flattenedData, "patients.xlsx");
   };
 
   if (isLoading) {
@@ -104,7 +174,6 @@ const PatientTable = () => {
   if (isError) {
     return <ErrorNotification message={error.message} />;
   }
-
 
   return (
     <>
@@ -174,7 +243,7 @@ const PatientTable = () => {
               </thead>
               <tbody>
                 {allPatients &&
-                  currentPageData.map((patient, index) => (
+                  allPatients.map((patient, index) => (
                     <PatientItem
                       key={patient.id}
                       patient={patient}
@@ -187,7 +256,7 @@ const PatientTable = () => {
 
           <div className="table-spacing"></div>
           <div className="paginate-position">
-            <ReactPaginate
+            {/* <ReactPaginate
               previousLabel={"Previous"}
               nextLabel={"Next"}
               breakLabel={"..."}
@@ -200,10 +269,23 @@ const PatientTable = () => {
               }}
               containerClassName={"pagination"}
               activeClassName={"active-paginate"}
+            /> */}
+
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              breakLabel={"..."}
+              breakClassName={"break-me"}
+              pageCount={pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={(selectedItem) => {
+                setPageNumber(selectedItem.selected + 1); // Adjust for 1-indexed page number
+              }}
+              containerClassName={"pagination"}
+              activeClassName={"active-paginate"}
             />
           </div>
-
-          
         </Fragment>
       )}
     </>
