@@ -40,15 +40,9 @@ const CityOfHararePrint = ({ doctor, client, index }) => {
       <div className="certi-container" >
         <div
           className="first-section"
-        //   style={{
-        //     paddingTop: index === 0 ? "19.5rem" : "24rem",
-        //   }}
-          // style={{
-          //   paddingTop: index === 0 ? "20rem" : "23.8rem",
-          // }}
-
+       
           style={{
-            paddingTop: index === 0 ? "19rem" : "22.8rem",
+            paddingTop: index === 0 ? "19.7rem" : "23.5rem",
           }}
         >
           <p className="f_doctor_name">{doctor.examinerName}</p>

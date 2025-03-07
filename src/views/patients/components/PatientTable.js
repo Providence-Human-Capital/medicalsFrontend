@@ -16,6 +16,7 @@ import SearchBox from "../../../components/SearchBox";
 import AdvancedSearchBox from "../../../components/AdvancedSearchBox";
 import EmptyTable from "../../../components/EmptyTable";
 import { API } from "../../../config";
+import { useSelector } from "react-redux";
 
 // export const getAllPatients = async (pageNumber = 1) => {
 //   const patiencesResponse = await fetch(`${API}/patient?page=${pageNumber}`, {
@@ -55,28 +56,68 @@ import { API } from "../../../config";
 //   };
 // };
 
-const getAllPatients = async (pageNumber = 1, searchTerm = "") => {
-  const response = await fetch(
-    `${API}/patient?page=${pageNumber}&search=${searchTerm}`,
-    {
+// const getAllPatients = async (pageNumber = 1, searchTerm = "") => {
+//   const response = await fetch(
+//     `${API}/patient?page=${pageNumber}&search=${searchTerm}`,
+//     {
+//       method: "GET",
+//       headers: {
+//         Accept: "application/json",
+//         "Content-Type": "application/json",
+//       },
+//     }
+//   );
+
+//   const responseData = await response.json();
+
+  
+//   return {
+//     patients: responseData.data,
+//     total: responseData?.meta?.total,
+//     perPage: responseData.per_page,
+//     currentPage: responseData.current_page,
+//   };
+// };
+
+const getAllPatients = async (pageNumber = 1, searchTerm = "", location = "") => {
+  // Build the query parameters dynamically
+  const queryParams = new URLSearchParams({
+    page: pageNumber,
+    search: searchTerm,
+  });
+
+  // Add location to query parameters if provided
+  if (location) {
+    queryParams.append("location", location);
+  }
+
+  try {
+    // Make the fetch request with dynamic query parameters
+    const response = await fetch(`${API}/patient?${queryParams.toString()}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-    }
-  );
+    });
 
-  const responseData = await response.json();
-  console.log("All Patients", responseData);
+    // Parse the JSON response
+    const responseData = await response.json();
 
-  return {
-    patients: responseData.data,
-    total: responseData?.meta?.total,
-    perPage: responseData.per_page,
-    currentPage: responseData.current_page,
-  };
+    // Return the formatted data
+    return {
+      patients: responseData?.data || [],
+      total: responseData?.meta?.total || 0,
+      perPage: responseData?.meta?.per_page || 0,
+      currentPage: responseData?.meta?.current_page || 1,
+    };
+  } catch (error) {
+    console.error("Error fetching patients:", error);
+    throw new Error("Failed to fetch patients. Please try again later.");
+  }
 };
+
+
 
 const exportToExcel = (data, filename) => {
   const worksheet = XLSX.utils.json_to_sheet(data);
@@ -107,9 +148,11 @@ const PatientTable = () => {
   const [isSortAscending, setIsSortAscending] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const user = useSelector((state) => state.auth.user);
+
   const { data, isLoading, isError, error } = useQuery(
     ["patients", pageNumber, searchTerm],
-    () => getAllPatients(pageNumber, searchTerm),
+    () => getAllPatients(pageNumber, searchTerm, user?.location),
     {
       keepPreviousData: true,
       staleTime: 10 * 60 * 1000,
@@ -199,7 +242,7 @@ const PatientTable = () => {
             </div>
           </div>
 
-          {/* {JSON.stringify(allPatients[0])} */}
+          {JSON.stringify(user?.location)}
           <div className="table-responsive">
             <table className="table table-striped table-hover">
               <thead>
