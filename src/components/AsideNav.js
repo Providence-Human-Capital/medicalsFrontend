@@ -42,23 +42,34 @@ const AsideNav = ({}) => {
       <aside className="main-sidebar">
         <section className="sidebar position-relative">
           <div className="help-bt">
-            <Link href="tel:108" className="d-flex align-items-center">
+            <button
+              onClick={() => window.location.reload(true)}
+              className="d-flex align-items-center border-0 bg-transparent p-0"
+              style={{ cursor: "pointer" }}
+            >
               <div
                 className="rounded10 h-50 w-50 l-h-50 text-center me-15"
                 style={styles.color}
               >
                 <i
-                  className="ti-microphone"
+                  className="ti-reload"
                   style={{
                     fontSize: "20px",
                   }}
                 ></i>
               </div>
-              <h4 className="mb-0">
-                Emergency
+              <h4
+                className="mb-0"
+                style={{
+                  fontWeight: "500",
+                  color: "green",
+                  textTransform: "uppercase",
+                }}
+              >
+                Refresh
                 <br />
               </h4>
-            </Link>
+            </button>
           </div>
           {/* { user && user.type === "medicals" && (
 
@@ -87,6 +98,8 @@ const AsideNav = ({}) => {
                 className="mb-0"
                 style={{
                   textTransform: "uppercase",
+                  color: "green",
+                  fontWeight: "500",
                   transition: "color 0.3s", // Adding transition for a smooth effect
                   ":hover": {
                     color: "green",
@@ -116,6 +129,8 @@ const AsideNav = ({}) => {
                 style={{
                   textTransform: "uppercase",
                   transition: "color 0.3s", // Adding transition for a smooth effect
+                  color: "#DD5540",
+                  fontWeight: "500",
                   ":hover": {
                     color: "green",
                   },
@@ -152,6 +167,8 @@ const AsideNav = ({}) => {
                 style={{
                   textTransform: "uppercase",
                   transition: "color 0.3s", // Adding transition for a smooth effect
+                  color: "green",
+                  fontWeight: "500",
                   ":hover": {
                     color: "green",
                   },
@@ -186,6 +203,8 @@ const AsideNav = ({}) => {
                 style={{
                   textTransform: "uppercase",
                   transition: "color 0.3s", // Adding transition for a smooth effect
+                  fontWeight: "500",
+                  color: "#DD5540",
                   ":hover": {
                     color: "green",
                   },

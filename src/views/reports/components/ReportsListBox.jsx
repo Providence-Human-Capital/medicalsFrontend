@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import * as XLSX from "xlsx";
 import { PHYSICAL_EXAM } from "../../../helpers/helpers";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 const ReportsListBox = ({ year, month }) => {
   const reportsFilteredResults =
@@ -11,6 +12,7 @@ const ReportsListBox = ({ year, month }) => {
   const flattenedReportsData = (reportsFilteredResults) => {
     return reportsFilteredResults.map((item) => {
       const flattenedItem = {
+        MEDICAL_DATE: moment(item.created_at).format("DD/MM/YYYY"),
         EMPLOYEE_NUMBER: item.attendee.employee_number,
         FIRST_NAME: item.attendee.first_name,
         LAST_NAME: item.attendee.last_name,
@@ -45,7 +47,10 @@ const ReportsListBox = ({ year, month }) => {
     });
 
     const currentDate = new Date();
-    const dateString = currentDate.toISOString().slice(0, 19).replace(/:/g, "-");
+    const dateString = currentDate
+      .toISOString()
+      .slice(0, 19)
+      .replace(/:/g, "-");
     const fileName = `Report_${dateString}.xlsx`;
     saveAs(blob, fileName);
   };
@@ -88,7 +93,7 @@ const ReportsListBox = ({ year, month }) => {
                 }}
                 onClick={handleDownloadExcel}
               >
-                DOWNLOAD EXCEL (xlsx) 
+                DOWNLOAD EXCEL (xlsx)
               </button>
             </div>
           </div>
@@ -100,6 +105,7 @@ const ReportsListBox = ({ year, month }) => {
               <table className="table table-striped table-hover">
                 <thead>
                   <tr>
+                    <th className="bb-2">Medical_Date</th>
                     <th className="bb-2">First Name</th>
                     <th className="bb-2">Last Name</th>
                     <th className="bb-2">Gender </th>
@@ -114,6 +120,9 @@ const ReportsListBox = ({ year, month }) => {
                   {reportsFilteredResults &&
                     reportsFilteredResults.map((client, index) => (
                       <tr key={client.id}>
+                        <td>
+                          {moment(client.created_at).format("D MMMM YYYY")}
+                        </td>
                         <td>{client.attendee.first_name}</td>
                         <td>{client.attendee.last_name}</td>
                         <td>{client.attendee.gender}</td>
