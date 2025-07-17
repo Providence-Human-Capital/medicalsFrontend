@@ -76,12 +76,7 @@ const AsideNav = ({}) => {
           )} */}
           {/* /patients/add */}
           <div className="help-bt">
-            <Link
-              to={
-                user.type === "medicals" ? "/attendees/add" : "/hms/add/patient"
-              }
-              className="d-flex align-items-center"
-            >
+            <Link to={"/attendees/add"} className="d-flex align-items-center">
               <div
                 className="rounded10 h-50 w-50 l-h-50 text-center me-15"
                 style={styles.color}
