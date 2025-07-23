@@ -258,6 +258,7 @@ const AddAttendee = () => {
         style={{
           padding: " 0 2rem",
           borderRadius: "10px",
+          
         }}
       >
         <Link
