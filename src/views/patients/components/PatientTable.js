@@ -3,11 +3,7 @@ import PatientItem from "./PatientItem";
 import ReactPaginate from "react-paginate";
 import * as XLSX from "xlsx";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  sortPatients,
-  filterPatients,
-  getCurrentPageData,
-} from "../../../helpers/helpers";
+import { sortPatients, filterPatients } from "../../../helpers/helpers";
 import ExportExcelButton from "../../../components/buttons/ExportExcelButton";
 import ErrorNotification from "../../../components/notifications/ErrorNotification";
 import SearchBox from "../../../components/SearchBox";
@@ -39,6 +35,8 @@ const getAllPatients = async (
   company = "",
   swabStatus = "",
   certificateStatus = "",
+  page = 0,
+  perPage = 50,
   token = ""
 ) => {
   const queryParams = new URLSearchParams({
@@ -47,6 +45,8 @@ const getAllPatients = async (
     company: company,
     swab_status: swabStatus,
     certificate_status: certificateStatus,
+    page: page + 1, // Backend expects 1-based page numbers
+    per_page: perPage,
   });
 
   try {
@@ -67,9 +67,7 @@ const getAllPatients = async (
     }
 
     const responseData = await response.json();
-    return {
-      patients: responseData || [],
-    };
+    return responseData;
   } catch (error) {
     console.error("Error fetching patients:", error);
     throw new Error(`Failed to fetch patients: ${error.message}`);
@@ -91,27 +89,21 @@ const exportToExcel = (data, filename) => {
   XLSX.writeFile(workbook, filename);
 };
 
-
-
 const PatientTable = () => {
   const [pageNumber, setPageNumber] = useState(0);
-  const itemsPerPage = 10;
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Default items per page
   const [searchTerm, setSearchTerm] = useState("");
   const [location, setLocation] = useState("");
   const [company, setCompany] = useState("");
   const [swabStatus, setSwabStatus] = useState("");
   const [certificateStatus, setCertificateStatus] = useState("");
-  const [sortColumn, setSortColumn] = useState("id");
-  const [isSortAscending, setIsSortAscending] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // Add loading state
 
   const user = useSelector((state) => state.auth.user);
   const token = useSelector((state) => state.auth.token);
 
-
   const queryClient = useQueryClient();
 
-  
   const {
     data: patientsData,
     isError: isPatientsError,
@@ -125,6 +117,8 @@ const PatientTable = () => {
       company,
       swabStatus,
       certificateStatus,
+      pageNumber,
+      itemsPerPage,
       token,
     ],
     queryFn: () =>
@@ -134,6 +128,8 @@ const PatientTable = () => {
         company,
         swabStatus,
         certificateStatus,
+        pageNumber,
+        itemsPerPage,
         token
       ),
     keepPreviousData: true,
@@ -156,19 +152,6 @@ const PatientTable = () => {
   useEffect(() => {
     setIsLoading(isFetching); // Update loading state based on isFetching
   }, [isFetching]);
-
-  const allPatients = patientsData?.patients || [];
-  const totalPatients = allPatients.length;
-  const pageCount = Math.ceil(totalPatients / itemsPerPage);
-
-  const handleSort = (column) => {
-    if (sortColumn === column) {
-      setIsSortAscending(!isSortAscending);
-    } else {
-      setSortColumn(column);
-      setIsSortAscending(true);
-    }
-  };
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -195,13 +178,14 @@ const PatientTable = () => {
     setPageNumber(0);
   };
 
-  const sortedPatients = sortPatients(allPatients, sortColumn, isSortAscending);
-  const filteredPatients = filterPatients(sortedPatients, searchTerm);
-  const currentPageData = getCurrentPageData(
-    filteredPatients,
-    pageNumber,
-    itemsPerPage
-  );
+  const handlePageClick = (data) => {
+    setPageNumber(data.selected);
+  };
+
+  const handleItemsPerPageChange = (e) => {
+    setItemsPerPage(parseInt(e.target.value, 10));
+    setPageNumber(0); // Reset to the first page when changing items per page
+  };
 
   const flattenPatientsForReport = (filteredData) => {
     return filteredData.map((item) => ({
@@ -217,9 +201,8 @@ const PatientTable = () => {
     }));
   };
 
-  const flattenedData = flattenPatientsForReport(filteredPatients);
-
   const handleExportClick = () => {
+    const flattenedData = flattenPatientsForReport(patientsData?.data || []);
     exportToExcel(flattenedData, "patients.xlsx");
   };
 
@@ -232,6 +215,8 @@ const PatientTable = () => {
         company,
         swabStatus,
         certificateStatus,
+        pageNumber,
+        itemsPerPage,
         token,
       ],
     });
@@ -244,6 +229,7 @@ const PatientTable = () => {
     setCompany("");
     setSwabStatus("");
     setCertificateStatus("");
+    setItemsPerPage(10); // Reset items per page to default
   };
 
   useEffect(() => {
@@ -349,48 +335,40 @@ const PatientTable = () => {
           </div>
         </div>
 
+        <div className="row mb-3">
+            <div className="col-md-10"></div>
+          <div className="col-md-2">
+            <div className="form-floating mb-3">
+              <select
+                className="form-select"
+                id="itemsPerPage"
+                value={itemsPerPage}
+                onChange={handleItemsPerPageChange}
+              >
+                <option value="10">10 per page</option>
+                <option value="25">25 per page</option>
+                <option value="50">50 per page</option>
+                <option value="100">100 per page</option>
+              </select>
+              <label htmlFor="itemsPerPage">Items per page</label>
+            </div>
+          </div>
+        </div>
+
         <div className="table-responsive">
           <table className="table table-striped table-hover">
             <thead>
               <tr>
-                <th onClick={() => handleSort("id")} className="pointer-style">
-                  ID
-                </th>
+                <th>ID</th>
                 <th>Last Medical Date</th>
-                <th
-                  onClick={() => handleSort("first_name")}
-                  className="pointer-style"
-                >
-                  First Name
-                </th>
-                <th
-                  onClick={() => handleSort("last_name")}
-                  className="pointer-style"
-                >
-                  Last Name
-                </th>
-                <th
-                  onClick={() => handleSort("company")}
-                  className="pointer-style"
-                >
-                  Company
-                </th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Company</th>
                 <th>National_ID</th>
                 <th>Location</th>
                 <th>Phone Number</th>
                 <th>Employee Number</th>
-                <th>
-                  {" "}
-                  <span
-                    class="badge bg-secondary"
-                    style={{
-                      padding: "0.5rem 0.75rem",
-                    }}
-                  >
-                    Type Of Medical
-                  </span>
-                </th>
-                <th>Last X-Ray</th>
+                <th>Type Of Medical</th>
                 <th>Certificate Status</th>
                 <th>New Consultation ?</th>
                 <th className="fw-500">Actions</th>
@@ -406,12 +384,12 @@ const PatientTable = () => {
                   </td>
                 </tr>
               ) : (
-                currentPageData.map((patient, index) => (
+                patientsData?.data?.map((patient, index) => (
                   <PatientItem
                     key={patient.id}
                     patient={patient}
                     index={index}
-                    invalidatePatients={refetchPatients} // ✅ Pass function reference
+                    invalidatePatients={refetchPatients} // Pass function reference
                   />
                 ))
               )}
@@ -426,12 +404,10 @@ const PatientTable = () => {
             nextLabel={"Next"}
             breakLabel={"..."}
             breakClassName={"break-me"}
-            pageCount={pageCount}
+            pageCount={patientsData?.last_page || 1}
             marginPagesDisplayed={2}
             pageRangeDisplayed={5}
-            onPageChange={(data) => {
-              setPageNumber(data.selected);
-            }}
+            onPageChange={handlePageClick}
             containerClassName={"pagination"}
             activeClassName={"active-paginate"}
           />

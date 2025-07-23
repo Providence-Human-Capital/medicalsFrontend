@@ -315,13 +315,13 @@ const PatientItem = ({ patient, index, invalidatePatients }) => {
         <td>{patient.employee_number}</td>
         <td>{patient.category}</td>
 
-        {(patient.last_x_ray === "N/A") | (patient.last_x_ray === null) ? (
+        {/* {(patient.last_x_ray === "N/A") | (patient.last_x_ray === null) ? (
           <td>N/A</td>
         ) : (
           <td>
             <strong>{formatDate(patient.last_x_ray)}</strong>
           </td>
-        )}
+        )} */}
         <td>{PHYSICAL_EXAM(patient.latest_certificate?.status)}</td>
 
         <td>

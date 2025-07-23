@@ -29,7 +29,7 @@ const getAllPatients = async (
   });
 
   try {
-    const response = await fetch(`${API}/patient?${queryParams.toString()}`, {
+    const response = await fetch(`${API}/patientsraw?${queryParams.toString()}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
