@@ -11,6 +11,7 @@ import {
   doctorManualCertificateUpdate,
   getAllPatients,
 } from "../../../services/api";
+import moment from "moment";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -178,8 +179,28 @@ const PatientItem = ({ patient, index }) => {
         }
       >
         <td>{index + 1}</td>
-        <td>{patient.first_name}</td>
-        <td>{patient.last_name}</td>
+        <td>
+          {patient?.certificates?.[0]?.created_at
+            ? moment(patient.certificates[0].created_at).format(
+                "dddd D MMMM YYYY [at] h:mm A"
+              )
+            : "—"}
+        </td>
+
+        <td
+          style={{
+            cursor: "pointer",
+          }}
+        >
+          <Link to={`/patients/${patient.id}`}>{patient.first_name}</Link>
+        </td>
+        <td
+          style={{
+            cursor: "pointer",
+          }}
+        >
+          <Link to={`/patients/${patient.id}`}>{patient.last_name}</Link>
+        </td>
         <td>{patient.company}</td>
         <td>{patient.national_id}</td>
         <td>
@@ -236,7 +257,7 @@ const PatientItem = ({ patient, index }) => {
           </td>
         )}
         <td>
-          <span
+          {/* <span
             style={{
               cursor: "pointer",
             }}
@@ -245,6 +266,15 @@ const PatientItem = ({ patient, index }) => {
                 patient.certificates[patient.certificates.length - 1].id
               )
             }
+          >
+            {PHYSICAL_EXAM(
+              patient.certificates[patient.certificates.length - 1].status
+            )}
+          </span> */}
+          <span
+            style={{
+              cursor: "pointer",
+            }}
           >
             {PHYSICAL_EXAM(
               patient.certificates[patient.certificates.length - 1].status

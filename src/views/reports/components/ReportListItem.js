@@ -27,51 +27,56 @@ const ReportListItem = ({ report, index }) => {
         <td colSpan={5} className="align-middle">
           <div className="row">
             {/* Pneumoconiosis */}
-            <div className="col text-center">
-              <span className="fw-bold d-block text-secondary">
+            <div className="col text-center" style={cardStyle}>
+              <span style={titleStyle}>
+                <i className="fas fa-lungs me-2 text-secondary"></i>
                 Pneumoconiosis
               </span>
-              <span className="badge bg-warning text-dark px-3 py-2 mt-1">
-                {report.Pneumoconiosis.length} Patients
+              <span style={badgeStyle}>
+                {report.Pneumoconiosis?.length || 0} Patients
               </span>
             </div>
 
             {/* Food Handler (COH) */}
-            <div className="col text-center">
-              <span className="fw-bold d-block text-secondary">
+            <div className="col text-center" style={cardStyle}>
+              <span style={titleStyle}>
+                <i className="fas fa-utensils me-2 text-secondary"></i>
                 Food Handler (COH)
               </span>
-              <span className="badge bg-warning text-dark px-3 py-2 mt-1">
+              <span style={badgeStyle}>
                 {report["Food Handler (COH)"]?.length || 0} Patients
               </span>
             </div>
 
             {/* Pre-Employment */}
-            <div className="col text-center">
-              <span className="fw-bold d-block text-secondary">
+            <div className="col text-center" style={cardStyle}>
+              <span style={titleStyle}>
+                <i className="fas fa-briefcase me-2 text-secondary"></i>
                 Pre-Employment
               </span>
-              <span className="badge bg-warning text-dark px-3 py-2 mt-1">
+              <span style={badgeStyle}>
                 {report["Pre-Employement"]?.length || 0} Patients
               </span>
             </div>
 
             {/* Exit-Employment */}
-            <div className="col text-center">
-              <span className="fw-bold d-block text-secondary">
+            <div className="col text-center" style={cardStyle}>
+              <span style={titleStyle}>
+                <i className="fas fa-door-open me-2 text-secondary"></i>
                 Exit-Employment
               </span>
-              <span className="badge bg-warning text-dark px-3 py-2 mt-1">
+              <span style={badgeStyle}>
                 {report["Exit-Employement"]?.length || 0} Patients
               </span>
             </div>
 
             {/* Exit-Pneumoconiosis */}
-            <div className="col text-center">
-              <span className="fw-bold d-block text-secondary">
+            <div className="col text-center" style={cardStyle}>
+              <span style={titleStyle}>
+                <i className="fas fa-user-slash me-2 text-danger"></i>
                 Exit-Pneumoconiosis
               </span>
-              <span className="badge bg-warning text-dark px-3 py-2 fw500 mt-1">
+              <span style={badgeStyle}>
                 {report["Exit-Pneumoconiosis"]?.length || 0} Patients
               </span>
             </div>
@@ -82,14 +87,40 @@ const ReportListItem = ({ report, index }) => {
         <td className="align-middle text-end">
           <Link
             to={`/report/single/${report.day}`}
-            className="btn btn-primary btn-sm"
+            className="btn btn-sm btn-primary d-inline-flex align-items-center gap-1 px-4 py-2 rounded"
           >
-            View <i className="bi bi-arrow-right"></i>
+            View Report <i className="fa fa-arrow-right" aria-hidden="true"></i>
           </Link>
         </td>
       </>
     </tr>
   );
+};
+
+// Inline styles for reusability
+const cardStyle = {
+  padding: "1rem",
+  borderRadius: "8px",
+  backgroundColor: "#f9f9f9",
+  margin: "5px"
+};
+
+const titleStyle = {
+  fontSize: "1rem",
+  fontWeight: 600,
+  color: "#6c757d",
+  marginBottom: "0.5rem",
+  display: "inline-block",
+};
+
+const badgeStyle = {
+  fontSize: "0.9rem",
+  padding: "0.5rem 1rem",
+  borderRadius: "20px",
+  backgroundColor: "#ffc107",
+  color: "#212529",
+  fontWeight: 500,
+  display: "inline-block",
 };
 
 export default ReportListItem;

@@ -1,27 +1,26 @@
-button {
-    border: 2px solid #58ad46;;
-    background-color: #58ad46;;
-    border-radius: 0.9em;
-    padding: 0.8em 1.2em 0.8em 1em;
-    transition: all ease-in-out 0.2s;
-    font-size: 16px;
-  }
-  
-  button span {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    font-weight: 400;
-    font-family: 'Calibri';
-  
-  }
-  
-  button:hover {
-    background-color: #4e9740;;
-  }
+.export-btn {
+  background-color: #198754; /* Bootstrap success green */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-weight: 500;
+  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
 
-  .label-span{
-    margin-left: 10px;
-  }
-  
+.export-btn:hover {
+  background-color: #157347; /* Darker green on hover */
+}
+
+.export-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.label-span {
+  font-size: 16px;
+}

@@ -1,11 +1,15 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { useDispatch, useSelector } from "react-redux";
+import { useQuery } from "@tanstack/react-query";
 import { patientActions } from "../../../redux_store/patients-store";
 import { API } from "../../../config";
+import Loading from "../../../components/loader/Loading";
 
 const IllnessAnalysisCard = () => {
-  const illnessStats = useSelector((state) => state.patient.patientsPerIllness) || [];
+  const dispatch = useDispatch();
+  const illnessStats =
+    useSelector((state) => state.patient.patientsPerIllness) || [];
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [years, setYears] = useState([]);
   const [illnessesData, setIllnessesData] = useState({
@@ -26,28 +30,36 @@ const IllnessAnalysisCard = () => {
     ],
   });
 
-  const dispatch = useDispatch();
+  const {
+    data: patientsIllnessStatistics,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["patientsIllnessStatistics", selectedYear],
+    queryFn: async () => {
+      const response = await fetch(
+        `${API}/patient-counts/illness/${selectedYear}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-  const getPatientsIllnessStatistics = async (year) => {
-    try {
-      const response = await fetch(`${API}/patient-counts/illness/${year}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch illness statistics");
+      }
 
       const data = await response.json();
-      console.log("......", data);
       dispatch(
-        patientActions.setIllnessStatistics({ patientsPerIllness: [...data] })
+        patientActions.setIllnessStatistics({ patientsPerIllness: data })
       );
-      console.log("illnessStats", illnessStats);
       return data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    enabled: !!selectedYear,
+  });
 
   useEffect(() => {
     const currentYear = new Date().getFullYear();
@@ -59,28 +71,57 @@ const IllnessAnalysisCard = () => {
   }, []);
 
   useEffect(() => {
-    setIllnessesData((prevData) => ({
-      ...prevData,
-      options: {
-        ...prevData.options,
-        xaxis: {
-          ...prevData.options.xaxis,
-          categories: illnessStats.map((data) => data.illness),
+    if (patientsIllnessStatistics) {
+      setIllnessesData((prevData) => ({
+        ...prevData,
+        options: {
+          ...prevData.options,
+          xaxis: {
+            ...prevData.options.xaxis,
+            categories: patientsIllnessStatistics.map((data) => data.illness),
+          },
         },
-      },
-      series: [
-        {
-          ...prevData.series[0],
-          data: illnessStats.map((data) => data.patient_count),
-        },
-      ],
-    }));
-  }, [illnessStats]);
+        series: [
+          {
+            ...prevData.series[0],
+            data: patientsIllnessStatistics.map((data) => data.patient_count),
+          },
+        ],
+      }));
+    }
+  }, [patientsIllnessStatistics]);
 
   const handleYearChange = (year) => {
     setSelectedYear(year);
-    getPatientsIllnessStatistics(year);
   };
+
+  if (isLoading) {
+    return (
+      <div className="box">
+        <div
+          className="flex items-center justify-center h-64"
+          style={{
+            margin: "20px",
+          }}
+        >
+          <div className="text-lg font-medium text-gray-600 animate-pulse">
+            <Loading />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          <strong className="font-bold">Error: </strong>
+          <span className="block sm:inline">{error.message}</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <Fragment>
@@ -112,9 +153,6 @@ const IllnessAnalysisCard = () => {
               </select>
             </div>
           </div>
-          {/* Dropdown for selecting year */}
-
-          {/* Title */}
         </div>
         <div
           className="box-body"
@@ -122,7 +160,6 @@ const IllnessAnalysisCard = () => {
             height: "fit-content",
           }}
         >
-          {/* Chart component */}
           <Chart
             options={illnessesData.options}
             series={illnessesData.series}

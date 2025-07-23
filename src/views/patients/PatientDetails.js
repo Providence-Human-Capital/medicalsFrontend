@@ -8,13 +8,11 @@ import React, {
 import BreadCrumb from "../../components/BreadCrumb";
 import PButtons from "./components/PButtons";
 import BoxProfile from "./components/BoxProfile";
-
 import { Link, useParams } from "react-router-dom";
 import { API } from "../../config";
 import { useDispatch, useSelector } from "react-redux";
 import { patientActions } from "../../redux_store/patients-store";
 import InfoBox from "./components/InfoBox";
-
 import { Helmet } from "react-helmet";
 import {
   calculateDaysLeftForCertificateValidity,
@@ -28,8 +26,6 @@ import {
 } from "../../services/api";
 import { formsActions } from "../../redux_store/forms-store";
 import PatientSkeleton from "../../components/skeletons/PatientSkeleton";
-
-import { PHYSICAL_EXAM } from "../../utils/global";
 import BpPlot from "./components/BpPlot";
 import BmiPlot from "./components/BmiPlot";
 import DaysLeftBox from "./components/DaysLeftBox";
@@ -41,6 +37,11 @@ import PneumoDetail from "./patientDetailedComponents/PneumoDetail";
 import PreEmployementDetail from "./patientDetailedComponents/PreEmployementDetail";
 import FoodHandlerDetail from "./patientDetailedComponents/FoodHandlerDetail";
 import InHouseDetail from "./patientDetailedComponents/InHouseDetail";
+
+import { useQuery } from "@tanstack/react-query";
+
+// Import PHYSICAL_EXAM if it's defined in another file
+import { PHYSICAL_EXAM } from "../../utils/global";
 import PastMedicalRecords from "./components/PastMedicalRecords.";
 
 const PrintPatientMedicalRecord = forwardRef(
@@ -57,9 +58,7 @@ const PrintPatientMedicalRecord = forwardRef(
     ref
   ) => {
     return (
-      <div ref={ref}  style={{
-        padding: "3rem"
-      }}>
+      <div ref={ref} style={{ padding: "3rem" }}>
         <PrintMedicalRecord
           patient={patientData}
           allIllnesses={everyIllness}
@@ -92,8 +91,7 @@ const PatientDetails = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [dayLeftData, setDayLeftData] = useState(null);
-  const isLoading = useSelector((state) => state.ui.isLoading);
-  const [addingToBatch, setAddingToBatch] = useState(false);
+  const [addingToBatch, setAddingToBatch] = useState(false); // Define addingToBatch state
   const token = useSelector((state) => state.auth.token);
   const companiesWithBatches = useSelector(
     (state) => state.company.companiesWithBatches
@@ -129,6 +127,7 @@ const PatientDetails = () => {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     localStorage.setItem("currentStep", parseInt("1"));
 
@@ -396,7 +395,6 @@ const PatientDetails = () => {
           {singlePatient?.attendee?.last_name ?? "Unknown"}
         </title>
       </Helmet>
-      {/* {JSON.stringify(singlePatient.certificate)} */}
 
       <div
         className="row"
@@ -462,7 +460,7 @@ const PatientDetails = () => {
                   <h4>
                     <strong>Certificate Status</strong>
                     {"   "}
-                    {PHYSICAL_EXAM(singlePatient.certificate_status)}
+                    {PHYSICAL_EXAM[singlePatient.certificate_status]}
                   </h4>
                 </div>
                 <div className="d-flex">

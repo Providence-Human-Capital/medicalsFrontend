@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as XLSX from "xlsx";
 import {
@@ -7,6 +7,7 @@ import {
   getCurrentPageData,
   exportToExcel,
 } from "../../../helpers/helpers";
+import { useQuery } from "@tanstack/react-query";
 import { getIndustryPatients } from "../../../services/api";
 import { patientActions } from "../../../redux_store/patients-store";
 import EmptyTable from "../../../components/EmptyTable";
@@ -14,30 +15,25 @@ import SearchBox from "../../../components/SearchBox";
 import IndustryItem from "./IndustryItem";
 import ReactPaginate from "react-paginate";
 import ExportExcelButton from "../../../components/buttons/ExportExcelButton";
+import Loading from "../../../components/loader/Loading";
 
 const IndustryTable = () => {
   const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(0);
-  const itemsPerPage = 8;
-
-  const industryPatients = useSelector(
-    (state) => state.patient.industryPatients
-  );
+  const itemsPerPage = 10;
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState("id");
   const [isSortAscending, setIsSortAscending] = useState(false);
 
-  useEffect(() => {
-    const fetchIndustryPatients = async () => {
-      const industryPatients = await getIndustryPatients();
-      dispatch(
-        patientActions.setIndustryPatients({
-          industryPatients: industryPatients,
-        })
-      );
-    };
-    fetchIndustryPatients();
-  }, []);
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["industryPatients"],
+    queryFn: getIndustryPatients,
+    onSuccess: (data) => {
+      dispatch(patientActions.setIndustryPatients({ industryPatients: data }));
+    },
+  });
+
+  const industryPatients = data || [];
 
   const handleSort = (column) => {
     if (sortColumn === column) {
@@ -68,6 +64,28 @@ const IndustryTable = () => {
     pageNumber,
     itemsPerPage
   );
+
+  if (isLoading) {
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div
+        className="alert alert-danger d-flex align-items-center"
+        role="alert"
+      >
+        <i className="fas fa-exclamation-triangle me-2"></i>
+        <div>
+          <strong>Error:</strong> {error.message}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -121,17 +139,19 @@ const IndustryTable = () => {
                   <th className="bb-2">Date Of Birth</th>
                   <th className="bb-2">Phone Number</th>
                   <th className="bb-2">Employee Number</th>
-                  {/* <th className="bb-2">Swab Status</th> */}
                   <th className="bb-2">Last X-Ray</th>
                   <th className="bb-2">Certificate Status</th>
                   <th className="bb-2">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {industryPatients &&
-                  currentPageData.map((patient, index) => (
-                    <IndustryItem key={patient.id} patient={patient} index={index} />
-                  ))}
+                {currentPageData.map((patient, index) => (
+                  <IndustryItem
+                    key={patient.id}
+                    patient={patient}
+                    index={index}
+                  />
+                ))}
               </tbody>
             </table>
           </div>
@@ -143,11 +163,11 @@ const IndustryTable = () => {
               nextLabel={"Next"}
               breakLabel={"..."}
               breakClassName={"break-me"}
-              pageCount={Math.ceil(sortedPatients.length / itemsPerPage)}
+              pageCount={Math.ceil(filteredPatients.length / itemsPerPage)}
               marginPagesDisplayed={2}
               pageRangeDisplayed={5}
-              onPageChange={(sortedPatients) => {
-                setPageNumber(sortedPatients.selected);
+              onPageChange={(data) => {
+                setPageNumber(data.selected);
               }}
               containerClassName={"pagination"}
               activeClassName={"active-paginate"}

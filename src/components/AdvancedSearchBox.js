@@ -121,6 +121,7 @@ const AdvancedSearchBox = () => {
                       textTransform: "uppercase",
                       fontWeight: "bold",
                       borderRadius: "20px",
+                      fontFamily: "Poppins"
                     }}
                   >
                     Search Results

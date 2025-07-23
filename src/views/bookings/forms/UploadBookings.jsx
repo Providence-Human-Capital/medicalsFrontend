@@ -280,8 +280,8 @@ const UploadBookings = () => {
 
       <div className="separation-div"></div>
       <section className="content">
-        <div className="card ">
-          <div className="card-body">
+        <div className="box ">
+          <div className="box-body">
             <h4>
               NUMBER OF PATIENTS ADDED {"  "}
               {patientsAdded}

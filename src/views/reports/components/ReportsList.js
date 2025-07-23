@@ -29,15 +29,31 @@ const ReportsList = ({ reportsData }) => {
     <div className="col-12">
       <div className="box">
         <div className="box-header">
-          <h4 className="box-title align-items-start flex-column">
-            Daily Patient Reports - Page {pageNumber + 1}
-            {patients && (
-              <small className="subtitle">
-                {patients.length} Total Patients
-              </small>
-            )}
+          <h4
+            className="box-title align-items-start flex-column"
+            style={{
+              textTransform: "uppercase",
+              fontWeight: "500",
+            }}
+          >
+            Daily MEDICAL REPORT Reports - Page {pageNumber + 1}
           </h4>
+          <p
+            style={{
+              fontSize: "1rem",
+              color: "#6c757d", // Bootstrap muted text color
+              marginTop: "8px",
+              maxWidth: "100%",
+              lineHeight: "1.4",
+            }}
+          >
+            A daily medical report provides a comprehensive summary of patients'
+            health status, medical observations, and any treatments or
+            procedures conducted during the day. It helps healthcare
+            professionals monitor ongoing cases and make informed decisions.
+          </p>
         </div>
+
         <div className="box-body">
           <div className="table-responsive">
             <table className="table table-striped table-hover">

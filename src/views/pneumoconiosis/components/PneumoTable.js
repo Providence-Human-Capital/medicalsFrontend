@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PneumoItem from "./PneumoItem";
 import * as XLSX from "xlsx";
@@ -6,7 +6,7 @@ import SearchBox from "../../../components/SearchBox";
 import EmptyTable from "../../../components/EmptyTable";
 import { patientActions } from "../../../redux_store/patients-store";
 import { API } from "../../../config";
-import { getPneumoPatients } from "../../../services/api";
+import { useQuery } from "@tanstack/react-query";
 import {
   sortPatients,
   filterPatients,
@@ -15,29 +15,26 @@ import {
 } from "../../../helpers/helpers";
 import ReactPaginate from "react-paginate";
 import ExportExcelButton from "../../../components/buttons/ExportExcelButton";
+import { getPneumoPatients } from "../../../services/api";
+import Loading from "../../../components/loader/Loading";
 
 const PneumoTable = () => {
   const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(0);
-  const itemsPerPage = 8;
-
-  const pneumoPatients =
-    useSelector((state) => state.patient.pneumoPatients) || [];
+  const itemsPerPage = 10;
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState("id");
   const [isSortAscending, setIsSortAscending] = useState(false);
 
-  useEffect(() => {
-    const fetchPneumoPatients = async () => {
-      const pneumoPatients = await getPneumoPatients();
-      dispatch(
-        patientActions.setPneumoPatients({
-          pneumoPatients: pneumoPatients,
-        })
-      );
-    };
-    fetchPneumoPatients();
-  }, []);
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["pneumoPatients"],
+    queryFn: getPneumoPatients,
+    onSuccess: (data) => {
+      dispatch(patientActions.setPneumoPatients({ pneumoPatients: data }));
+    },
+  });
+
+  const pneumoPatients = data || [];
 
   const handleSort = (column) => {
     if (sortColumn === column) {
@@ -68,6 +65,28 @@ const PneumoTable = () => {
     pageNumber,
     itemsPerPage
   );
+
+  if (isLoading) {
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div
+        className="alert alert-danger d-flex align-items-center"
+        role="alert"
+      >
+        <i className="fas fa-exclamation-triangle me-2"></i>
+        <div>
+          <strong>Error:</strong> {error.message}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -127,10 +146,13 @@ const PneumoTable = () => {
                 </tr>
               </thead>
               <tbody>
-                {pneumoPatients &&
-                  currentPageData.map((patient, index) => (
-                    <PneumoItem key={patient.id} patient={patient} index={index} />
-                  ))}
+                {currentPageData.map((patient, index) => (
+                  <PneumoItem
+                    key={patient.id}
+                    patient={patient}
+                    index={index}
+                  />
+                ))}
               </tbody>
             </table>
           </div>
@@ -142,11 +164,11 @@ const PneumoTable = () => {
               nextLabel={"Next"}
               breakLabel={"..."}
               breakClassName={"break-me"}
-              pageCount={Math.ceil(sortedPatients.length / itemsPerPage)}
+              pageCount={Math.ceil(filteredPatients.length / itemsPerPage)}
               marginPagesDisplayed={2}
               pageRangeDisplayed={5}
-              onPageChange={(sortedPatients) => {
-                setPageNumber(sortedPatients.selected);
+              onPageChange={(data) => {
+                setPageNumber(data.selected);
               }}
               containerClassName={"pagination"}
               activeClassName={"active-paginate"}

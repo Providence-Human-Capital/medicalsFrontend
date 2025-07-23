@@ -21,18 +21,18 @@ const DueClient = ({ dueClient }) => {
   };
   return (
     <>
-      <div class="inner-user-div4">
+      <div className="inner-user-div4">
         <div>
-          <div class="d-flex align-items-center mb-10">
-            <div class="me-15">
+          <div className="d-flex align-items-center mb-10">
+            <div className="me-15">
               <img
                 src="/assets/images/avatar/avatar-1.png"
-                class="avatar avatar-lg rounded10 bg-primary-light"
+                className="avatar avatar-lg rounded10 bg-primary-light"
                 alt=""
               />
             </div>
-            <div class="d-flex flex-column flex-grow-1 fw-500">
-              <p class="hover-primary tBext-fade mb-1 fs-14">
+            <div className="d-flex flex-column flex-grow-1 fw-500">
+              <p className="hover-primary tBext-fade mb-1 fs-14">
                 {dueClient.first_name} {dueClient.last_name}
               </p>
               <span
@@ -46,17 +46,17 @@ const DueClient = ({ dueClient }) => {
             </div>
             <div>
               <a
-                class="waves-effect waves-circle btn btn-circle btn-primary-light btn-sm"
+                className="waves-effect waves-circle btn btn-circle btn-primary-light btn-sm"
                 onClick={handleEmailClick}
               >
-                <i class="fa fa-envelope"></i>
+                <i className="fa fa-envelope"></i>
               </a>
             </div>
           </div>
-          <div class="d-flex justify-content-between align-items-end mb-15 py-10 bb-dashed border-bottom">
+          <div className="d-flex justify-content-between align-items-end mb-15 py-10 bb-dashed border-bottom">
             <div>
-              <p class="mb-0 text-muted">
-                <i class="fa fa-clock-o me-5"></i>
+              <p className="mb-0 text-muted">
+                <i className="fa fa-clock-o me-5"></i>
                 <span
                   className="badge badge-pill badge-danger"
                   style={{
@@ -66,8 +66,8 @@ const DueClient = ({ dueClient }) => {
                   Due On: {formatDate(expirationDate, options)}
                 </span>
               </p>
-              <p class="mb-0 text-muted">
-                <i class="fa fa-phone me-5"></i> HR PHONE NUMBER:{" "}
+              <p className="mb-0 text-muted">
+                <i className="fa fa-phone me-5"></i> HR PHONE NUMBER:{" "}
                 <strong>
                   {dueClient.company_phone} / {dueClient.company_phone2}{" "}
                 </strong>

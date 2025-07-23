@@ -1,44 +1,17 @@
-.search-box {
-    margin-top: 10px;
-  display: flex;
-  align-items: center;
-  width: 500px;
-  height: 40px;
-  border: 1px solid #ccc;
-  /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2) !important; */
-  border-radius: 20px;
-  overflow: hidden;
-  height: 50px !important;
-
-}
-.search-box input[type="text"] {
-  flex: 1;
-  height: 100%;
-  padding: 0 10px;
-  border: none;
-  outline: none;
-  font-size: 1rem;
-}
-.search-box button {
-  width: 40px;
-  height: 100%;
-  background-color: #58ad46;
-  color: #fff;
-  border-radius: 1px;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-.search-box button:hover {
-  background-color: #58ad46;
-}
-.search-box button i {
-  font-size: 1rem;
-  margin-right: 4px !important;
+/* SearchBox.css */
+.search-box-container {
+  position: relative;
 }
 
-.icon-c {
-    margin-top: -1px;
-    margin-left: -2px;
+.search-input {
+  padding-right: 3rem; /* Adjust padding to make room for the icon */
+}
+
+.search-icon {
+  position: absolute;
+  right: 1rem; /* Adjust the right padding to position the icon */
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d; /* Adjust color as needed */
+  pointer-events: none; /* Prevent the icon from interfering with input clicks */
 }

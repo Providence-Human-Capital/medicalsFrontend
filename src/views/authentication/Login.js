@@ -9,8 +9,86 @@ import ErrorNotification from "../../components/notifications/ErrorNotification"
 import { ToastContainer, toast } from "react-toastify";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+import { useQuery } from "react-query";
+
+const getAllPatients = async (
+  pageNumber = 1,
+  searchTerm = "",
+  location = "",
+  company = "",
+  swabStatus = "",
+  certificateStatus = ""
+) => {
+  const queryParams = new URLSearchParams({
+    page: pageNumber,
+    search: searchTerm,
+    location: location,
+    company: company,
+    swab_status: swabStatus,
+    certificate_status: certificateStatus,
+  });
+
+  try {
+    const response = await fetch(`${API}/patient?${queryParams.toString()}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    const responseData = await response.json();
+
+    return {
+      patients: responseData?.data || [],
+      total: responseData?.meta?.total || 0,
+      perPage: responseData?.meta?.per_page || 0,
+      currentPage: responseData?.meta?.current_page || 1,
+    };
+  } catch (error) {
+    console.error("Error fetching patients:", error);
+    throw new Error("Failed to fetch patients. Please try again later.");
+  }
+};
 
 const Login = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [location, setLocation] = useState("");
+  const [company, setCompany] = useState("");
+  const [swabStatus, setSwabStatus] = useState("");
+  const [certificateStatus, setCertificateStatus] = useState("");
+  const [pageNumber, setPageNumber] = useState(1);
+
+
+  const {
+    data: patientsData,
+    isLoading: isPatientsLoading,
+    isError: isPatientsError,
+    error: patientsError,
+  } = useQuery(
+    [
+      "patients",
+      pageNumber,
+      searchTerm,
+      location,
+      company,
+      swabStatus,
+      certificateStatus,
+    ],
+    () =>
+      getAllPatients(
+        pageNumber,
+        searchTerm,
+        location,
+        company,
+        swabStatus,
+        certificateStatus
+      ),
+    {
+      keepPreviousData: true,
+      staleTime: 10 * 60 * 1000,
+    }
+  );
   const [signinValues, setSigninValues] = useState({
     email: "",
     password: "",
@@ -57,7 +135,7 @@ const Login = () => {
 
   const styles = {
     logoStyles: {
-      height: "80px",
+      height: "100px",
     },
 
     pageH: {
@@ -89,7 +167,7 @@ const Login = () => {
           ...setSigninValues,
         });
         setError(data.message);
-      } else {  
+      } else {
         dispatch(
           authActions.setLogin({
             user: data.user,
@@ -167,7 +245,10 @@ const Login = () => {
               />
             </span>
           </div>
-          <p className="mb-0">
+          <p
+            className="mb-0"
+            style={{ fontWeight: "bold", textTransform: "uppercase" }}
+          >
             {selectedTab === "Medicals"
               ? "Sign in to continue to Phc Medicals"
               : "Sign in to continue to Phc Clinic"}{" "}
@@ -201,26 +282,28 @@ const Login = () => {
               )}
             </div>
             <div className="form-group">
-              <div className="input-group mb-3">
-                <span className="input-group-text bg-transparent adjust-height ">
-                  <i className="ti-lock"></i>
-                </span>
-                <input
-                  type="password"
-                  className={`form-control ps-15 bg-transparent adjust-height  ${
-                    errors.password ? "error-input" : ""
-                  }`}
-                  placeholder="Password"
-                  name="password"
-                  onChange={handleFormChange}
-                  value={signinValues.password}
-                />
+              <div className="form-floating mb-3">
+                <div className="input-group">
+                  <span className="input-group-text bg-transparent adjust-height">
+                    <i className="ti-lock"></i>
+                  </span>
+                  <input
+                    type="password"
+                    className={`form-control ps-15 bg-transparent adjust-height ${
+                      errors.password ? "error-input" : ""
+                    }`}
+                    placeholder="Password"
+                    name="password"
+                    onChange={handleFormChange}
+                    value={signinValues.password}
+                  />
+                </div>
+                {errors.password && (
+                  <span className="text-danger">
+                    <strong>{errors.password}</strong>
+                  </span>
+                )}
               </div>
-              {errors.password && (
-                <span className="text-danger">
-                  <strong> {errors.password}</strong>
-                </span>
-              )}
             </div>
             <div className="row">
               <div className="col-6">
@@ -243,7 +326,15 @@ const Login = () => {
                 {isLoading ? (
                   <Loading />
                 ) : (
-                  <button type="submit" className="btn btn-danger mt-10">
+                  <button
+                    type="submit"
+                    className="btn btn-primary mt-10"
+                    style={{
+                      width: "100%",
+                      borderRadius: "15px",
+                      padding: "10px 0",
+                    }}
+                  >
                     SIGN IN
                   </button>
                 )}
@@ -287,22 +378,42 @@ const Login = () => {
               <div className="col-lg-5 col-md-5 col-12">
                 <div className="bg-white  shadow-lg  bor">
                   <ul className="nav nav-tabs nav-tabs-top nav-justified bor">
-                    <li className="nav-item">
+                    <li
+                      className="nav-item"
+                      style={{
+                        borderRadius: "15px 15px 0 0",
+                      }}
+                    >
                       <a
                         className="nav-link active"
                         href="#top-justified-tab1"
                         data-bs-toggle="tab"
                         onClick={() => handleTabChange("Medicals")}
+                        style={{
+                          textTransform: "uppercase",
+                          fontWeight: "bold",
+                          borderRadius: "15px 15px 0 0",
+                        }}
                       >
                         Medicals
                       </a>
                     </li>
-                    <li className="nav-item">
+                    <li
+                      className="nav-item"
+                      style={{
+                        borderRadius: "15px 15px 0 0",
+                      }}
+                    >
                       <a
                         className="nav-link"
                         href="#top-justified-tab2"
                         data-bs-toggle="tab"
                         onClick={() => handleTabChange("Hospital")}
+                        style={{
+                          textTransform: "uppercase",
+                          fontWeight: "bold",
+                          borderRadius: "15px 15px 0 0",
+                        }}
                       >
                         Clinic
                       </a>

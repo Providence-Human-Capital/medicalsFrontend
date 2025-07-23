@@ -5,20 +5,20 @@ import "./SearchBox.css";
 
 const SearchBox = ({ searchTerm, handleSearch, placeholderText }) => {
   return (
-    <form className="search-box">
-      <input
-        type="text"
-        id="search-input"
-        value={searchTerm}
-        onChange={handleSearch}
-        placeholder={placeholderText}
-      />
-      <button>
-        <div className="icon-c">
-          <FontAwesomeIcon icon={faSearch} />
-        </div>
-      </button>
-    </form>
+    <div className="col-md-6">
+      <div className="form-floating mb-3">
+        <input
+          type="text"
+          className="form-control"
+          id="search-input"
+          value={searchTerm}
+          onChange={handleSearch}
+          placeholder=" "
+        />
+        <label htmlFor="search-input">{placeholderText}</label>
+      </div>
+    </div>
   );
 };
+
 export default SearchBox;

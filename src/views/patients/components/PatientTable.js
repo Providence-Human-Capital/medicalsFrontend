@@ -1,16 +1,14 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PatientItem from "./PatientItem";
 import ReactPaginate from "react-paginate";
 import * as XLSX from "xlsx";
-import { useQuery } from "react-query";
-// import { getAllPatients } from "../../../services/api";
+import { useQuery } from "@tanstack/react-query";
 import {
   sortPatients,
   filterPatients,
   getCurrentPageData,
 } from "../../../helpers/helpers";
 import ExportExcelButton from "../../../components/buttons/ExportExcelButton";
-import Loading from "../../../components/loader/Loading";
 import ErrorNotification from "../../../components/notifications/ErrorNotification";
 import SearchBox from "../../../components/SearchBox";
 import AdvancedSearchBox from "../../../components/AdvancedSearchBox";
@@ -18,150 +16,140 @@ import EmptyTable from "../../../components/EmptyTable";
 import { API } from "../../../config";
 import { useSelector } from "react-redux";
 
-// export const getAllPatients = async (pageNumber = 1) => {
-//   const patiencesResponse = await fetch(`${API}/patient?page=${pageNumber}`, {
-//     method: "GET",
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//     },
-//   });
-
-//   const responseData = await patiencesResponse.json();
-//   console.log("All Patients", responseData.data);
-
-//   const patients = responseData.data;
-//   return patients;
-// };
-
-// const getAllPatients = async (pageNumber = 1) => {
-//   const response = await fetch(`${API}/patient?page=${pageNumber}`, {
-//     method: "GET",
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//     },
-//   });
-
-//   console.log('Patients Table Response .............')
-//   const responseData = await response.json();
-//   console.log("All Patients", responseData);
-
-//   // Return both patients and pagination info
-//   return {
-//     patients: responseData.data,
-//     total: responseData?.meta?.total,
-//     perPage: responseData.per_page,
-//     currentPage: responseData.current_page,
-//   };
-// };
-
-// const getAllPatients = async (pageNumber = 1, searchTerm = "") => {
-//   const response = await fetch(
-//     `${API}/patient?page=${pageNumber}&search=${searchTerm}`,
-//     {
-//       method: "GET",
-//       headers: {
-//         Accept: "application/json",
-//         "Content-Type": "application/json",
-//       },
-//     }
-//   );
-
-//   const responseData = await response.json();
-
-  
-//   return {
-//     patients: responseData.data,
-//     total: responseData?.meta?.total,
-//     perPage: responseData.per_page,
-//     currentPage: responseData.current_page,
-//   };
-// };
-
-const getAllPatients = async (pageNumber = 1, searchTerm = "", location = "") => {
-  // Build the query parameters dynamically
-  const queryParams = new URLSearchParams({
-    page: pageNumber,
-    search: searchTerm,
-  });
-
-  // Add location to query parameters if provided
-  if (location) {
-    queryParams.append("location", location);
-  }
-
+const getAllCompanies = async () => {
   try {
-    // Make the fetch request with dynamic query parameters
-    const response = await fetch(`${API}/patient?${queryParams.toString()}`, {
+    const response = await fetch(`${API}/company`, {
       method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
     });
-
-    // Parse the JSON response
     const responseData = await response.json();
-
-    // Return the formatted data
-    return {
-      patients: responseData?.data || [],
-      total: responseData?.meta?.total || 0,
-      perPage: responseData?.meta?.per_page || 0,
-      currentPage: responseData?.meta?.current_page || 1,
-    };
+    return responseData.data || [];
   } catch (error) {
-    console.error("Error fetching patients:", error);
-    throw new Error("Failed to fetch patients. Please try again later.");
+    console.error("Error fetching companies:", error);
+    throw new Error("Failed to fetch companies. Please try again later.");
   }
 };
 
+const getAllPatients = async (
+  searchTerm = "",
+  location = "",
+  company = "",
+  swabStatus = "",
+  certificateStatus = "",
+  token = ""
+) => {
+  const queryParams = new URLSearchParams({
+    search: searchTerm,
+    location: location,
+    company: company,
+    swab_status: swabStatus,
+    certificate_status: certificateStatus,
+  });
 
+  try {
+    const response = await fetch(`${API}/patient?${queryParams.toString()}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const responseData = await response.json();
+    return {
+      patients: responseData?.data || [],
+    };
+  } catch (error) {
+    console.error("Error fetching patients:", error);
+    throw new Error(`Failed to fetch patients: ${error.message}`);
+  }
+};
 
 const exportToExcel = (data, filename) => {
   const worksheet = XLSX.utils.json_to_sheet(data);
-
-  // Define column widths
   const columnWidths = [];
-  Object.keys(data[0]).forEach((key) => {
-    columnWidths.push({ wch: 20 }); // You can adjust the width as needed
+
+  Object.keys(data[0]).forEach(() => {
+    columnWidths.push({ wch: 20 });
   });
+
   worksheet["!cols"] = columnWidths;
 
   const workbook = XLSX.utils.book_new();
-  const headerStyle = {
-    font: { bold: true },
-    fill: { fgColor: { rgb: "FFFF00" } }, // Yellow background color
-  };
-
   XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
   XLSX.writeFile(workbook, filename);
 };
 
 const PatientTable = () => {
-  const [pageNumber, setPageNumber] = useState(1);
-  const itemsPerPage = 8;
-  const [selectedCompany, setSelectedCompany] = useState("");
+  const [pageNumber, setPageNumber] = useState(0);
+  const itemsPerPage = 10;
   const [searchTerm, setSearchTerm] = useState("");
+  const [location, setLocation] = useState("");
+  const [company, setCompany] = useState("");
+  const [swabStatus, setSwabStatus] = useState("");
+  const [certificateStatus, setCertificateStatus] = useState("");
   const [sortColumn, setSortColumn] = useState("id");
   const [isSortAscending, setIsSortAscending] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
 
   const user = useSelector((state) => state.auth.user);
+  const token = useSelector((state) => state.auth.token);
 
-  const { data, isLoading, isError, error } = useQuery(
-    ["patients", pageNumber, searchTerm],
-    () => getAllPatients(pageNumber, searchTerm, user?.location),
-    {
-      keepPreviousData: true,
-      staleTime: 10 * 60 * 1000,
-    }
-  );
+  const {
+    data: patientsData,
+    isError: isPatientsError,
+    error: patientsError,
+    isFetching, // Use isFetching to track loading state
+  } = useQuery({
+    queryKey: [
+      "patients",
+      searchTerm,
+      location,
+      company,
+      swabStatus,
+      certificateStatus,
+      token,
+    ],
+    queryFn: () =>
+      getAllPatients(
+        searchTerm,
+        location,
+        company,
+        swabStatus,
+        certificateStatus,
+        token
+      ),
+    keepPreviousData: true,
+    staleTime: 10 * 60 * 1000,
+    onError: (error) => {
+      console.error("Query error:", error);
+    },
+  });
 
-  const allPatients = data?.patients || [];
-  const totalPatients = data?.total || 0;
-  const currentPage = data?.currentPage || 1;
+  const {
+    data: companiesData,
+    isError: isCompaniesError,
+    error: companiesError,
+  } = useQuery({
+    queryKey: ["companies"],
+    queryFn: getAllCompanies,
+    staleTime: 10 * 60 * 1000,
+  });
+
+  useEffect(() => {
+    setIsLoading(isFetching); // Update loading state based on isFetching
+  }, [isFetching]);
+
+  const allPatients = patientsData?.patients || [];
+  const totalPatients = allPatients.length;
   const pageCount = Math.ceil(totalPatients / itemsPerPage);
 
   const handleSort = (column) => {
@@ -175,7 +163,27 @@ const PatientTable = () => {
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
-    setPageNumber(1); // Reset to the first page on new search
+    setPageNumber(0);
+  };
+
+  const handleLocationChange = (e) => {
+    setLocation(e.target.value);
+    setPageNumber(0);
+  };
+
+  const handleCompanyChange = (e) => {
+    setCompany(e.target.value);
+    setPageNumber(0);
+  };
+
+  const handleSwabStatusChange = (e) => {
+    setSwabStatus(e.target.value);
+    setPageNumber(0);
+  };
+
+  const handleCertificateStatusChange = (e) => {
+    setCertificateStatus(e.target.value);
+    setPageNumber(0);
   };
 
   const sortedPatients = sortPatients(allPatients, sortColumn, isSortAscending);
@@ -187,21 +195,17 @@ const PatientTable = () => {
   );
 
   const flattenPatientsForReport = (filteredData) => {
-    return filteredData.map((item) => {
-      const flattendedItem = {
-        "EMPLOYEE NUMBER": item.employee_number,
-        "FIRST NAME": item.first_name,
-        SURNAME: item.last_name,
-        "NATIONAL ID": item.national_id,
-        COMPANY: item.company,
-        "DATE OF BIRTH": item.date_of_birth,
-        AGE: item.age,
-        "PHONE NUMBER": item.phone_number,
-        "EXAMINATION TYPE": item.category,
-      };
-
-      return flattendedItem;
-    });
+    return filteredData.map((item) => ({
+      "EMPLOYEE NUMBER": item.employee_number,
+      "FIRST NAME": item.first_name,
+      SURNAME: item.last_name,
+      "NATIONAL ID": item.national_id,
+      COMPANY: item.company,
+      "DATE OF BIRTH": item.date_of_birth,
+      AGE: item.age,
+      "PHONE NUMBER": item.phone_number,
+      "EXAMINATION TYPE": item.category,
+    }));
   };
 
   const flattenedData = flattenPatientsForReport(filteredPatients);
@@ -210,128 +214,195 @@ const PatientTable = () => {
     exportToExcel(flattenedData, "patients.xlsx");
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  const handleRefresh = () => {
+    setPageNumber(0);
+    setSearchTerm("");
+    setLocation("");
+    setCompany("");
+    setSwabStatus("");
+    setCertificateStatus("");
+  };
 
-  if (isError) {
-    return <ErrorNotification message={error.message} />;
+  useEffect(() => {
+    if (searchTerm) {
+      console.log("Search term changed:", searchTerm);
+    }
+  }, [searchTerm]);
+
+  if (isPatientsError || isCompaniesError) {
+    return (
+      <ErrorNotification message={(patientsError || companiesError).message} />
+    );
   }
 
   return (
-    <>
-      {allPatients.length === 0 ? (
-        <EmptyTable />
-      ) : (
-        <Fragment>
-          <div className="d-md-flex align-items-center justify-content-between mb-20">
+    <Fragment>
+      <div>
+        <div className="d-md-flex align-items-center justify-content-between mb-20">
+          <div className="col-md-10">
             <SearchBox
               searchTerm={searchTerm}
               handleSearch={handleSearch}
-              placeholderText={
-                "Search by Company Name, First Name, Or Last name"
-              }
+              placeholderText={"Search by Last Name"}
             />
+          </div>
+          <div className="col-md-2 text-md-end">
+            <ExportExcelButton onClick={handleExportClick} />
+          </div>
+        </div>
 
-            <div className="spacing">
-              {loading ? (
-                <Loading />
-              ) : (
-                <ExportExcelButton onClick={handleExportClick} />
-              )}
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <div className="form-floating mb-3">
+              <select
+                className="form-select"
+                id="location"
+                value={location}
+                onChange={handleLocationChange}
+              >
+                <option value="">All Locations</option>
+                <option value="HARARE">HARARE</option>
+                <option value="MUTARE">MUTARE</option>
+                <option value="BULAWAYO">BULAWAYO</option>
+                <option value="PICKSTONE">PICKSTONE</option>
+                <option value="EUREKA">EUREKA</option>
+              </select>
+              <label htmlFor="location">Location</label>
             </div>
           </div>
 
-          {JSON.stringify(user?.location)}
-          <div className="table-responsive">
-            <table className="table table-striped table-hover">
-              <thead>
+          <div className="col-md-6">
+            <div className="form-floating mb-3">
+              <select
+                className="form-select"
+                id="company"
+                value={company}
+                onChange={handleCompanyChange}
+              >
+                <option value="">All Companies</option>
+                {companiesData?.map((comp) => (
+                  <option key={comp.id} value={comp.id}>
+                    {comp.company_name}
+                  </option>
+                ))}
+              </select>
+              <label htmlFor="company">Company</label>
+            </div>
+          </div>
+
+          <div className="col-md-6">
+            <div className="form-floating mb-3">
+              <select
+                className="form-select"
+                id="swabStatus"
+                value={swabStatus}
+                onChange={handleSwabStatusChange}
+              >
+                <option value="">All Swab Status</option>
+                <option value="PENDING">PENDING</option>
+                <option value="DONE">DONE</option>
+              </select>
+              <label htmlFor="swabStatus">Swab Status</label>
+            </div>
+          </div>
+
+          <div className="col-md-6">
+            <div className="form-floating mb-3">
+              <select
+                className="form-select"
+                id="certificateStatus"
+                value={certificateStatus}
+                onChange={handleCertificateStatusChange}
+              >
+                <option value="">All Certificate Status</option>
+                <option value="PENDING">PENDING</option>
+                <option value="MONITORING">MONITORING</option>
+                <option value="READY">READY</option>
+                <option value="RELEASED">RELEASED</option>
+                <option value="FAILED">FAILED</option>
+              </select>
+              <label htmlFor="certificateStatus">Certificate Status</label>
+            </div>
+          </div>
+        </div>
+
+        <div className="table-responsive">
+          <table className="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th onClick={() => handleSort("id")} className="pointer-style">
+                  ID
+                </th>
+                <th>Last Medical Date</th>
+                <th
+                  onClick={() => handleSort("first_name")}
+                  className="pointer-style"
+                >
+                  First Name
+                </th>
+                <th
+                  onClick={() => handleSort("last_name")}
+                  className="pointer-style"
+                >
+                  Last Name
+                </th>
+                <th
+                  onClick={() => handleSort("company")}
+                  className="pointer-style"
+                >
+                  Company
+                </th>
+                <th>National_ID</th>
+                <th>Location</th>
+                <th>Phone Number</th>
+                <th>Employee Number</th>
+                <th>Swab Status</th>
+                <th>Last X-Ray</th>
+                <th>Certificate Status</th>
+                <th className="fw-500">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {isLoading ? (
                 <tr>
-                  <th
-                    onClick={() => handleSort("id")}
-                    className="pointer-style"
-                    style={{
-                      cursor: "pointer",
-                    }}
-                  >
-                    ID
-                  </th>
-                  <th
-                    onClick={() => handleSort("first_name")}
-                    className="pointer-style"
-                  >
-                    First Name
-                  </th>
-                  <th
-                    onClick={() => handleSort("last_name")}
-                    className="pointer-style"
-                  >
-                    Last Name
-                  </th>
-                  <th
-                    onClick={() => handleSort("company")}
-                    className="pointer-style"
-                  >
-                    Company
-                  </th>
-                  <th>National_ID</th>
-                  <th>Location</th>
-                  <th>Phone Number</th>
-                  <th>Employee Number</th>
-                  <th>Swab Status</th>
-                  <th>Last X-Ray</th>
-                  <th>Certificate Status</th>
-                  <th className="fw-500">Actions</th>
+                  <td colSpan={13} className="text-center">
+                    <div className="spinner-border" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {allPatients &&
-                  allPatients.map((patient, index) => (
-                    <PatientItem
-                      key={patient.id}
-                      patient={patient}
-                      index={index}
-                    />
-                  ))}
-              </tbody>
-            </table>
-          </div>
+              ) : (
+                currentPageData.map((patient, index) => (
+                  <PatientItem
+                    key={patient.id}
+                    patient={patient}
+                    index={index}
+                  />
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
 
-          <div className="table-spacing"></div>
-          <div className="paginate-position">
-            {/* <ReactPaginate
-              previousLabel={"Previous"}
-              nextLabel={"Next"}
-              breakLabel={"..."}
-              breakClassName={"break-me"}
-              pageCount={Math.ceil(sortedPatients.length / itemsPerPage)}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={(sortedPatients) => {
-                setPageNumber(sortedPatients.selected);
-              }}
-              containerClassName={"pagination"}
-              activeClassName={"active-paginate"}
-            /> */}
-
-            <ReactPaginate
-              previousLabel={"Previous"}
-              nextLabel={"Next"}
-              breakLabel={"..."}
-              breakClassName={"break-me"}
-              pageCount={pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={(selectedItem) => {
-                setPageNumber(selectedItem.selected + 1); // Adjust for 1-indexed page number
-              }}
-              containerClassName={"pagination"}
-              activeClassName={"active-paginate"}
-            />
-          </div>
-        </Fragment>
-      )}
-    </>
+        <div className="table-spacing"></div>
+        <div className="paginate-position">
+          <ReactPaginate
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={(data) => {
+              setPageNumber(data.selected);
+            }}
+            containerClassName={"pagination"}
+            activeClassName={"active-paginate"}
+          />
+        </div>
+      </div>
+    </Fragment>
   );
 };
 

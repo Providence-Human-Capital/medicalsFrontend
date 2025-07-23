@@ -7,6 +7,7 @@ import IllnessAnalysisCard from "../views/dashboard/components/IllnessAnalysisCa
 import SmokingAnalysisCard from "../views/dashboard/components/SmokingAnalysisCard";
 import BmiAnalysis from "../views/dashboard/components/BmiAnalysis";
 import { useDispatch, useSelector } from "react-redux";
+import { useQuery } from "@tanstack/react-query";
 import {
   companiesWithCertificateBatches,
   getAllAttendees,
@@ -41,148 +42,171 @@ import { API } from "../config";
 import NotificationModal from "../components/modal/NotificationModal";
 import { certificateActions } from "../redux_store/certificates-store";
 import { centralActions } from "../redux_store/central-store";
+import LoginInfoCard from "../components/LoginInfoCard";
 
-const Dashboard = ({}) => {
+const useOverallStats = () => {
+  return useQuery({
+    queryKey: ["overallStats"],
+    queryFn: async () => {
+      const response = await fetch(`${API}/patient/overall/stats`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch overall stats");
+      }
+
+      return response.json();
+    },
+  });
+};
+
+const Dashboard = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.ui.isLoading);
-  const [overallStats, setOverallStats] = useState({});
   const [notifications, setNotifications] = useState([]);
   const [isCreatingDnote, setIsCreatingDnote] = useState(false);
 
   const user = useSelector((state) => state.auth.user);
 
+  const {
+    data: attendees,
+    isLoading: isAttendeesLoading,
+    isError: isAttendeesError,
+  } = useQuery({
+    queryKey: ["attendees"],
+    queryFn: getAllAttendees,
+    onSuccess: (data) => {
+      dispatch(attendeeActions.setAttendees({ attendees: data }));
+    },
+  });
 
-  const fetchData = useCallback(async () => {
-    // Your async data fetching logic here
-    const attendees = await getAllAttendees();
-    dispatch(attendeeActions.setAttendees({ attendees: [...attendees] }));
+  const {
+    data: companies,
+    isLoading: isCompaniesLoading,
+    isError: isCompaniesError,
+  } = useQuery({
+    queryKey: ["companies"],
+    queryFn: getCompanies,
+    onSuccess: (data) => {
+      dispatch(companyActions.setCompanies({ companies: data }));
+    },
+  });
 
-    const companies = await getCompanies();
-    dispatch(
-      companyActions.setCompanies({
-        companies: [...companies],
-      })
-    );
+  const {
+    data: tobaccos,
+    isLoading: isTobaccosLoading,
+    isError: isTobaccosError,
+  } = useQuery({
+    queryKey: ["tobaccos"],
+    queryFn: getAllTobaccos,
+    onSuccess: (data) => {
+      dispatch(tobaccoActions.setTobaccos({ tobaccos: data }));
+    },
+  });
 
-    const tobaccos = await getAllTobaccos();
-    dispatch(
-      tobaccoActions.setTobaccos({
-        tobaccos: [...tobaccos],
-      })
-    );
+  const {
+    data: patients,
+    isLoading: isPatientsLoading,
+    isError: isPatientsError,
+  } = useQuery({
+    queryKey: ["patients"],
+    queryFn: getAllPatients,
+    onSuccess: (data) => {
+      dispatch(patientActions.setPatients({ patients: data }));
+    },
+  });
 
-    const patients = await getAllPatients();
-    dispatch(patientActions.setPatients({ patients: [...patients] }));
+  const {
+    data: pneumoPatients,
+    isLoading: isPneumoPatientsLoading,
+    isError: isPneumoPatientsError,
+  } = useQuery({
+    queryKey: ["pneumoPatients"],
+    queryFn: getPneumoPatients,
+    onSuccess: (data) => {
+      dispatch(patientActions.setPneumoPatients({ pneumoPatients: data }));
+    },
+  });
 
-    const pneumoPatients = await getPneumoPatients();
-    dispatch(patientActions.setPneumoPatients({ pneumoPatients }));
+  const {
+    data: industryPatients,
+    isLoading: isIndustryPatientsLoading,
+    isError: isIndustryPatientsError,
+  } = useQuery({
+    queryKey: ["industryPatients"],
+    queryFn: getCofHPatients,
+    onSuccess: (data) => {
+      dispatch(patientActions.setIndustryPatients({ industryPatients: data }));
+    },
+  });
 
-    const industryPatients = await getCofHPatients();
-    dispatch(patientActions.setIndustryPatients({ industryPatients }));
+  const {
+    data: skinConditions,
+    isLoading: isSkinConditionsLoading,
+    isError: isSkinConditionsError,
+  } = useQuery({
+    queryKey: ["skinConditions"],
+    queryFn: getSkinConditions,
+    onSuccess: (data) => {
+      dispatch(illnessActions.setSkinConditions({ skin_conditions: data }));
+    },
+  });
 
-    const skinConditions = await getSkinConditions();
-    dispatch(
-      illnessActions.setSkinConditions({ skin_conditions: skinConditions })
-    );
+  const {
+    data: diseases,
+    isLoading: isDiseasesLoading,
+    isError: isDiseasesError,
+  } = useQuery({
+    queryKey: ["diseases"],
+    queryFn: getDiseases,
+    onSuccess: (data) => {
+      dispatch(illnessActions.setDiseases({ diseases: data }));
+    },
+  });
 
-    const diseases = await getDiseases();
-    dispatch(illnessActions.setDiseases({ diseases }));
+  const {
+    data: auscultates,
+    isLoading: isAuscultatesLoading,
+    isError: isAuscultatesError,
+  } = useQuery({
+    queryKey: ["auscultates"],
+    queryFn: getAuscultates,
+    onSuccess: (data) => {
+      dispatch(illnessActions.setAuscultates({ auscultates: data }));
+    },
+  });
 
-    const auscultates = await getAuscultates();
-    dispatch(illnessActions.setAuscultates({ auscultates }));
+  const {
+    data: illnesses,
+    isLoading: isIllnessesLoading,
+    isError: isIllnessesError,
+  } = useQuery({
+    queryKey: ["illnesses"],
+    queryFn: getIllnesses,
+    onSuccess: (data) => {
+      dispatch(illnessActions.setIllnesses({ illnesses: data }));
+    },
+  });
 
-    const illnesses = await getIllnesses();
-    dispatch(illnessActions.setIllnesses({ illnesses: [...illnesses] }));
+  const {
+    data: companiesWithBatches,
+    isLoading: isCompaniesWithBatchesLoading,
+    isError: isCompaniesWithBatchesError,
+  } = useQuery({
+    queryKey: ["companiesWithBatches"],
+    queryFn: companiesWithCertificateBatches,
+    onSuccess: (data) => {
+      dispatch(companyActions.setCompaniesWithBatches(data));
+    },
+  });
 
-    const certificates = await companiesWithCertificateBatches();
-    const data = certificates.companies;
-    dispatch(companyActions.setCompaniesWithBatches(data));
-  }, [dispatch]);
-
-  
-
-  useEffect(() => {
-    const fetchDataAndSetLoading = async () => {
-      dispatch(
-        uiActions.setLoadingSpinner({
-          isLoading: true,
-        })
-      );
-
-      try {
-        await fetchData();
-
-        dispatch(
-          uiActions.setLoadingSpinner({
-            isLoading: false,
-          })
-        );
-      } catch (error) {
-        console.error(error);
-        dispatch(
-          uiActions.setLoadingSpinner({
-            isLoading: true,
-          })
-        );
-      }
-    };
-    const fetchOverallStatsData = async () => {
-      try {
-        const response = await fetch(`${API}/patient/overall/stats`, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        });
-
-        const responseData = await response.json();
-
-        if (response.ok) {
-          setOverallStats(responseData);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const fetchAllExamPurposes = async () => {
-      try {
-        const response = await fetch(`${API}/exam/purpose/get`, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        });
-
-        const responseData = await response.json();
-        dispatch(
-          centralActions.setExamPurposesWithServices({
-            examPurposes: [...responseData],
-          })
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getCityOfHarareDnoteNoneDispatched().then((cityDnote) => {
-      dispatch(certificateActions.setCityOfHarareDnotes([...cityDnote]));
-    });
-
-    getSimbisaNonDispatchedDnote().then((simbisaDnote) => {
-      dispatch(certificateActions.setSimbisaDnote([...simbisaDnote]));
-    });
-
-    getTexasDnoteNonDispatched().then((texasDnotes) => {
-      dispatch(certificateActions.setTexasDnotes([...texasDnotes]));
-    });
-
-    fetchDataAndSetLoading();
-    fetchAllExamPurposes();
-    fetchOverallStatsData();
-  }, [fetchData, dispatch]);
+  const { data: overallStats, isLoading: isOverallStatsLoading } =
+    useOverallStats();
 
   const totalPatients = useSelector((state) => state.patient.patients.length);
 
@@ -210,48 +234,55 @@ const Dashboard = ({}) => {
     }
   };
 
-
-
-
-
-
   return (
     <Fragment>
       <section className="content">
-        {/* <DashboardSkeleton /> */}
+        {isLoading || isOverallStatsLoading ? (
+          <div className="flex items-center justify-center h-24">
+            <div className="text-blue-600 bg-blue-100 px-4 py-2 rounded-md shadow-sm text-sm font-medium">
+              Fetching the overall stats...
+            </div>
+          </div>
+        ) : null}
+        <div className="row">
+          <div className="col-xl-8 col-12">
+            <LoginInfoCard
+              userName={"" + user?.first_name + " " + user?.last_name}
+              loginLocation={user?.location || "Unknown Location"}
+            />
+          </div>
+        </div>
 
-{/* {JSON.stringify(overallStats)} */}
         <div className="row">
           <div className="col-xl-8 col-12">
             <div className="row">
-             
               <SmallCard
                 svgLink={
-                  "https://rhythm-admin-template.multipurposethemes.com/images/svg-icon/medical/icon-2.svg"
+                  "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMTIgMmgxMGMtMS4xIDAgLTIgMS4xYy0xLjEgMS4xLTIgMiAwIDIgMmgxMmMxLjEgMCAyLTEuMSAxLjEtMiAwLTIgbC0xMC0xMHptMTAgMGgxMmMxLjEgMCAyLTEuMSAxLjEtMiAwLTIgbC0xMC0xMHoiLz48L3N2Zz4="
                 }
                 Label={"Total Patients"}
-                Number={overallStats.totalPatients || 0}
+                Number={overallStats?.totalPatients || 0}
               />
               <SmallCard
                 Label={"To 81 Baines"}
                 svgLink={
-                  "https://rhythm-admin-template.multipurposethemes.com/images/svg-icon/medical/icon-1.svg"
+                  "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMTIgMmgxMGMtMS4xIDAgLTIgMS4xYy0xLjEgMS4xLTIgMiAwIDIgMmgxM2MxLjEgMCAyLTEuMSAxLjEtMiAwLTIgbC0xMC0xMHptMTAgMGgxM2MxLjEgMCAyLTEuMSAxLjEtMiAwLTIgbC0xMC0xMHoiLz48L3N2Zz4="
                 }
-                Number={overallStats.referralPatients || 0}
+                Number={overallStats?.referralPatients || 0}
               />
               <SmallCard
                 svgLink={
-                  "https://rhythm-admin-template.multipurposethemes.com/images/svg-icon/medical/icon-4.svg"
+                  "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMTIgMmgxMGMtMS4xIDAgLTIgMS4xYy0xLjEgMS4xLTIgMiAwIDIgMmgxM2MxLjEgMCAyLTEuMSAxLjEtMiAwLTIgbC0xMC0xMHptMTAgMGgxM2MxLjEgMCAyLTEuMSAxLjEtMiAwLTIgbC0xMC0xMHoiLz48L3N2Zz4="
                 }
                 Label={"Certificates Passed"}
-                Number={overallStats.releasedCertificates || 0}
+                Number={overallStats?.releasedCertificates || 0}
               />
               <SmallCard
                 svgLink={
-                  "https://rhythm-admin-template.multipurposethemes.com/images/svg-icon/medical/icon-3.svg"
+                  "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMTIgMmgxMGMtMS4xIDAgLTIgMS4xYy0xLjEgMS4xLTIgMiAwIDIgMmgxM2MxLjEgMCAyLTEuMSAxLjEtMiAwLTIgbC0xMC0xMHptMTAgMGgxM2MxLjEgMCAyLTEuMSAxLjEtMiAwLTIgbC0xMC0xMHoiLz48L3N2Zz4="
                 }
                 Label={"Certificates Failed"}
-                Number={overallStats.failedCertificates || 0}
+                Number={overallStats?.failedCertificates || 0}
               />
             </div>
 
@@ -317,8 +348,7 @@ const Dashboard = ({}) => {
               <div className="col-xl-12 col-12">
                 <CertificateAnalysisCard />
               </div>
-              <div className="col-xl-6 col-12">
-              </div>
+              <div className="col-xl-6 col-12"></div>
             </div>
 
             <div className="row">
@@ -332,7 +362,6 @@ const Dashboard = ({}) => {
             <DueMedicalsBox />
             <IllnessAnalysisCard />
             <PatientStatisticsCard />
-
           </div>
         </div>
       </section>

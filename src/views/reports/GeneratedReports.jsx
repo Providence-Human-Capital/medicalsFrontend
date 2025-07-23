@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import BreadCrumb from "../../components/BreadCrumb";
 import ReportsListBox from "./components/ReportsListBox";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { API } from "../../config";
 import { patientActions } from "../../redux_store/patients-store";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 import Loading from "../../components/loader/Loading";
 import { Helmet } from "react-helmet";
+import { API } from "../../config";
 
-const GeneratedReports = ({}) => {
+const GeneratedReports = () => {
   const companies = useSelector((state) => state.company.companies);
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState({
     year: "",
     month: "",
@@ -31,41 +31,38 @@ const GeneratedReports = ({}) => {
     );
 
     return years.map((year) => (
-      <>
-        <option key={year} value={year}>
-          {year}
-        </option>
-      </>
+      <option key={year} value={year}>
+        {year}
+      </option>
     ));
   };
 
-  const handleGenerateReport = () => {
-    // Call your Laravel backend API here with the filter values
-    setIsLoading(true);
-    axios
-      .post(`${API}/advanced/report/generation`, {
-        year: filters.year,
-        month: filters.month,
-        company: filters.company,
-        category: filters.category,
-      })
-      .then((response) => {
-        // Handle the response, update state, or perform any other actions
-        console.log("This is the patient Response", response.data);
-        dispatch(
-          patientActions.setReportsFilteredResults({
-            reportsFilteredResults: response.data.data,
-          })
-        );
+  const { mutateAsync: generateReport, isLoading } = useMutation({
+    mutationFn: async (filters) => {
+      const response = await axios.post(
+        `${API}/advanced/report/generation`,
+        filters
+      );
+      return response.data;
+    },
+    onSuccess: (data) => {
+      dispatch(
+        patientActions.setReportsFilteredResults({
+          reportsFilteredResults: data.data,
+        })
+      );
+    },
+    onError: (error) => {
+      console.error("Error generating report:", error);
+    },
+  });
 
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error("Error generating report:", error);
-        setIsLoading(false);
-      });
-    console.log(filters);
+  const handleGenerateReport = async () => {
+    try {
+      await generateReport(filters);
+    } catch (error) {
+      console.error("Error generating report:", error);
+    }
   };
 
   return (
@@ -76,8 +73,8 @@ const GeneratedReports = ({}) => {
       <BreadCrumb title={"Generate Reports"} activeTab={"Graphs & Exports"} />
       <div className="content">
         <div className="row">
-          <div className="col-xl-8 col-12">
-            <div className="box p-3  py-4">
+          <div className="col-xl-12 col-12">
+            <div className="box p-3 py-4">
               <h4
                 style={{
                   textTransform: "uppercase",
@@ -153,31 +150,45 @@ const GeneratedReports = ({}) => {
                       }
                     >
                       <option value="">Select Category</option>
-                      <option value="Food Handler (COH)">Food Handler (COH)</option>
+                      <option value="Food Handler (COH)">
+                        Food Handler (COH)
+                      </option>
                       <option value="Pre-Employement">Pre-Employement</option>
                       <option value="Exit-Employement">Exit-Employement</option>
                       <option value="Pneumoconiosis">Pneumoconiosis</option>
-                      <option value="Exit-Pneumoconiosis">Exit-Pneumoconiosis</option>
+                      <option value="Exit-Pneumoconiosis">
+                        Exit-Pneumoconiosis
+                      </option>
                     </select>
                     <label>SELECT CATEGORY</label>
                   </div>
                 </div>
                 <div className="col-md-2">
-                  {isLoading ? (
-                    <Loading />
-                  ) : (
-                    <button
-                      className="btn btn-primary btn-block"
-                      style={{
-                        textTransform: "uppercase",
-                        fontWeight: "bold",
-                        borderRadius: "5px",
-                      }}
-                      onClick={handleGenerateReport}
-                    >
-                      GENERATE REPORT
-                    </button>
-                  )}
+                  <button
+                    className="btn btn-primary btn-block d-flex align-items-center justify-content-center gap-2"
+                    style={{
+                      textTransform: "uppercase",
+                      fontWeight: "bold",
+                      borderRadius: "5px",
+                      minHeight: "40px",
+                      fontFamily: "Poppins",
+                    }}
+                    onClick={handleGenerateReport}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <>
+                        <span
+                          className="spinner-border spinner-border-sm"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Generating...
+                      </>
+                    ) : (
+                      "Generate Report"
+                    )}
+                  </button>
                 </div>
               </div>
 
@@ -202,10 +213,8 @@ const GeneratedReports = ({}) => {
               </div>
             </div>
             {/* List of Generated Results */}
-            <ReportsListBox  />
+            <ReportsListBox />
           </div>
-
-          <div className="col-xl-4 col-12"></div>
         </div>
       </div>
     </>

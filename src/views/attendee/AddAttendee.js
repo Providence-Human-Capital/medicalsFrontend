@@ -16,16 +16,52 @@ import "./component-css/CustomCss.css";
 import SaveButton from "../../components/buttons/SaveButton";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+
+const fetchAllPatients = async (token) => {
+  try {
+    const response = await fetch(`${API}/patients`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const responseData = await response.json();
+    return responseData.data || [];
+  } catch (error) {
+    console.error("Error fetching patients:", error);
+    throw new Error("Failed to fetch patients. Please try again later.");
+  }
+};
+
+const getAllCompanies = async () => {
+  try {
+    const response = await fetch(`${API}/company`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    const responseData = await response.json();
+    return responseData.data || [];
+  } catch (error) {
+    console.error("Error fetching companies:", error);
+    throw new Error("Failed to fetch companies. Please try again later.");
+  }
+};
 
 const AddAttendee = () => {
   const [loading, setLoading] = useState(false);
   const [redirectBack, setRedirectBack] = useState(false);
-  const [redirectToPatients, setRedirectToPatients] = useState(false);
+  const [redirectToPatients, setRedirectToPatients] = useState(true);
   const [continueAddingAttendees, setContinueAddingAttendees] = useState(false);
   const addedNew = useSelector((state) => state.ui.showAlert);
 
-
   const user = useSelector((state) => state.auth.user);
+  const token = useSelector((state) => state.auth.token);
 
   const styles = {
     formContainer: {
@@ -35,7 +71,19 @@ const AddAttendee = () => {
   };
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const companies = useSelector((state) => state.company.companies);
+
+  const queryClient = useQueryClient();
+
+  const {
+    data: companiesData,
+    isLoading: isCompaniesLoading,
+    isError: isCompaniesError,
+    error: companiesError,
+  } = useQuery({
+    queryKey: ["companies"],
+    queryFn: getAllCompanies,
+    staleTime: 10 * 60 * 1000,
+  });
 
   const initialValues = {
     id_type: "zimbabwean_id",
@@ -56,17 +104,6 @@ const AddAttendee = () => {
     created_at: "",
   };
 
-  // /^(\d{2}-\d{7}-[A-Z]-\d{2})$/
-  // /^[A-Z]{2}-\d{7}-[A-Z]{1}-\d{2}$/,
-
-  // national_id: yup
-  //     .string()
-  //     .when("national_id_type", {
-  //       is: "zimbabwean_id",
-  //       then: yup.string()
-  //     .matches(/^(\d{2}-\d{7}-[A-Z]-\d{2})$/, "Invalid Zimbabwean ID")
-  //     .required("Zimbabwean ID is required"),
-
   const validationSchema = yup.object().shape({
     company_id: yup.number().required("Please select a company"),
     first_name: yup.string().required("First name is required"),
@@ -82,9 +119,13 @@ const AddAttendee = () => {
       otherwise: yup.string().notRequired(),
     }),
     country_code: yup.string().required("Select country code"),
-    phone_number: yup.string()
-    .required("Please enter the Phone Number")
-    .matches(/^\d{9}$/, "Phone Number must be 9 digits (do not include a 0 on start)"),
+    phone_number: yup
+      .string()
+      .required("Please enter the Phone Number")
+      .matches(
+        /^\d{9}$/,
+        "Phone Number must be 9 digits (do not include a 0 on start)"
+      ),
     x_ray_status: yup.string().required("Please select the X ray Status"),
     exam_purpose: yup.string().required("Please select the Exam Purpose"),
     employee_number: yup.string().nullable(),
@@ -98,6 +139,70 @@ const AddAttendee = () => {
     created_at: yup.string().nullable(),
   });
 
+  // const onSubmit = async (formData, { setSubmitting, resetForm }) => {
+  //   setLoading(true);
+  //   formData.first_name = formData.first_name.toUpperCase();
+  //   formData.last_name = formData.last_name.toUpperCase();
+  //   formData.national_id = formData.national_id.toUpperCase();
+  //   formData.employee_number = formData.employee_number.toUpperCase();
+  //   console.log("FormData", formData);
+  //   try {
+  //     const response = await fetch(`${API}/attendee`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`, // ✅ Include token here
+  //       },
+  //       body: JSON.stringify(formData),
+  //     });
+  //     const data = await response.json();
+  //     console.log("Responsee", data);
+  //     dispatch(
+  //       uiActions.setAlert({
+  //         setAlert: true,
+  //       })
+  //     );
+
+  //     setRedirectBack(true);
+  //     if ((response.status === 200) | (response.status === 201)) {
+  //       Swal.fire({
+  //         icon: "success",
+  //         title: "Success",
+  //         text: "New Client Successfully Added",
+  //         timer: 4000,
+  //         confirmButtonColor: "#007a41",
+  //       });
+  //       if (redirectToPatients) {
+  //         navigate("/patients");
+  //       } else if (continueAddingAttendees) {
+  //         resetForm();
+  //       }
+  //     }
+
+  //     if (response.status === 400) {
+  //       if (data.error) {
+  //         toast(data.error);
+  //       }
+  //     }
+
+  //     if (response.status === 500) {
+  //       toast("An internal server error occurred! National ID might be in use");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error Messsage", error);
+  //   } finally {
+  //     setLoading(false);
+  //     setSubmitting(false);
+  //     setTimeout(() => {
+  //       dispatch(
+  //         uiActions.setAlert({
+  //           setAlert: false,
+  //         })
+  //       );
+  //     }, 4000);
+  //   }
+  // };
+
   const onSubmit = async (formData, { setSubmitting, resetForm }) => {
     setLoading(true);
     formData.first_name = formData.first_name.toUpperCase();
@@ -110,6 +215,7 @@ const AddAttendee = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Include token here
         },
         body: JSON.stringify(formData),
       });
@@ -130,6 +236,10 @@ const AddAttendee = () => {
           timer: 4000,
           confirmButtonColor: "#007a41",
         });
+
+        // Invalidate the patients query to refetch the latest data
+        queryClient.invalidateQueries({ queryKey: ["patients"] });
+
         if (redirectToPatients) {
           navigate("/patients");
         } else if (continueAddingAttendees) {
@@ -147,7 +257,7 @@ const AddAttendee = () => {
         toast("An internal server error occurred! National ID might be in use");
       }
     } catch (error) {
-      console.error("Error Messsage", error);
+      console.error("Error Message", error);
     } finally {
       setLoading(false);
       setSubmitting(false);
@@ -176,26 +286,6 @@ const AddAttendee = () => {
     );
   };
 
-  // const handleNationalIdChange = (event, setFieldValue, id_type) => {
-  //   const { value } = event.target;
-  //   let formattedValue = value
-  //     .replace(/[^A-Za-z0-9]/g, "") // Remove non-alphanumeric characters
-  //     .slice(0, 16); // Limit the length to 13 characters
-
-  //   if (id_type !== "international_id") {
-  //     if (formattedValue.length > 2) {
-  //       formattedValue = formattedValue.replace(/(\d{2})/, "$1-");
-  //     }
-  //     if (formattedValue.length > 10) {
-  //       formattedValue = formattedValue.replace(/(\d{4,7})([A-Z])/, "$1-$2-");
-  //     }
-  //     if (formattedValue.length > 13) {
-  //       formattedValue = formattedValue.replace(/([A-Z])(\d{1,2})$/, "$1-$2");
-  //     }
-  //   }
-
-  //   setFieldValue("national_id", formattedValue);
-  // };
   const handleNationalIdChange = (event, setFieldValue, id_type) => {
     const { value } = event.target;
     let formattedValue = value
@@ -226,24 +316,44 @@ const AddAttendee = () => {
   return (
     <Fragment>
       <BreadCrumb title={"Add Attendee"} activeTab={"Add Attendee"} />
-      {/* {addedNew && <Alert message={"Attendee Successfully Added!"} />} */}
-      {/* {JSON.stringify(user?.location)} */}
-      <Link
-        to={"/attendees/add/excel"}
-        className="btn btn-primary me-5 mb-md-0 mb-4 excel-btn"
+
+      <div
+        className="row"
         style={{
-          borderRadius: "20px",
+          padding: " 0 2rem",
+          borderRadius: "10px",
         }}
       >
-        <i className="fa fa-table" aria-hidden="true"></i>
-        {"   "}
-        Add Through Excel
-      </Link>
+        <Link
+          to={"/attendees/add/excel"}
+          className="btn btn-primary me-5 mb-md-0 mb-4 excel-btn"
+          style={{
+            borderRadius: "10px",
+            width: "fit-content",
+          }}
+        >
+          <i className="fa fa-table" aria-hidden="true"></i>
+          {"   "}
+          Add Through Excel
+        </Link>
+      </div>
+
       <div className="separation-div"></div>
       <div className="section">
-        <div className="row">
-          <div className="col-xl-12 col-12">
-            <div className="card">
+        <div
+          className="row"
+          style={{
+            padding: "2rem",
+            borderRadius: "10px",
+          }}
+        >
+          <div
+            className="col-xl-12 col-12"
+            style={{
+              marginTop: "2rem",
+            }}
+          >
+            <div className="box">
               <div className="">
                 <div className="box-body">
                   <div className="">
@@ -353,11 +463,15 @@ const AddAttendee = () => {
                                   name="company_id"
                                 >
                                   <option value=""></option>
-                                  {companies.map((company) => (
-                                    <option key={company.id} value={company.id}>
-                                      {company.company_name.toUpperCase()}
-                                    </option>
-                                  ))}
+                                  {companiesData &&
+                                    companiesData?.map((company) => (
+                                      <option
+                                        key={company.id}
+                                        value={company.id}
+                                      >
+                                        {company.company_name.toUpperCase()}
+                                      </option>
+                                    ))}
                                 </Field>
                                 <label htmlFor="company_id">COMPANY NAME</label>
                                 <ErrorMessage
@@ -419,23 +533,6 @@ const AddAttendee = () => {
                               </div>
                             </div>
                             <div className="col-md-4">
-                              {/* <div className="form-floating">
-                                <Field
-                                  as="select"
-                                  className="form-select"
-                                  id="id_type"
-                                  name="id_type"
-                                >
-                                  <option value="zimbabwean_id">
-                                    ZIMBABWEAN ID
-                                  </option>
-                                  <option value="international_id">
-                                    INTERNATIONAL ID
-                                  </option>
-                                </Field>
-                                <label htmlFor="id_type">ID TYPE</label>
-                              </div>
-                              <div className="separation-div"></div> */}
                               <div className="form-floating">
                                 <Field
                                   type="text"
@@ -447,7 +544,6 @@ const AddAttendee = () => {
                                   id="national_id"
                                   placeholder="Enter national ID"
                                   name="national_id"
-                                
                                 />
                                 <label htmlFor="national_id">NATIONAL ID</label>
                                 <ErrorMessage
@@ -531,12 +627,6 @@ const AddAttendee = () => {
                                   >
                                     Periodical
                                   </option>
-                                  {/* <option value="3">
-                                    Exit(Employment Termination)
-                                  </option>
-                                  <option value="4">
-                                    Post(Employment Follow Up)
-                                  </option> */}
                                 </Field>
                                 <label htmlFor="exam_purpose">
                                   EXAM PURPOSE
@@ -727,11 +817,20 @@ const AddAttendee = () => {
                           {loading ? (
                             <Loading />
                           ) : (
-                            <SaveButton
-                              text={"Save Attendee"}
+                            <button
+                              type="button"
                               onClick={handleSubmit}
-                              disable={isSubmitting}
-                            />
+                              disabled={isSubmitting}
+                              style={{
+                                textTransform: "uppercase",
+                                fontWeight: "bold",
+                                borderRadius: "10px",
+                                fontFamily: "Poppins, sans-serif",
+                              }}
+                              className={`inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold  shadow-md hover:bg-blue-700 focus:outline-none disabled:opacity-50`}
+                            >
+                              {isSubmitting ? "Saving..." : "Save Attendee"}
+                            </button>
                           )}
                         </Form>
                       )}
