@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
@@ -7,10 +7,7 @@ import { API } from "../../../config";
 import { attendeeActions } from "../../../redux_store/attendee-store";
 import SwabResultDropdown from "./SwabResultDropdown";
 import { PHYSICAL_EXAM } from "../../../helpers/helpers";
-import {
-  doctorManualCertificateUpdate,
-  getAllPatients,
-} from "../../../services/api";
+import { doctorManualCertificateUpdate } from "../../../services/api";
 import moment from "moment";
 
 const formatDate = (dateString) => {
@@ -23,93 +20,189 @@ const formatDate = (dateString) => {
   return `${month.toUpperCase()} ${year}`;
 };
 
-const PatientItem = ({ patient, index }) => {
+const getAllPatients = async (
+  searchTerm = "",
+  location = "",
+  company = "",
+  swabStatus = "",
+  certificateStatus = "",
+  token = ""
+) => {
+  const queryParams = new URLSearchParams({
+    search: searchTerm,
+    location: location,
+    company: company,
+    swab_status: swabStatus,
+    certificate_status: certificateStatus,
+  });
+
+  try {
+    const response = await fetch(
+      `${API}/patientsraw?${queryParams.toString()}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const responseData = await response.json();
+    return {
+      patients: responseData || [],
+    };
+  } catch (error) {
+    console.error("Error fetching patients:", error);
+    throw new Error(`Failed to fetch patients: ${error.message}`);
+  }
+};
+
+const PatientItem = ({ patient, index, invalidatePatients }) => {
   const dispatch = useDispatch();
-
+  const [searchTerm, setSearchTerm] = useState("");
+  const [location, setLocation] = useState("");
+  const [company, setCompany] = useState("");
+  const [swabStatus, setSwabStatus] = useState("");
+  const [certificateStatus, setCertificateStatus] = useState("");
   const token = useSelector((state) => state.auth.token);
+  const user = useSelector((state) => state.auth.user);
 
-  const updateCertificateStatus = async (certificateId) => {
+  const startNewConsultation = (patientId) => {
     Swal.fire({
-      title: "UPDATE CERTIFICATE STATUS",
+      title: "START NEW CONSULTATION",
       width: "700px",
       html: `
-        <div class="form-floating">
-          <select id="status-select" class="form-select">
-            <option value="PENDING">PENDING</option>
-            <option value="MONITORING">MONITORING</option>
-            <option value="READY">READY</option>
-            <option value="RELEASED">RELEASED</option>
-            <option value="FAILED">FAILED</option>
-          </select>
-          <label htmlFor="status-select">Status</label>
-        </div>
-        <div class="form-floating sep">
-          <textarea id="update-reason" class="form-control update-reason" placeholder="Update Reason"></textarea>
-          <label htmlFor="update-reason">UPDATE REASON</label>
-        </div>
-        <div class="form-floating sep">
-          <input type="password" id="password-input" class="form-control" placeholder="Password" />
-          <label htmlFor="password-input">USER PASSWORD</label>
-        </div>
-        <p><strong>NB</strong>: Enter Password for a successful status update!</p>
-      `,
+      <div class="form-floating">
+        <select id="medical-category-select" class="form-select">
+          <option value="Food Handler (COH)">Food Handler</option>
+          <option value="Pneumoconiosis">Pneumoconiosis</option>
+          <option value="Pre-Employement">Pre-Employment</option>
+          <option value="Exit-Pneumoconiosis">Exit (Pneumoconiosis)</option>
+          <option value="Exit-Employment">Exit-Employment</option>
+        </select>
+        <label htmlFor="medical-category-select">Medical Category</label>
+      </div>
+    `,
       showCancelButton: true,
-      confirmButtonText: "Save",
+      confirmButtonText: "Start",
       cancelButtonText: "Cancel",
       focusConfirm: false,
       preConfirm: () => {
-        const selectElement = document.getElementById("status-select");
+        const selectElement = document.getElementById(
+          "medical-category-select"
+        );
         const selectedValue =
           selectElement.options[selectElement.selectedIndex].value;
 
-        const updateReasonElement = document.getElementById("update-reason");
-        const updateReason = updateReasonElement.value;
+        console.log("Selected Medical Category: " + selectedValue);
 
-        const passwordElement = document.getElementById("password-input");
-        const password = passwordElement.value;
-
-        console.log(
-          "selectedValue   " + selectedValue,
-          "updateReason   " + updateReason,
-          "password    " + password
-        );
-
-        return { selectedValue, updateReason, password };
+        return { selectedValue };
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        const { selectedValue, updateReason, password } = result.value;
-        // Perform the necessary actions with the selectedValue, updateReason, and password
-        doctorManualCertificateUpdate(
-          certificateId,
-          selectedValue,
-          updateReason,
-          password,
-          token
-        ).then((data) => {
-          console.log(data);
-          const fetchAllPatients = async () => {
-            const allPatients = await getAllPatients();
-            console.log(
-              "allPatients from Certificate Update",
-              JSON.stringify(allPatients)
-            );
-            dispatch(
-              patientActions.setPatients({
-                patients: [...allPatients],
-              })
-            );
-          };
-          fetchAllPatients();
+        const { selectedValue } = result.value;
+
+        // Show loader
+        Swal.fire({
+          title: "Processing...",
+          html: "Please wait while we start the new medical examination.",
+          allowOutsideClick: false,
+          showConfirmButton: false,
+          willOpen: () => {
+            Swal.showLoading();
+          },
         });
+
+        // Perform the necessary actions with the selectedValue
+        renewMedicalCertificate(patientId, selectedValue)
+          .then((data) => {
+            console.log(data);
+            // Hide loader and show success message
+            Swal.close();
+            Swal.fire({
+              icon: "success",
+              title: "Consultation Started",
+              text: "The consultation has been initiated successfully.",
+            });
+
+            // Refetch patients after successful renewal
+            refetchPatients();
+            invalidatePatients();
+          })
+          .catch((error) => {
+            console.error(
+              "There was a problem with the fetch operation:",
+              error
+            );
+            // Hide loader and show error message
+            Swal.close();
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "There was a problem starting the consultation.",
+            });
+          });
       } else {
         handleCancel();
       }
     });
   };
 
+  // Function to renew medical certificate and update category
+  const renewMedicalCertificate = async (patientId, medicalCategory) => {
+    try {
+      const response = await fetch(`${API}/medical/${patientId}/renewal`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Assuming you have a token for authentication
+        },
+        body: JSON.stringify({
+          medicalCategory,
+          certificateLocation: user?.location,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+      throw error;
+    }
+  };
+
+  // Example function to handle cancel action
+
+  // Example function to handle cancel action
   const handleCancel = () => {
-    Swal.close();
+    console.log("Consultation initiation cancelled");
+    Swal.close(); // Close the SweetAlert2 modal
+  };
+
+  const refetchPatients = async () => {
+    try {
+      const patients = await getAllPatients(
+        searchTerm,
+        location,
+        company,
+        swabStatus,
+        certificateStatus,
+        token
+      );
+      dispatch(patientActions.setPatients(patients.patients));
+    } catch (error) {
+      console.error("Error refetching patients:", error);
+    }
   };
 
   const handleDelete = async (id) => {
@@ -162,11 +255,11 @@ const PatientItem = ({ patient, index }) => {
   };
 
   useEffect(() => {
-    console.log("patient" + JSON.stringify(patient.category));
-    console.log(
-      "STATUS",
-      patient.certificates[patient.certificates.length - 1].status
-    );
+    // console.log("patient" + JSON.stringify(patient.category));
+    // console.log(
+    //   "STATUS",
+    //   patient.certificates[patient.certificates.length - 1].status
+    // );
   }, []);
 
   return (
@@ -180,8 +273,8 @@ const PatientItem = ({ patient, index }) => {
       >
         <td>{index + 1}</td>
         <td>
-          {patient?.certificates?.[0]?.created_at
-            ? moment(patient.certificates[0].created_at).format(
+          {patient?.latest_certificate?.created_at
+            ? moment(patient.latest_certificate?.created_at).format(
                 "dddd D MMMM YYYY [at] h:mm A"
               )
             : "—"}
@@ -204,50 +297,23 @@ const PatientItem = ({ patient, index }) => {
         <td>{patient.company}</td>
         <td>{patient.national_id}</td>
         <td>
-          {patient.certificates[patient.certificates.length - 1]
-            .certificate_location === "HARARE" ? (
+          {patient.latest_certificate?.certificate_location === "HARARE" ? (
             <>
               <span className="badge badge-pill badge-primary">
-                {
-                  patient.certificates[patient.certificates.length - 1]
-                    .certificate_location
-                }
+                {patient.latest_certificate?.certificate_location}
               </span>
             </>
           ) : (
             <>
               <span className="badge badge-pill badge-warning">
-                {
-                  patient.certificates[patient.certificates.length - 1]
-                    .certificate_location
-                }
+                {patient.latest_certificate?.certificate_location}
               </span>
             </>
           )}
         </td>
         <td>{patient.phone_number}</td>
         <td>{patient.employee_number}</td>
-
-        {patient.category === "In House" ||
-        patient.category === "Food Handler (COH)" ? (
-          <td>
-            {patient.swabs.length !== 0 ? (
-              <SwabResultDropdown
-                patientId={patient.id}
-                initialSwabResult={`${
-                  patient.swabs[patient.swabs.length - 1].status
-                }`}
-              />
-            ) : (
-              <SwabResultDropdown
-                patientId={patient.id}
-                initialSwabResult={"PENDING"}
-              />
-            )}
-          </td>
-        ) : (
-          <td></td>
-        )}
+        <td>{patient.category}</td>
 
         {(patient.last_x_ray === "N/A") | (patient.last_x_ray === null) ? (
           <td>N/A</td>
@@ -256,61 +322,60 @@ const PatientItem = ({ patient, index }) => {
             <strong>{formatDate(patient.last_x_ray)}</strong>
           </td>
         )}
+        <td>{PHYSICAL_EXAM(patient.latest_certificate?.status)}</td>
+
         <td>
-          {/* <span
+          <button
+            onClick={() => startNewConsultation(patient.id)}
+            className="btn btn-primary"
+            title="Start new consultation"
             style={{
-              cursor: "pointer",
-            }}
-            onClick={() =>
-              updateCertificateStatus(
-                patient.certificates[patient.certificates.length - 1].id
-              )
-            }
-          >
-            {PHYSICAL_EXAM(
-              patient.certificates[patient.certificates.length - 1].status
-            )}
-          </span> */}
-          <span
-            style={{
-              cursor: "pointer",
+              borderRadius: "15px",
+              fontFamily: "Poppins, sans-serif",
             }}
           >
-            {PHYSICAL_EXAM(
-              patient.certificates[patient.certificates.length - 1].status
-            )}
-          </span>
+            RENEW MEDICAL
+          </button>
         </td>
 
-        <td className="text-end">
+        <td className="text-end space-x-2">
+          {/* New Consultation */}
+
+          {/* View Patient */}
           <Link
-            to={`${patient.id}`}
+            to={`/patients/${patient.id}`}
             className="waves-effect waves-light btn btn-primary-light btn-circle"
+            title="View Patient"
           >
             <span className="icon-Settings-1 fs-18">
               <span className="path1"></span>
               <span className="path2"></span>
             </span>
           </Link>
+
+          {/* Edit Patient */}
           <Link
             to={`/patients/edit/${patient.id}`}
-            class="waves-effect waves-light btn btn-warning-light btn-circle mx-5"
+            className="waves-effect waves-light btn btn-warning-light btn-circle"
+            title="Edit Patient"
           >
-            <span class="icon-Write">
-              <span class="path1"></span>
-              <span class="path2"></span>
+            <span className="icon-Write">
+              <span className="path1"></span>
+              <span className="path2"></span>
             </span>
           </Link>
 
-          <a
+          {/* Delete Patient */}
+          <button
             onClick={() => handleDelete(patient.id)}
             className="waves-effect waves-light btn btn-danger-light btn-circle"
+            title="Delete Patient"
           >
             <span className="icon-Trash1 fs-18">
               <span className="path1"></span>
               <span className="path2"></span>
             </span>
-          </a>
+          </button>
         </td>
       </tr>
     </Fragment>

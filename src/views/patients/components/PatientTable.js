@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import PatientItem from "./PatientItem";
 import ReactPaginate from "react-paginate";
 import * as XLSX from "xlsx";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   sortPatients,
   filterPatients,
@@ -50,14 +50,17 @@ const getAllPatients = async (
   });
 
   try {
-    const response = await fetch(`${API}/patient?${queryParams.toString()}`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      `${API}/patientsraw?${queryParams.toString()}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -65,7 +68,7 @@ const getAllPatients = async (
 
     const responseData = await response.json();
     return {
-      patients: responseData?.data || [],
+      patients: responseData || [],
     };
   } catch (error) {
     console.error("Error fetching patients:", error);
@@ -88,6 +91,8 @@ const exportToExcel = (data, filename) => {
   XLSX.writeFile(workbook, filename);
 };
 
+
+
 const PatientTable = () => {
   const [pageNumber, setPageNumber] = useState(0);
   const itemsPerPage = 10;
@@ -103,6 +108,10 @@ const PatientTable = () => {
   const user = useSelector((state) => state.auth.user);
   const token = useSelector((state) => state.auth.token);
 
+
+  const queryClient = useQueryClient();
+
+  
   const {
     data: patientsData,
     isError: isPatientsError,
@@ -212,6 +221,20 @@ const PatientTable = () => {
 
   const handleExportClick = () => {
     exportToExcel(flattenedData, "patients.xlsx");
+  };
+
+  const refetchPatients = () => {
+    queryClient.invalidateQueries({
+      queryKey: [
+        "patients",
+        searchTerm,
+        location,
+        company,
+        swabStatus,
+        certificateStatus,
+        token,
+      ],
+    });
   };
 
   const handleRefresh = () => {
@@ -356,9 +379,20 @@ const PatientTable = () => {
                 <th>Location</th>
                 <th>Phone Number</th>
                 <th>Employee Number</th>
-                <th>Swab Status</th>
+                <th>
+                  {" "}
+                  <span
+                    class="badge bg-secondary"
+                    style={{
+                      padding: "0.5rem 0.75rem",
+                    }}
+                  >
+                    Type Of Medical
+                  </span>
+                </th>
                 <th>Last X-Ray</th>
                 <th>Certificate Status</th>
+                <th>New Consultation ?</th>
                 <th className="fw-500">Actions</th>
               </tr>
             </thead>
@@ -377,6 +411,7 @@ const PatientTable = () => {
                     key={patient.id}
                     patient={patient}
                     index={index}
+                    invalidatePatients={refetchPatients} // ✅ Pass function reference
                   />
                 ))
               )}
