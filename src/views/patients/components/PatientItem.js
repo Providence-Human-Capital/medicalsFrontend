@@ -359,7 +359,7 @@ const PatientItem = ({ patient, index, invalidatePatients }) => {
             className="waves-effect waves-light btn btn-warning-light btn-circle"
             title="Edit Patient"
           >
-            <span className="icon-Write">
+            <span className="icon-Write fs-18">
               <span className="path1"></span>
               <span className="path2"></span>
             </span>

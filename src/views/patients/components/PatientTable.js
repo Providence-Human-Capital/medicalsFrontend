@@ -91,7 +91,7 @@ const exportToExcel = (data, filename) => {
 
 const PatientTable = () => {
   const [pageNumber, setPageNumber] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(10); // Default items per page
+  const [itemsPerPage, setItemsPerPage] = useState(50); // Default items per page
   const [searchTerm, setSearchTerm] = useState("");
   const [location, setLocation] = useState("");
   const [company, setCompany] = useState("");
@@ -183,7 +183,7 @@ const PatientTable = () => {
   };
 
   const handleItemsPerPageChange = (e) => {
-    setItemsPerPage(parseInt(e.target.value, 10));
+    setItemsPerPage(parseInt(e.target.value, 50));
     setPageNumber(0); // Reset to the first page when changing items per page
   };
 
@@ -229,7 +229,7 @@ const PatientTable = () => {
     setCompany("");
     setSwabStatus("");
     setCertificateStatus("");
-    setItemsPerPage(10); // Reset items per page to default
+    setItemsPerPage(50); // Reset items per page to default
   };
 
   useEffect(() => {
