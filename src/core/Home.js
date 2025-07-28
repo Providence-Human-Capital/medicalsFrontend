@@ -208,7 +208,9 @@ const Dashboard = () => {
   const { data: overallStats, isLoading: isOverallStatsLoading } =
     useOverallStats();
 
-  const totalPatients = useSelector((state) => state.patient.patients.length);
+  const totalPatients = useSelector(
+    (state) => state.patient?.patients?.length || 0
+  );
 
   const createDnote = async (type) => {
     const currentDate = new Date().toLocaleDateString().split("/").join("-");
