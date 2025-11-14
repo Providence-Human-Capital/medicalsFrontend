@@ -37,6 +37,7 @@ const EditPatient = () => {
 
   const updateAttendeeMutation = useMutation({
     mutationFn: async (values) => {
+      
       const response = await fetch(`${API}/attendee/update/${patientId}`, {
         method: "PATCH",
         headers: {
