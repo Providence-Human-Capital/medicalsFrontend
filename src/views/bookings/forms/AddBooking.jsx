@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import BreadCrumb from "../../../components/BreadCrumb";
 import { API } from "../../../config";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // -------- Validation --------
 const bookingValidationSchema = Yup.object().shape({
@@ -88,7 +88,11 @@ const AddBooking = () => {
       navigate("/booking");
     },
     onError: (error) => {
-      Swal.fire("Error!", error?.message || "Failed to create booking", "error");
+      Swal.fire(
+        "Error!",
+        error?.message || "Failed to create booking",
+        "error"
+      );
     },
   });
 
@@ -128,6 +132,14 @@ const AddBooking = () => {
       <section className="content">
         <div className="row">
           <div className="mt-4">
+            <div style={{
+              padding: "1rem",
+              margin: '1rem'
+            }}>
+              <Link to={"/booking/upload"} className="btn btn-primary">
+                UPLOAD MULTIPLE BOOKINGS
+              </Link>
+            </div>
             <div className="card">
               <div className="card-body">
                 <h4 className="mb-4">
@@ -148,8 +160,11 @@ const AddBooking = () => {
                           value={formik.values.first_name}
                         />
                         <label htmlFor="first_name">First Name</label>
-                        {formik.touched.first_name && formik.errors.first_name ? (
-                          <div className="text-danger">{formik.errors.first_name}</div>
+                        {formik.touched.first_name &&
+                        formik.errors.first_name ? (
+                          <div className="text-danger">
+                            {formik.errors.first_name}
+                          </div>
                         ) : null}
                       </div>
                     </div>
@@ -166,7 +181,9 @@ const AddBooking = () => {
                         />
                         <label htmlFor="last_name">Last Name</label>
                         {formik.touched.last_name && formik.errors.last_name ? (
-                          <div className="text-danger">{formik.errors.last_name}</div>
+                          <div className="text-danger">
+                            {formik.errors.last_name}
+                          </div>
                         ) : null}
                       </div>
                     </div>
@@ -187,8 +204,11 @@ const AddBooking = () => {
                           value={formik.values.national_id}
                         />
                         <label htmlFor="national_id">National ID</label>
-                        {formik.touched.national_id && formik.errors.national_id ? (
-                          <div className="text-danger">{formik.errors.national_id}</div>
+                        {formik.touched.national_id &&
+                        formik.errors.national_id ? (
+                          <div className="text-danger">
+                            {formik.errors.national_id}
+                          </div>
                         ) : null}
                       </div>
                     </div>
@@ -204,8 +224,11 @@ const AddBooking = () => {
                           value={formik.values.date_of_birth}
                         />
                         <label htmlFor="date_of_birth">Date of Birth</label>
-                        {formik.touched.date_of_birth && formik.errors.date_of_birth ? (
-                          <div className="text-danger">{formik.errors.date_of_birth}</div>
+                        {formik.touched.date_of_birth &&
+                        formik.errors.date_of_birth ? (
+                          <div className="text-danger">
+                            {formik.errors.date_of_birth}
+                          </div>
                         ) : null}
                       </div>
                     </div>
@@ -225,7 +248,9 @@ const AddBooking = () => {
                         </select>
                         <label htmlFor="gender">Gender</label>
                         {formik.touched.gender && formik.errors.gender ? (
-                          <div className="text-danger">{formik.errors.gender}</div>
+                          <div className="text-danger">
+                            {formik.errors.gender}
+                          </div>
                         ) : null}
                       </div>
                     </div>
@@ -246,8 +271,11 @@ const AddBooking = () => {
                           value={formik.values.phone_number}
                         />
                         <label htmlFor="phone_number">Phone Number</label>
-                        {formik.touched.phone_number && formik.errors.phone_number ? (
-                          <div className="text-danger">{formik.errors.phone_number}</div>
+                        {formik.touched.phone_number &&
+                        formik.errors.phone_number ? (
+                          <div className="text-danger">
+                            {formik.errors.phone_number}
+                          </div>
                         ) : null}
                       </div>
                     </div>
@@ -261,15 +289,21 @@ const AddBooking = () => {
                           name="company_id"
                           onChange={(e) => {
                             const v = e.target.value;
-                            formik.setFieldValue("company_id", v === "" ? "" : Number(v));
+                            formik.setFieldValue(
+                              "company_id",
+                              v === "" ? "" : Number(v)
+                            );
                           }}
                           value={formik.values.company_id}
                           disabled={companiesLoading}
                         >
-                          {companiesLoading && <option value="">Loading companies…</option>}
+                          {companiesLoading && (
+                            <option value="">Loading companies…</option>
+                          )}
                           {companiesError && (
                             <option value="">
-                              {companiesErrorObj?.message || "Failed to load companies"}
+                              {companiesErrorObj?.message ||
+                                "Failed to load companies"}
                             </option>
                           )}
                           {!companiesLoading && !companiesError && (
@@ -277,7 +311,9 @@ const AddBooking = () => {
                               <option value="">Select Company</option>
                               {companies.map((c) => (
                                 <option key={c.id} value={c.id}>
-                                  {(c.company_name || c.name || "").toString().toUpperCase()}
+                                  {(c.company_name || c.name || "")
+                                    .toString()
+                                    .toUpperCase()}
                                 </option>
                               ))}
                             </>
@@ -298,8 +334,11 @@ const AddBooking = () => {
                           </div>
                         )}
 
-                        {formik.touched.company_id && formik.errors.company_id ? (
-                          <div className="text-danger">{formik.errors.company_id}</div>
+                        {formik.touched.company_id &&
+                        formik.errors.company_id ? (
+                          <div className="text-danger">
+                            {formik.errors.company_id}
+                          </div>
                         ) : null}
                       </div>
                     </div>
@@ -318,15 +357,25 @@ const AddBooking = () => {
                           value={formik.values.category}
                         >
                           <option value=""></option>
-                          <option value="Food Handler (COH)">Food Handler</option>
+                          <option value="Food Handler (COH)">
+                            Food Handler
+                          </option>
                           <option value="Pneumoconiosis">Pneumoconiosis</option>
-                          <option value="Pre-Employement">Pre-Employment</option>
-                          <option value="Exit-Pneumoconiosis">Exit (Pneumoconiosis)</option>
-                          <option value="Exit-Employement">Exit-Employement</option>
+                          <option value="Pre-Employement">
+                            Pre-Employment
+                          </option>
+                          <option value="Exit-Pneumoconiosis">
+                            Exit (Pneumoconiosis)
+                          </option>
+                          <option value="Exit-Employement">
+                            Exit-Employement
+                          </option>
                         </select>
                         <label htmlFor="category">Category</label>
                         {formik.touched.category && formik.errors.category ? (
-                          <div className="text-danger">{formik.errors.category}</div>
+                          <div className="text-danger">
+                            {formik.errors.category}
+                          </div>
                         ) : null}
                       </div>
                     </div>
@@ -344,8 +393,11 @@ const AddBooking = () => {
                           <option value="2">Periodical</option>
                         </select>
                         <label htmlFor="exam_purpose">Exam Purpose</label>
-                        {formik.touched.exam_purpose && formik.errors.exam_purpose ? (
-                          <div className="text-danger">{formik.errors.exam_purpose}</div>
+                        {formik.touched.exam_purpose &&
+                        formik.errors.exam_purpose ? (
+                          <div className="text-danger">
+                            {formik.errors.exam_purpose}
+                          </div>
                         ) : null}
                       </div>
                     </div>
@@ -364,8 +416,11 @@ const AddBooking = () => {
                           <option value="DONE">DONE</option>
                         </select>
                         <label htmlFor="x_ray_status">X-ray Status</label>
-                        {formik.touched.x_ray_status && formik.errors.x_ray_status ? (
-                          <div className="text-danger">{formik.errors.x_ray_status}</div>
+                        {formik.touched.x_ray_status &&
+                        formik.errors.x_ray_status ? (
+                          <div className="text-danger">
+                            {formik.errors.x_ray_status}
+                          </div>
                         ) : null}
                       </div>
                     </div>
@@ -382,8 +437,11 @@ const AddBooking = () => {
                           value={formik.values.last_x_ray}
                         />
                         <label htmlFor="last_x_ray">Last X-ray</label>
-                        {formik.touched.last_x_ray && formik.errors.last_x_ray ? (
-                          <div className="text-danger">{formik.errors.last_x_ray}</div>
+                        {formik.touched.last_x_ray &&
+                        formik.errors.last_x_ray ? (
+                          <div className="text-danger">
+                            {formik.errors.last_x_ray}
+                          </div>
                         ) : null}
                       </div>
                     </div>
@@ -404,8 +462,11 @@ const AddBooking = () => {
                           value={formik.values.booking_date}
                         />
                         <label htmlFor="booking_date">Booking Date</label>
-                        {formik.touched.booking_date && formik.errors.booking_date ? (
-                          <div className="text-danger">{formik.errors.booking_date}</div>
+                        {formik.touched.booking_date &&
+                        formik.errors.booking_date ? (
+                          <div className="text-danger">
+                            {formik.errors.booking_date}
+                          </div>
                         ) : null}
                       </div>
                     </div>

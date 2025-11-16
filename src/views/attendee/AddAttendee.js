@@ -85,6 +85,9 @@ const AddAttendee = () => {
     staleTime: 10 * 60 * 1000,
   });
 
+  // Today (YYYY-MM-DD) for the max attribute on MEDICAL EXAM DATE
+  const today = new Date().toISOString().split("T")[0];
+
   const initialValues = {
     id_type: "zimbabwean_id",
     company_id: "",
@@ -112,10 +115,7 @@ const AddAttendee = () => {
     gender: yup.string().required("Select your gender"),
     national_id: yup.string().when("id_type", {
       is: "zimbabwean_id",
-      then: yup
-        .string()
-
-        .required("Zimbabwean ID is required"),
+      then: yup.string().required("Zimbabwean ID is required"),
       otherwise: yup.string().notRequired(),
     }),
     country_code: yup.string().required("Select country code"),
@@ -136,7 +136,24 @@ const AddAttendee = () => {
         /^(N\/A|\d{4}|\d{4}-\d{2})$/,
         "Please enter a valid year (YYYY) or year and month (YYYY-MM), or N/A"
       ),
-    created_at: yup.string().nullable(),
+    created_at: yup
+      .string()
+      .nullable()
+      .test(
+        "not-in-future",
+        "Medical Exam Date cannot be in the future",
+        (value) => {
+          if (!value) return true; // field is optional
+          const selected = new Date(value);
+          const now = new Date();
+
+          // Strip time portion for a pure date comparison
+          selected.setHours(0, 0, 0, 0);
+          now.setHours(0, 0, 0, 0);
+
+          return selected <= now;
+        }
+      ),
   });
 
   const onSubmit = async (formData, { setSubmitting, resetForm }) => {
@@ -258,7 +275,6 @@ const AddAttendee = () => {
         style={{
           padding: " 0 2rem",
           borderRadius: "10px",
-          
         }}
       >
         <Link
@@ -699,8 +715,9 @@ const AddAttendee = () => {
                                     : ""
                                 }`}
                                 id="created_at"
-                                placeholder="Enter date of birth"
+                                placeholder="Enter Medical Exam Date"
                                 name="created_at"
+                                max={today} // ⬅️ prevent picking future date in UI
                               />
                               <label htmlFor="created_at">
                                 MEDICAL EXAM DATE

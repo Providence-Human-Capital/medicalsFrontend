@@ -15,10 +15,10 @@
 
 
 
-// export const API = "https://providencehumancapital.com/medicalsapi/public/api"
-// export const IMAGE_URL = "https://providencehumancapital.com/medicalsapi/public/images"
+export const API = "https://providencehealth.online/medibeta/public/api"
+export const IMAGE_URL = "https://providencehealth.online/medibeta/public/images"
 
-export const API = "https://providencehumancapital.com/medibeta/public/api"
-export const IMAGE_URL = "https://providencehumancapital.com/medibeta/public/images"
+// export const API = "https://providencehumancapital.com/medibeta/public/api"
+// export const IMAGE_URL = "https://providencehumancapital.com/medibeta/public/images"
 
 

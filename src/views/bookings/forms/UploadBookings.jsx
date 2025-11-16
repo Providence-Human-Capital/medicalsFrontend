@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { API } from "../../../config";
 import { ToastContainer, toast } from "react-toastify";
+import Swal from "sweetalert2";
 import { uiActions } from "../../../redux_store/ui-store";
 import Loading from "../../../components/loader/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -38,7 +39,7 @@ const fetchCompanies = async () => {
 };
 
 const UploadBookings = () => {
-  const [data, setData] = useState([]); // full, actual parsed rows
+  const [data, setData] = useState([]); // parsed rows (actual)
   const [company, setCompany] = useState("");
   const [examPurpose, setExamPurpose] = useState("");
   const [category, setCategory] = useState("");
@@ -65,16 +66,62 @@ const UploadBookings = () => {
     retry: 1,
   });
 
-  // --- Dropzone + XLSX parsing ---
+  // CSV-only helper
+  const isCsvFile = (file) => {
+    // Some browsers label CSV as application/vnd.ms-excel, so check extension too
+    const nameOk = /\.csv$/i.test(file.name || "");
+    const typeOk = file.type === "text/csv" || file.type === "application/vnd.ms-excel";
+    return nameOk || typeOk;
+  };
+
+  const showCsvOnlySwal = () => {
+    Swal.fire({
+      icon: "info",
+      title: "CSV files only",
+      html: `
+        <div style="text-align:left">
+          <p>Please upload a <b>.csv</b> file.</p>
+          <p><b>How to save as CSV in Excel (Windows):</b></p>
+          <ol>
+            <li>File → Save As</li>
+            <li>Choose a location</li>
+            <li><b>Save as type:</b> CSV (Comma delimited) (*.csv)</li>
+            <li>Click Save</li>
+          </ol>
+          <p><b>Excel (Mac):</b></p>
+          <ol>
+            <li>File → Save As</li>
+            <li><b>File Format:</b> CSV UTF-8 (Comma-delimited) (.csv)</li>
+            <li>Click Save</li>
+          </ol>
+          <p><b>Google Sheets:</b></p>
+          <ol>
+            <li>File → Download</li>
+            <li><b>Comma-separated values (.csv)</b></li>
+          </ol>
+        </div>
+      `,
+      confirmButtonText: "Got it",
+    });
+  };
+
+  // --- Dropzone + CSV parsing ---
   const onDrop = useCallback((acceptedFiles) => {
     if (!acceptedFiles || acceptedFiles.length === 0) return;
     const file = acceptedFiles[0];
 
+    // Extra guard (in case of odd MIME detection)
+    if (!isCsvFile(file)) {
+      showCsvOnlySwal();
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        const buffer = new Uint8Array(e.target.result);
-        const workbook = XLSX.read(buffer, { type: "array" });
+        // Read CSV text directly
+        const csvText = e.target.result;
+        const workbook = XLSX.read(csvText, { type: "string" });
         const sheetName = workbook.SheetNames[0];
         const sheet = workbook.Sheets[sheetName];
 
@@ -84,7 +131,7 @@ const UploadBookings = () => {
 
         // Map rows into objects using original headers
         const formatted = (rest || [])
-          .filter((r) => Array.isArray(r) && r.length > 0) // drop empty rows
+          .filter((r) => Array.isArray(r) && r.length > 0)
           .map((row) =>
             headers.reduce((obj, header, idx) => {
               obj[header] = row[idx];
@@ -96,10 +143,14 @@ const UploadBookings = () => {
         toast.success(`Loaded ${formatted.length} row(s) from ${file.name}`);
       } catch (err) {
         console.error(err);
-        toast.error("Could not parse the file. Please check the format.");
+        toast.error("Could not parse the CSV. Please check the file.");
       }
     };
-    reader.readAsArrayBuffer(file);
+    reader.readAsText(file); // important: CSV as text
+  }, []);
+
+  const onDropRejected = useCallback(() => {
+    showCsvOnlySwal();
   }, []);
 
   const {
@@ -111,13 +162,11 @@ const UploadBookings = () => {
     acceptedFiles,
   } = useDropzone({
     onDrop,
+    onDropRejected,
     maxFiles: 1,
+    // Accept CSV only
     accept: {
       "text/csv": [".csv"],
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
-        ".xlsx",
-      ],
-      "application/vnd.ms-excel": [".xls"],
     },
   });
 
@@ -160,10 +209,9 @@ const UploadBookings = () => {
     if (!category) return toast.error("Please select a category.");
     if (!examPurpose) return toast.error("Please select an exam purpose.");
     if (!bookingDate) return toast.error("Please select a booking date.");
-    if (!data.length) return toast.error("No rows loaded. Please upload a CSV/XLSX first.");
+    if (!data.length) return toast.error("No rows loaded. Please upload a CSV first.");
 
     const transformedData = data.map((row) => {
-      // Convert Excel serial date to yyyy-mm-dd if present (we read the actual value from file)
       const dobSerial = row["Date of Birth"];
       let dateOfBirth = null;
       if (dobSerial !== undefined && dobSerial !== null && dobSerial !== "") {
@@ -174,7 +222,6 @@ const UploadBookings = () => {
             dateOfBirth = new Date(ts).toISOString().slice(0, 10);
           }
         } else if (typeof dobSerial === "string" && /^\d{4}-\d{2}-\d{2}$/.test(dobSerial)) {
-          // If the Excel had an ISO-like string already
           dateOfBirth = dobSerial;
         }
       }
@@ -255,19 +302,21 @@ const UploadBookings = () => {
 
               <div className="box-body">
                 <form onSubmit={saveDataToDatabase}>
-                  {/* Full-width dashed Dropzone */}
+                  {/* Full-width dashed Dropzone (CSV-only) */}
                   <div className="row mb-4">
                     <div className="col-12">
                       <div {...getRootProps({ style: dropzoneStyle })}>
                         <input {...getInputProps()} />
                         {isDragActive ? (
-                          <p>Drop the file here…</p>
+                          <p>Drop the CSV file here…</p>
                         ) : (
                           <p>
-                            Drag &amp; drop a <strong>.csv</strong>, <strong>.xlsx</strong>, or{" "}
-                            <strong>.xls</strong> here, or click to select.
+                            Drag &amp; drop a <strong>.csv</strong> file here, or click to select.
                           </p>
                         )}
+                        <div className="small mt-2 text-muted">
+                          Only <b>.csv</b> is accepted.
+                        </div>
                       </div>
                       {acceptedFiles?.[0] && (
                         <div className="small mt-2">
@@ -318,7 +367,7 @@ const UploadBookings = () => {
                             </div>
 
                             <p className="text-muted mb-0">
-                              You are viewing the data **exactly as loaded** from the file.
+                              You are viewing the data <b>exactly as loaded</b> from the CSV.
                             </p>
                           </div>
                         </div>
@@ -342,9 +391,7 @@ const UploadBookings = () => {
                           }
                           disabled={companiesLoading}
                         >
-                          {companiesLoading && (
-                            <option value="">Loading companies…</option>
-                          )}
+                          {companiesLoading && <option value="">Loading companies…</option>}
                           {companiesError && (
                             <option value="">
                               {companiesErrorObj?.message || "Failed to load companies"}
@@ -355,9 +402,7 @@ const UploadBookings = () => {
                               <option value=""></option>
                               {companies.map((co) => (
                                 <option key={co.id} value={co.id}>
-                                  {(co.company_name || co.name || "")
-                                    .toString()
-                                    .toUpperCase()}
+                                  {(co.company_name || co.name || "").toString().toUpperCase()}
                                 </option>
                               ))}
                             </>
@@ -411,11 +456,7 @@ const UploadBookings = () => {
                         >
                           <option value=""></option>
                           {categories.map((opt) => (
-                            <option
-                              key={opt.value}
-                              value={opt.value}
-                              style={{ textTransform: "uppercase" }}
-                            >
+                            <option key={opt.value} value={opt.value} style={{ textTransform: "uppercase" }}>
                               {opt.label}
                             </option>
                           ))}

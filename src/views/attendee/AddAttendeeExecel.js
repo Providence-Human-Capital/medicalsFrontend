@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from "react-query";
 import { API } from "../../config";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import { uiActions } from "../../redux_store/ui-store";
 import Loading from "../../components/loader/Loading";
 import "./component-css/CustomCss.css";
@@ -32,12 +33,9 @@ const fetchCompanies = async () => {
 };
 
 const AddAttendeeExecel = () => {
-  const [data, setData] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
+  const [data, setData] = useState([]);           // parsed rows
   const [patientsAdded, setPatientsAdded] = useState(0);
   const [savedData, setSavedData] = useState([]);
-  const [count, setCount] = useState(0);
   const [company, setCompany] = useState("");
   const [examPurpose, setExamPurpose] = useState("");
   const [category, setCategory] = useState("");
@@ -61,16 +59,60 @@ const AddAttendeeExecel = () => {
     retry: 1,
   });
 
-  // --- Dropzone + XLSX parsing (replaces <input type="file">) ---
+  // CSV-only helper (guard for odd MIME detection)
+  const isCsvFile = (file) => {
+    const nameOk = /\.csv$/i.test(file.name || "");
+    const typeOk = file.type === "text/csv" || file.type === "application/vnd.ms-excel";
+    return nameOk || typeOk;
+  };
+
+  const showCsvOnlySwal = () => {
+    Swal.fire({
+      icon: "info",
+      title: "CSV files only",
+      html: `
+        <div style="text-align:left">
+          <p>Please upload a <b>.csv</b> file.</p>
+          <p><b>Excel (Windows):</b></p>
+          <ol>
+            <li>File → Save As</li>
+            <li>Choose a location</li>
+            <li><b>Save as type:</b> CSV (Comma delimited) (*.csv)</li>
+            <li>Save</li>
+          </ol>
+          <p><b>Excel (Mac):</b></p>
+          <ol>
+            <li>File → Save As</li>
+            <li><b>File Format:</b> CSV UTF-8 (Comma-delimited) (.csv)</li>
+            <li>Save</li>
+          </ol>
+          <p><b>Google Sheets:</b></p>
+          <ol>
+            <li>File → Download</li>
+            <li><b>Comma-separated values (.csv)</b></li>
+          </ol>
+        </div>
+      `,
+      confirmButtonText: "Got it",
+    });
+  };
+
+  // --- Dropzone + CSV parsing (CSV ONLY) ---
   const onDrop = useCallback((acceptedFiles) => {
     if (!acceptedFiles || acceptedFiles.length === 0) return;
     const file = acceptedFiles[0];
 
+    // Extra guard in case accept filter is bypassed
+    if (!isCsvFile(file)) {
+      showCsvOnlySwal();
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        const buffer = new Uint8Array(e.target.result);
-        const workbook = XLSX.read(buffer, { type: "array" });
+        const csvText = e.target.result; // CSV as text
+        const workbook = XLSX.read(csvText, { type: "string" });
         const sheetName = workbook.SheetNames[0];
         const sheet = workbook.Sheets[sheetName];
 
@@ -85,14 +127,19 @@ const AddAttendeeExecel = () => {
               {}
             )
           );
+
         setData(formattedData);
         toast.success(`Loaded ${formattedData.length} row(s) from ${file.name}`);
       } catch (err) {
         console.error(err);
-        toast.error("Could not parse the file. Please check the format.");
+        toast.error("Could not parse the CSV. Please check the file.");
       }
     };
-    reader.readAsArrayBuffer(file);
+    reader.readAsText(file); // IMPORTANT for CSV
+  }, []);
+
+  const onDropRejected = useCallback(() => {
+    showCsvOnlySwal();
   }, []);
 
   const {
@@ -104,12 +151,10 @@ const AddAttendeeExecel = () => {
     acceptedFiles,
   } = useDropzone({
     onDrop,
+    onDropRejected,
     maxFiles: 1,
-    accept: {
-      "text/csv": [".csv"],
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"],
-      "application/vnd.ms-excel": [".xls"],
-    },
+    // CSV only
+    accept: { "text/csv": [".csv"] },
   });
 
   // Full-width dashed styling for the dropzone
@@ -129,34 +174,25 @@ const AddAttendeeExecel = () => {
     [isDragActive, isDragAccept, isDragReject]
   );
 
-  const handleSearch = () => {
-    const filtered = data.filter((row) =>
-      Object.values(row).some(
-        (value) =>
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    );
-    setFilteredData(filtered);
+  // Preview headers (union of keys)
+  const previewHeaders = useMemo(() => {
+    if (!data.length) return [];
+    const set = new Set();
+    data.forEach((row) => Object.keys(row || {}).forEach((k) => set.add(k)));
+    return Array.from(set);
+  }, [data]);
+
+  const clearLoadedData = () => {
+    setData([]);
+    setSavedData([]);
+    setPatientsAdded(0);
   };
 
   const saveDataToDatabase = async () => {
-    if (!company) {
-      toast.error("Please select a company first.");
-      return;
-    }
-    if (!category) {
-      toast.error("Please select a category.");
-      return;
-    }
-    if (!examPurpose) {
-      toast.error("Please select an exam purpose.");
-      return;
-    }
-    if (!data.length) {
-      toast.error("No rows loaded. Please upload a CSV/XLSX first.");
-      return;
-    }
+    if (!company) return toast.error("Please select a company first.");
+    if (!category) return toast.error("Please select a category.");
+    if (!examPurpose) return toast.error("Please select an exam purpose.");
+    if (!data.length) return toast.error("No rows loaded. Please upload a CSV first.");
 
     const transformedData = data.map((row) => {
       const dobRaw = row["Date of Birth"];
@@ -165,10 +201,8 @@ const AddAttendeeExecel = () => {
       if (dobRaw !== undefined && dobRaw !== null && dobRaw !== "") {
         const num = Number(dobRaw);
         if (!Number.isNaN(num)) {
-          const ts = (num - 25569) * 86400 * 1000;
-          if (!Number.isNaN(ts)) {
-            dateOfBirth = new Date(ts).toISOString().slice(0, 10);
-          }
+          const ts = (num - 25569) * 86400 * 1000; // Excel serial guard (in case)
+          if (!Number.isNaN(ts)) dateOfBirth = new Date(ts).toISOString().slice(0, 10);
         } else if (typeof dobRaw === "string" && /^\d{4}-\d{2}-\d{2}$/.test(dobRaw)) {
           dateOfBirth = dobRaw;
         }
@@ -183,7 +217,7 @@ const AddAttendeeExecel = () => {
           row["Phone Number"] !== undefined && row["Phone Number"] !== null
             ? String(row["Phone Number"])
             : "",
-        date_of_birth: dateOfBirth,
+        date_of_birth: dateOfBirth || '1999-04-19',
         exam_purpose: examPurpose,
         company_id: company === "" ? null : Number(company),
         category: category,
@@ -235,7 +269,8 @@ const AddAttendeeExecel = () => {
         }
       } catch (error) {
         console.error(error);
-        toast.error("Record might exist in the system / Duplicate National ID");
+        console.log('This is the upload error', error)
+        toast.error(error);
         dispatch(uiActions.setLoadingSpinner({ isLoading: false }));
       }
 
@@ -261,19 +296,19 @@ const AddAttendeeExecel = () => {
                     <strong>Add Client Through Excel</strong>
                   </h4>
 
-                  {/* Full-width dashed Dropzone */}
+                  {/* Full-width dashed Dropzone (CSV-only) */}
                   <div className="row mb-3">
                     <div className="col-12">
                       <div {...getRootProps({ style: dropzoneStyle })}>
                         <input {...getInputProps()} />
                         {isDragActive ? (
-                          <p>Drop the file here…</p>
+                          <p>Drop the CSV file here…</p>
                         ) : (
                           <p>
-                            Drag &amp; drop a <strong>.csv</strong>, <strong>.xlsx</strong>, or{" "}
-                            <strong>.xls</strong> here, or click to select.
+                            Drag &amp; drop a <strong>.csv</strong> file here, or click to select.
                           </p>
                         )}
+                        <div className="small mt-2 text-muted">Only <b>.csv</b> is accepted.</div>
                       </div>
                       {acceptedFiles?.[0] && (
                         <div className="small mt-2">
@@ -283,9 +318,59 @@ const AddAttendeeExecel = () => {
                     </div>
                   </div>
 
+                  {/* Preview: show ALL actually loaded rows */}
+                  {data.length > 0 && (
+                    <div className="row mb-4">
+                      <div className="col-12">
+                        <div className="card">
+                          <div className="card-body">
+                            <div className="d-flex justify-content-between align-items-center mb-3">
+                              <h5 className="m-0">
+                                Preview (showing all {data.length} row{data.length !== 1 ? "s" : ""})
+                              </h5>
+                              <button
+                                type="button"
+                                className="btn btn-sm btn-outline-secondary"
+                                onClick={clearLoadedData}
+                              >
+                                Clear
+                              </button>
+                            </div>
+
+                            <div className="table-responsive" style={{ maxHeight: 520, overflow: "auto" }}>
+                              <table className="table table-sm table-striped">
+                                <thead style={{ position: "sticky", top: 0, background: "#fff", zIndex: 1 }}>
+                                  <tr>
+                                    {previewHeaders.map((h) => (
+                                      <th key={h}>{h}</th>
+                                    ))}
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {data.map((row, idx) => (
+                                    <tr key={idx}>
+                                      {previewHeaders.map((h) => (
+                                        <td key={h}>{row?.[h] ?? ""}</td>
+                                      ))}
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+
+                            <p className="text-muted mb-0">
+                              You are viewing the data <b>exactly as loaded</b> from the CSV.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   <form onSubmit={(e) => e.preventDefault()}>
                     <div className="separation-div"></div>
                     <div className="row">
+                      {/* Company */}
                       <div className="col-md-4">
                         <div className="form-floating">
                           <select
@@ -334,6 +419,7 @@ const AddAttendeeExecel = () => {
                         </div>
                       </div>
 
+                      {/* Exam Purpose */}
                       <div className="col-md-4">
                         <div className="form-floating">
                           <select
@@ -353,6 +439,7 @@ const AddAttendeeExecel = () => {
                         </div>
                       </div>
 
+                      {/* Category */}
                       <div className="col-md-4">
                         <div className="form-floating">
                           <select
@@ -390,7 +477,12 @@ const AddAttendeeExecel = () => {
                     {isLoading ? (
                       <Loading />
                     ) : (
-                      <SaveButton onClick={saveDataToDatabase} text={"Save To Database"} />
+                      // <SaveButton onClick={saveDataToDatabase} text={"Save To Database"} />
+                      <button className="btn btn-primary" onClick={saveDataToDatabase} style={{
+                        fontFamily: 'Poppins'
+                      }}>
+                          UPLOAD TO DATABASE
+                      </button>
                     )}
                   </form>
                 </div>

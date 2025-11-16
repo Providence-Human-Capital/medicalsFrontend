@@ -1,17 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import BreadCrumb from "../../components/BreadCrumb";
 import ReportsListBox from "./components/ReportsListBox";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { patientActions } from "../../redux_store/patients-store";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import Loading from "../../components/loader/Loading";
 import { Helmet } from "react-helmet";
 import { API } from "../../config";
 
+// --- Fetch companies locally (no Redux slice) ---
+const fetchCompanies = async () => {
+  const res = await fetch(`${API}/company`, {
+    method: "GET",
+    headers: { Accept: "application/json" },
+  });
+  if (!res.ok) {
+    let msg = "Failed to load companies";
+    try {
+      const j = await res.json();
+      if (j?.message) msg = j.message;
+    } catch {}
+    throw new Error(msg);
+  }
+  const json = await res.json();
+  // supports either { data: [...] } or a bare array
+  return Array.isArray(json) ? json : json?.data ?? [];
+};
+
 const GeneratedReports = () => {
-  const companies = useSelector((state) => state.company.companies);
   const dispatch = useDispatch();
+
   const [filters, setFilters] = useState({
     year: "",
     month: "",
@@ -19,17 +37,33 @@ const GeneratedReports = () => {
     category: "",
   });
 
+  // Companies via react-query
+  const {
+    data: companies = [],
+    isLoading: companiesLoading,
+    isError: companiesError,
+    error: companiesErrorObj,
+    refetch: refetchCompanies,
+  } = useQuery({
+    queryKey: ["companies"],
+    queryFn: fetchCompanies,
+    staleTime: 10 * 60 * 1000,
+    cacheTime: 60 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    retry: 1,
+  });
+
   const handleFilterChange = (filterName, value) => {
-    setFilters((prevFilters) => ({ ...prevFilters, [filterName]: value }));
+    setFilters((prev) => ({ ...prev, [filterName]: value }));
   };
 
   const generateYearOptions = () => {
     const currentYear = new Date().getFullYear();
+    const startYear = 2018;
     const years = Array.from(
-      { length: currentYear - 2018 },
-      (_, index) => currentYear - index
+      { length: currentYear - startYear + 1 },
+      (_, i) => currentYear - i
     );
-
     return years.map((year) => (
       <option key={year} value={year}>
         {year}
@@ -38,10 +72,10 @@ const GeneratedReports = () => {
   };
 
   const { mutateAsync: generateReport, isLoading } = useMutation({
-    mutationFn: async (filters) => {
+    mutationFn: async (payload) => {
       const response = await axios.post(
         `${API}/advanced/report/generation`,
-        filters
+        payload
       );
       return response.data;
     },
@@ -59,7 +93,15 @@ const GeneratedReports = () => {
 
   const handleGenerateReport = async () => {
     try {
-      await generateReport(filters);
+      // Coerce company to number if present
+      const payload = {
+        ...filters,
+        company:
+          filters.company === "" || filters.company === null
+            ? ""
+            : Number(filters.company),
+      };
+      await generateReport(payload);
     } catch (error) {
       console.error("Error generating report:", error);
     }
@@ -70,7 +112,9 @@ const GeneratedReports = () => {
       <Helmet>
         <title>GENERATE REPORT</title>
       </Helmet>
+
       <BreadCrumb title={"Generate Reports"} activeTab={"Graphs & Exports"} />
+
       <div className="content">
         <div className="row">
           <div className="col-xl-12 col-12">
@@ -83,7 +127,9 @@ const GeneratedReports = () => {
               >
                 Reports Generation
               </h4>
+
               <div className="row g-3 mt-2">
+                {/* Year */}
                 <div className="col-md-2">
                   <div className="form-floating">
                     <select
@@ -98,6 +144,8 @@ const GeneratedReports = () => {
                     <label>SELECT YEAR</label>
                   </div>
                 </div>
+
+                {/* Month */}
                 <div className="col-md-3">
                   <div className="form-floating">
                     <select
@@ -123,24 +171,57 @@ const GeneratedReports = () => {
                     <label>SELECT MONTH</label>
                   </div>
                 </div>
+
+                {/* Company (fetched in-component) */}
                 <div className="col-md-2">
                   <div className="form-floating">
                     <select
                       className="form-select"
                       onChange={(e) =>
-                        handleFilterChange("company", e.target.value)
+                        handleFilterChange(
+                          "company",
+                          e.target.value === "" ? "" : Number(e.target.value)
+                        )
                       }
+                      disabled={companiesLoading}
                     >
-                      <option value="">Select Company</option>
-                      {companies.map((company) => (
-                        <option key={company.id} value={company.id}>
-                          {company.company_name}
+                      {companiesLoading && (
+                        <option value="">Loading companies…</option>
+                      )}
+                      {companiesError && (
+                        <option value="">
+                          {companiesErrorObj?.message ||
+                            "Failed to load companies"}
                         </option>
-                      ))}
+                      )}
+                      {!companiesLoading && !companiesError && (
+                        <>
+                          <option value="">Select Company</option>
+                          {companies.map((c) => (
+                            <option key={c.id} value={c.id}>
+                              {(c.company_name || c.name || "").toString()}
+                            </option>
+                          ))}
+                        </>
+                      )}
                     </select>
                     <label>SELECT COMPANY</label>
+
+                    {companiesError && (
+                      <div className="mt-2">
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-outline-secondary"
+                          onClick={() => refetchCompanies()}
+                        >
+                          Retry loading companies
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
+
+                {/* Category */}
                 <div className="col-md-3">
                   <div className="form-floating">
                     <select
@@ -163,6 +244,8 @@ const GeneratedReports = () => {
                     <label>SELECT CATEGORY</label>
                   </div>
                 </div>
+
+                {/* Button */}
                 <div className="col-md-2">
                   <button
                     className="btn btn-primary btn-block d-flex align-items-center justify-content-center gap-2"
@@ -200,18 +283,16 @@ const GeneratedReports = () => {
                   aria-expanded="false"
                   aria-controls="collapseExample"
                   className="advanced"
-                  style={{
-                    fontWeight: "bold",
-                  }}
+                  style={{ fontWeight: "bold" }}
                 >
-                  Advance Search With Filters{" "}
-                  <i className="fa fa-angle-down"></i>
+                  Advance Search With Filters <i className="fa fa-angle-down"></i>
                 </a>
                 <div className="collapse" id="collapseExample">
                   <div className="card card-body"></div>
                 </div>
               </div>
             </div>
+
             {/* List of Generated Results */}
             <ReportsListBox />
           </div>
