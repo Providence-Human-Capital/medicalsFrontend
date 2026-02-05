@@ -16,7 +16,6 @@
 
 
 export const API = "https://providencehealth.online/medibeta/public/api"
-
 export const IMAGE_URL = "https://providencehealth.online/medibeta/public/images"
 
 // export const API = "https://providencehumancapital.com/medibeta/public/api"
