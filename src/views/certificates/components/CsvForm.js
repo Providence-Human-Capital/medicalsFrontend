@@ -2,13 +2,15 @@ import React, { forwardRef, useRef, useState } from "react";
 import "./CvsForm.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useSelector } from "react-redux";
 import Papa from "papaparse";
 import ProfessionalCertificatePrintCsv from "../certificates-print/ProfessionalCertificatePrintCsv";
-import ReactToPrint, { useReactToPrint } from "react-to-print";
+import { useReactToPrint } from "react-to-print";
 import InHouseCertificatePrintCsv from "../certificates-print/InHouseCertificatePrintCsv";
 import CityCertificate from "../certificates-print/CityCertificate";
 import CityPrintOn from "../certificates-print/CityPrintOn";
+
+import { API } from "../../../config";
+import { useQuery } from "@tanstack/react-query";
 
 const ProfessionalCertificatePrintAll = forwardRef(
   ({ company, clients, examData }, ref) => {
@@ -63,65 +65,83 @@ const InHouseCertificatePrintAll = forwardRef(
   }
 );
 
-const CityCertificatesPrintAll = forwardRef(
-  ({ company, batch, doctor }, ref) => {
-    return (
-      <div
-        ref={ref}
-        style={{
-          margin: "0",
-        }}
-      >
-        <CityCertificate company={company} client={batch} doctor={doctor} />
-      </div>
-    );
-  }
-);
+const CityCertificatesPrintAll = forwardRef(({ company, batch, doctor }, ref) => {
+  return (
+    <div
+      ref={ref}
+      style={{
+        margin: "0",
+      }}
+    >
+      <CityCertificate company={company} client={batch} doctor={doctor} />
+    </div>
+  );
+});
 
-const CityPrintOnAll = forwardRef(
-  ({ company, clients, examData, doctor }, ref) => {
-    return (
-      <div
-        ref={ref}
-        style={{
-          margin: "0",
-        }}
-      >
-        {clients.map((client, index) => (
-          <div
-            key={index}
-            style={{
-              height: "1025px",
-              marginTop: index >= 1 ? "6rem" : "0",
-            }}
-          >
-            <CityPrintOn
-              company={company}
-              client={client}
-              examData={examData}
-              doctor={doctor}
-              index={index}
-            />
-          </div>
-        ))}
-      </div>
-    );
-  }
-);
+const CityPrintOnAll = forwardRef(({ company, clients, examData, doctor }, ref) => {
+  return (
+    <div
+      ref={ref}
+      style={{
+        margin: "0",
+      }}
+    >
+      {clients.map((client, index) => (
+        <div
+          key={index}
+          style={{
+            height: "1025px",
+            marginTop: index >= 1 ? "6rem" : "0",
+          }}
+        >
+          <CityPrintOn
+            company={company}
+            client={client}
+            examData={examData}
+            doctor={doctor}
+            index={index}
+          />
+        </div>
+      ))}
+    </div>
+  );
+});
 
 const CsvForm = () => {
   const [selectedOption, setSelectedOption] = useState("professional");
-  const companies = useSelector((state) => state.company.companies);
   const [isPrinting, setIsPrinting] = useState(false);
   const [examData, setExamData] = useState({});
   const [selectedCompany, setSelectedCompany] = useState({});
   const [csvData, setCsvData] = useState([]);
   const [columnArray, setColumnArray] = useState([]);
 
-  const [names, setNames] = useState([]);
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
+
+  // ✅ Fetch companies (no redux state)
+  const {
+    data: companies = [],
+    isLoading: companiesLoading,
+    isError: companiesError,
+    error: companiesErrorObj,
+  } = useQuery({
+    queryKey: ["companies"],
+    queryFn: async () => {
+      const response = await fetch(`${API}/company`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+
+      const responseData = await response.json();
+
+      // adjust if your API returns a different structure
+      return responseData?.data || [];
+    },
+  });
 
   const validationSchema = Yup.object().shape({
     examinerName: Yup.string().required("Examiner Name is required"),
@@ -133,15 +153,36 @@ const CsvForm = () => {
     doc_address: Yup.string().nullable(),
   });
 
+  const professionalCertificatePrintAllRef = useRef();
+  const handlePrintProfessionalAll = useReactToPrint({
+    content: () => professionalCertificatePrintAllRef.current,
+  });
+
+  const inHouseCertificatesPrintAllRef = useRef();
+  const handlePrintAllInHouseCertificates = useReactToPrint({
+    content: () => inHouseCertificatesPrintAllRef.current,
+  });
+
+  const cityCertificatePrintAllRef = useRef();
+  const handlePrintCityCertificatesAll = useReactToPrint({
+    content: () => cityCertificatePrintAllRef.current,
+  });
+
+  const cityPrintOnPrintAllRef = useRef();
+  const handlePrintAllCityPrintOn = useReactToPrint({
+    content: () => cityPrintOnPrintAllRef.current,
+  });
+
   const handleSubmit = (values, { setSubmitting }) => {
     setIsPrinting(true);
-    // Handle form submission here
+
     setExamData(values);
-    const selectedCompany = companies.find(
+
+    const chosenCompany = companies.find(
       (company) => company.company_name === values.company_name
     );
-    setSelectedCompany(selectedCompany);
-    console.log("File", values.fileInput);
+    setSelectedCompany(chosenCompany || {});
+
     Papa.parse(values.fileInput, {
       header: true,
       skipEmptyLines: true,
@@ -149,68 +190,47 @@ const CsvForm = () => {
         const columnData = [];
         const namesData = [];
 
-        result.data.map((d) => {
+        result.data.forEach((d) => {
           columnData.push(Object.keys(d));
           namesData.push(Object.values(d));
         });
 
+        // same conversion logic you had (first_name/last_name from first two columns)
         const convertedData = namesData.map((dataItem) => {
           return {
             first_name: dataItem[0],
             last_name: dataItem[1],
           };
         });
-        setColumnArray(columnData[0]);
+
+        setColumnArray(columnData[0] || []);
         setCsvData(convertedData);
+
+        // ✅ Print AFTER csv data is ready (important)
+        setIsPrinting(false);
+        setSubmitting(false);
+
+        if (selectedOption === "professional") {
+          handlePrintProfessionalAll();
+        } else if (selectedOption === "inhouse") {
+          handlePrintAllInHouseCertificates();
+        } else if (selectedOption === "city") {
+          handlePrintCityCertificatesAll();
+        } else if (selectedOption === "printon") {
+          handlePrintAllCityPrintOn();
+        }
+      },
+      error: function () {
+        setIsPrinting(false);
+        setSubmitting(false);
       },
     });
-
-    // Process the form submission
-    setIsPrinting(false);
-    setSubmitting(false);
-    if (selectedOption === "professional") {
-      handlePrintProfessionalAll();
-    } else if (selectedOption === "inhouse") {
-      handlePrintAllInHouseCertificates();
-    } else if (selectedOption === "city") {
-      handlePrintCityCertificatesAll();
-    } else if (selectedOption === "printon") {
-      handlePrintAllCityPrintOn();
-    }
   };
-
-  const professionalCertificatePrintAllRef = useRef();
-
-  const handlePrintProfessionalAll = useReactToPrint({
-    content: () => professionalCertificatePrintAllRef.current,
-  });
-
-  const inHouseCertificatesPrintAllRef = useRef();
-
-  const handlePrintAllInHouseCertificates = useReactToPrint({
-    content: () => inHouseCertificatesPrintAllRef.current,
-  });
-
-  const cityCertificatePrintAllRef = useRef();
-
-  const handlePrintCityCertificatesAll = useReactToPrint({
-    content: () => cityCertificatePrintAllRef.current,
-  });
-
-  const cityPrintOnPrintAllRef = useRef();
-
-  const handlePrintAllCityPrintOn = useReactToPrint({
-    content: () => cityPrintOnPrintAllRef.current,
-  });
 
   return (
     <>
-      <div
-        className="row"
-        style={{
-          display: "none",
-        }}
-      >
+      {/* Hidden print templates */}
+      <div className="row" style={{ display: "none" }}>
         <ProfessionalCertificatePrintAll
           ref={professionalCertificatePrintAllRef}
           company={selectedCompany}
@@ -219,12 +239,7 @@ const CsvForm = () => {
         />
       </div>
 
-      <div
-        className="row"
-        style={{
-          display: "none",
-        }}
-      >
+      <div className="row" style={{ display: "none" }}>
         <InHouseCertificatePrintAll
           ref={inHouseCertificatesPrintAllRef}
           company={selectedCompany}
@@ -233,12 +248,8 @@ const CsvForm = () => {
         />
       </div>
 
-      <div
-        className="row"
-        style={{
-          display: "none",
-        }}
-      >
+      <div className="row" style={{ display: "none" }}>
+        {/* keeping your props exactly as you had them */}
         <CityCertificatesPrintAll
           ref={cityCertificatePrintAllRef}
           company={selectedCompany}
@@ -247,12 +258,7 @@ const CsvForm = () => {
         />
       </div>
 
-      <div
-        className="row"
-        style={{
-          display: "none",
-        }}
-      >
+      <div className="row" style={{ display: "none" }}>
         <CityPrintOnAll
           ref={cityPrintOnPrintAllRef}
           company={selectedCompany}
@@ -274,19 +280,20 @@ const CsvForm = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting, setFieldValue, values }) => (
+        {({ setFieldValue }) => (
           <Form>
             <div>
               <div className="card p-4 mt-5">
                 <div className="row g-3">
                   <div className="col-12 mb-4">
-                    <h4>Printing Medicals </h4>
+                    <h4>Printing Medicals</h4>
                     <span className="text-muted">
                       Please make sure that you upload the csv files containing
                       all the names and don't forget the doctor and
                       Qualifications
                     </span>
                   </div>
+
                   <div className="col-12">
                     <div className="form-check form-check-inline">
                       <input
@@ -298,13 +305,11 @@ const CsvForm = () => {
                         checked={selectedOption === "professional"}
                         onChange={handleOptionChange}
                       />
-                      <label
-                        className="form-check-label"
-                        htmlFor="Professional"
-                      >
+                      <label className="form-check-label" htmlFor="Professional">
                         Professional Certificates
                       </label>
                     </div>
+
                     <div className="form-check form-check-inline">
                       <input
                         className="form-check-input"
@@ -319,6 +324,7 @@ const CsvForm = () => {
                         InHouse Certificates
                       </label>
                     </div>
+
                     <div className="form-check form-check-inline">
                       <input
                         className="form-check-input"
@@ -333,6 +339,7 @@ const CsvForm = () => {
                         City Of Harare Certificates
                       </label>
                     </div>
+
                     <div className="form-check form-check-inline">
                       <input
                         className="form-check-input"
@@ -348,6 +355,7 @@ const CsvForm = () => {
                       </label>
                     </div>
                   </div>
+
                   <div className="col-lg-6 col-md-12">
                     <div className="form-floating">
                       <Field
@@ -357,19 +365,16 @@ const CsvForm = () => {
                         id="examinerName"
                         name="examinerName"
                       />
-                      <label htmlFor="examinerName">
-                        MEDICAL EXAMINER NAME
-                      </label>
+                      <label htmlFor="examinerName">MEDICAL EXAMINER NAME</label>
                       <ErrorMessage
                         name="examinerName"
                         component="div"
-                        style={{
-                          color: "red",
-                        }}
+                        style={{ color: "red" }}
                         className="error-message"
                       />
                     </div>
                   </div>
+
                   <div className="col-lg-6 col-md-12">
                     <div className="form-floating">
                       <Field
@@ -377,8 +382,7 @@ const CsvForm = () => {
                         className="form-control"
                         id="qualifications"
                         name="qualifications"
-                        placeholder=" MEDICAL EXAMINER QUALIFICATIONS
-                    "
+                        placeholder="MEDICAL EXAMINER QUALIFICATIONS"
                       />
                       <label htmlFor="qualifications">
                         MEDICAL EXAMINER QUALIFICATIONS
@@ -386,9 +390,7 @@ const CsvForm = () => {
                       <ErrorMessage
                         name="qualifications"
                         component="div"
-                        style={{
-                          color: "red",
-                        }}
+                        style={{ color: "red" }}
                         className="error-message"
                       />
                     </div>
@@ -403,8 +405,7 @@ const CsvForm = () => {
                             className="form-control"
                             id="designation"
                             name="designation"
-                            placeholder="EXAMINER DESIGNATION
-                    "
+                            placeholder="EXAMINER DESIGNATION"
                           />
                           <label htmlFor="designation">
                             EXAMINER DESIGNATION
@@ -412,13 +413,12 @@ const CsvForm = () => {
                           <ErrorMessage
                             name="designation"
                             component="div"
-                            style={{
-                              color: "red",
-                            }}
+                            style={{ color: "red" }}
                             className="error-message"
                           />
                         </div>
                       </div>
+
                       <div className="col-lg-6 col-md-12">
                         <div className="form-floating">
                           <Field
@@ -426,16 +426,13 @@ const CsvForm = () => {
                             className="form-control"
                             id="doc_address"
                             name="doc_address"
-                            placeholder="EXAMINER ADDRESS
-                    "
+                            placeholder="EXAMINER ADDRESS"
                           />
                           <label htmlFor="doc_address">EXAMINER ADDRESS</label>
                           <ErrorMessage
                             name="doc_address"
                             component="div"
-                            style={{
-                              color: "red",
-                            }}
+                            style={{ color: "red" }}
                             className="error-message"
                           />
                         </div>
@@ -458,9 +455,7 @@ const CsvForm = () => {
                       <ErrorMessage
                         name="exam_date"
                         component="div"
-                        style={{
-                          color: "red",
-                        }}
+                        style={{ color: "red" }}
                         className="error-message"
                       />
                     </div>
@@ -473,28 +468,39 @@ const CsvForm = () => {
                         className="form-select"
                         id="company_name"
                         name="company_name"
+                        disabled={companiesLoading || companiesError}
                       >
                         <option value="">
-                          Open this select menu to select company
+                          {companiesLoading
+                            ? "Loading companies..."
+                            : companiesError
+                            ? "Failed to load companies"
+                            : "Open this select menu to select company"}
                         </option>
-                        <option value="">Select a company</option>
-                        {companies.map((company) => (
-                          <option key={company.id} value={company.company_name}>
-                            {company.company_name}
-                          </option>
-                        ))}
+
+                        {!companiesLoading &&
+                          !companiesError &&
+                          companies.map((company) => (
+                            <option key={company.id} value={company.company_name}>
+                              {company.company_name}
+                            </option>
+                          ))}
                       </Field>
                       <label htmlFor="company_name">COMPANY</label>
                       <ErrorMessage
                         name="company_name"
                         component="div"
-                        style={{
-                          color: "red",
-                        }}
+                        style={{ color: "red" }}
                         className="error-message"
                       />
+                      {companiesError && (
+                        <div style={{ color: "red", marginTop: 6 }}>
+                          {companiesErrorObj?.message || "Error loading companies"}
+                        </div>
+                      )}
                     </div>
                   </div>
+
                   <div className="col-lg-4 col-md-12">
                     <div className="form-floating">
                       <input
@@ -503,19 +509,14 @@ const CsvForm = () => {
                         id="fileInput"
                         name="fileInput"
                         onChange={(event) => {
-                          setFieldValue(
-                            "fileInput",
-                            event.currentTarget.files[0]
-                          );
+                          setFieldValue("fileInput", event.currentTarget.files[0]);
                         }}
                       />
-                      <label for="fileInput">CLIENTS CSV</label>
+                      <label htmlFor="fileInput">CLIENTS CSV</label>
                       <ErrorMessage
                         name="fileInput"
                         component="div"
-                        style={{
-                          color: "red",
-                        }}
+                        style={{ color: "red" }}
                         className="error-message"
                       />
                     </div>
@@ -524,20 +525,16 @@ const CsvForm = () => {
                   <div className="col-12 mt-4">
                     <button
                       className="btn btn-primary text-uppercase"
-                      disabled={isPrinting}
+                      disabled={isPrinting || companiesLoading}
                       style={{
                         borderRadius: "20px",
                         fontWeight: "bold",
                       }}
                       type="submit"
                     >
-                      PRINT CERTIFICATES {"  "}
-                      <i className="fa fa-print"></i>
+                      PRINT CERTIFICATES{" "}
+                      <i className="fa fa-print" />
                     </button>
-
-                    {/* <button onClick={handlePrintProfessionalAll}>
-                        Prriii
-                    </button> */}
                   </div>
                 </div>
               </div>
